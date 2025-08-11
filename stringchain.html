@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StringChain</title>
+    <style>
+        :root {
+          --bg1: #eee;
+          --bg2: #ddd;
+          --text1: #777;
+          --text2: #999;
+          --border: #aaa;
+          --gridcell: #fff;
+          --disabled: #555;
+          --selected-cell: #7da;
+          --green: #4c8;
+          --red: #c54;
+          --special: #777;
+        }
+        
+        body {
+          font-family: "Helvetica Neue", monospace;
+          background-color: var(--bg1);
+          color: var(--text1);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin: 0;
+          padding: 10px;
+          font-size: 18px;
+        }
+        
+        h1, h3 {
+          font-style: italic;
+          margin: 0 0 5px 0;
+          text-align: center;
+        }
+        
+        .scores {
+          margin: 10px 0;
+          /* font-size: 14px; */
+          flex-wrap: wrap;
+          text-align: center;
+        }
+        
+        .word-container {
+          background-color: var(--bg1);
+          display: flex;
+          align-items: center;
+          flex-wrap: wrap;
+          justify-content: center;
+          margin-bottom: 10px;
+          padding: 10px;
+          border-radius: 4px;
+        }
+        
+        .letter,
+        .insert-slot {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 4px;
+          text-transform: uppercase;
+          cursor: pointer;
+          margin:5px;
+          border: 1px solid var(--gridcell);
+        }
+        
+        .letter {
+          width: 24px;
+          height: 60px;
+          background: var(--gridcell);
+          margin: 3px;
+        }
+        
+        .insert-slot {
+          width: 12px;
+          height: 30px;
+          background: var(--gridcell);
+        }
+        
+        .selected {
+          border: 1px solid var(--border);
+          background: var(--selected-cell);
+          color: var(--gridcell);
+          height: 56px;
+        }
+        
+        .special {
+          background-color: var(--special) !important;
+        }
+        
+        .anim-red {
+          animation-name: animate-red;
+          animation-duration: 1s;
+        }
+        
+        .anim-green {
+          animation-name: animate-green;
+          animation-duration: 1s;
+        }
+        
+         .grid {
+          display: grid;              
+          grid-template-columns: repeat(auto-fit, minmax(12vw, 100vw));
+          margin: 10px auto;
+          margin: none;
+          gap: 5px;
+          padding:5px;
+        }
+
+        
+        
+         .grid-cell {
+          border: 0.5px solid var(--border);
+           width: 50px; /* this also needs to be edited in renderGrid function */
+          height: 50px; 
+           display: flex;
+          align-items: center;
+          justify-content: center;
+          background: var(--bg1);
+          border-radius: 4px;
+          text-transform: uppercase;
+          cursor: pointer;
+        }  
+        
+        .grid-cell.used {
+          background: var(--bg1);
+          cursor: default;
+          border: none;
+        }
+        
+        .grid-cell.selected {
+          background: var(--selected-cell);
+          color: var(--bg1);
+        }
+        
+        .button-row {
+          display: flex;
+          gap: 0.5px;
+          justify-content: center;
+          width: 80%;
+          flex-wrap: wrap;
+        }
+        
+        .button-row button {
+          margin: 3px;
+          padding: 10px;
+          font-family: inherit;
+          /* font-size: 12px; */
+          color: var(--text2);
+          border-radius: 4px;
+          border: none;
+          flex: 1 1 30%;
+          min-width: 80px;
+        }
+        
+        button {
+          background: var(--bg2);
+          margin: 10px 0px;
+          padding: 0px 10px; 
+          color: var(--text2);
+          border-radius: 4px;
+          border: none;
+           font-size: 18px; 
+        }
+        
+        .newgame {
+          width: 80%;
+          padding:10px 10px;
+          display:block;
+        }
+        
+        .help {
+          border-radius: 20px;
+          margin: 0.5px;
+          min-height:40px;
+          min-width:40px;
+        }
+        
+        button:disabled,
+        .disabled {
+          background: var(--disabled);
+          color: var(--text2);
+          cursor: default;
+        }
+        
+        #status {
+         font-size: 14px;
+          margin: 5px 0;
+          color: var(--border);
+        }
+        
+        #message {
+           font-size: 14px; 
+          margin-bottom: 5px;
+          color: var(--text2);
+          min-height: 14px;
+        }
+        
+        #history {
+        display:block;
+          white-space: normal;
+          word-wrap: break-word;
+          width: 75%; /* width + 2*padding = 80% */
+          min-height: 14px;
+         font-size: 14px;
+          font-family: "Courier New", monospace;
+          background-color: var(--bg2);
+         padding: 10px 2.5%;
+          border-radius: 4px;
+        }
+        
+        #definitions {
+         font-size: 14px;
+          color: var(--text2);
+          margin-top: 5px;
+          max-width: 80%;
+        }
+        
+        #rules {
+          background: var(--gridcell);
+          padding: 10px;
+          margin: 10px;
+          border-radius: 5px;
+
+          color: var(--text2);
+          width: 80%;
+         font-size: 14px;
+        }
+        
+        @keyframes animate-green {
+          0% { background-color: var(--green); }
+          50% { background-color: var(--green); }
+          100% { background-color: var(--bg1); }
+        }
+        
+        @keyframes animate-red {
+          0% { background-color: var(--red); }
+          50% { background-color: var(--red); }
+          100% { background-color: var(--bg1); }
+        }
+        
+        /* --- Mobile-first adjustments --- */
+        /* @media (max-width: 768px) {
+          .letter {
+              width: 8vw;
+              height: 9vw;
+              margin: 0 2px;
+              font-size: 1.2em;
+          }
+        
+          .insert-slot {
+              width: 3vw;
+              height: 8vw;
+          }
+        
+        
+          #history,
+          #definitions,
+          #rules {
+              width: 80%;
+              font-size: 12px;
+          }
+        
+          #message,
+          #status {
+              font-size: 11px;
+          }
+        }
+         */
+        /* Very small screens
+        @media (max-width: 480px) {
+          .letter {
+              width: 10vw;
+              height: 12vw;
+              font-size: 1.4em;
+          }
+        
+          .grid-cell {
+              width: 12vw;
+              height: 12vw;
+              font-size: 1.4em;
+          }
+        
+          .scores {
+              font-size: 11px;
+          }
+        } */
+        </style>
+</head>
+
+<body>
+    <div class="scores">Score: <span id="score">0</span> &nbsp;&nbsp;<button id="toggle-rules"
+            class="help">?</button>&nbsp;&nbsp; Chain: <span id="chain">0</span></div>
+    <div id="rules" style="display: none;">
+        <h1>stringchain</h1>
+        <p> Select cells from the grid and/or the word.<br>
+            <br>PLAYABLE MOVES:<br>- Replace a word letter with a grid letter,<br>- insert a grid letter in any slot between
+            word letters,<br>- swap two word letters,<br>- place a word letter in a slot between letters to rearrange the
+            word.<br>
+            <br>When a playable selection is made, use the WORD button to play a valid word.<br>
+            <br>Get a bonus setup move for every 5 added to your chain. <br>Play it with the "||" button.<br>No penalty,
+            no score. Just breathe. You got this.<br>
+            <br>Get a bonus grid refresh for every 30 points earned.<br>Play it with the "#" button.<br>
+            <br>Grid letters refresh on their own when a row or column is completed.<br>You can expand the grid once by
+            making a six letter word.<br>
+            <br>Mistakes are penalised with increasing severity.<br>Five mistakes gets you disqualified.<br>I know it's
+            sometimes the dictionary's fault and I'm sorry about that.<br>That makes it lo-fi, random cruelty is just
+            part of the game now.<br>
+            <br>Enjoy!
+        </p>
+    </div>
+    <div id="message">Get ready!</div>
+    <div class="word-container" id="wordContainer"></div>
+    <div class="button-row">
+        <button id="bonusBtn">||</button>
+        <button id="actionBtn">WORD</button>
+        <button id="shuffleBtn">#</button>
+    </div>
+    <div class="grid" id="letterGrid"></div>
+    <div id="status">5 mistakes left.</div>
+    <button id="newGameBtn" class="newgame">RESTART</button>
+    <div id="history"></div>
+    <div id="definitions"></div>
+
+
+    <script>
+        const wordContainer = document.getElementById('wordContainer');
+        const gridElement = document.getElementById('letterGrid');
+        const actionBtn = document.getElementById('actionBtn');
+        const newGameBtn = document.getElementById('newGameBtn');
+        const bonusBtn = document.getElementById('bonusBtn');
+        const shuffleBtn = document.getElementById('shuffleBtn');
+        const messageElement = document.getElementById('message');
+        const scoreElement = document.getElementById('score');
+        const chainElement = document.getElementById('chain');
+        const historyElement = document.getElementById('history');
+        const statusElement = document.getElementById('status');
+        const definitionsElement = document.getElementById('definitions');
+        const toggleBtn = document.getElementById("toggle-rules");
+        const rulesDiv = document.getElementById("rules");
+        const playedWords = new Set();
+        const alphabet = "EEEEEEEEEAAAARRRRIIIOOONNSSSTTTLLLLCCUUUDDDPPGGHHBBMMYYFFVVWWKKXJQZ".split("");
+        const validWords = ["AND", "THE", "FOR", "ARE", "BUT", "NOT", "YOU", "ALL", "ANY", "CAN", "HAD", "HER", "WAS", "ONE", "OUR", "OUT", "DAY", "GET", "HAS", "HIM", "HIS", "HOW", "MAN", "NEW", "NOW", "OLD", "SEE", "TWO", "WAY", "WHO", "WHY", "USE", "BIG", "FUN", "RUN", "SUN", "TOP", "CAR", "DOG", "CAT", "BOX", "RED", "HOT", "WIN", "JOB", "EAT", "YES", "MOM", "DAD", "BED", "TIME", "YEAR", "WORK", "LIFE", "LOVE", "GOOD", "MAKE", "LOOK", "WANT", "WELL", "HAND", "EYES", "GIVE", "TAKE", "KNOW", "INTO", "FROM", "OVER", "MORE", "JUST", "LIKE", "COME", "WHEN", "THEN", "VERY", "EVEN", "BACK", "ONLY", "DOWN", "OPEN", "STOP", "PLAY", "WALK", "TALK", "TURN", "KEEP", "HOME", "ROOM", "WORD", "COLD", "WARM", "BLUE", "GOLD", "FAST", "SLOW", "NEAR", "FAR", "TREE", "FISH", "BIRD", "RAIN", "ABOUT", "AFTER", "AGAIN", "BELOW", "COULD", "EVERY", "FIRST", "FOUND", "GREAT", "HOUSE", "LARGE", "LEARN", "NEVER", "OTHER", "PLANT", "POINT", "RIGHT", "SMALL", "SOUND", "SPELL", "STILL", "STUDY", "THEIR", "THERE", "THESE", "THING", "THINK", "THREE", "WATER", "WHERE", "WHICH", "WORLD", "WOULD", "WRITE", "APPLE", "BREAD", "CHAIR", "CLEAN", "CLOSE", "CLOUD", "EARTH", "TWIST", "GRASS", "HEART", "LIGHT", "MONEY", "MOUTH", "NIGHT", "SLEEP", "TABLE"];
+
+        let currentWord = "";
+        let lastValidWord = "";
+        let gridSize = 3;
+        let grid = [];
+        let score = 0;
+        let chain = 0;
+        let selected = [];
+        let bonusMovesAvailable = 1;
+        let shuffleBonusesAvailable = 0;
+        let invalidAttempts = 0;
+        let totalPenalty = 0;
+        let totalChainLoss = 0;
+        let lastSelectedType = null;
+        let lastSelectedCell = null;
+        let lastUsedGridCell = null; // NEW: Track last used cell for invalid move rollback
+        let specialModeActive = false; // NEW: Track bonus special mode
+
+        function activateSpecialMode() {
+            specialModeActive = true;
+            wordContainer.classList.add('special');
+            return;
+        }
+
+        function clearSpecialMode() {
+            specialModeActive = false;
+            wordContainer.classList.remove('special');
+            return;
+        }
+
+        function redAnimation() { wordContainer.classList.add('anim-red'); }
+        function greenAnimation() { wordContainer.classList.add('anim-green'); }
+        function removeAnimation() {
+            if (wordContainer.classList.contains('anim-red')) { wordContainer.classList.remove('anim-red'); }
+            if (wordContainer.classList.contains('anim-green')) { wordContainer.classList.remove('anim-green'); }
+            if (letterGrid.classList.contains('anim-green')) {letterGrid.classList.remove('anim-red');};
+        }
+
+        function randomLetter() {
+            return alphabet[Math.floor(Math.random() * alphabet.length)];
+        }
+
+        function randomWord() {
+            return validWords[Math.floor(Math.random() * validWords.length)];
+        }
+
+        function updateStatus() {
+            let left = 5 - invalidAttempts;
+            let base = `${left} mistake${left === 1 ? '' : 's'} left.`;
+            if (totalPenalty > 0 || totalChainLoss > 0) {
+                base += ` ${totalPenalty} points lost. ${totalChainLoss} link${totalChainLoss === 1 ? '' : 's'} broken.`;
+            }
+            statusElement.textContent = base;
+        }
+
+        function updateHistory() {
+            historyElement.textContent = [...playedWords].map(w => "_" + w).join('');
+        }
+
+        function selectCell(cell) {
+            removeAnimation();
+            const type = cell.dataset.type;
+            const isSelected = selected.includes(cell);
+            wordContainer.classList.remove('anim-green');
+            wordContainer.classList.remove('anim-gred');
+            // --- Helpers ---
+            const getSelectedOfType = (t) => selected.filter(c => c.dataset.type === t);
+            const deselect = (c) => {
+                c.classList.remove('selected');
+                selected = selected.filter(s => s !== c);
+            };
+            const updateLastSelected = () => {
+                if (selected.length === 1) {
+                    lastSelectedCell = selected[0];
+                    lastSelectedType = lastSelectedCell.dataset.type;
+                }
+            };
+            const dropFirstOf = (t) => deselect(getSelectedOfType(t)[0]);
+
+            // --- Toggle Off ---
+            if (isSelected) {
+                deselect(cell);
+                updateLastSelected();
+                return;
+            }
+
+            // --- Count current types ---
+            let count = {
+                word: getSelectedOfType('word').length,
+                grid: getSelectedOfType('grid').length,
+                insert: getSelectedOfType('insert').length
+            };
+
+            // --- Determine legality and resolve conflicts ---
+            if (type === 'grid') {
+                if (count.grid === 1) {
+                    dropFirstOf('grid');
+                    // Recalculate counts after change
+                    count = {
+                        word: getSelectedOfType('word').length,
+                        grid: getSelectedOfType('grid').length,
+                        insert: getSelectedOfType('insert').length
+                    };
+                    // Hard early exit from branch logic
+                } else if (count.word === 1 && count.insert === 1) {
+                    dropFirstOf(lastSelectedType === 'word' ? 'insert' : 'word');
+                    // Recalculate counts after change
+                    count = {
+                        word: getSelectedOfType('word').length,
+                        grid: getSelectedOfType('grid').length,
+                        insert: getSelectedOfType('insert').length
+                    };
+                } else if (count.word === 2) {
+                    dropFirstOf('word');
+                    // Recalculate counts after change
+                    count = {
+                        word: getSelectedOfType('word').length,
+                        grid: getSelectedOfType('grid').length,
+                        insert: getSelectedOfType('insert').length
+                    };
+                }
+            }
+            else if (type === 'insert') {
+                if (count.insert === 1) {
+                    dropFirstOf('insert');
+                    count = {
+                        word: getSelectedOfType('word').length,
+                        grid: getSelectedOfType('grid').length,
+                        insert: getSelectedOfType('insert').length
+                    };
+                } else if (count.word === 1 && count.grid === 1) {
+                    dropFirstOf(lastSelectedType === 'grid' ? 'word' : 'grid');
+                    // Recalculate counts after change
+                    count = {
+                        word: getSelectedOfType('word').length,
+                        grid: getSelectedOfType('grid').length,
+                        insert: getSelectedOfType('insert').length
+                    };
+                } else if (count.word === 2) {
+                    dropFirstOf('word');
+                    // Recalculate counts after change
+                    count = {
+                        word: getSelectedOfType('word').length,
+                        grid: getSelectedOfType('grid').length,
+                        insert: getSelectedOfType('insert').length
+                    };
+                }
+            }
+            else if (type === 'word') {
+                if (count.word === 2) {
+                    dropFirstOf('word');
+                    // Recalculate counts after change
+                    count = {
+                        word: getSelectedOfType('word').length,
+                        grid: getSelectedOfType('grid').length,
+                        insert: getSelectedOfType('insert').length
+                    };
+                } else if (count.grid === 1 && count.insert === 1) {
+                    dropFirstOf(lastSelectedType === 'grid' ? 'insert' : 'grid');
+                    // Recalculate counts after change
+                    count = {
+                        word: getSelectedOfType('word').length,
+                        grid: getSelectedOfType('grid').length,
+                        insert: getSelectedOfType('insert').length
+                    };
+                }
+            }
+
+            // --- Limit total selections to 2 ---
+            if (selected.length === 2) {
+                selected.forEach(c => {
+                    if (c !== lastSelectedCell) deselect(c);
+                });
+            }
+
+            // --- Finalize Selection ---
+            cell.classList.add('selected');
+            selected.push(cell);
+            lastSelectedCell = cell;
+            lastSelectedType = type;
+        }
+
+        // // Commit the current selection: update currentWord and grid state
+        // function commitSelection() {
+        //     if (selected.length === 0) return;
+
+        //     // Only one grid cell can be selected at once, check for it
+        //     const gridCells = selected.filter(c => c.dataset.type === 'grid');
+        //     if (gridCells.length > 1) return; // safety
+
+        //     if (gridCells.length === 1) {
+        //         const cell = gridCells[0];
+        //         const r = parseInt(cell.dataset.row);
+        //         const c = parseInt(cell.dataset.col);
+
+        //         if (!grid[r][c]) return; // Already used
+
+        //         // Grab letter, mark grid cell as used
+        //         const letter = grid[r][c];
+        //         grid[r][c] = null;
+
+        //         // Store for rollback
+        //         lastUsedGridCell = { r, c, letter };
+
+        //         // Append letter to currentWord
+        //         currentWord += letter;
+        //     }
+
+        //     // Clear all selections in UI and reset tracking vars
+        //     selected.forEach(c => c.classList.remove('selected'));
+        //     selected = [];
+        //     lastSelectedCell = null;
+        //     lastSelectedType = null;
+
+        //     // Re-render UI
+        //     renderWord();
+        //     renderGrid();
+        // }
+
+        // // Rollback the last grid letter selection and update currentWord
+        // function rollbackLastGridSelection() {
+        //     if (!lastUsedGridCell) return; // Nothing to rollback
+
+        //     const { r, c, letter } = lastUsedGridCell;
+
+        //     // Restore the grid cell letter
+        //     grid[r][c] = letter;
+
+        //     // Remove last letter from currentWord if it matches
+        //     if (currentWord.endsWith(letter)) {
+        //         currentWord = currentWord.slice(0, -1);
+        //     } else {
+        //         // Fallback: remove last char anyway (should not happen if logic correct)
+        //         currentWord = currentWord.slice(0, -1);
+        //     }
+
+        //     // Clear lastUsedGridCell rollback data
+        //     lastUsedGridCell = null;
+
+        //     // Clear selections UI
+        //     selected.forEach(c => c.classList.remove('selected'));
+        //     selected = [];
+        //     lastSelectedCell = null;
+        //     lastSelectedType = null;
+
+        //     // Re-render UI
+        //     renderWord();
+        //     renderGrid();
+        // }
+
+        function renderWord() {
+            wordContainer.innerHTML = '';
+
+            // Insert slot before first letter (index 0)
+            const insertSlotStart = document.createElement('div');
+            insertSlotStart.className = 'insert-slot';
+            insertSlotStart.dataset.type = 'insert';
+            insertSlotStart.dataset.index = 0;
+
+            // Add special mode class if active
+            //if (specialModeActive) insertSlotStart.classList.add('special');
+
+            insertSlotStart.addEventListener('click', () => selectCell(insertSlotStart));
+            wordContainer.appendChild(insertSlotStart);
+
+            for (let i = 0; i < currentWord.length; i++) {
+                const letterDiv = document.createElement('div');
+                letterDiv.className = 'letter';
+                letterDiv.textContent = currentWord[i];
+                letterDiv.dataset.type = 'word';
+                letterDiv.dataset.index = i;
+
+                // Highlight if selected (selected is an array of indices)
+
+                if (selected.includes(i)) {
+                    letterDiv.classList.add('selected');
+                }
+
+                letterDiv.addEventListener('click', () => selectCell(letterDiv));
+                wordContainer.appendChild(letterDiv);
+
+                const insertSlot = document.createElement('div');
+                insertSlot.className = 'insert-slot';
+                insertSlot.dataset.type = 'insert';
+                insertSlot.dataset.index = i + 1;
+
+                // if (specialModeActive) insertSlot.classList.add('special');
+
+
+                if (selected.includes(i + 1)) {
+                    insertSlot.classList.add('selected');
+                }
+
+                insertSlot.addEventListener('click', () => selectCell(insertSlot));
+                wordContainer.appendChild(insertSlot);
+            }
+        }
+
+        function renderGrid() {
+            gridElement.innerHTML = '';
+            gridElement.style.gridTemplateColumns = `repeat(${gridSize}, 50px)`;
+
+            for (let r = 0; r < gridSize; r++) {
+                for (let c = 0; c < gridSize; c++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'grid-cell';
+                    cell.textContent = grid[r][c] || '';
+
+                    // Mark empty cells as 'used' (meaning no letter present)
+                    if (!grid[r][c]) cell.classList.add('used');
+
+                    cell.dataset.type = 'grid';
+                    cell.dataset.row = r;
+                    cell.dataset.col = c;
+
+                    // Highlight if selected (selected stores selected cells as strings? 
+                    // If so, match by row,col string like "r,c"
+                    // But you gave no details on format of selected for grid cells.
+                    // Let's assume selected contains objects {type:'grid', row:r, col:c} or strings "grid-r-c"
+
+                    // Since selected is an array, let's check for a string "r,c" for simplicity
+                    // We'll define the cell ID as `${r},${c}`
+                    const cellId = `${r},${c}`;
+                    if (selected.includes(cellId)) {
+                        cell.classList.add('selected');
+                    }
+
+                    cell.addEventListener('click', () => selectCell(cell));
+                    gridElement.appendChild(cell);
+                }
+            }
+        }
+
+        function initGrid() {
+            grid = [];
+            for (let r = 0; r < gridSize; r++) {
+                const row = [];
+                for (let c = 0; c < gridSize; c++) {
+                    row.push(randomLetter());
+                }
+                grid.push(row);
+            }
+            renderGrid();
+        }
+
+        function replenishGrid() {
+            for (let r = 0; r < gridSize; r++) {
+                if (grid[r].every(cell => cell === null)) {
+                    for (let c = 0; c < gridSize; c++) {
+                        grid[r][c] = randomLetter();
+                    }
+                }
+            }
+            for (let c = 0; c < gridSize; c++) {
+                if (grid.every(row => row[c] === null)) {
+                    for (let r = 0; r < gridSize; r++) {
+                        grid[r][c] = randomLetter();
+                    }
+                }
+            }
+            if (currentWord.length >= 6 && gridSize === 3) {
+                gridSize = 4;
+                initGrid();
+            } else {
+                renderGrid();
+            }
+        }
+
+        function clearSelection() {
+            selected.forEach(s => s.classList.remove('selected'));
+            selected = [];
+        }
+
+        function updateBonusButton() {
+            if (bonusMovesAvailable > 0) {
+                bonusBtn.textContent = `${bonusMovesAvailable} ||`;
+                bonusBtn.classList.remove('disabled');
+            } else {
+                bonusBtn.textContent = `||`;
+                bonusBtn.classList.add('disabled');
+            }
+        }
+
+        function updateShuffleButton() {
+            if (shuffleBonusesAvailable > 0) {
+                shuffleBtn.textContent = `# ${shuffleBonusesAvailable}`;
+                shuffleBtn.classList.remove('disabled');
+            } else {
+                shuffleBtn.textContent = `#`;
+                shuffleBtn.classList.add('disabled');
+            }
+        }
+
+        function disableGame() {
+            actionBtn.disabled = true;
+            bonusBtn.disabled = true;
+            shuffleBtn.disabled = true;
+            gridElement.style.pointerEvents = 'none';
+            wordContainer.style.pointerEvents = 'none';
+        }
+
+        function applyMove() {
+            if (selected.length === 0) return false;
+            let moveHappened = false;
+
+            if (selected.length === 1 && selected[0].dataset.type === 'word') {
+                const idx = parseInt(selected[0].dataset.index);
+                currentWord = currentWord.slice(0, idx) + currentWord.slice(idx + 1);
+                moveHappened = true;
+            } else if (selected.length === 2) {
+                const types = selected.map(s => s.dataset.type);
+                if (types.includes('grid') && types.includes('word')) {
+                    const gridCell = selected.find(s => s.dataset.type === 'grid');
+                    const wordCell = selected.find(s => s.dataset.type === 'word');
+                    const idx = parseInt(wordCell.dataset.index);
+                    currentWord = currentWord.slice(0, idx) + gridCell.textContent + currentWord.slice(idx + 1);
+                    grid[gridCell.dataset.row][gridCell.dataset.col] = null;
+                    moveHappened = true;
+                } else if (types.every(t => t === 'word')) {
+                    const [a, b] = selected.map(s => parseInt(s.dataset.index));
+                    let arr = currentWord.split('');
+                    [arr[a], arr[b]] = [arr[b], arr[a]];
+                    currentWord = arr.join('');
+                    moveHappened = true;
+                } else if (types.includes('grid') && types.includes('insert')) {
+                    const gridCell = selected.find(s => s.dataset.type === 'grid');
+                    const insertSlot = selected.find(s => s.dataset.type === 'insert');
+                    const pos = parseInt(insertSlot.dataset.index);
+                    let arr = currentWord.split('');
+                    arr.splice(pos, 0, gridCell.textContent);
+                    currentWord = arr.join('');
+                    grid[gridCell.dataset.row][gridCell.dataset.col] = null;
+                    moveHappened = true;
+                } else if (types.includes('word') && types.includes('insert')) {
+                    const wordCell = selected.find(s => s.dataset.type === 'word');
+                    const insertSlot = selected.find(s => s.dataset.type === 'insert');
+                    let fromIdx = parseInt(wordCell.dataset.index);
+                    let toIdx = parseInt(insertSlot.dataset.index);
+                    if (fromIdx < toIdx) toIdx--;
+                    let arr = currentWord.split('');
+                    let [char] = arr.splice(fromIdx, 1);
+                    arr.splice(toIdx, 0, char);
+                    currentWord = arr.join('');
+                    moveHappened = true;
+
+
+                }
+            }
+            return moveHappened;
+        }
+
+        function showDefinitions(word) {
+            // Fetch up to first 3 definitions and show them
+            fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (!Array.isArray(data)) throw new Error();
+                    let defs = [];
+                    data.forEach(entry => {
+                        entry.meanings?.forEach(meaning => {
+                            meaning.definitions?.forEach(defObj => {
+                                if (defs.length < 3) defs.push(defObj.definition);
+                            });
+                        });
+                    });
+                    definitionsElement.innerHTML = defs.length
+                        ? `<strong>${word}</strong>:<br>${defs.map(d => `- ${d}`).join('<br>')}`
+                        : `No definitions found for "${word}".`;
+                })
+                .catch(() => {
+                    definitionsElement.textContent = `No definitions found for "${word}".`;
+                });
+        }
+
+        function validateWord(previousWord) {
+            const lower = currentWord.toLowerCase();
+            if (playedWords.has(lower)) {
+                messageElement.textContent = "Word already used!";
+                currentWord = previousWord;
+                renderWord();
+                return;
+            }
+
+            if (validWords.includes(currentWord.toUpperCase())) {
+                playedWords.add(lower);
+                updateHistory();
+                lastValidWord = currentWord;
+                score += currentWord.length;
+                chain++;
+                if (chain % 5 === 0) {
+                    bonusMovesAvailable++;
+                    updateBonusButton();
+                }
+                if (Math.floor(score / 30) > Math.floor((score - currentWord.length) / 30)) {
+                    shuffleBonusesAvailable++;
+                    updateShuffleButton();
+                }
+                scoreElement.textContent = score;
+                chainElement.textContent = chain;
+                messageElement.textContent = "Valid word (from local list)!";
+                greenAnimation();
+                showDefinitions(lower);
+                return;
+            }
+
+            fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${lower}`)
+                .then(res => {
+                    if (!res.ok) throw new Error();
+                    return res.json();
+                })
+                .then(() => {
+                    playedWords.add(lower);
+                    updateHistory();
+                    lastValidWord = currentWord;
+                    score += currentWord.length;
+                    chain++;
+                    if (chain % 5 === 0) {
+                        bonusMovesAvailable++;
+                        updateBonusButton();
+                    }
+                    if (Math.floor(score / 30) > Math.floor((score - currentWord.length) / 30)) {
+                        shuffleBonusesAvailable++;
+                        updateShuffleButton();
+                    }
+                    scoreElement.textContent = score;
+                    chainElement.textContent = chain;
+                    messageElement.textContent = "Valid word!";
+                    clearSpecialMode();
+                    greenAnimation();
+                    showDefinitions(lower);
+                    return;
+                })
+                .catch(() => {
+                    invalidAttempts++;
+                    let penalty = currentWord.length * invalidAttempts;
+                    totalPenalty += penalty;
+                    totalChainLoss++;
+                    score -= penalty;
+                    chain = Math.max(0, chain - 1);
+                    currentWord = lastValidWord;
+                    renderWord();
+                    messageElement.textContent = `Invalid word! Penalty: -${penalty}`;
+                    redAnimation();
+                    if (invalidAttempts >= 5) {
+                        messageElement.textContent += " | Disqualified!";
+                        disableGame();
+                    }
+                    scoreElement.textContent = score;
+                    chainElement.textContent = chain;
+                    updateStatus();
+                });
+        }
+
+        function completeMove(validate = true) {
+            let originalWord = currentWord;
+            let moved = applyMove();
+            clearSelection();
+            renderWord();
+            replenishGrid();
+            if (!moved) {
+                messageElement.textContent = "Invalid move.";
+                return;
+            }
+            if (validate) validateWord(originalWord);
+
+            // Add 'special' class if special mode is active
+            // if (specialModeActive) { letterDiv.classList.remove('special'); }
+        }
+
+        actionBtn.addEventListener(
+            'click', () => completeMove(true));
+
+        toggleBtn.addEventListener("click", () => {
+            const isHidden = rulesDiv.style.display === "none";
+            rulesDiv.style.display = isHidden ? "block" : "none";
+            toggleBtn.textContent = isHidden ? "Let's play!" : "?";
+        });
+
+        bonusBtn.addEventListener('click', () => {
+            if (bonusMovesAvailable <= 0) return;
+            if (selected.length === 0) {
+                messageElement.textContent = "Select a playable move before using your bonus no-penalty setup move. ";
+                return;
+            }
+            let moved = applyMove();
+            clearSelection();
+            renderWord();
+            replenishGrid();
+            if (!moved) {
+                messageElement.textContent = "Invalid move.";
+                return;
+            }
+            bonusMovesAvailable--;
+            updateBonusButton();
+            lastValidWord = currentWord;
+            messageElement.textContent = `Bonus setup move used. ${bonusMovesAvailable} remaining.`;
+            activateSpecialMode(); //ADDED FOR BONUS MOVE EFFECT
+            // if (specialModeActive=false) { letterDiv.classList.add('special'); }
+            return;
+        });
+
+        shuffleBtn.addEventListener('click', () => {
+            if (shuffleBonusesAvailable > 0) {
+                shuffleBonusesAvailable--;
+                initGrid();
+                updateShuffleButton();
+                messageElement.textContent = "Grid refreshed!";
+                letterGrid.classList.add('anim-green');
+            }
+        });
+
+        newGameBtn.addEventListener('click', () => {
+            currentWord = randomWord();
+            lastValidWord = currentWord;
+            gridSize = 3;
+            initGrid();
+            renderWord();
+            score = 0;
+            chain = 0;
+            bonusMovesAvailable = 0;
+            shuffleBonusesAvailable = 0;
+            invalidAttempts = 0;
+            totalPenalty = 0;
+            totalChainLoss = 0;
+            playedWords.clear();
+            updateHistory();
+            updateStatus();
+            removeAnimation();
+            clearSpecialMode();
+            actionBtn.disabled = false;
+            gridElement.style.pointerEvents = 'auto';
+            wordContainer.style.pointerEvents = 'auto';
+            scoreElement.textContent = score;
+            chainElement.textContent = chain;
+            messageElement.textContent = '';
+            updateBonusButton();
+            updateShuffleButton();
+            definitionsElement.textContent = '';
+            specialModeActive = false;
+        });
+
+        newGameBtn.click();
+    </script>
+
+
+
+</body>
+
+</html>
