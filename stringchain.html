@@ -58,6 +58,10 @@
             overflow: hidden;
             background: transparent;
             padding: 10px;
+            transform-origin: center;
+            /*ADDING THIS TO SEE IF I CAN SCALE TO FIT*/
+            transition: transform 0.25s ease;
+            /*ADDING THIS TO SEE IF I CAN SCALE TO FIT*/
         }
 
         .word-container {
@@ -148,9 +152,9 @@
 
         .grid-cell {
             border: 0.5px solid var(--border);
-            width: 50px;
+            width: 70px;
             /* this also needs to be edited in renderGrid function */
-            height: 50px;
+            height: 70px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -714,7 +718,7 @@
 
         function renderGrid() {
             gridElement.innerHTML = '';
-            gridElement.style.gridTemplateColumns = `repeat(${gridSize}, 50px)`;
+            gridElement.style.gridTemplateColumns = `repeat(${gridSize}, 70px)`;
 
             for (let r = 0; r < gridSize; r++) {
                 for (let c = 0; c < gridSize; c++) {
