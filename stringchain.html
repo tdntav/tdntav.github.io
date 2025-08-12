@@ -59,9 +59,7 @@
             background: transparent;
             padding: 10px;
             transform-origin: center;
-            /*ADDING THIS TO SEE IF I CAN SCALE TO FIT*/
-            transition: transform 0.25s ease;
-            /*ADDING THIS TO SEE IF I CAN SCALE TO FIT*/
+            transition: transform 0.5s ease;
         }
 
         .word-container {
@@ -92,7 +90,7 @@
         }
 
         .letter {
-            width: 24px;
+            width: 28px;
             height: 60px;
             background: var(--cell);
             margin: 3px;
@@ -139,6 +137,7 @@
             animation-name: animate-already-used;
             animation-duration: 3s;
         }
+
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(12vw, 100vw));
@@ -152,9 +151,9 @@
 
         .grid-cell {
             border: 0.5px solid var(--border);
-            width: 70px;
+            width: 60px;
             /* this also needs to be edited in renderGrid function */
-            height: 70px;
+            height: 60px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -245,20 +244,26 @@
             width: 75%;
             /* width + 2*padding = 80% */
             min-height: 22px;
-            font-size: 14pt;
+            font-size: 12pt;
             font-family: "Courier New", monospace;
             background-color: var(--bg2);
             padding-inline: 2.5%;
             padding-block: 10px;
-            margin-top: 10px;
-            border-radius: 4px;
+            /* margin-top: 10px; */
         }
 
         #disallowed {
             background-color: var(--disabled);
-            color: var(--bg2);
+            color: var(--bg2); 
+            margin-bottom:0px;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
         }
-
+        #history {
+            margin-top:0px;
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
 
         #definitions {
             font-size: 11pt;
@@ -413,7 +418,7 @@
 
 
         function fitWordContainer() {
-             //let actualWidth = scaleWrapper.scrollWidth;
+            //let actualWidth = scaleWrapper.scrollWidth;
             // let availableWidth = wrapper.clientWidth;
             // let scale = Math.min(1, $availableWidth / $actualWidth);
             let letterCount = wordContainer.querySelectorAll('.letter').length;
@@ -447,7 +452,7 @@
             if (letterGrid.classList.contains('anim-refresh')) { letterGrid.classList.remove('anim-refresh'); }
             if (bonusBtn.classList.contains('anim-bonus')) { bonusBtn.classList.remove('anim-bonus'); }
             if (shuffleBtn.classList.contains('anim-bonus')) { shuffleBtn.classList.remove('anim-bonus'); }
-            if (historyElement.classList.contains('anim-used')) { historyElement.classList.remove('anim-used');}
+            if (historyElement.classList.contains('anim-used')) { historyElement.classList.remove('anim-used'); }
         }
 
         function randomLetter() {
@@ -647,7 +652,7 @@
 
         function renderGrid() {
             gridElement.innerHTML = '';
-            gridElement.style.gridTemplateColumns = `repeat(${gridSize}, 70px)`;
+            gridElement.style.gridTemplateColumns = `repeat(${gridSize}, 60px)`;
 
             for (let r = 0; r < gridSize; r++) {
                 for (let c = 0; c < gridSize; c++) {
@@ -829,7 +834,7 @@
             const lower = currentWord.toLowerCase();
             if (playedWords.has(lower)) {
                 // messageElement.textContent = "Word already used!";
-                alreadyUsedAnimation(); 
+                alreadyUsedAnimation();
                 currentWord = previousWord;
                 renderWord();
                 return;
