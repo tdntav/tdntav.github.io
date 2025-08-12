@@ -418,7 +418,7 @@
             // let scale = Math.min(1, $availableWidth / $actualWidth);
             let letterCount = wordContainer.querySelectorAll('.letter').length;
             //let scale = 1;
-            document.documentElement.style.setProperty('--scale-var', 8 / (5 + letterCount));
+            document.documentElement.style.setProperty('--scale-var', 11 / (6 + letterCount));
             return;
         }
 
@@ -596,85 +596,14 @@
             lastSelectedType = type;
         }
 
-        // // Commit the current selection: update currentWord and grid state
-        // function commitSelection() {
-        //     if (selected.length === 0) return;
-
-        //     // Only one grid cell can be selected at once, check for it
-        //     const gridCells = selected.filter(c => c.dataset.type === 'grid');
-        //     if (gridCells.length > 1) return; // safety
-
-        //     if (gridCells.length === 1) {
-        //         const cell = gridCells[0];
-        //         const r = parseInt(cell.dataset.row);
-        //         const c = parseInt(cell.dataset.col);
-
-        //         if (!grid[r][c]) return; // Already used
-
-        //         // Grab letter, mark grid cell as used
-        //         const letter = grid[r][c];
-        //         grid[r][c] = null;
-
-        //         // Store for rollback
-        //         lastUsedGridCell = { r, c, letter };
-
-        //         // Append letter to currentWord
-        //         currentWord += letter;
-        //     }
-
-        //     // Clear all selections in UI and reset tracking vars
-        //     selected.forEach(c => c.classList.remove('selected'));
-        //     selected = [];
-        //     lastSelectedCell = null;
-        //     lastSelectedType = null;
-
-        //     // Re-render UI
-        //     renderWord();
-        //     renderGrid();
-        // }
-
-        // // Rollback the last grid letter selection and update currentWord
-        // function rollbackLastGridSelection() {
-        //     if (!lastUsedGridCell) return; // Nothing to rollback
-
-        //     const { r, c, letter } = lastUsedGridCell;
-
-        //     // Restore the grid cell letter
-        //     grid[r][c] = letter;
-
-        //     // Remove last letter from currentWord if it matches
-        //     if (currentWord.endsWith(letter)) {
-        //         currentWord = currentWord.slice(0, -1);
-        //     } else {
-        //         // Fallback: remove last char anyway (should not happen if logic correct)
-        //         currentWord = currentWord.slice(0, -1);
-        //     }
-
-        //     // Clear lastUsedGridCell rollback data
-        //     lastUsedGridCell = null;
-
-        //     // Clear selections UI
-        //     selected.forEach(c => c.classList.remove('selected'));
-        //     selected = [];
-        //     lastSelectedCell = null;
-        //     lastSelectedType = null;
-
-        //     // Re-render UI
-        //     renderWord();
-        //     renderGrid();
-        // }
 
         function renderWord() {
             wordContainer.innerHTML = '';
 
-            // Insert slot before first letter (index 0)
             const insertSlotStart = document.createElement('div');
             insertSlotStart.className = 'insert-slot';
             insertSlotStart.dataset.type = 'insert';
             insertSlotStart.dataset.index = 0;
-
-            // Add special mode class if active
-            //if (specialModeActive) insertSlotStart.classList.add('special');
 
             insertSlotStart.addEventListener('click', () => selectCell(insertSlotStart));
             wordContainer.appendChild(insertSlotStart);
@@ -1045,8 +974,8 @@
             renderWord();
             score = 0;
             chain = 0;
-            bonusMovesAvailable = 0;
-            shuffleBonusesAvailable = 0;
+            bonusMovesAvailable = 10;
+            shuffleBonusesAvailable = 10;
             invalidAttempts = 0;
             totalPenalty = 0;
             totalChainLoss = 0;
