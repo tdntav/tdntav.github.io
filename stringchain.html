@@ -6,22 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StringChain</title>
     <style>
-        :root {
-            --bg1: #eee;
-            --bg2: #ddd;
-            --text1: #777;
-            --text2: #999;
-            --border: #aaa;
-            --cell: #fff;
-            --disabled: #555;
-            --selected-cell: #7da;
-            --selected-text: #fff;
-            --green: #4c8;
-            --red: var(--disabled);
-            --refresh: #dc9;
-            --bonus: var(--bg1);
-            --scale-var: 1.5;
-        }
+:root {
+  --bg1: #123;
+  --bg2: #456;
+  --text1: #cde;
+  --text2: #9ab;
+  --border: #abc;
+  --cell: #456;
+  --disabled: #234;
+  --selected-cell: #7da;
+  --selected-text: #000;
+  --green: #7da;
+  --red: var(--disabled);
+  --refresh: #00f;
+  --bonus: var(--bg1);
+  --scale-var: 1.5;
+}
 
         body {
             font-family: "Helvetica Neue", monospace;
@@ -59,7 +59,7 @@
             background: transparent;
             padding: 10px;
             transform-origin: center;
-            transition: transform 0.5s ease;
+            transition: transform 1s ease;
         }
 
         .word-container {
@@ -120,7 +120,7 @@
 
         .anim-green {
             animation-name: animate-green;
-            animation-duration: 2s;
+            animation-duration: 0.5s;
         }
 
         .anim-bonus {
@@ -254,7 +254,7 @@
 
         #disallowed {
             background-color: var(--disabled);
-            color: var(--bg2); 
+            /* color: var(--text2);  */
             margin-bottom:0px;
             border-top-left-radius: 4px;
             border-top-right-radius: 4px;
@@ -372,8 +372,8 @@
     <div id="status">5 mistakes left.</div>
     <div id="disallowed"></div>
     <div id="history"></div>
-    <button id="newGameBtn" class="newgame">RESTART</button>
     <div id="definitions"></div>
+    <button id="newGameBtn" class="newgame">RESTART</button>
 
 
     <script>
