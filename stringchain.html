@@ -399,6 +399,7 @@
         const alphabet = "EEEEEEEEEAAAARRRRIIIOOONNSSSTTTLLLLCCUUUDDDPPGGHHBBMMYYFFVVWWKKXJQZ".split("");
         const validWords = ["AND", "THE", "FOR", "ARE", "BUT", "NOT", "YOU", "ALL", "ANY", "CAN", "HAD", "HER", "WAS", "ONE", "OUR", "OUT", "DAY", "GET", "HAS", "HIM", "HIS", "HOW", "MAN", "NEW", "NOW", "OLD", "SEE", "TWO", "WAY", "WHO", "WHY", "USE", "BIG", "FUN", "RUN", "SUN", "TOP", "CAR", "DOG", "CAT", "BOX", "RED", "HOT", "WIN", "JOB", "EAT", "YES", "MOM", "DAD", "BED", "TIME", "YEAR", "WORK", "LIFE", "LOVE", "GOOD", "MAKE", "LOOK", "WANT", "WELL", "HAND", "EYES", "GIVE", "TAKE", "KNOW", "INTO", "FROM", "OVER", "MORE", "JUST", "LIKE", "COME", "WHEN", "THEN", "VERY", "EVEN", "BACK", "ONLY", "DOWN", "OPEN", "STOP", "PLAY", "WALK", "TALK", "TURN", "KEEP", "HOME", "ROOM", "WORD", "COLD", "WARM", "BLUE", "GOLD", "FAST", "SLOW", "NEAR", "FAR", "TREE", "FISH", "BIRD", "RAIN", "ABOUT", "AFTER", "AGAIN", "BELOW", "COULD", "EVERY", "FIRST", "FOUND", "GREAT", "HOUSE", "LARGE", "LEARN", "NEVER", "OTHER", "PLANT", "POINT", "RIGHT", "SMALL", "SOUND", "SPELL", "STILL", "STUDY", "THEIR", "THERE", "THESE", "THING", "THINK", "THREE", "WATER", "WHERE", "WHICH", "WORLD", "WOULD", "WRITE", "APPLE", "BREAD", "CHAIR", "CLEAN", "CLOSE", "CLOUD", "EARTH", "TWIST", "GRASS", "HEART", "LIGHT", "MONEY", "MOUTH", "NIGHT", "SLEEP", "TABLE"];
         // const validWords = ["ONE", "FIVER", "SIXSIX", "SEVENEN", "EIGHGHTT", "TENTENTENT"];
+
         let currentWord = "";
         let lastValidWord = "";
         let gridSize = 3;
@@ -417,16 +418,6 @@
         let specialModeActive = false; // NEW: Track bonus special mode
 
 
-        function showTemporaryMessage(message, duration = 3000) {
-            let originalContent = statusElement.innerHTML;
-            let newContent = messageElement.textContent;
-            // Show the temporary message
-            statusElement.innerHTML = newContent;
-            // Restore after the given time
-            setTimeout(() => {
-                statusElement.innerHTML = originalContent;
-            }, duration);
-        }
         function fitWordContainer() {
             //let actualWidth = scaleWrapper.scrollWidth;
             // let availableWidth = wrapper.clientWidth;
@@ -481,7 +472,16 @@
             }
             statusElement.textContent = base;
         }
-
+        
+        function showTemporaryMessage(message, duration = 3000) {
+            let newContent = messageElement.textContent;
+            // Show the temporary message
+            statusElement.textContent = newContent;
+            // Restore after the given time
+            setTimeout(() => {
+                updateStatus();
+            }, duration);
+        }
         function updateHistory() {
             historyElement.textContent = [...playedWords].map(w => "_" + w).join('');
         }
@@ -925,7 +925,7 @@
                     scoreElement.textContent = score;
                     chainElement.textContent = chain;
                     showTemporaryMessage();
-                    updateStatus();
+                    // updateStatus();
                     updateDisallowedWords();
                 });
         }
