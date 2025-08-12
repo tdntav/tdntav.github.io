@@ -7,314 +7,353 @@
     <title>StringChain</title>
     <style>
         :root {
-          --bg1: #eee;
-          --bg2: #ddd;
-          --text1: #777;
-          --text2: #999;
-          --border: #aaa;
-          --gridcell: #fff;
-          --disabled: #555;
-          --selected-cell: #7da;
-          --green: #4c8;
-          --red: #c54;
-          --special: #777;
+            --bg1: #eee;
+            --bg2: #ddd;
+            --text1: #777;
+            --text2: #999;
+            --border: #aaa;
+            --cell: #fff;
+            --disabled: #555;
+            --selected-cell: #7da;
+            --selected-text: #fff;
+            --green: #4c8;
+            --red: var(--disabled);
+            --refresh: #dc9;
+            --bonus: var(--bg1);
+            --scale-var: 1.5;
         }
-        
+
         body {
-          font-family: "Helvetica Neue", monospace;
-          background-color: var(--bg1);
-          color: var(--text1);
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          margin: 0;
-          padding: 10px;
-          font-size: 18px;
+            font-family: "Helvetica Neue", monospace;
+            background-color: var(--bg1);
+            max-width: 400px;
+            margin: auto;
+            /* margin: 0; */
+            color: var(--text1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            font-size: 18pt;
         }
-        
-        h1, h3 {
-          font-style: italic;
-          margin: 0 0 5px 0;
-          text-align: center;
+
+        h1,
+        h3 {
+            font-family: "Courier New", monospace;
+            margin: 0 0 5px 0;
+            text-align: center;
         }
-        
+
         .scores {
-          margin: 10px 0;
-          /* font-size: 14px; */
-          flex-wrap: wrap;
-          text-align: center;
+            margin: 10px 0;
+            font-size: 14pt;
+            flex-wrap: wrap;
+            text-align: center;
         }
-        
+
+        .scale-wrapper {
+            transform: scale(var(--scale-var));
+            display: flex;
+            justify-content: center;
+            overflow: hidden;
+            background: transparent;
+            padding: 10px;
+        }
+
         .word-container {
-          background-color: var(--bg1);
-          display: flex;
-          align-items: center;
-          flex-wrap: wrap;
-          justify-content: center;
-          margin-bottom: 10px;
-          padding: 10px;
-          border-radius: 4px;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            /* flex-wrap: wrap; */
+            justify-content: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            /* transform-origin: center; */
+            /*ADDING THIS TO SEE IF I CAN SCALE TO FIT*/
+            /* transition: transform 0.25s ease, gap 0.25s ease; */
+            /*ADDING THIS TO SEE IF I CAN SCALE TO FIT*/
         }
-        
+
         .letter,
         .insert-slot {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border-radius: 4px;
-          text-transform: uppercase;
-          cursor: pointer;
-          margin:5px;
-          border: 1px solid var(--gridcell);
-        }
-        
-        .letter {
-          width: 24px;
-          height: 60px;
-          background: var(--gridcell);
-          margin: 3px;
-        }
-        
-        .insert-slot {
-          width: 12px;
-          height: 30px;
-          background: var(--gridcell);
-        }
-        
-        .selected {
-          border: 1px solid var(--border);
-          background: var(--selected-cell);
-          color: var(--gridcell);
-          height: 56px;
-        }
-        
-        .special {
-          background-color: var(--special) !important;
-        }
-        
-        .anim-red {
-          animation-name: animate-red;
-          animation-duration: 1s;
-        }
-        
-        .anim-green {
-          animation-name: animate-green;
-          animation-duration: 1s;
-        }
-        
-         .grid {
-          display: grid;              
-          grid-template-columns: repeat(auto-fit, minmax(12vw, 100vw));
-          margin: 10px auto;
-          margin: none;
-          gap: 5px;
-          padding:5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            text-transform: uppercase;
+            cursor: pointer;
+            margin: 5px;
+            border: 1px solid var(--cell);
         }
 
-        
-        
-         .grid-cell {
-          border: 0.5px solid var(--border);
-           width: 50px; /* this also needs to be edited in renderGrid function */
-          height: 50px; 
-           display: flex;
-          align-items: center;
-          justify-content: center;
-          background: var(--bg1);
-          border-radius: 4px;
-          text-transform: uppercase;
-          cursor: pointer;
-        }  
-        
+        .letter {
+            width: 24px;
+            height: 60px;
+            background: var(--cell);
+            margin: 3px;
+        }
+
+        .insert-slot {
+            width: 12px;
+            height: 30px;
+            background: var(--cell);
+        }
+
+        .selected {
+            border: 1px solid var(--cell);
+            background: var(--selected-cell);
+            color: var(--selected-text);
+            height: 56px;
+        }
+
+        .special {
+            background-color: var(--text1) !important;
+        }
+
+        .anim-red {
+            animation-name: animate-red;
+            animation-duration: 5s;
+        }
+
+        .anim-green {
+            animation-name: animate-green;
+            animation-duration: 5s;
+        }
+
+        .anim-bonus {
+            animation-name: animate-bonus;
+            animation-duration: 5s;
+        }
+
+        .anim-refresh {
+            animation-name: animate-refresh;
+            animation-duration: 5s;
+        }
+
+        .anim-used {
+            animation-name: animate-already-used;
+            animation-duration: 10s;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(12vw, 100vw));
+            margin: 10px auto;
+            margin: none;
+            gap: 5px;
+            padding: 5px;
+        }
+
+
+
+        .grid-cell {
+            border: 0.5px solid var(--border);
+            width: 50px;
+            /* this also needs to be edited in renderGrid function */
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg1);
+            border-radius: 4px;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
         .grid-cell.used {
-          background: var(--bg1);
-          cursor: default;
-          border: none;
+            background: var(--bg1);
+            cursor: default;
+            border: none;
         }
-        
+
         .grid-cell.selected {
-          background: var(--selected-cell);
-          color: var(--bg1);
+            background: var(--selected-cell);
+            color: var(--bg1);
         }
-        
+
         .button-row {
-          display: flex;
-          gap: 0.5px;
-          justify-content: center;
-          width: 80%;
-          flex-wrap: wrap;
+            display: flex;
+            gap: 0.5px;
+            justify-content: center;
+            width: 80%;
+            flex-wrap: wrap;
         }
-        
+
         .button-row button {
-          margin: 3px;
-          padding: 10px;
-          font-family: inherit;
-          /* font-size: 12px; */
-          color: var(--text2);
-          border-radius: 4px;
-          border: none;
-          flex: 1 1 30%;
-          min-width: 80px;
+            margin: 3px;
+            padding: 10px;
+            font-family: inherit;
+            color: var(--text2);
+            border-radius: 4px;
+            border: none;
+            flex: 1 1 30%;
+            min-width: 80px;
         }
-        
+
         button {
-          background: var(--bg2);
-          margin: 10px 0px;
-          padding: 0px 10px; 
-          color: var(--text2);
-          border-radius: 4px;
-          border: none;
-           font-size: 18px; 
+            background: var(--bg2);
+            margin: 10px 0px;
+            padding: 0px 10px;
+            color: var(--text2);
+            border-radius: 4px;
+            border: none;
+            font-size: 11pt;
         }
-        
+
         .newgame {
-          width: 80%;
-          padding:10px 10px;
-          display:block;
+            width: 80%;
+            padding: 10px 10px;
+            display: block;
         }
-        
+
         .help {
-          border-radius: 20px;
-          margin: 0.5px;
-          min-height:40px;
-          min-width:40px;
+            border-radius: 20px;
+            margin: 0.5px;
+            min-height: 40px;
+            min-width: 40px;
         }
-        
+
         button:disabled,
         .disabled {
-          background: var(--disabled);
-          color: var(--text2);
-          cursor: default;
+            background: var(--disabled);
+            color: var(--text2);
+            cursor: default;
         }
-        
-        #status {
-         font-size: 14px;
-          margin: 5px 0;
-          color: var(--border);
-        }
-        
-        #message {
-           font-size: 14px; 
-          margin-bottom: 5px;
-          color: var(--text2);
-          min-height: 14px;
-        }
-        
-        #history {
-        display:block;
-          white-space: normal;
-          word-wrap: break-word;
-          width: 75%; /* width + 2*padding = 80% */
-          min-height: 14px;
-         font-size: 14px;
-          font-family: "Courier New", monospace;
-          background-color: var(--bg2);
-         padding: 10px 2.5%;
-          border-radius: 4px;
-        }
-        
-        #definitions {
-         font-size: 14px;
-          color: var(--text2);
-          margin-top: 5px;
-          max-width: 80%;
-        }
-        
-        #rules {
-          background: var(--gridcell);
-          padding: 10px;
-          margin: 10px;
-          border-radius: 5px;
 
-          color: var(--text2);
-          width: 80%;
-         font-size: 14px;
+        #status {
+            font-size: 10pt;
+            margin: 5px 0;
+            color: var(--text2);
         }
-        
+
+        #message {
+            font-size: 11pt;
+            margin-bottom: 5px;
+            color: var(--text2);
+            min-height: 12px;
+        }
+
+        #history,
+        #disallowed {
+            display: block;
+            white-space: normal;
+            word-wrap: break-word;
+            width: 75%;
+            /* width + 2*padding = 80% */
+            min-height: 22px;
+            font-size: 14pt;
+            font-family: "Courier New", monospace;
+            background-color: var(--bg2);
+            padding-inline: 2.5%;
+            padding-block: 10px;
+            margin-top: 10px;
+            border-radius: 4px;
+        }
+
+        #disallowed {
+            background-color: var(--disabled);
+            color: var(--bg2);
+        }
+
+
+        #definitions {
+            font-size: 11pt;
+            color: var(--text2);
+            margin-top: 5px;
+            width: 80%;
+        }
+
+        #rules {
+            background: var(--cell);
+            padding: 10px;
+            margin: 10px;
+            border-radius: 5px;
+
+            color: var(--text2);
+            width: 80%;
+            font-size: 14px;
+        }
+
         @keyframes animate-green {
-          0% { background-color: var(--green); }
-          50% { background-color: var(--green); }
-          100% { background-color: var(--bg1); }
+            0% {
+                background-color: var(--green);
+            }
+
+            100% {
+                background-color: var(--bg1);
+            }
         }
-        
+
         @keyframes animate-red {
-          0% { background-color: var(--red); }
-          50% { background-color: var(--red); }
-          100% { background-color: var(--bg1); }
+            0% {
+                background-color: var(--red);
+            }
+
+            100% {
+                background-color: var(--bg1);
+            }
         }
-        
-        /* --- Mobile-first adjustments --- */
-        /* @media (max-width: 768px) {
-          .letter {
-              width: 8vw;
-              height: 9vw;
-              margin: 0 2px;
-              font-size: 1.2em;
-          }
-        
-          .insert-slot {
-              width: 3vw;
-              height: 8vw;
-          }
-        
-        
-          #history,
-          #definitions,
-          #rules {
-              width: 80%;
-              font-size: 12px;
-          }
-        
-          #message,
-          #status {
-              font-size: 11px;
-          }
+
+        @keyframes animate-bonus {
+            0% {
+                background-color: var(--bonus);
+            }
+
+            100% {
+                background-color: var(--bg2);
+            }
         }
-         */
-        /* Very small screens
-        @media (max-width: 480px) {
-          .letter {
-              width: 10vw;
-              height: 12vw;
-              font-size: 1.4em;
-          }
-        
-          .grid-cell {
-              width: 12vw;
-              height: 12vw;
-              font-size: 1.4em;
-          }
-        
-          .scores {
-              font-size: 11px;
-          }
-        } */
-        </style>
+
+        @keyframes animate-refresh {
+            0% {
+                background-color: var(--refresh);
+            }
+
+            100% {
+                background-color: var(--bg1);
+            }
+        }
+
+        @keyframes animate-already-used {
+            0% {
+                background-color: var(--disabled);
+            }
+
+            100% {
+                background-color: var(--bg2);
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <div class="scores">Score: <span id="score">0</span> &nbsp;&nbsp;<button id="toggle-rules"
-            class="help">?</button>&nbsp;&nbsp; Chain: <span id="chain">0</span></div>
+    <div class="scores"><span id="score">0</span>&nbsp;&nbsp;&nbsp; STRING <button id="toggle-rules"
+            class="help">?</button> CHAIN &nbsp;&nbsp;&nbsp;<span id="chain">0</span></div>
     <div id="rules" style="display: none;">
         <h1>stringchain</h1>
-        <p> Select cells from the grid and/or the word.<br>
-            <br>PLAYABLE MOVES:<br>- Replace a word letter with a grid letter,<br>- insert a grid letter in any slot between
-            word letters,<br>- swap two word letters,<br>- place a word letter in a slot between letters to rearrange the
+        <p> <b>Use a string of letters, make a chain of words.</b><br>Points are string, words are chain links.<br>The
+            metaphor is flawless.<br><br>Select cells from the grid and/or the word.<br>
+            <br>PLAYABLE MOVES:<br>- Replace a word letter with a grid letter,<br>- insert a grid letter in any slot
+            between
+            word letters,<br>- swap two word letters,<br>- place a word letter in a slot between letters to rearrange
+            the
             word.<br>
             <br>When a playable selection is made, use the WORD button to play a valid word.<br>
-            <br>Get a bonus setup move for every 5 added to your chain. <br>Play it with the "||" button.<br>No penalty,
-            no score. Just breathe. You got this.<br>
-            <br>Get a bonus grid refresh for every 30 points earned.<br>Play it with the "#" button.<br>
+            <br>Get a bonus setup move for every 5 added to your chain. No penalty,
+            no score.<br>Play bonus setup moves with the "||" button.<br>
+            <br>Get a bonus grid refresh for every 30 points earned. Remember, points are string.<br>Activate bonus grid
+            refresh with the "#" button.<br>
             <br>Grid letters refresh on their own when a row or column is completed.<br>You can expand the grid once by
             making a six letter word.<br>
             <br>Mistakes are penalised with increasing severity.<br>Five mistakes gets you disqualified.<br>I know it's
-            sometimes the dictionary's fault and I'm sorry about that.<br>That makes it lo-fi, random cruelty is just
-            part of the game now.<br>
+            sometimes the dictionary's fault and I'm sorry about that.<br>
             <br>Enjoy!
         </p>
     </div>
     <div id="message">Get ready!</div>
-    <div class="word-container" id="wordContainer"></div>
+    <div class="scale-wrapper" id="scaleWrapper">
+        <div class="word-container" id="wordContainer"></div>
+    </div>
     <div class="button-row">
         <button id="bonusBtn">||</button>
         <button id="actionBtn">WORD</button>
@@ -322,12 +361,14 @@
     </div>
     <div class="grid" id="letterGrid"></div>
     <div id="status">5 mistakes left.</div>
-    <button id="newGameBtn" class="newgame">RESTART</button>
+    <div id="disallowed"></div>
     <div id="history"></div>
+    <button id="newGameBtn" class="newgame">RESTART</button>
     <div id="definitions"></div>
 
 
     <script>
+        const scaleWrapper = document.getElementById('scale-wrapper')
         const wordContainer = document.getElementById('wordContainer');
         const gridElement = document.getElementById('letterGrid');
         const actionBtn = document.getElementById('actionBtn');
@@ -338,14 +379,16 @@
         const scoreElement = document.getElementById('score');
         const chainElement = document.getElementById('chain');
         const historyElement = document.getElementById('history');
+        const disallowedElement = document.getElementById('disallowed');
         const statusElement = document.getElementById('status');
         const definitionsElement = document.getElementById('definitions');
         const toggleBtn = document.getElementById("toggle-rules");
         const rulesDiv = document.getElementById("rules");
         const playedWords = new Set();
+        const disallowedWords = new Set();
         const alphabet = "EEEEEEEEEAAAARRRRIIIOOONNSSSTTTLLLLCCUUUDDDPPGGHHBBMMYYFFVVWWKKXJQZ".split("");
         const validWords = ["AND", "THE", "FOR", "ARE", "BUT", "NOT", "YOU", "ALL", "ANY", "CAN", "HAD", "HER", "WAS", "ONE", "OUR", "OUT", "DAY", "GET", "HAS", "HIM", "HIS", "HOW", "MAN", "NEW", "NOW", "OLD", "SEE", "TWO", "WAY", "WHO", "WHY", "USE", "BIG", "FUN", "RUN", "SUN", "TOP", "CAR", "DOG", "CAT", "BOX", "RED", "HOT", "WIN", "JOB", "EAT", "YES", "MOM", "DAD", "BED", "TIME", "YEAR", "WORK", "LIFE", "LOVE", "GOOD", "MAKE", "LOOK", "WANT", "WELL", "HAND", "EYES", "GIVE", "TAKE", "KNOW", "INTO", "FROM", "OVER", "MORE", "JUST", "LIKE", "COME", "WHEN", "THEN", "VERY", "EVEN", "BACK", "ONLY", "DOWN", "OPEN", "STOP", "PLAY", "WALK", "TALK", "TURN", "KEEP", "HOME", "ROOM", "WORD", "COLD", "WARM", "BLUE", "GOLD", "FAST", "SLOW", "NEAR", "FAR", "TREE", "FISH", "BIRD", "RAIN", "ABOUT", "AFTER", "AGAIN", "BELOW", "COULD", "EVERY", "FIRST", "FOUND", "GREAT", "HOUSE", "LARGE", "LEARN", "NEVER", "OTHER", "PLANT", "POINT", "RIGHT", "SMALL", "SOUND", "SPELL", "STILL", "STUDY", "THEIR", "THERE", "THESE", "THING", "THINK", "THREE", "WATER", "WHERE", "WHICH", "WORLD", "WOULD", "WRITE", "APPLE", "BREAD", "CHAIR", "CLEAN", "CLOSE", "CLOUD", "EARTH", "TWIST", "GRASS", "HEART", "LIGHT", "MONEY", "MOUTH", "NIGHT", "SLEEP", "TABLE"];
-
+        // const validWords = ["ONE", "FIVER", "SIXSIX", "SEVENEN", "EIGHGHTT", "TENTENTENT"];
         let currentWord = "";
         let lastValidWord = "";
         let gridSize = 3;
@@ -353,7 +396,7 @@
         let score = 0;
         let chain = 0;
         let selected = [];
-        let bonusMovesAvailable = 1;
+        let bonusMovesAvailable = 0;
         let shuffleBonusesAvailable = 0;
         let invalidAttempts = 0;
         let totalPenalty = 0;
@@ -362,6 +405,19 @@
         let lastSelectedCell = null;
         let lastUsedGridCell = null; // NEW: Track last used cell for invalid move rollback
         let specialModeActive = false; // NEW: Track bonus special mode
+
+
+
+        function fitWordContainer() {
+             //let actualWidth = scaleWrapper.scrollWidth;
+            // let availableWidth = wrapper.clientWidth;
+            // let scale = Math.min(1, $availableWidth / $actualWidth);
+            let letterCount = wordContainer.querySelectorAll('.letter').length;
+            //let scale = 1;
+            document.documentElement.style.setProperty('--scale-var', 8 / (5 + letterCount));
+            return;
+        }
+
 
         function activateSpecialMode() {
             specialModeActive = true;
@@ -377,10 +433,17 @@
 
         function redAnimation() { wordContainer.classList.add('anim-red'); }
         function greenAnimation() { wordContainer.classList.add('anim-green'); }
+        function bonusAnimation() { bonusBtn.classList.add('anim-bonus'); }
+        function shuffleAnimation() { shuffleBtn.classList.add('anim-bonus'); }
+        function alreadyUsedAnimation() { historyElement.classList.add('anim-used'); }
+
         function removeAnimation() {
             if (wordContainer.classList.contains('anim-red')) { wordContainer.classList.remove('anim-red'); }
             if (wordContainer.classList.contains('anim-green')) { wordContainer.classList.remove('anim-green'); }
-            if (letterGrid.classList.contains('anim-green')) {letterGrid.classList.remove('anim-red');};
+            if (letterGrid.classList.contains('anim-refresh')) { letterGrid.classList.remove('anim-refresh'); }
+            if (bonusBtn.classList.contains('anim-bonus')) { bonusBtn.classList.remove('anim-bonus'); }
+            if (shuffleBtn.classList.contains('anim-bonus')) { shuffleBtn.classList.remove('anim-bonus'); }
+            if (historyElement.classList.contains('anim-used')) { historyElement.classList.remove('anim-used');}
         }
 
         function randomLetter() {
@@ -404,12 +467,14 @@
             historyElement.textContent = [...playedWords].map(w => "_" + w).join('');
         }
 
+        function updateDisallowedWords() {
+            disallowedElement.textContent = [...disallowedWords].map(w => "_" + w).join('');
+        }
+
         function selectCell(cell) {
             removeAnimation();
             const type = cell.dataset.type;
             const isSelected = selected.includes(cell);
-            wordContainer.classList.remove('anim-green');
-            wordContainer.classList.remove('anim-gred');
             // --- Helpers ---
             const getSelectedOfType = (t) => selected.filter(c => c.dataset.type === t);
             const deselect = (c) => {
@@ -616,6 +681,7 @@
                 letterDiv.textContent = currentWord[i];
                 letterDiv.dataset.type = 'word';
                 letterDiv.dataset.index = i;
+                fitWordContainer();
 
                 // Highlight if selected (selected is an array of indices)
 
@@ -630,6 +696,8 @@
                 insertSlot.className = 'insert-slot';
                 insertSlot.dataset.type = 'insert';
                 insertSlot.dataset.index = i + 1;
+                fitWordContainer();
+
 
                 // if (specialModeActive) insertSlot.classList.add('special');
 
@@ -640,6 +708,7 @@
 
                 insertSlot.addEventListener('click', () => selectCell(insertSlot));
                 wordContainer.appendChild(insertSlot);
+
             }
         }
 
@@ -758,6 +827,8 @@
                 const types = selected.map(s => s.dataset.type);
                 if (types.includes('grid') && types.includes('word')) {
                     const gridCell = selected.find(s => s.dataset.type === 'grid');
+
+
                     const wordCell = selected.find(s => s.dataset.type === 'word');
                     const idx = parseInt(wordCell.dataset.index);
                     currentWord = currentWord.slice(0, idx) + gridCell.textContent + currentWord.slice(idx + 1);
@@ -771,6 +842,8 @@
                     moveHappened = true;
                 } else if (types.includes('grid') && types.includes('insert')) {
                     const gridCell = selected.find(s => s.dataset.type === 'grid');
+
+
                     const insertSlot = selected.find(s => s.dataset.type === 'insert');
                     const pos = parseInt(insertSlot.dataset.index);
                     let arr = currentWord.split('');
@@ -822,7 +895,8 @@
         function validateWord(previousWord) {
             const lower = currentWord.toLowerCase();
             if (playedWords.has(lower)) {
-                messageElement.textContent = "Word already used!";
+                // messageElement.textContent = "Word already used!";
+                alreadyUsedAnimation(); 
                 currentWord = previousWord;
                 renderWord();
                 return;
@@ -837,6 +911,7 @@
                 if (chain % 5 === 0) {
                     bonusMovesAvailable++;
                     updateBonusButton();
+
                 }
                 if (Math.floor(score / 30) > Math.floor((score - currentWord.length) / 30)) {
                     shuffleBonusesAvailable++;
@@ -844,7 +919,7 @@
                 }
                 scoreElement.textContent = score;
                 chainElement.textContent = chain;
-                messageElement.textContent = "Valid word (from local list)!";
+                // messageElement.textContent = "Valid word (from local list)!";
                 greenAnimation();
                 showDefinitions(lower);
                 return;
@@ -864,14 +939,16 @@
                     if (chain % 5 === 0) {
                         bonusMovesAvailable++;
                         updateBonusButton();
+                        bonusAnimation();
                     }
                     if (Math.floor(score / 30) > Math.floor((score - currentWord.length) / 30)) {
                         shuffleBonusesAvailable++;
                         updateShuffleButton();
+                        shuffleAnimation();
                     }
                     scoreElement.textContent = score;
                     chainElement.textContent = chain;
-                    messageElement.textContent = "Valid word!";
+                    // messageElement.textContent = "Valid word!";
                     clearSpecialMode();
                     greenAnimation();
                     showDefinitions(lower);
@@ -884,9 +961,10 @@
                     totalChainLoss++;
                     score -= penalty;
                     chain = Math.max(0, chain - 1);
+                    disallowedWords.add(lower);
                     currentWord = lastValidWord;
                     renderWord();
-                    messageElement.textContent = `Invalid word! Penalty: -${penalty}`;
+                    // messageElement.textContent = `Invalid word! Penalty: -${penalty}`;
                     redAnimation();
                     if (invalidAttempts >= 5) {
                         messageElement.textContent += " | Disqualified!";
@@ -895,6 +973,7 @@
                     scoreElement.textContent = score;
                     chainElement.textContent = chain;
                     updateStatus();
+                    updateDisallowedWords();
                 });
         }
 
@@ -910,8 +989,6 @@
             }
             if (validate) validateWord(originalWord);
 
-            // Add 'special' class if special mode is active
-            // if (specialModeActive) { letterDiv.classList.remove('special'); }
         }
 
         actionBtn.addEventListener(
@@ -920,13 +997,13 @@
         toggleBtn.addEventListener("click", () => {
             const isHidden = rulesDiv.style.display === "none";
             rulesDiv.style.display = isHidden ? "block" : "none";
-            toggleBtn.textContent = isHidden ? "Let's play!" : "?";
+            toggleBtn.textContent = isHidden ? "^" : "?";
         });
 
         bonusBtn.addEventListener('click', () => {
             if (bonusMovesAvailable <= 0) return;
             if (selected.length === 0) {
-                messageElement.textContent = "Select a playable move before using your bonus no-penalty setup move. ";
+                messageElement.textContent = "Select a playable move first ";
                 return;
             }
             let moved = applyMove();
@@ -940,7 +1017,7 @@
             bonusMovesAvailable--;
             updateBonusButton();
             lastValidWord = currentWord;
-            messageElement.textContent = `Bonus setup move used. ${bonusMovesAvailable} remaining.`;
+            // messageElement.textContent = `Bonus setup move used. ${bonusMovesAvailable} remaining.`;
             activateSpecialMode(); //ADDED FOR BONUS MOVE EFFECT
             // if (specialModeActive=false) { letterDiv.classList.add('special'); }
             return;
@@ -951,8 +1028,8 @@
                 shuffleBonusesAvailable--;
                 initGrid();
                 updateShuffleButton();
-                messageElement.textContent = "Grid refreshed!";
-                letterGrid.classList.add('anim-green');
+                // messageElement.textContent = "Grid refreshed!";
+                letterGrid.classList.add('anim-refresh');
             }
         });
 
@@ -964,12 +1041,14 @@
             renderWord();
             score = 0;
             chain = 0;
-            bonusMovesAvailable = 0;
-            shuffleBonusesAvailable = 0;
+            bonusMovesAvailable = 10;
+            shuffleBonusesAvailable = 10;
             invalidAttempts = 0;
             totalPenalty = 0;
             totalChainLoss = 0;
             playedWords.clear();
+            disallowedWords.clear();
+            disallowedElement.textContent = '';
             updateHistory();
             updateStatus();
             removeAnimation();
@@ -984,6 +1063,7 @@
             updateShuffleButton();
             definitionsElement.textContent = '';
             specialModeActive = false;
+            fitWordContainer();
         });
 
         newGameBtn.click();
