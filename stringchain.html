@@ -257,13 +257,13 @@
             background-color: var(--disabled);
             /* color: var(--text2);  */
             margin-bottom:0px;
-            border-top-left-radius: 4px;
-            border-top-right-radius: 4px;
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: 4px;
         }
         #history {
             margin-top:0px;
-            border-bottom-left-radius: 4px;
-            border-bottom-right-radius: 4px;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
         }
 
         #definitions {
@@ -371,8 +371,8 @@
         <button id="shuffleBtn">#</button>
     </div>
     <div class="grid" id="letterGrid"></div>
-    <div id="disallowed"></div>
     <div id="history"></div>
+    <div id="disallowed"></div>
     <div id="definitions"></div>
     <button id="newGameBtn" class="newgame">RESTART</button>
 
@@ -472,7 +472,7 @@
             }
             statusElement.textContent = base;
         }
-        
+
         function showTemporaryMessage(message, duration = 3000) {
             let newContent = messageElement.textContent;
             // Show the temporary message
