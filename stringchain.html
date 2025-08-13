@@ -937,9 +937,11 @@
             renderWord();
             replenishGrid();
             if (!moved) {
-                messageElement.textContent = "Invalid move.";
+                // messageElement.textContent = "Valid moves: grid-word, grid-slot, word-word, word-slot";
+                messageElement.textContent = "Invalid move. Are you okay?";
                 showTemporaryMessage();
                 return;
+
             }
             if (validate) validateWord(originalWord);
 
@@ -955,12 +957,18 @@
         });
 
         bonusBtn.addEventListener('click', () => {
-            if (bonusMovesAvailable <= 0) return;
-            if (selected.length === 0) {
-                messageElement.textContent = "Select a playable move first ";
+            if (bonusMovesAvailable <= 0) {
+                messageElement.textContent = "Bonuses are earned. You have none.";
                 showTemporaryMessage();
                 return;
             }
+            if (selected.length === 0) {
+                messageElement.textContent = "Select a playable move first";
+                showTemporaryMessage();
+                return;
+            }
+                
+            
             let moved = applyMove();
             clearSelection();
             renderWord();
@@ -976,7 +984,6 @@
             messageElement.textContent = `Bonus setup move used. ${bonusMovesAvailable} remaining.`;
             showTemporaryMessage();
             activateSpecialMode(); //ADDED FOR BONUS MOVE EFFECT
-            // if (specialModeActive=false) { letterDiv.classList.add('special'); }
             return;
         });
 
