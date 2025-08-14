@@ -6,23 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StringChain</title>
     <style>
-:root {
-  --bg1: #123;
-  --bg2: #456;
-  --text1: #cde;
-  --text2: #9ab;
-  --green: #7da;
-  --disabled: #234;
-  --cell: var(--bg2);
-  --border: var(--text2);
-  --selected-cell: var(--green);
-  --selected-text: var(--bg1);
-  --red: var(--disabled);
-  --refresh: var(--green);
-  --bonus: var(--bg1);
+        :root {
+            --bg1: #123;
+            --bg2: #456;
+            --text1: #cde;
+            --text2: #9ab;
+            --green: #7da;
+            --disabled: #234;
+            --cell: var(--bg2);
+            --border: var(--text2);
+            --selected-cell: var(--green);
+            --selected-text: var(--bg1);
+            /* --red: var(--disabled); */
+            --red: #734;
+            --refresh: var(--green);
+            --bonus: var(--bg1);
 
-  --scale-var: 1.5;
-}
+            --scale-var: 1.5;
+        }
 
         body {
             font-family: "Helvetica Neue", monospace;
@@ -256,12 +257,13 @@
         #disallowed {
             background-color: var(--disabled);
             /* color: var(--text2);  */
-            margin-bottom:0px;
+            margin-bottom: 0px;
             border-bottom-left-radius: 4px;
             border-bottom-right-radius: 4px;
         }
+
         #history {
-            margin-top:0px;
+            margin-top: 0px;
             border-top-left-radius: 4px;
             border-top-right-radius: 4px;
         }
@@ -394,11 +396,11 @@
         const definitionsElement = document.getElementById('definitions');
         const toggleBtn = document.getElementById("toggle-rules");
         const rulesDiv = document.getElementById("rules");
-        const playedWords = new Set();
-        const disallowedWords = new Set();
         const alphabet = "EEEEEEEEEAAAARRRRIIIOOONNSSSTTTLLLLCCUUUDDDPPGGHHBBMMYYFFVVWWKKXJQZ".split("");
         const validWords = ["AND", "THE", "FOR", "ARE", "BUT", "NOT", "YOU", "ALL", "ANY", "CAN", "HAD", "HER", "WAS", "ONE", "OUR", "OUT", "DAY", "GET", "HAS", "HIM", "HIS", "HOW", "MAN", "NEW", "NOW", "OLD", "SEE", "TWO", "WAY", "WHO", "WHY", "USE", "BIG", "FUN", "RUN", "SUN", "TOP", "CAR", "DOG", "CAT", "BOX", "RED", "HOT", "WIN", "JOB", "EAT", "YES", "MOM", "DAD", "BED", "TIME", "YEAR", "WORK", "LIFE", "LOVE", "GOOD", "MAKE", "LOOK", "WANT", "WELL", "HAND", "EYES", "GIVE", "TAKE", "KNOW", "INTO", "FROM", "OVER", "MORE", "JUST", "LIKE", "COME", "WHEN", "THEN", "VERY", "EVEN", "BACK", "ONLY", "DOWN", "OPEN", "STOP", "PLAY", "WALK", "TALK", "TURN", "KEEP", "HOME", "ROOM", "WORD", "COLD", "WARM", "BLUE", "GOLD", "FAST", "SLOW", "NEAR", "FAR", "TREE", "FISH", "BIRD", "RAIN", "ABOUT", "AFTER", "AGAIN", "BELOW", "COULD", "EVERY", "FIRST", "FOUND", "GREAT", "HOUSE", "LARGE", "LEARN", "NEVER", "OTHER", "PLANT", "POINT", "RIGHT", "SMALL", "SOUND", "SPELL", "STILL", "STUDY", "THEIR", "THERE", "THESE", "THING", "THINK", "THREE", "WATER", "WHERE", "WHICH", "WORLD", "WOULD", "WRITE", "APPLE", "BREAD", "CHAIR", "CLEAN", "CLOSE", "CLOUD", "EARTH", "TWIST", "GRASS", "HEART", "LIGHT", "MONEY", "MOUTH", "NIGHT", "SLEEP", "TABLE"];
 
+        let playedWords = new Set();
+        let disallowedWords = new Set();
         let currentWord = "";
         let lastValidWord = "";
         let gridSize = 3;
@@ -413,12 +415,50 @@
         let totalChainLoss = 0;
         let lastSelectedType = null;
         let lastSelectedCell = null;
-        let lastUsedGridCell = null; 
-        let specialModeActive = false; 
+        let lastUsedGridCell = null; // NEW: Track last used cell for invalid move rollback
+        let specialModeActive = false; // NEW: Track bonus special mode
+
+
+
+        function saveGameState() {
+            const gameState = { currentWord, lastValidWord, gridSize, grid, score, chain, bonusMovesAvailable, shuffleBonusesAvailable, invalidAttempts, totalPenalty, totalChainLoss, playedWords: Array.from(playedWords), disallowedWords: Array.from(disallowedWords) };
+            localStorage.setItem("stringChainState", JSON.stringify(gameState));
+        }
+
+        // Load and restore directly
+        function loadGameState() {
+            const saved = localStorage.getItem("stringChainState");
+            if (!saved) {
+                newGameBtn.click();
+                return;
+            }
+            try {
+                ({ currentWord, lastValidWord, gridSize, grid, score, chain, bonusMovesAvailable, shuffleBonusesAvailable, invalidAttempts, totalPenalty, totalChainLoss, playedWords, disallowedWords } = JSON.parse(saved));
+                disallowedWords = new Set(disallowedWords);
+                playedWords = new Set(playedWords);
+                renderWord();
+                renderGrid();
+                updateHistory();
+                updateDisallowedWords();
+                updateBonusButton();
+                updateShuffleButton();
+                scoreElement.textContent = score;
+                chainElement.textContent = chain;
+                // messageElement.textContent = "This part is executing";
+                // showTemporaryMessage();
+            } catch (err) {
+                console.error("Error loading saved state", err);
+                newGameBtn.click();
+            }
+        }
+
+
+
+
+
 
 
         function fitWordContainer() {
-
             let letterCount = wordContainer.querySelectorAll('.letter').length;
             document.documentElement.style.setProperty('--scale-var', 11 / (6 + letterCount));
             return;
@@ -666,14 +706,20 @@
                     cell.className = 'grid-cell';
                     cell.textContent = grid[r][c] || '';
 
+                    // Mark empty cells as 'used' (meaning no letter present)
                     if (!grid[r][c]) cell.classList.add('used');
 
                     cell.dataset.type = 'grid';
                     cell.dataset.row = r;
                     cell.dataset.col = c;
 
+                    // Highlight if selected (selected stores selected cells as strings? 
+                    // If so, match by row,col string like "r,c"
+                    // But you gave no details on format of selected for grid cells.
+                    // Let's assume selected contains objects {type:'grid', row:r, col:c} or strings "grid-r-c"
 
-                    
+                    // Since selected is an array, let's check for a string "r,c" for simplicity
+                    // We'll define the cell ID as `${r},${c}`
                     const cellId = `${r},${c}`;
                     if (selected.includes(cellId)) {
                         cell.classList.add('selected');
@@ -833,11 +879,12 @@
         function validateWord(previousWord) {
             const lower = currentWord.toLowerCase();
             if (playedWords.has(lower)) {
-                messageElement.textContent = "Word already used!"; //ADDED FOR INTEGRATION OF MESSAGE AND STATUS
-                showTemporaryMessage(); //ADDED FOR INTEGRATION OF MESSAGE AND STATU
+                messageElement.textContent = "Word already used!"; 
+                showTemporaryMessage(); 
                 alreadyUsedAnimation();
                 currentWord = previousWord;
                 renderWord();
+                saveGameState();
                 return;
             }
 
@@ -862,6 +909,7 @@
                 showTemporaryMessage();
                 greenAnimation();
                 showDefinitions(lower);
+                saveGameState();
                 return;
             }
 
@@ -893,6 +941,7 @@
                     clearSpecialMode();
                     greenAnimation();
                     showDefinitions(lower);
+                    saveGameState();
                     return;
                 })
                 .catch(() => {
@@ -906,7 +955,7 @@
                     currentWord = lastValidWord;
                     renderWord();
                     messageElement.textContent = `Invalid word! Penalty: -${penalty}`;
-                    
+
                     redAnimation();
                     if (invalidAttempts >= 5) {
                         messageElement.textContent += " | Disqualified!";
@@ -917,6 +966,7 @@
                     showTemporaryMessage();
                     // updateStatus();
                     updateDisallowedWords();
+                    saveGameState();
                 });
         }
 
@@ -931,10 +981,8 @@
                 messageElement.textContent = "Invalid move. Are you okay?";
                 showTemporaryMessage();
                 return;
-
             }
             if (validate) validateWord(originalWord);
-
         }
 
         actionBtn.addEventListener(
@@ -957,8 +1005,8 @@
                 showTemporaryMessage();
                 return;
             }
-                
-            
+
+
             let moved = applyMove();
             clearSelection();
             renderWord();
@@ -989,6 +1037,7 @@
         });
 
         newGameBtn.addEventListener('click', () => {
+            localStorage.removeItem("stringChainState");
             currentWord = randomWord();
             lastValidWord = currentWord;
             gridSize = 3;
@@ -1003,7 +1052,7 @@
             totalChainLoss = 0;
             playedWords.clear();
             disallowedWords.clear();
-            disallowedElement.textContent = '';
+            
             updateHistory();
             updateStatus();
             removeAnimation();
@@ -1014,6 +1063,7 @@
             scoreElement.textContent = score;
             chainElement.textContent = chain;
             messageElement.textContent = '';
+            disallowedElement.textContent = '';
             updateBonusButton();
             updateShuffleButton();
             definitionsElement.textContent = '';
@@ -1021,7 +1071,7 @@
             fitWordContainer();
         });
 
-        newGameBtn.click();
+        loadGameState();
     </script>
 
 
