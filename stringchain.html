@@ -363,7 +363,7 @@
         </p>
     </div>
     <div id="message" style="display: none;"></div>
-    <div id="status">5 mistakes left.</div>
+    <div id="status">...</div>
     <div class="scale-wrapper" id="scaleWrapper">
         <div class="word-container" id="wordContainer"></div>
     </div>
@@ -442,8 +442,10 @@
                 updateDisallowedWords();
                 updateBonusButton();
                 updateShuffleButton();
+                showDefinitions(lastValidWord);
                 scoreElement.textContent = score;
                 chainElement.textContent = chain;
+
                 // messageElement.textContent = "This part is executing";
                 // showTemporaryMessage();
             } catch (err) {
@@ -894,12 +896,12 @@
                 lastValidWord = currentWord;
                 score += currentWord.length;
                 chain++;
-                if (chain % 5 === 0) {
+                if ((chain % 5 === 0) && chain > 4) { //ADDED FIX TO STOP BONUS ACCRUING FOR PASSING ZERO
                     bonusMovesAvailable++;
                     updateBonusButton();
 
                 }
-                if (Math.floor(score / 30) > Math.floor((score - currentWord.length) / 30)) {
+                if (Math.floor(score / 30) > Math.floor((score - currentWord.length) / 30) && score > 29) { //ADDED FIX TO STOP BONUS ACCRUING FOR PASSING ZERO
                     shuffleBonusesAvailable++;
                     updateShuffleButton();
                 }
@@ -924,12 +926,12 @@
                     lastValidWord = currentWord;
                     score += currentWord.length;
                     chain++;
-                    if (chain % 5 === 0) {
+                    if ((chain % 5 === 0) && chain > 4) { //ADDED FIX TO STOP BONUS ACCRUING FOR PASSING ZERO
                         bonusMovesAvailable++;
                         updateBonusButton();
                         bonusAnimation();
                     }
-                    if (Math.floor(score / 30) > Math.floor((score - currentWord.length) / 30)) {
+                    if (Math.floor(score / 30) > Math.floor((score - currentWord.length) / 30) && score > 29) { //ADDED FIX TO STOP BONUS ACCRUING FOR PASSING ZERO
                         shuffleBonusesAvailable++;
                         updateShuffleButton();
                         shuffleAnimation();
