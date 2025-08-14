@@ -398,7 +398,6 @@
         const disallowedWords = new Set();
         const alphabet = "EEEEEEEEEAAAARRRRIIIOOONNSSSTTTLLLLCCUUUDDDPPGGHHBBMMYYFFVVWWKKXJQZ".split("");
         const validWords = ["AND", "THE", "FOR", "ARE", "BUT", "NOT", "YOU", "ALL", "ANY", "CAN", "HAD", "HER", "WAS", "ONE", "OUR", "OUT", "DAY", "GET", "HAS", "HIM", "HIS", "HOW", "MAN", "NEW", "NOW", "OLD", "SEE", "TWO", "WAY", "WHO", "WHY", "USE", "BIG", "FUN", "RUN", "SUN", "TOP", "CAR", "DOG", "CAT", "BOX", "RED", "HOT", "WIN", "JOB", "EAT", "YES", "MOM", "DAD", "BED", "TIME", "YEAR", "WORK", "LIFE", "LOVE", "GOOD", "MAKE", "LOOK", "WANT", "WELL", "HAND", "EYES", "GIVE", "TAKE", "KNOW", "INTO", "FROM", "OVER", "MORE", "JUST", "LIKE", "COME", "WHEN", "THEN", "VERY", "EVEN", "BACK", "ONLY", "DOWN", "OPEN", "STOP", "PLAY", "WALK", "TALK", "TURN", "KEEP", "HOME", "ROOM", "WORD", "COLD", "WARM", "BLUE", "GOLD", "FAST", "SLOW", "NEAR", "FAR", "TREE", "FISH", "BIRD", "RAIN", "ABOUT", "AFTER", "AGAIN", "BELOW", "COULD", "EVERY", "FIRST", "FOUND", "GREAT", "HOUSE", "LARGE", "LEARN", "NEVER", "OTHER", "PLANT", "POINT", "RIGHT", "SMALL", "SOUND", "SPELL", "STILL", "STUDY", "THEIR", "THERE", "THESE", "THING", "THINK", "THREE", "WATER", "WHERE", "WHICH", "WORLD", "WOULD", "WRITE", "APPLE", "BREAD", "CHAIR", "CLEAN", "CLOSE", "CLOUD", "EARTH", "TWIST", "GRASS", "HEART", "LIGHT", "MONEY", "MOUTH", "NIGHT", "SLEEP", "TABLE"];
-        // const validWords = ["ONE", "FIVER", "SIXSIX", "SEVENEN", "EIGHGHTT", "TENTENTENT"];
 
         let currentWord = "";
         let lastValidWord = "";
@@ -414,16 +413,13 @@
         let totalChainLoss = 0;
         let lastSelectedType = null;
         let lastSelectedCell = null;
-        let lastUsedGridCell = null; // NEW: Track last used cell for invalid move rollback
-        let specialModeActive = false; // NEW: Track bonus special mode
+        let lastUsedGridCell = null; 
+        let specialModeActive = false; 
 
 
         function fitWordContainer() {
-            //let actualWidth = scaleWrapper.scrollWidth;
-            // let availableWidth = wrapper.clientWidth;
-            // let scale = Math.min(1, $availableWidth / $actualWidth);
+
             let letterCount = wordContainer.querySelectorAll('.letter').length;
-            //let scale = 1;
             document.documentElement.style.setProperty('--scale-var', 11 / (6 + letterCount));
             return;
         }
@@ -670,20 +666,14 @@
                     cell.className = 'grid-cell';
                     cell.textContent = grid[r][c] || '';
 
-                    // Mark empty cells as 'used' (meaning no letter present)
                     if (!grid[r][c]) cell.classList.add('used');
 
                     cell.dataset.type = 'grid';
                     cell.dataset.row = r;
                     cell.dataset.col = c;
 
-                    // Highlight if selected (selected stores selected cells as strings? 
-                    // If so, match by row,col string like "r,c"
-                    // But you gave no details on format of selected for grid cells.
-                    // Let's assume selected contains objects {type:'grid', row:r, col:c} or strings "grid-r-c"
 
-                    // Since selected is an array, let's check for a string "r,c" for simplicity
-                    // We'll define the cell ID as `${r},${c}`
+                    
                     const cellId = `${r},${c}`;
                     if (selected.includes(cellId)) {
                         cell.classList.add('selected');
@@ -844,7 +834,7 @@
             const lower = currentWord.toLowerCase();
             if (playedWords.has(lower)) {
                 messageElement.textContent = "Word already used!"; //ADDED FOR INTEGRATION OF MESSAGE AND STATUS
-                showTemporaryMessage(); //ADDED FOR INTEGRATION OF MESSAGE AND STATUS
+                showTemporaryMessage(); //ADDED FOR INTEGRATION OF MESSAGE AND STATU
                 alreadyUsedAnimation();
                 currentWord = previousWord;
                 renderWord();
