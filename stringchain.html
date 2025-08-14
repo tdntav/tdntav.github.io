@@ -376,6 +376,7 @@
     <div id="history"></div>
     <div id="disallowed"></div>
     <div id="definitions"></div>
+
     <button id="newGameBtn" class="newgame">RESTART</button>
 
 
@@ -521,11 +522,11 @@
             }, duration);
         }
         function updateHistory() {
-            historyElement.textContent = [...playedWords].map(w => "_" + w).join('');
+            historyElement.textContent = [...playedWords].reverse().map(w => "_" + w).join('');
         }
 
         function updateDisallowedWords() {
-            disallowedElement.textContent = [...disallowedWords].map(w => "_" + w).join('');
+            disallowedElement.textContent = [...disallowedWords].reverse().map(w => "_" + w).join('');
         }
 
         function selectCell(cell) {
