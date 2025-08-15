@@ -45,6 +45,12 @@
             margin: 0 0 5px 0;
             text-align: center;
         }
+        
+        h4 {
+            /* font-family: "Courier New", monospace; */
+            margin: 0 0 5px 0;
+            text-align: center;
+        }
 
         .scores {
             margin: 10px 0;
@@ -286,6 +292,23 @@
             font-size: 14px;
         }
 
+        .high-score-table {
+            border:5px solid;
+            border-collapse: collapse;
+            border-color: var(--text2);
+            font-size: 9pt;
+            
+            
+            width: 100%;
+
+        }
+        
+        th, tr, td {padding:12px;border:2px solid;
+            border-collapse: collapse;
+            border-color: var(--text2);
+            text-align:center;
+        }
+
         @keyframes animate-green {
             0% {
                 background-color: var(--green);
@@ -361,6 +384,7 @@
             sometimes the dictionary's fault and I'm sorry about that.<br>
             <br>Enjoy!
         </p>
+        <div id="highScores"></div>
     </div>
     <div id="message" style="display: none;"></div>
     <div id="status">...</div>
@@ -383,6 +407,7 @@
     <script>
         const scaleWrapper = document.getElementById('scale-wrapper')
         const wordContainer = document.getElementById('wordContainer');
+        const highScoresElement = document.getElementById('highScores');
         const gridElement = document.getElementById('letterGrid');
         const actionBtn = document.getElementById('actionBtn');
         const newGameBtn = document.getElementById('newGameBtn');
@@ -446,19 +471,49 @@
                 showDefinitions(lastValidWord);
                 scoreElement.textContent = score;
                 chainElement.textContent = chain;
-
-                // messageElement.textContent = "This part is executing";
-                // showTemporaryMessage();
             } catch (err) {
                 console.error("Error loading saved state", err);
                 newGameBtn.click();
             }
         }
 
+        function saveHighScore() {
+            const stringchainHighScore = JSON.parse(localStorage.getItem("stringchainHighScore")) || [];
+            const saveTime = new Date().toISOString().slice(0, 19).replace('T', ' ');
+            const newHighScore = { saveTime, score, chain };
+            if (!stringchainHighScore) {
+                localStorage.setItem("stringChainHighScore", JSON.stringify(newHighScore));
+                return;
+            }
+            stringchainHighScore.push({
+                saveTime: saveTime,
+                score: score,
+                chain: chain
+            });
+            stringchainHighScore.sort((a, b) => b.score - a.score);
 
+            const byScore = [...stringchainHighScore]
+                .sort((a, b) => b.score - a.score)
+                .slice(0, 5);
+            const byChain = [...stringchainHighScore]
+                .sort((a, b) => b.chain - a.chain)
+                .slice(0, 5);
 
+            const combined = [...byScore, ...byChain].filter((item, index, self) => index === self.findIndex(g => g.saveTime === item.saveTime));
+            combined.sort((a, b) => b.chain - a.chain);
+            localStorage.setItem('stringchainHighScore', JSON.stringify(combined));
+        }
 
-
+        function getHighScores() {
+            const scoreTable = JSON.parse(localStorage.getItem('stringchainHighScore')) || [];
+            const rows = scoreTable.map(entry => `<tr><td>${entry.score}</td><td>${entry.chain}</td><td>${entry.saveTime}</td></tr>`).join('');
+            highScoresElement.innerHTML = `<h4>YOUR BEST GAMES</h4>
+        <table class = "high-score-table">
+            <tr><th>STRING</th><th>CHAIN</th><th>SAVED</th></tr>
+            ${rows}
+        </table>
+    `;
+        }
 
 
         function fitWordContainer() {
@@ -882,8 +937,8 @@
         function validateWord(previousWord) {
             const lower = currentWord.toLowerCase();
             if (playedWords.has(lower)) {
-                messageElement.textContent = "Word already used!"; 
-                showTemporaryMessage(); 
+                messageElement.textContent = "Word already used!";
+                showTemporaryMessage();
                 alreadyUsedAnimation();
                 currentWord = previousWord;
                 renderWord();
@@ -1040,6 +1095,8 @@
         });
 
         newGameBtn.addEventListener('click', () => {
+            saveHighScore();
+            getHighScores();
             localStorage.removeItem("stringChainState");
             currentWord = randomWord();
             lastValidWord = currentWord;
@@ -1055,7 +1112,7 @@
             totalChainLoss = 0;
             playedWords.clear();
             disallowedWords.clear();
-            
+
             updateHistory();
             updateStatus();
             removeAnimation();
@@ -1082,3 +1139,26 @@
 </body>
 
 </html>
+
+<!-- /*
+NEXT STEPS
+
+CLEAR SAVED GAME STATE AT GAME OVER
+
+WORD BUTTON BECOMES STATS BUTTON ON DISQUALIFICATION
+
+DISQUALIFICATION TRIGGERS STATS UPDATE
+SAVE TOP 5 CHAIN LENGTHS AND TOP 5 WORD SCORES (TRICKY AS THESE GAMES MAY OVERLAP - WANT TO FIND A SATISFYINGLY SIMPLE WAY TO DISPLAY THIS)
+
+BEST GAMES:
+
+2025-08-15_00.37
+209 STRING CHAIN 50
+
+
+etc to max 10
+
+
+
+
+LONGEST WORD(S): STORE ALL EXAMPLES OF PLAYER's LONGEST WORD LENGTH UP TO 10 MOST RECENT
