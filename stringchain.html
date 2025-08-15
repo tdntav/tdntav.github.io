@@ -1102,6 +1102,7 @@
                 const dropdownHidden = dropdownDiv.style.display === "none";
                 dropdownDiv.style.display = dropdownHidden ? "block" : "none";
                 dropdownToggle.textContent = dropdownHidden ? "^" : "+";
+                getHighScores();
             });
 
             bonusBtn.addEventListener('click', () => {
