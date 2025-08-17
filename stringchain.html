@@ -226,7 +226,7 @@
 
         .help-dark {
             border-radius: 20px;
-            background:#123;
+            background: #123;
             margin-top: 15px;
             min-height: 40px;
             min-width: 40px;
@@ -309,7 +309,7 @@
             color: var(--text2);
             width: 80%;
             font-size: 14px;
-            text-align:center;
+            text-align: center;
         }
 
         .high-score-table {
@@ -390,20 +390,19 @@
             class="help">+</button> CHAIN &nbsp;&nbsp;&nbsp;<span id="chain">0</span></div>
     <div id="dropdown" style="display:none;">
         <h1>stringchain</h1>
-        
+
         <div id="highScores"></div>
         <button id="toggle-rules" class="help-dark">?</button>
         <div id="rules" style="display: none;">
-            
+
             <p style="text-align:justify;"> <b>Take a string of letters, make a chain of words.</b>
-                <br>Points are string, words are chain links.<br>The metaphor is flawless.
                 <br>
                 <br>Select cells from the grid and/or the existing word to make a new word.
                 <br>
                 <br>PLAYABLE MOVES:
                 <br>- Replace a <b><i>word</i></b> letter with a <b><i>grid</i></b> letter,
                 <br>- insert a <b><i>grid</i></b> letter in a <b><i>slot</i></b> between letters,
-                <br>- swap two <b><i>word</i></b> letters,  
+                <br>- swap two <b><i>word</i></b> letters,
                 <br>- place a <b><i>word</i></b> letter in a <b><i>slot</i></b> to rearrange the word.
                 <br>
                 <br>When a playable selection is made, use the PLAY button to play a valid word.
@@ -427,570 +426,620 @@
             </p>
         </div>
     </div>
-        <div id="message" style="display: none;"></div>
-        <div id="status">...</div>
-        <div class="scale-wrapper" id="scaleWrapper">
-            <div class="word-container" id="wordContainer"></div>
-        </div>
-        <div class="button-row">
-            <button id="bonusBtn">||</button>
-            <button id="actionBtn">PLAY</button>
-            <button id="shuffleBtn">#</button>
-        </div>
-        <div class="grid" id="letterGrid"></div>
-        <div id="definitions"></div>
-        <div id="history"></div>
-        <div id="disallowed"></div>
-        <div id="definitions"></div>
+    <div id="message" style="display: none;"></div>
+    <div id="status">...</div>
+    <div class="scale-wrapper" id="scaleWrapper">
+        <div class="word-container" id="wordContainer"></div>
+    </div>
+    <div class="button-row">
+        <button id="bonusBtn">||</button>
+        <button id="actionBtn">PLAY</button>
+        <button id="shuffleBtn">#</button>
+    </div>
+    <div class="grid" id="letterGrid"></div>
+    <div id="definitions"></div>
+    <div id="history"></div>
+    <div id="disallowed"></div>
+    <div id="definitions"></div>
 
-        <button id="newGameBtn" class="newgame">RESTART</button>
-
-
-        <script>
-            const scaleWrapper = document.getElementById('scale-wrapper')
-            const wordContainer = document.getElementById('wordContainer');
-            const highScoresElement = document.getElementById('highScores');
-            const gridElement = document.getElementById('letterGrid');
-            const actionBtn = document.getElementById('actionBtn');
-            const newGameBtn = document.getElementById('newGameBtn');
-            const bonusBtn = document.getElementById('bonusBtn');
-            const shuffleBtn = document.getElementById('shuffleBtn');
-            const messageElement = document.getElementById('message');
-            const scoreElement = document.getElementById('score');
-            const chainElement = document.getElementById('chain');
-            const historyElement = document.getElementById('history');
-            const disallowedElement = document.getElementById('disallowed');
-            const statusElement = document.getElementById('status');
-            const definitionsElement = document.getElementById('definitions');
-            const rulesToggle = document.getElementById("toggle-rules");
-            const dropdownToggle = document.getElementById("toggle-dropdown")
-            const rulesDiv = document.getElementById("rules");
-            const dropdownDiv = document.getElementById("dropdown");
-            const alphabet = "EEEEEEEEEAAAARRRRIIIOOONNSSSTTTLLLLCCUUUDDDPPGGHHBBMMYYFFVVWWKKXJQZ".split("");
-            const validWords = ["AND", "THE", "FOR", "ARE", "BUT", "NOT", "YOU", "ALL", "ANY", "CAN", "HAD", "HER", "WAS", "ONE", "OUR", "OUT", "DAY", "GET", "HAS", "HIM", "HIS", "HOW", "MAN", "NEW", "NOW", "OLD", "SEE", "TWO", "WAY", "WHO", "WHY", "USE", "BIG", "FUN", "RUN", "SUN", "TOP", "CAR", "DOG", "CAT", "BOX", "RED", "HOT", "WIN", "JOB", "EAT", "YES", "MOM", "DAD", "BED", "TIME", "YEAR", "WORK", "LIFE", "LOVE", "GOOD", "MAKE", "LOOK", "WANT", "WELL", "HAND", "EYES", "GIVE", "TAKE", "KNOW", "INTO", "FROM", "OVER", "MORE", "JUST", "LIKE", "COME", "WHEN", "THEN", "VERY", "EVEN", "BACK", "ONLY", "DOWN", "OPEN", "STOP", "PLAY", "WALK", "TALK", "TURN", "KEEP", "HOME", "ROOM", "WORD", "COLD", "WARM", "BLUE", "GOLD", "FAST", "SLOW", "NEAR", "FAR", "TREE", "FISH", "BIRD", "RAIN", "ABOUT", "AFTER", "AGAIN", "BELOW", "COULD", "EVERY", "FIRST", "FOUND", "GREAT", "HOUSE", "LARGE", "LEARN", "NEVER", "OTHER", "PLANT", "POINT", "RIGHT", "SMALL", "SOUND", "SPELL", "STILL", "STUDY", "THEIR", "THERE", "THESE", "THING", "THINK", "THREE", "WATER", "WHERE", "WHICH", "WORLD", "WOULD", "WRITE", "APPLE", "BREAD", "CHAIR", "CLEAN", "CLOSE", "CLOUD", "EARTH", "TWIST", "GRASS", "HEART", "LIGHT", "MONEY", "MOUTH", "NIGHT", "SLEEP", "TABLE"];
-
-            let playedWords = new Set();
-            let disallowedWords = new Set();
-            let currentWord = "";
-            let lastValidWord = "";
-            let gridSize = 3;
-            let grid = [];
-            let score = 0;
-            let chain = 0;
-            let selected = [];
-            let bonusMovesAvailable = 0;
-            let shuffleBonusesAvailable = 0;
-            let invalidAttempts = 0;
-            let totalPenalty = 0;
-            let totalChainLoss = 0;
-            let lastSelectedType = null;
-            let lastSelectedCell = null;
-            let lastUsedGridCell = null; // NEW: Track last used cell for invalid move rollback
-            let specialModeActive = false; // NEW: Track bonus special mode
+    <button id="newGameBtn" class="newgame">RESTART</button>
 
 
+    <script>
+        const scaleWrapper = document.getElementById('scale-wrapper')
+        const wordContainer = document.getElementById('wordContainer');
+        const highScoresElement = document.getElementById('highScores');
+        const gridElement = document.getElementById('letterGrid');
+        const actionBtn = document.getElementById('actionBtn');
+        const newGameBtn = document.getElementById('newGameBtn');
+        const bonusBtn = document.getElementById('bonusBtn');
+        const shuffleBtn = document.getElementById('shuffleBtn');
+        const messageElement = document.getElementById('message');
+        const scoreElement = document.getElementById('score');
+        const chainElement = document.getElementById('chain');
+        const historyElement = document.getElementById('history');
+        const disallowedElement = document.getElementById('disallowed');
+        const statusElement = document.getElementById('status');
+        const definitionsElement = document.getElementById('definitions');
+        const rulesToggle = document.getElementById("toggle-rules");
+        const dropdownToggle = document.getElementById("toggle-dropdown")
+        const rulesDiv = document.getElementById("rules");
+        const dropdownDiv = document.getElementById("dropdown");
+        const alphabet = "EEEEEEEEEAAAARRRRIIIOOONNSSSTTTLLLLCCUUUDDDPPGGHHBBMMYYFFVVWWKKXJQZ".split("");
+        const validWords = ["AND", "THE", "CUE", "FOR", "ARE", "BUT", "NOT", "YOU", "ALL", "ANY", "CAN", "HAD", "HER", "WAS", "ONE", "OUR", "OUT", "DAY", "GET", "HAS", "HIM", "HIS", "HOW", "MAN", "NEW", "NOW", "OLD", "SEE", "TWO", "WAY", "WHO", "WHY", "USE", "BIG", "FUN", "RUN", "SUN", "TOP", "CAR", "DOG", "CAT", "BOX", "RED", "HOT", "WIN", "JOB", "EAT", "YES", "MOM", "DAD", "BED", "TIME", "YEAR", "WORK", "LIFE", "LOVE", "GOOD", "MAKE", "LOOK", "CUES", "WANT", "WELL", "HAND", "EYES", "GIVE", "TAKE", "KNOW", "INTO", "FROM", "OVER", "MORE", "JUST", "LIKE", "COME", "WHEN", "THEN", "VERY", "EVEN", "BACK", "ONLY", "DOWN", "OPEN", "STOP", "PLAY", "WALK", "TALK", "TURN", "KEEP", "HOME", "ROOM", "WORD", "COLD", "WARM", "BLUE", "GOLD", "FAST", "SLOW", "NEAR", "FAR", "TREE", "FISH", "BIRD", "RAIN", "ABOUT", "AFTER", "AGAIN", "BELOW", "COULD", "EVERY", "FIRST", "FOUND", "GREAT", "HOUSE", "LARGE", "LEARN", "NEVER", "OTHER", "PLANT", "POINT", "RIGHT", "SMALL", "SOUND", "SPELL", "STILL", "STUDY", "THEIR", "THERE", "THESE", "THING", "THINK", "THREE", "WATER", "WHERE", "WHICH", "WORLD", "WOULD", "WRITE", "APPLE", "BREAD", "CHAIR", "CLEAN", "CLOSE", "CLOUD", "EARTH", "TWIST", "TIGHT", "GRASS", "HEART", "MONEY", "MOUTH", "NIGHT", "SLEEP", "TABLE"];
 
-            function saveGameState() {
-                const gameState = { currentWord, lastValidWord, gridSize, grid, score, chain, bonusMovesAvailable, shuffleBonusesAvailable, invalidAttempts, totalPenalty, totalChainLoss, playedWords: Array.from(playedWords), disallowedWords: Array.from(disallowedWords) };
-                localStorage.setItem("stringChainState", JSON.stringify(gameState));
+        let isActiveGame = true;
+        let playedWords = new Set();
+        let disallowedWords = new Set();
+        let gameID = "";
+        let currentWord = "";
+        let lastValidWord = "";
+        let gridSize = 3;
+        let grid = [];
+        let score = 0;
+        let chain = 0;
+        let selected = [];
+        let bonusMovesAvailable = 0;
+        let shuffleBonusesAvailable = 0;
+        let invalidAttempts = 0;
+        let totalPenalty = 0;
+        let totalChainLoss = 0;
+        let lastSelectedType = null;
+        let lastSelectedCell = null;
+        let lastUsedGridCell = null; // NEW: Track last used cell for invalid move rollback
+        let specialModeActive = false; // NEW: Track bonus special mode
+
+
+        function saveGameState() {
+            const gameState = { isActiveGame, gameID, currentWord, lastValidWord, gridSize, grid, score, chain, bonusMovesAvailable, shuffleBonusesAvailable, invalidAttempts, totalPenalty, totalChainLoss, playedWords: Array.from(playedWords), disallowedWords: Array.from(disallowedWords) };
+            localStorage.setItem("stringChainState", JSON.stringify(gameState));
+        }
+
+        // Load and restore directly
+        function loadGameState() {
+            const disqualified = localStorage.getItem("isDisqualified") === "true";
+            actionBtn.disabled = disqualified; 
+            let isActiveGame = !actionBtn.disabled;
+            const saved = localStorage.getItem("stringChainState");
+            if (!saved) {
+                newGameBtn.click();
+                return;
+            }
+            if (isActiveGame = false) {
+                newGameBtn.click();
+                return;
+            }
+            try {
+                ({ isActiveGame, gameID, currentWord, lastValidWord, gridSize, grid, score, chain, bonusMovesAvailable, shuffleBonusesAvailable, invalidAttempts, totalPenalty, totalChainLoss, playedWords, disallowedWords } = JSON.parse(saved));
+                disallowedWords = new Set(disallowedWords);
+                playedWords = new Set(playedWords);
+                renderWord();
+                renderGrid();
+                updateHistory();
+                updateDisallowedWords();
+                updateBonusButton();
+                updateShuffleButton();
+                showDefinitions(lastValidWord);
+                scoreElement.textContent = score;
+                chainElement.textContent = chain;
+            } catch (err) {
+                console.error("Error loading saved state", err);
+                newGameBtn.click();
+            }
+        }
+
+        function saveHighScore() {
+            const stringchainHighScore = JSON.parse(localStorage.getItem("stringchainHighScore")) || [];
+            const saveTime = new Date().toISOString().slice(0, 19).replace('T', ' ');
+            const newHighScore = { saveTime, score, chain, gameID };
+
+            // Check if an entry already exists for this gameID
+            const existingIndex = stringchainHighScore.findIndex(entry => entry.gameID === gameID);
+
+            if (existingIndex !== -1) {
+                // Overwrite the existing record
+                stringchainHighScore[existingIndex] = newHighScore;
+
+                // Save and return early
+                localStorage.setItem("stringchainHighScore", JSON.stringify(stringchainHighScore));
+                return;
             }
 
-            // Load and restore directly
-            function loadGameState() {
-                const saved = localStorage.getItem("stringChainState");
-                if (!saved) {
-                    newGameBtn.click();
-                    return;
+            if (!stringchainHighScore) {
+                localStorage.setItem("stringChainHighScore", JSON.stringify(newHighScore));
+                return;
+            }
+            stringchainHighScore.push({
+                saveTime: saveTime,
+                score: score,
+                chain: chain,
+                gameID: gameID
+            });
+
+            stringchainHighScore.sort((a, b) => b.score - a.score);
+
+            const byScore = [...stringchainHighScore]
+                .sort((a, b) => b.score - a.score)
+                .slice(0, 5);
+            const byChain = [...stringchainHighScore]
+                .sort((a, b) => b.chain - a.chain)
+                .slice(0, 5);
+
+            const combined = [...byScore, ...byChain].filter((item, index, self) => index === self.findIndex(g => g.saveTime === item.saveTime));
+            combined.sort((a, b) => b.chain - a.chain);
+            localStorage.setItem('stringchainHighScore', JSON.stringify(combined));
+        }
+
+        function getHighScores() {
+            const scoreTable = JSON.parse(localStorage.getItem('stringchainHighScore')) || [];
+            const rows = scoreTable.map(entry => `<tr><td>${entry.score}</td><td>${entry.chain}</td><td>${entry.saveTime}</td></tr>`).join('');
+            highScoresElement.innerHTML = `<h4>YOUR BEST GAMES</h4><table class = "high-score-table"><tr><th>STRING</th><th>CHAIN</th><th>SAVED</th></tr>${rows}</table>`;
+        }
+
+
+        function fitWordContainer() {
+            let letterCount = wordContainer.querySelectorAll('.letter').length;
+            document.documentElement.style.setProperty('--scale-var', 11 / (6 + letterCount));
+            return;
+        }
+
+
+        function activateSpecialMode() {
+            specialModeActive = true;
+            wordContainer.classList.add('special');
+            return;
+        }
+
+        function clearSpecialMode() {
+            specialModeActive = false;
+            wordContainer.classList.remove('special');
+            return;
+        }
+
+        function redAnimation() { wordContainer.classList.add('anim-red'); }
+        function greenAnimation() { wordContainer.classList.add('anim-green'); }
+        function bonusAnimation() { bonusBtn.classList.add('anim-bonus'); }
+        function shuffleAnimation() { shuffleBtn.classList.add('anim-bonus'); }
+        function alreadyUsedAnimation() { historyElement.classList.add('anim-used'); }
+
+        function removeAnimation() {
+            if (wordContainer.classList.contains('anim-red')) { wordContainer.classList.remove('anim-red'); }
+            if (wordContainer.classList.contains('anim-green')) { wordContainer.classList.remove('anim-green'); }
+            if (letterGrid.classList.contains('anim-refresh')) { letterGrid.classList.remove('anim-refresh'); }
+            if (bonusBtn.classList.contains('anim-bonus')) { bonusBtn.classList.remove('anim-bonus'); }
+            if (shuffleBtn.classList.contains('anim-bonus')) { shuffleBtn.classList.remove('anim-bonus'); }
+            if (historyElement.classList.contains('anim-used')) { historyElement.classList.remove('anim-used'); }
+        }
+
+        function randomLetter() {
+            return alphabet[Math.floor(Math.random() * alphabet.length)];
+        }
+
+        function randomWord() {
+            return validWords[Math.floor(Math.random() * validWords.length)];
+        }
+
+        function updateStatus() {
+            let left = 5 - invalidAttempts;
+            let base = `${left} li${left === 1 ? 'fe' : 'ves'} left.`;
+            if (totalPenalty > 0 || totalChainLoss > 0) {
+                base += ` ${totalPenalty} string lost. ${totalChainLoss} chain${totalChainLoss === 1 ? '' : 's'} broken.`;
+            }
+            statusElement.textContent = base;
+        }
+
+        function showTemporaryMessage(message, duration = 3000) {
+            let newContent = messageElement.textContent;
+            // Show the temporary message
+            statusElement.textContent = newContent;
+            // Restore after the given time
+            setTimeout(() => {
+                updateStatus();
+            }, duration);
+        }
+        function updateHistory() {
+            historyElement.textContent = [...playedWords].reverse().map(w => "_" + w).join('');
+        }
+
+        function updateDisallowedWords() {
+            disallowedElement.textContent = [...disallowedWords].reverse().map(w => "_" + w).join('');
+        }
+
+        function selectCell(cell) {
+            removeAnimation();
+            const type = cell.dataset.type;
+            const isSelected = selected.includes(cell);
+            // --- Helpers ---
+            const getSelectedOfType = (t) => selected.filter(c => c.dataset.type === t);
+            const deselect = (c) => {
+                c.classList.remove('selected');
+                selected = selected.filter(s => s !== c);
+            };
+            const updateLastSelected = () => {
+                if (selected.length === 1) {
+                    lastSelectedCell = selected[0];
+                    lastSelectedType = lastSelectedCell.dataset.type;
                 }
-                try {
-                    ({ currentWord, lastValidWord, gridSize, grid, score, chain, bonusMovesAvailable, shuffleBonusesAvailable, invalidAttempts, totalPenalty, totalChainLoss, playedWords, disallowedWords } = JSON.parse(saved));
-                    disallowedWords = new Set(disallowedWords);
-                    playedWords = new Set(playedWords);
-                    renderWord();
-                    renderGrid();
-                    updateHistory();
-                    updateDisallowedWords();
-                    updateBonusButton();
-                    updateShuffleButton();
-                    showDefinitions(lastValidWord);
-                    scoreElement.textContent = score;
-                    chainElement.textContent = chain;
-                } catch (err) {
-                    console.error("Error loading saved state", err);
-                    newGameBtn.click();
+            };
+            const dropFirstOf = (t) => deselect(getSelectedOfType(t)[0]);
+
+            // --- Toggle Off ---
+            if (isSelected) {
+                deselect(cell);
+                updateLastSelected();
+                return;
+            }
+
+            // --- Count current types ---
+            let count = {
+                word: getSelectedOfType('word').length,
+                grid: getSelectedOfType('grid').length,
+                insert: getSelectedOfType('insert').length
+            };
+
+            // --- Determine legality and resolve conflicts ---
+            if (type === 'grid') {
+                if (count.grid === 1) {
+                    dropFirstOf('grid');
+                    // Recalculate counts after change
+                    count = {
+                        word: getSelectedOfType('word').length,
+                        grid: getSelectedOfType('grid').length,
+                        insert: getSelectedOfType('insert').length
+                    };
+                    // Hard early exit from branch logic
+                } else if (count.word === 1 && count.insert === 1) {
+                    dropFirstOf(lastSelectedType === 'word' ? 'insert' : 'word');
+                    // Recalculate counts after change
+                    count = {
+                        word: getSelectedOfType('word').length,
+                        grid: getSelectedOfType('grid').length,
+                        insert: getSelectedOfType('insert').length
+                    };
+                } else if (count.word === 2) {
+                    dropFirstOf('word');
+                    // Recalculate counts after change
+                    count = {
+                        word: getSelectedOfType('word').length,
+                        grid: getSelectedOfType('grid').length,
+                        insert: getSelectedOfType('insert').length
+                    };
+                }
+            }
+            else if (type === 'insert') {
+                if (count.insert === 1) {
+                    dropFirstOf('insert');
+                    count = {
+                        word: getSelectedOfType('word').length,
+                        grid: getSelectedOfType('grid').length,
+                        insert: getSelectedOfType('insert').length
+                    };
+                } else if (count.word === 1 && count.grid === 1) {
+                    dropFirstOf(lastSelectedType === 'grid' ? 'word' : 'grid');
+                    // Recalculate counts after change
+                    count = {
+                        word: getSelectedOfType('word').length,
+                        grid: getSelectedOfType('grid').length,
+                        insert: getSelectedOfType('insert').length
+                    };
+                } else if (count.word === 2) {
+                    dropFirstOf('word');
+                    // Recalculate counts after change
+                    count = {
+                        word: getSelectedOfType('word').length,
+                        grid: getSelectedOfType('grid').length,
+                        insert: getSelectedOfType('insert').length
+                    };
+                }
+            }
+            else if (type === 'word') {
+                if (count.word === 2) {
+                    dropFirstOf('word');
+                    // Recalculate counts after change
+                    count = {
+                        word: getSelectedOfType('word').length,
+                        grid: getSelectedOfType('grid').length,
+                        insert: getSelectedOfType('insert').length
+                    };
+                } else if (count.grid === 1 && count.insert === 1) {
+                    dropFirstOf(lastSelectedType === 'grid' ? 'insert' : 'grid');
+                    // Recalculate counts after change
+                    count = {
+                        word: getSelectedOfType('word').length,
+                        grid: getSelectedOfType('grid').length,
+                        insert: getSelectedOfType('insert').length
+                    };
                 }
             }
 
-            function saveHighScore() {
-                const stringchainHighScore = JSON.parse(localStorage.getItem("stringchainHighScore")) || [];
-                const saveTime = new Date().toISOString().slice(0, 19).replace('T', ' ');
-                const newHighScore = { saveTime, score, chain };
-                if (!stringchainHighScore) {
-                    localStorage.setItem("stringChainHighScore", JSON.stringify(newHighScore));
-                    return;
-                }
-                stringchainHighScore.push({
-                    saveTime: saveTime,
-                    score: score,
-                    chain: chain
+            // --- Limit total selections to 2 ---
+            if (selected.length === 2) {
+                selected.forEach(c => {
+                    if (c !== lastSelectedCell) deselect(c);
                 });
-                stringchainHighScore.sort((a, b) => b.score - a.score);
-
-                const byScore = [...stringchainHighScore]
-                    .sort((a, b) => b.score - a.score)
-                    .slice(0, 5);
-                const byChain = [...stringchainHighScore]
-                    .sort((a, b) => b.chain - a.chain)
-                    .slice(0, 5);
-
-                const combined = [...byScore, ...byChain].filter((item, index, self) => index === self.findIndex(g => g.saveTime === item.saveTime));
-                combined.sort((a, b) => b.chain - a.chain);
-                localStorage.setItem('stringchainHighScore', JSON.stringify(combined));
             }
 
-            function getHighScores() {
-                const scoreTable = JSON.parse(localStorage.getItem('stringchainHighScore')) || [];
-                const rows = scoreTable.map(entry => `<tr><td>${entry.score}</td><td>${entry.chain}</td><td>${entry.saveTime}</td></tr>`).join('');
-                highScoresElement.innerHTML = `<h4>YOUR BEST GAMES</h4>
-        <table class = "high-score-table">
-            <tr><th>STRING</th><th>CHAIN</th><th>SAVED</th></tr>
-            ${rows}
-        </table>
-    `;
-            }
+            // --- Finalize Selection ---
+            cell.classList.add('selected');
+            selected.push(cell);
+            lastSelectedCell = cell;
+            lastSelectedType = type;
+        }
 
 
-            function fitWordContainer() {
-                let letterCount = wordContainer.querySelectorAll('.letter').length;
-                document.documentElement.style.setProperty('--scale-var', 11 / (6 + letterCount));
-                return;
-            }
+        function renderWord() {
+            wordContainer.innerHTML = '';
 
+            const insertSlotStart = document.createElement('div');
+            insertSlotStart.className = 'insert-slot';
+            insertSlotStart.dataset.type = 'insert';
+            insertSlotStart.dataset.index = 0;
 
-            function activateSpecialMode() {
-                specialModeActive = true;
-                wordContainer.classList.add('special');
-                return;
-            }
+            insertSlotStart.addEventListener('click', () => selectCell(insertSlotStart));
+            wordContainer.appendChild(insertSlotStart);
 
-            function clearSpecialMode() {
-                specialModeActive = false;
-                wordContainer.classList.remove('special');
-                return;
-            }
+            for (let i = 0; i < currentWord.length; i++) {
+                const letterDiv = document.createElement('div');
+                letterDiv.className = 'letter';
+                letterDiv.textContent = currentWord[i];
+                letterDiv.dataset.type = 'word';
+                letterDiv.dataset.index = i;
+                fitWordContainer();
 
-            function redAnimation() { wordContainer.classList.add('anim-red'); }
-            function greenAnimation() { wordContainer.classList.add('anim-green'); }
-            function bonusAnimation() { bonusBtn.classList.add('anim-bonus'); }
-            function shuffleAnimation() { shuffleBtn.classList.add('anim-bonus'); }
-            function alreadyUsedAnimation() { historyElement.classList.add('anim-used'); }
+                // Highlight if selected (selected is an array of indices)
 
-            function removeAnimation() {
-                if (wordContainer.classList.contains('anim-red')) { wordContainer.classList.remove('anim-red'); }
-                if (wordContainer.classList.contains('anim-green')) { wordContainer.classList.remove('anim-green'); }
-                if (letterGrid.classList.contains('anim-refresh')) { letterGrid.classList.remove('anim-refresh'); }
-                if (bonusBtn.classList.contains('anim-bonus')) { bonusBtn.classList.remove('anim-bonus'); }
-                if (shuffleBtn.classList.contains('anim-bonus')) { shuffleBtn.classList.remove('anim-bonus'); }
-                if (historyElement.classList.contains('anim-used')) { historyElement.classList.remove('anim-used'); }
-            }
-
-            function randomLetter() {
-                return alphabet[Math.floor(Math.random() * alphabet.length)];
-            }
-
-            function randomWord() {
-                return validWords[Math.floor(Math.random() * validWords.length)];
-            }
-
-            function updateStatus() {
-                let left = 5 - invalidAttempts;
-                let base = `${left} li${left === 1 ? 'fe' : 'ves'} left.`;
-                if (totalPenalty > 0 || totalChainLoss > 0) {
-                    base += ` ${totalPenalty} string lost. ${totalChainLoss} chain${totalChainLoss === 1 ? '' : 's'} broken.`;
-                }
-                statusElement.textContent = base;
-            }
-
-            function showTemporaryMessage(message, duration = 3000) {
-                let newContent = messageElement.textContent;
-                // Show the temporary message
-                statusElement.textContent = newContent;
-                // Restore after the given time
-                setTimeout(() => {
-                    updateStatus();
-                }, duration);
-            }
-            function updateHistory() {
-                historyElement.textContent = [...playedWords].reverse().map(w => "_" + w).join('');
-            }
-
-            function updateDisallowedWords() {
-                disallowedElement.textContent = [...disallowedWords].reverse().map(w => "_" + w).join('');
-            }
-
-            function selectCell(cell) {
-                removeAnimation();
-                const type = cell.dataset.type;
-                const isSelected = selected.includes(cell);
-                // --- Helpers ---
-                const getSelectedOfType = (t) => selected.filter(c => c.dataset.type === t);
-                const deselect = (c) => {
-                    c.classList.remove('selected');
-                    selected = selected.filter(s => s !== c);
-                };
-                const updateLastSelected = () => {
-                    if (selected.length === 1) {
-                        lastSelectedCell = selected[0];
-                        lastSelectedType = lastSelectedCell.dataset.type;
-                    }
-                };
-                const dropFirstOf = (t) => deselect(getSelectedOfType(t)[0]);
-
-                // --- Toggle Off ---
-                if (isSelected) {
-                    deselect(cell);
-                    updateLastSelected();
-                    return;
+                if (selected.includes(i)) {
+                    letterDiv.classList.add('selected');
                 }
 
-                // --- Count current types ---
-                let count = {
-                    word: getSelectedOfType('word').length,
-                    grid: getSelectedOfType('grid').length,
-                    insert: getSelectedOfType('insert').length
-                };
+                letterDiv.addEventListener('click', () => selectCell(letterDiv));
+                wordContainer.appendChild(letterDiv);
 
-                // --- Determine legality and resolve conflicts ---
-                if (type === 'grid') {
-                    if (count.grid === 1) {
-                        dropFirstOf('grid');
-                        // Recalculate counts after change
-                        count = {
-                            word: getSelectedOfType('word').length,
-                            grid: getSelectedOfType('grid').length,
-                            insert: getSelectedOfType('insert').length
-                        };
-                        // Hard early exit from branch logic
-                    } else if (count.word === 1 && count.insert === 1) {
-                        dropFirstOf(lastSelectedType === 'word' ? 'insert' : 'word');
-                        // Recalculate counts after change
-                        count = {
-                            word: getSelectedOfType('word').length,
-                            grid: getSelectedOfType('grid').length,
-                            insert: getSelectedOfType('insert').length
-                        };
-                    } else if (count.word === 2) {
-                        dropFirstOf('word');
-                        // Recalculate counts after change
-                        count = {
-                            word: getSelectedOfType('word').length,
-                            grid: getSelectedOfType('grid').length,
-                            insert: getSelectedOfType('insert').length
-                        };
-                    }
-                }
-                else if (type === 'insert') {
-                    if (count.insert === 1) {
-                        dropFirstOf('insert');
-                        count = {
-                            word: getSelectedOfType('word').length,
-                            grid: getSelectedOfType('grid').length,
-                            insert: getSelectedOfType('insert').length
-                        };
-                    } else if (count.word === 1 && count.grid === 1) {
-                        dropFirstOf(lastSelectedType === 'grid' ? 'word' : 'grid');
-                        // Recalculate counts after change
-                        count = {
-                            word: getSelectedOfType('word').length,
-                            grid: getSelectedOfType('grid').length,
-                            insert: getSelectedOfType('insert').length
-                        };
-                    } else if (count.word === 2) {
-                        dropFirstOf('word');
-                        // Recalculate counts after change
-                        count = {
-                            word: getSelectedOfType('word').length,
-                            grid: getSelectedOfType('grid').length,
-                            insert: getSelectedOfType('insert').length
-                        };
-                    }
-                }
-                else if (type === 'word') {
-                    if (count.word === 2) {
-                        dropFirstOf('word');
-                        // Recalculate counts after change
-                        count = {
-                            word: getSelectedOfType('word').length,
-                            grid: getSelectedOfType('grid').length,
-                            insert: getSelectedOfType('insert').length
-                        };
-                    } else if (count.grid === 1 && count.insert === 1) {
-                        dropFirstOf(lastSelectedType === 'grid' ? 'insert' : 'grid');
-                        // Recalculate counts after change
-                        count = {
-                            word: getSelectedOfType('word').length,
-                            grid: getSelectedOfType('grid').length,
-                            insert: getSelectedOfType('insert').length
-                        };
-                    }
+                const insertSlot = document.createElement('div');
+                insertSlot.className = 'insert-slot';
+                insertSlot.dataset.type = 'insert';
+                insertSlot.dataset.index = i + 1;
+                fitWordContainer();
+
+
+                // if (specialModeActive) insertSlot.classList.add('special');
+
+
+                if (selected.includes(i + 1)) {
+                    insertSlot.classList.add('selected');
                 }
 
-                // --- Limit total selections to 2 ---
-                if (selected.length === 2) {
-                    selected.forEach(c => {
-                        if (c !== lastSelectedCell) deselect(c);
-                    });
-                }
+                insertSlot.addEventListener('click', () => selectCell(insertSlot));
+                wordContainer.appendChild(insertSlot);
 
-                // --- Finalize Selection ---
-                cell.classList.add('selected');
-                selected.push(cell);
-                lastSelectedCell = cell;
-                lastSelectedType = type;
             }
+        }
 
+        function renderGrid() {
+            gridElement.innerHTML = '';
+            gridElement.style.gridTemplateColumns = `repeat(${gridSize}, 60px)`;
 
-            function renderWord() {
-                wordContainer.innerHTML = '';
+            for (let r = 0; r < gridSize; r++) {
+                for (let c = 0; c < gridSize; c++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'grid-cell';
+                    cell.textContent = grid[r][c] || '';
 
-                const insertSlotStart = document.createElement('div');
-                insertSlotStart.className = 'insert-slot';
-                insertSlotStart.dataset.type = 'insert';
-                insertSlotStart.dataset.index = 0;
+                    // Mark empty cells as 'used' (meaning no letter present)
+                    if (!grid[r][c]) cell.classList.add('used');
 
-                insertSlotStart.addEventListener('click', () => selectCell(insertSlotStart));
-                wordContainer.appendChild(insertSlotStart);
+                    cell.dataset.type = 'grid';
+                    cell.dataset.row = r;
+                    cell.dataset.col = c;
 
-                for (let i = 0; i < currentWord.length; i++) {
-                    const letterDiv = document.createElement('div');
-                    letterDiv.className = 'letter';
-                    letterDiv.textContent = currentWord[i];
-                    letterDiv.dataset.type = 'word';
-                    letterDiv.dataset.index = i;
-                    fitWordContainer();
+                    // Highlight if selected (selected stores selected cells as strings? 
+                    // If so, match by row,col string like "r,c"
+                    // But you gave no details on format of selected for grid cells.
+                    // Let's assume selected contains objects {type:'grid', row:r, col:c} or strings "grid-r-c"
 
-                    // Highlight if selected (selected is an array of indices)
-
-                    if (selected.includes(i)) {
-                        letterDiv.classList.add('selected');
+                    // Since selected is an array, let's check for a string "r,c" for simplicity
+                    // We'll define the cell ID as `${r},${c}`
+                    const cellId = `${r},${c}`;
+                    if (selected.includes(cellId)) {
+                        cell.classList.add('selected');
                     }
 
-                    letterDiv.addEventListener('click', () => selectCell(letterDiv));
-                    wordContainer.appendChild(letterDiv);
-
-                    const insertSlot = document.createElement('div');
-                    insertSlot.className = 'insert-slot';
-                    insertSlot.dataset.type = 'insert';
-                    insertSlot.dataset.index = i + 1;
-                    fitWordContainer();
-
-
-                    // if (specialModeActive) insertSlot.classList.add('special');
-
-
-                    if (selected.includes(i + 1)) {
-                        insertSlot.classList.add('selected');
-                    }
-
-                    insertSlot.addEventListener('click', () => selectCell(insertSlot));
-                    wordContainer.appendChild(insertSlot);
-
+                    cell.addEventListener('click', () => selectCell(cell));
+                    gridElement.appendChild(cell);
                 }
             }
+        }
 
-            function renderGrid() {
-                gridElement.innerHTML = '';
-                gridElement.style.gridTemplateColumns = `repeat(${gridSize}, 60px)`;
+        function initGrid() {
+            grid = [];
+            for (let r = 0; r < gridSize; r++) {
+                const row = [];
+                for (let c = 0; c < gridSize; c++) {
+                    row.push(randomLetter());
+                }
+                grid.push(row);
+            }
+            renderGrid();
+        }
 
-                for (let r = 0; r < gridSize; r++) {
+        function replenishGrid() {
+            for (let r = 0; r < gridSize; r++) {
+                if (grid[r].every(cell => cell === null)) {
                     for (let c = 0; c < gridSize; c++) {
-                        const cell = document.createElement('div');
-                        cell.className = 'grid-cell';
-                        cell.textContent = grid[r][c] || '';
-
-                        // Mark empty cells as 'used' (meaning no letter present)
-                        if (!grid[r][c]) cell.classList.add('used');
-
-                        cell.dataset.type = 'grid';
-                        cell.dataset.row = r;
-                        cell.dataset.col = c;
-
-                        // Highlight if selected (selected stores selected cells as strings? 
-                        // If so, match by row,col string like "r,c"
-                        // But you gave no details on format of selected for grid cells.
-                        // Let's assume selected contains objects {type:'grid', row:r, col:c} or strings "grid-r-c"
-
-                        // Since selected is an array, let's check for a string "r,c" for simplicity
-                        // We'll define the cell ID as `${r},${c}`
-                        const cellId = `${r},${c}`;
-                        if (selected.includes(cellId)) {
-                            cell.classList.add('selected');
-                        }
-
-                        cell.addEventListener('click', () => selectCell(cell));
-                        gridElement.appendChild(cell);
+                        grid[r][c] = randomLetter();
                     }
                 }
             }
-
-            function initGrid() {
-                grid = [];
-                for (let r = 0; r < gridSize; r++) {
-                    const row = [];
-                    for (let c = 0; c < gridSize; c++) {
-                        row.push(randomLetter());
+            for (let c = 0; c < gridSize; c++) {
+                if (grid.every(row => row[c] === null)) {
+                    for (let r = 0; r < gridSize; r++) {
+                        grid[r][c] = randomLetter();
                     }
-                    grid.push(row);
                 }
+            }
+            if (currentWord.length >= 6 && gridSize === 3) {
+                gridSize = 4;
+                initGrid();
+            } else {
                 renderGrid();
             }
+        }
 
-            function replenishGrid() {
-                for (let r = 0; r < gridSize; r++) {
-                    if (grid[r].every(cell => cell === null)) {
-                        for (let c = 0; c < gridSize; c++) {
-                            grid[r][c] = randomLetter();
-                        }
-                    }
-                }
-                for (let c = 0; c < gridSize; c++) {
-                    if (grid.every(row => row[c] === null)) {
-                        for (let r = 0; r < gridSize; r++) {
-                            grid[r][c] = randomLetter();
-                        }
-                    }
-                }
-                if (currentWord.length >= 6 && gridSize === 3) {
-                    gridSize = 4;
-                    initGrid();
-                } else {
-                    renderGrid();
-                }
+        function clearSelection() {
+            selected.forEach(s => s.classList.remove('selected'));
+            selected = [];
+        }
+
+        function updateBonusButton() {
+            if (bonusMovesAvailable > 0) {
+                bonusBtn.textContent = `${bonusMovesAvailable} ||`;
+                bonusBtn.classList.remove('disabled');
+            } else {
+                bonusBtn.textContent = `||`;
+                bonusBtn.classList.add('disabled');
             }
+        }
 
-            function clearSelection() {
-                selected.forEach(s => s.classList.remove('selected'));
-                selected = [];
+        function updateShuffleButton() {
+            if (shuffleBonusesAvailable > 0) {
+                shuffleBtn.textContent = `# ${shuffleBonusesAvailable}`;
+                shuffleBtn.classList.remove('disabled');
+            } else {
+                shuffleBtn.textContent = `#`;
+                shuffleBtn.classList.add('disabled');
             }
+        }
 
-            function updateBonusButton() {
-                if (bonusMovesAvailable > 0) {
-                    bonusBtn.textContent = `${bonusMovesAvailable} ||`;
-                    bonusBtn.classList.remove('disabled');
-                } else {
-                    bonusBtn.textContent = `||`;
-                    bonusBtn.classList.add('disabled');
-                }
-            }
+        function disableGame() {
+            isActiveGame = false;
+            localStorage.setItem("isDisqualified", "true");
+            actionBtn.disabled = true;
+            bonusBtn.disabled = true;
+            shuffleBtn.disabled = true;
+            gridElement.style.pointerEvents = 'none';
+            wordContainer.style.pointerEvents = 'none';
+        }
 
-            function updateShuffleButton() {
-                if (shuffleBonusesAvailable > 0) {
-                    shuffleBtn.textContent = `# ${shuffleBonusesAvailable}`;
-                    shuffleBtn.classList.remove('disabled');
-                } else {
-                    shuffleBtn.textContent = `#`;
-                    shuffleBtn.classList.add('disabled');
-                }
-            }
+        function applyMove() {
+            if (selected.length === 0) return false;
+            let moveHappened = false;
 
-            function disableGame() {
-                actionBtn.disabled = true;
-                bonusBtn.disabled = true;
-                shuffleBtn.disabled = true;
-                gridElement.style.pointerEvents = 'none';
-                wordContainer.style.pointerEvents = 'none';
-            }
+            if (selected.length === 1 && selected[0].dataset.type === 'word') {
+                const idx = parseInt(selected[0].dataset.index);
+                currentWord = currentWord.slice(0, idx) + currentWord.slice(idx + 1);
+                moveHappened = true;
+            } else if (selected.length === 2) {
+                const types = selected.map(s => s.dataset.type);
+                if (types.includes('grid') && types.includes('word')) {
+                    const gridCell = selected.find(s => s.dataset.type === 'grid');
 
-            function applyMove() {
-                if (selected.length === 0) return false;
-                let moveHappened = false;
 
-                if (selected.length === 1 && selected[0].dataset.type === 'word') {
-                    const idx = parseInt(selected[0].dataset.index);
-                    currentWord = currentWord.slice(0, idx) + currentWord.slice(idx + 1);
+                    const wordCell = selected.find(s => s.dataset.type === 'word');
+                    const idx = parseInt(wordCell.dataset.index);
+                    currentWord = currentWord.slice(0, idx) + gridCell.textContent + currentWord.slice(idx + 1);
+                    grid[gridCell.dataset.row][gridCell.dataset.col] = null;
                     moveHappened = true;
-                } else if (selected.length === 2) {
-                    const types = selected.map(s => s.dataset.type);
-                    if (types.includes('grid') && types.includes('word')) {
-                        const gridCell = selected.find(s => s.dataset.type === 'grid');
+                } else if (types.every(t => t === 'word')) {
+                    const [a, b] = selected.map(s => parseInt(s.dataset.index));
+                    let arr = currentWord.split('');
+                    [arr[a], arr[b]] = [arr[b], arr[a]];
+                    currentWord = arr.join('');
+                    moveHappened = true;
+                } else if (types.includes('grid') && types.includes('insert')) {
+                    const gridCell = selected.find(s => s.dataset.type === 'grid');
 
 
-                        const wordCell = selected.find(s => s.dataset.type === 'word');
-                        const idx = parseInt(wordCell.dataset.index);
-                        currentWord = currentWord.slice(0, idx) + gridCell.textContent + currentWord.slice(idx + 1);
-                        grid[gridCell.dataset.row][gridCell.dataset.col] = null;
-                        moveHappened = true;
-                    } else if (types.every(t => t === 'word')) {
-                        const [a, b] = selected.map(s => parseInt(s.dataset.index));
-                        let arr = currentWord.split('');
-                        [arr[a], arr[b]] = [arr[b], arr[a]];
-                        currentWord = arr.join('');
-                        moveHappened = true;
-                    } else if (types.includes('grid') && types.includes('insert')) {
-                        const gridCell = selected.find(s => s.dataset.type === 'grid');
+                    const insertSlot = selected.find(s => s.dataset.type === 'insert');
+                    const pos = parseInt(insertSlot.dataset.index);
+                    let arr = currentWord.split('');
+                    arr.splice(pos, 0, gridCell.textContent);
+                    currentWord = arr.join('');
+                    grid[gridCell.dataset.row][gridCell.dataset.col] = null;
+                    moveHappened = true;
+                } else if (types.includes('word') && types.includes('insert')) {
+                    const wordCell = selected.find(s => s.dataset.type === 'word');
+                    const insertSlot = selected.find(s => s.dataset.type === 'insert');
+                    let fromIdx = parseInt(wordCell.dataset.index);
+                    let toIdx = parseInt(insertSlot.dataset.index);
+                    if (fromIdx < toIdx) toIdx--;
+                    let arr = currentWord.split('');
+                    let [char] = arr.splice(fromIdx, 1);
+                    arr.splice(toIdx, 0, char);
+                    currentWord = arr.join('');
+                    moveHappened = true;
 
 
-                        const insertSlot = selected.find(s => s.dataset.type === 'insert');
-                        const pos = parseInt(insertSlot.dataset.index);
-                        let arr = currentWord.split('');
-                        arr.splice(pos, 0, gridCell.textContent);
-                        currentWord = arr.join('');
-                        grid[gridCell.dataset.row][gridCell.dataset.col] = null;
-                        moveHappened = true;
-                    } else if (types.includes('word') && types.includes('insert')) {
-                        const wordCell = selected.find(s => s.dataset.type === 'word');
-                        const insertSlot = selected.find(s => s.dataset.type === 'insert');
-                        let fromIdx = parseInt(wordCell.dataset.index);
-                        let toIdx = parseInt(insertSlot.dataset.index);
-                        if (fromIdx < toIdx) toIdx--;
-                        let arr = currentWord.split('');
-                        let [char] = arr.splice(fromIdx, 1);
-                        arr.splice(toIdx, 0, char);
-                        currentWord = arr.join('');
-                        moveHappened = true;
-
-
-                    }
                 }
-                return moveHappened;
             }
+            return moveHappened;
+        }
 
-            function showDefinitions(word) {
-                // Fetch up to first 3 definitions and show them
-                fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
-                    .then(res => res.json())
-                    .then(data => {
-                        if (!Array.isArray(data)) throw new Error();
-                        let defs = [];
-                        data.forEach(entry => {
-                            entry.meanings?.forEach(meaning => {
-                                meaning.definitions?.forEach(defObj => {
-                                    if (defs.length < 3) defs.push(defObj.definition);
-                                });
+        function showDefinitions(word) {
+            // Fetch up to first 3 definitions and show them
+            fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (!Array.isArray(data)) throw new Error();
+                    let defs = [];
+                    data.forEach(entry => {
+                        entry.meanings?.forEach(meaning => {
+                            meaning.definitions?.forEach(defObj => {
+                                if (defs.length < 3) defs.push(defObj.definition);
                             });
                         });
-                        definitionsElement.innerHTML = defs.length
-                            ? `<strong>${word}</strong>:<br>${defs.map(d => `- ${d}`).join('<br>')}`
-                            : `No definitions found for "${word}".`;
-                    })
-                    .catch(() => {
-                        definitionsElement.textContent = `No definitions found for "${word}".`;
                     });
+                    definitionsElement.innerHTML = defs.length
+                        ? `<strong>${word}</strong>:<br>${defs.map(d => `- ${d}`).join('<br>')}`
+                        : `No definitions found for "${word}".`;
+                })
+                .catch(() => {
+                    definitionsElement.textContent = `No definitions found for "${word}".`;
+                });
+        }
+
+        function validateWord(previousWord) {
+            const lower = currentWord.toLowerCase();
+            if (playedWords.has(lower)) {
+                messageElement.textContent = "Word already used!";
+                showTemporaryMessage();
+                alreadyUsedAnimation();
+                currentWord = previousWord;
+                renderWord();
+                saveGameState();
+                return;
             }
 
-            function validateWord(previousWord) {
-                const lower = currentWord.toLowerCase();
-                if (playedWords.has(lower)) {
-                    messageElement.textContent = "Word already used!";
-                    showTemporaryMessage();
-                    alreadyUsedAnimation();
-                    currentWord = previousWord;
-                    renderWord();
-                    saveGameState();
-                    return;
-                }
+            if (validWords.includes(currentWord.toUpperCase())) {
+                playedWords.add(lower);
+                updateHistory();
+                lastValidWord = currentWord;
+                score += currentWord.length;
+                chain++;
+                if ((chain % 5 === 0) && chain > 4) { //ADDED FIX TO STOP BONUS ACCRUING FOR PASSING ZERO
+                    bonusMovesAvailable++;
+                    updateBonusButton();
 
-                if (validWords.includes(currentWord.toUpperCase())) {
+                }
+                if (Math.floor(score / 30) > Math.floor((score - currentWord.length) / 30) && score > 29) { //ADDED FIX TO STOP BONUS ACCRUING FOR PASSING ZERO
+                    shuffleBonusesAvailable++;
+                    updateShuffleButton();
+                }
+                scoreElement.textContent = score;
+                chainElement.textContent = chain;
+                messageElement.textContent = "Valid word (from local list)!";
+                showTemporaryMessage();
+                greenAnimation();
+                showDefinitions(lower);
+                saveGameState();
+                return;
+            }
+
+            fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${lower}`)
+                .then(res => {
+                    if (!res.ok) throw new Error();
+                    return res.json();
+                })
+                .then(() => {
                     playedWords.add(lower);
                     updateHistory();
                     lastValidWord = currentWord;
@@ -999,193 +1048,167 @@
                     if ((chain % 5 === 0) && chain > 4) { //ADDED FIX TO STOP BONUS ACCRUING FOR PASSING ZERO
                         bonusMovesAvailable++;
                         updateBonusButton();
-
+                        bonusAnimation();
                     }
                     if (Math.floor(score / 30) > Math.floor((score - currentWord.length) / 30) && score > 29) { //ADDED FIX TO STOP BONUS ACCRUING FOR PASSING ZERO
                         shuffleBonusesAvailable++;
                         updateShuffleButton();
+                        shuffleAnimation();
                     }
                     scoreElement.textContent = score;
                     chainElement.textContent = chain;
-                    messageElement.textContent = "Valid word (from local list)!";
+                    messageElement.textContent = "Valid word!";
                     showTemporaryMessage();
+                    clearSpecialMode();
                     greenAnimation();
                     showDefinitions(lower);
                     saveGameState();
                     return;
-                }
+                })
+                .catch(() => {
+                    invalidAttempts++;
+                    let penalty = currentWord.length * invalidAttempts;
+                    totalPenalty += penalty;
+                    totalChainLoss++;
+                    score -= penalty;
+                    chain = Math.max(0, chain - 1);
+                    disallowedWords.add(lower);
+                    currentWord = lastValidWord;
+                    renderWord();
+                    messageElement.textContent = `Invalid word! Penalty: -${penalty}`;
 
-                fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${lower}`)
-                    .then(res => {
-                        if (!res.ok) throw new Error();
-                        return res.json();
-                    })
-                    .then(() => {
-                        playedWords.add(lower);
-                        updateHistory();
-                        lastValidWord = currentWord;
-                        score += currentWord.length;
-                        chain++;
-                        if ((chain % 5 === 0) && chain > 4) { //ADDED FIX TO STOP BONUS ACCRUING FOR PASSING ZERO
-                            bonusMovesAvailable++;
-                            updateBonusButton();
-                            bonusAnimation();
-                        }
-                        if (Math.floor(score / 30) > Math.floor((score - currentWord.length) / 30) && score > 29) { //ADDED FIX TO STOP BONUS ACCRUING FOR PASSING ZERO
-                            shuffleBonusesAvailable++;
-                            updateShuffleButton();
-                            shuffleAnimation();
-                        }
-                        scoreElement.textContent = score;
-                        chainElement.textContent = chain;
-                        messageElement.textContent = "Valid word!";
-                        showTemporaryMessage();
-                        clearSpecialMode();
-                        greenAnimation();
-                        showDefinitions(lower);
+                    redAnimation();
+                    if (invalidAttempts >= 5) {
+                        messageElement.textContent += " | Disqualified!";
+                        disableGame();
                         saveGameState();
-                        return;
-                    })
-                    .catch(() => {
-                        invalidAttempts++;
-                        let penalty = currentWord.length * invalidAttempts;
-                        totalPenalty += penalty;
-                        totalChainLoss++;
-                        score -= penalty;
-                        chain = Math.max(0, chain - 1);
-                        disallowedWords.add(lower);
-                        currentWord = lastValidWord;
-                        renderWord();
-                        messageElement.textContent = `Invalid word! Penalty: -${penalty}`;
-
-                        redAnimation();
-                        if (invalidAttempts >= 5) {
-                            messageElement.textContent += " | Disqualified!";
-                            disableGame();
-                        }
-                        scoreElement.textContent = score;
-                        chainElement.textContent = chain;
-                        showTemporaryMessage();
-                        // updateStatus();
-                        updateDisallowedWords();
-                        saveGameState();
-                    });
-            }
-
-            function completeMove(validate = true) {
-                let originalWord = currentWord;
-                let moved = applyMove();
-                clearSelection();
-                renderWord();
-                replenishGrid();
-                if (!moved) {
-                    // messageElement.textContent = "Valid moves: grid-word, grid-slot, word-word, word-slot";
-                    messageElement.textContent = "Invalid move. Are you okay?";
+                    }
+                    scoreElement.textContent = score;
+                    chainElement.textContent = chain;
                     showTemporaryMessage();
-                    return;
-                }
-                if (validate) validateWord(originalWord);
-            }
+                    // updateStatus();
+                    updateDisallowedWords();
+                    saveGameState();
+                });
+        }
 
-            actionBtn.addEventListener(
-                'click', () => completeMove(true));
-
-
-
-                rulesToggle.addEventListener("click", () => {
-                const rulesHidden = rulesDiv.style.display === "none";
-                rulesDiv.style.display = rulesHidden ? "block" : "none";
-                rulesToggle.textContent = rulesHidden ? "^" : "?";
-            });
-
-            dropdownToggle.addEventListener("click", () => {
-                const dropdownHidden = dropdownDiv.style.display === "none";
-                dropdownDiv.style.display = dropdownHidden ? "block" : "none";
-                dropdownToggle.textContent = dropdownHidden ? "^" : "+";
-                getHighScores();
-            });
-
-            bonusBtn.addEventListener('click', () => {
-                if (bonusMovesAvailable <= 0) {
-                    messageElement.textContent = "Bonuses are earned. You have none.";
-                    showTemporaryMessage();
-                    return;
-                }
-                if (selected.length === 0) {
-                    messageElement.textContent = "Select a playable move first";
-                    showTemporaryMessage();
-                    return;
-                }
-
-
-                let moved = applyMove();
-                clearSelection();
-                renderWord();
-                replenishGrid();
-                if (!moved) {
-                    messageElement.textContent = "Invalid move.";
-                    showTemporaryMessage();
-                    return;
-                }
-                bonusMovesAvailable--;
-                updateBonusButton();
-                lastValidWord = currentWord;
-                messageElement.textContent = `Bonus setup move used. ${bonusMovesAvailable} remaining.`;
+        function completeMove(validate = true) {
+            let originalWord = currentWord;
+            let moved = applyMove();
+            clearSelection();
+            renderWord();
+            replenishGrid();
+            if (!moved) {
+                // messageElement.textContent = "Valid moves: grid-word, grid-slot, word-word, word-slot";
+                messageElement.textContent = "Invalid move. Are you okay?";
                 showTemporaryMessage();
-                activateSpecialMode(); //ADDED FOR BONUS MOVE EFFECT
                 return;
-            });
+            }
+            if (validate) validateWord(originalWord);
+        }
 
-            shuffleBtn.addEventListener('click', () => {
-                if (shuffleBonusesAvailable > 0) {
-                    shuffleBonusesAvailable--;
-                    initGrid();
-                    updateShuffleButton();
-                    messageElement.textContent = "Grid refreshed!";
-                    showTemporaryMessage();
-                    letterGrid.classList.add('anim-refresh');
-                }
-            });
+        actionBtn.addEventListener(
+            'click', () => completeMove(true));
 
-            newGameBtn.addEventListener('click', () => {
-                saveHighScore();
-                getHighScores();
-                localStorage.removeItem("stringChainState");
-                currentWord = randomWord();
-                lastValidWord = currentWord;
-                gridSize = 3;
+
+
+        rulesToggle.addEventListener("click", () => {
+            const rulesHidden = rulesDiv.style.display === "none";
+            rulesDiv.style.display = rulesHidden ? "block" : "none";
+            rulesToggle.textContent = rulesHidden ? "^" : "?";
+        });
+
+        dropdownToggle.addEventListener("click", () => {
+            const dropdownHidden = dropdownDiv.style.display === "none";
+            dropdownDiv.style.display = dropdownHidden ? "block" : "none";
+            dropdownToggle.textContent = dropdownHidden ? "^" : "+";
+            getHighScores();
+        });
+
+        bonusBtn.addEventListener('click', () => {
+            if (bonusMovesAvailable <= 0) {
+                messageElement.textContent = "Bonuses are earned. You have none.";
+                showTemporaryMessage();
+                return;
+            }
+            if (selected.length === 0) {
+                messageElement.textContent = "Select a playable move first";
+                showTemporaryMessage();
+                return;
+            }
+
+
+            let moved = applyMove();
+            clearSelection();
+            renderWord();
+            replenishGrid();
+            if (!moved) {
+                messageElement.textContent = "Invalid move.";
+                showTemporaryMessage();
+                return;
+            }
+            bonusMovesAvailable--;
+            updateBonusButton();
+            lastValidWord = currentWord;
+            messageElement.textContent = `Bonus setup move used. ${bonusMovesAvailable} remaining.`;
+            showTemporaryMessage();
+            activateSpecialMode(); //ADDED FOR BONUS MOVE EFFECT
+            return;
+        });
+
+        shuffleBtn.addEventListener('click', () => {
+            if (shuffleBonusesAvailable > 0) {
+                shuffleBonusesAvailable--;
                 initGrid();
-                renderWord();
-                score = 0;
-                chain = 0;
-                bonusMovesAvailable = 0;
-                shuffleBonusesAvailable = 0;
-                invalidAttempts = 0;
-                totalPenalty = 0;
-                totalChainLoss = 0;
-                playedWords.clear();
-                disallowedWords.clear();
-
-                updateHistory();
-                updateStatus();
-                removeAnimation();
-                clearSpecialMode();
-                actionBtn.disabled = false;
-                gridElement.style.pointerEvents = 'auto';
-                wordContainer.style.pointerEvents = 'auto';
-                scoreElement.textContent = score;
-                chainElement.textContent = chain;
-                messageElement.textContent = '';
-                disallowedElement.textContent = '';
-                updateBonusButton();
                 updateShuffleButton();
-                definitionsElement.textContent = '';
-                specialModeActive = false;
-                fitWordContainer();
-            });
+                messageElement.textContent = "Grid refreshed!";
+                showTemporaryMessage();
+                letterGrid.classList.add('anim-refresh');
+            }
+        });
 
-            loadGameState();
-        </script>
+        newGameBtn.addEventListener('click', () => {
+            saveHighScore();
+            getHighScores();
+            localStorage.removeItem("stringChainState");
+
+            gameID = new Date().toISOString().slice(0, 19).replace('T', ' '); 
+            currentWord = randomWord();
+            lastValidWord = currentWord;
+            gridSize = 3;
+            initGrid();
+            renderWord();
+            score = 0;
+            chain = 0;
+            bonusMovesAvailable = 0;
+            shuffleBonusesAvailable = 0;
+            invalidAttempts = 0;
+            totalPenalty = 0;
+            totalChainLoss = 0;
+            playedWords.clear();
+            disallowedWords.clear();
+
+            updateHistory();
+            updateStatus();
+            removeAnimation();
+            clearSpecialMode();
+            actionBtn.disabled = false;
+            gridElement.style.pointerEvents = 'auto';
+            wordContainer.style.pointerEvents = 'auto';
+            scoreElement.textContent = score;
+            chainElement.textContent = chain;
+            messageElement.textContent = '';
+            disallowedElement.textContent = '';
+            updateBonusButton();
+            updateShuffleButton();
+            definitionsElement.textContent = '';
+            specialModeActive = false;
+            fitWordContainer();
+            isActiveGame = true;
+        });
+
+        loadGameState();
+    </script>
 
 
 
