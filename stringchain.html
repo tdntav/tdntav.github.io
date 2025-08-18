@@ -22,7 +22,7 @@
             --refresh: var(--green);
             --bonus: var(--bg1);
 
-            --scale-var: 1.5;
+            --scale-var: 1;
         }
 
         body {
@@ -62,6 +62,7 @@
         .scale-wrapper {
             transform: scale(var(--scale-var));
             display: flex;
+            /* width:100%; */
             justify-content: center;
             overflow: hidden;
             background: transparent;
@@ -71,6 +72,7 @@
         }
 
         .word-container {
+            transform: scale(var(--scale-var));
             background: transparent;
             display: flex;
             align-items: center;
@@ -79,6 +81,8 @@
             margin-bottom: 10px;
             padding: 10px;
             border-radius: 4px;
+            /* width:100%; */
+            
             /* transform-origin: center; */
             /*ADDING THIS TO SEE IF I CAN SCALE TO FIT*/
             /* transition: transform 0.25s ease, gap 0.25s ease; */
@@ -446,7 +450,7 @@
 
 
     <script>
-        const scaleWrapper = document.getElementById('scale-wrapper')
+        const scaleWrapper = document.getElementById('scaleWrapper');
         const wordContainer = document.getElementById('wordContainer');
         const highScoresElement = document.getElementById('highScores');
         const gridElement = document.getElementById('letterGrid');
@@ -467,6 +471,7 @@
         const dropdownDiv = document.getElementById("dropdown");
         const alphabet = "EEEEEEEEEAAAARRRRIIIOOONNSSSTTTLLLLCCUUUDDDPPGGHHBBMMYYFFVVWWKKXJQZ".split("");
         const validWords = ["AND", "THE", "CUE", "FOR", "ARE", "BUT", "NOT", "YOU", "ALL", "ANY", "CAN", "HAD", "HER", "WAS", "ONE", "OUR", "OUT", "DAY", "GET", "HAS", "HIM", "HIS", "HOW", "MAN", "NEW", "NOW", "OLD", "SEE", "TWO", "WAY", "WHO", "WHY", "USE", "BIG", "FUN", "RUN", "SUN", "TOP", "CAR", "DOG", "CAT", "BOX", "RED", "HOT", "WIN", "JOB", "EAT", "YES", "MOM", "DAD", "BED", "TIME", "YEAR", "WORK", "LIFE", "LOVE", "GOOD", "MAKE", "LOOK", "CUES", "WANT", "WELL", "HAND", "EYES", "GIVE", "TAKE", "KNOW", "INTO", "FROM", "OVER", "MORE", "JUST", "LIKE", "COME", "WHEN", "THEN", "VERY", "EVEN", "BACK", "ONLY", "DOWN", "OPEN", "STOP", "PLAY", "WALK", "TALK", "TURN", "KEEP", "HOME", "ROOM", "WORD", "COLD", "WARM", "BLUE", "GOLD", "FAST", "SLOW", "NEAR", "FAR", "TREE", "FISH", "BIRD", "RAIN", "ABOUT", "AFTER", "AGAIN", "BELOW", "COULD", "EVERY", "FIRST", "FOUND", "GREAT", "HOUSE", "LARGE", "LEARN", "NEVER", "OTHER", "PLANT", "POINT", "RIGHT", "SMALL", "SOUND", "SPELL", "STILL", "STUDY", "THEIR", "THERE", "THESE", "THING", "THINK", "THREE", "WATER", "WHERE", "WHICH", "WORLD", "WOULD", "WRITE", "APPLE", "BREAD", "CHAIR", "CLEAN", "CLOSE", "CLOUD", "EARTH", "TWIST", "TIGHT", "GRASS", "HEART", "MONEY", "MOUTH", "NIGHT", "SLEEP", "TABLE"];
+        // const validWords = ["BLEERCHING","SMARLCH","HAMANANANA"];
 
         let isActiveGame = true;
         let playedWords = new Set();
@@ -498,17 +503,17 @@
         // Load and restore directly
         function loadGameState() {
             const disqualified = localStorage.getItem("isDisqualified") === "true";
-            actionBtn.disabled = disqualified; 
-            let isActiveGame = !actionBtn.disabled;
+            // actionBtn.disabled = disqualified; 
+            if (disqualified) {
+                newGameBtn.click();
+                return;
+            }
             const saved = localStorage.getItem("stringChainState");
             if (!saved) {
                 newGameBtn.click();
                 return;
             }
-            if (isActiveGame = false) {
-                newGameBtn.click();
-                return;
-            }
+
             try {
                 ({ isActiveGame, gameID, currentWord, lastValidWord, gridSize, grid, score, chain, bonusMovesAvailable, shuffleBonusesAvailable, invalidAttempts, totalPenalty, totalChainLoss, playedWords, disallowedWords } = JSON.parse(saved));
                 disallowedWords = new Set(disallowedWords);
@@ -579,9 +584,29 @@
 
         function fitWordContainer() {
             let letterCount = wordContainer.querySelectorAll('.letter').length;
-            document.documentElement.style.setProperty('--scale-var', 11 / (6 + letterCount));
+            // let scaleCalc = 1 / Math.sqrt(letterCount / 4);
+             document.documentElement.style.setProperty('--scale-var', 11 / (6 + letterCount));
+            //  11 / (6 + letterCount)
             return;
         }
+
+
+//         function fitWordContainer() {
+
+//     const wrapperWidth = scaleWrapper.offsetWidth;
+//     const wordWidth = wordContainer.scrollWidth;
+//     console.warn("Missing element(s)", { wordWidth, wrapperWidth });
+//     // Calculate scale ratio
+//     let scale = wrapperWidth / wordWidth;
+
+//     // Clamp so it doesn't blow up too large
+//     // scale = Math.min(scale, 1);
+
+//     // Apply scale
+//     document.documentElement.style.setProperty('--scale-var', scale);
+// }
+
+
 
 
         function activateSpecialMode() {
@@ -784,7 +809,7 @@
                 letterDiv.textContent = currentWord[i];
                 letterDiv.dataset.type = 'word';
                 letterDiv.dataset.index = i;
-                fitWordContainer();
+                // fitWordContainer();
 
                 // Highlight if selected (selected is an array of indices)
 
@@ -799,7 +824,7 @@
                 insertSlot.className = 'insert-slot';
                 insertSlot.dataset.type = 'insert';
                 insertSlot.dataset.index = i + 1;
-                fitWordContainer();
+                // fitWordContainer();
 
 
                 // if (specialModeActive) insertSlot.classList.add('special');
@@ -813,6 +838,7 @@
                 wordContainer.appendChild(insertSlot);
 
             }
+            fitWordContainer();
         }
 
         function renderGrid() {
@@ -1001,10 +1027,11 @@
             const lower = currentWord.toLowerCase();
             if (playedWords.has(lower)) {
                 messageElement.textContent = "Word already used!";
-                showTemporaryMessage();
+                
                 alreadyUsedAnimation();
                 currentWord = previousWord;
                 renderWord();
+                showTemporaryMessage();
                 saveGameState();
                 return;
             }
@@ -1058,11 +1085,11 @@
                     scoreElement.textContent = score;
                     chainElement.textContent = chain;
                     messageElement.textContent = "Valid word!";
-                    showTemporaryMessage();
                     clearSpecialMode();
                     greenAnimation();
                     showDefinitions(lower);
                     saveGameState();
+                    showTemporaryMessage();
                     return;
                 })
                 .catch(() => {
@@ -1085,10 +1112,11 @@
                     }
                     scoreElement.textContent = score;
                     chainElement.textContent = chain;
-                    showTemporaryMessage();
+                    
                     // updateStatus();
                     updateDisallowedWords();
                     saveGameState();
+                    showTemporaryMessage();
                 });
         }
 
@@ -1171,6 +1199,7 @@
             saveHighScore();
             getHighScores();
             localStorage.removeItem("stringChainState");
+            localStorage.removeItem("isDisqualified");
 
             gameID = new Date().toISOString().slice(0, 19).replace('T', ' '); 
             currentWord = randomWord();
@@ -1180,7 +1209,7 @@
             renderWord();
             score = 0;
             chain = 0;
-            bonusMovesAvailable = 0;
+            bonusMovesAvailable = 10;
             shuffleBonusesAvailable = 0;
             invalidAttempts = 0;
             totalPenalty = 0;
