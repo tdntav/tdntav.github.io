@@ -69,7 +69,7 @@
             padding: 10px;
             transform-origin: center;
             transition: transform 1s ease;
-                        border-radius: 4px;
+            border-radius: 4px;
         }
 
         .word-container {
@@ -585,9 +585,11 @@
 
         function fitWordContainer() {
             let letterCount = wordContainer.querySelectorAll('.letter').length;
-            // let scaleCalc = 1 / Math.sqrt(letterCount / 4);
-             document.documentElement.style.setProperty('--scale-var', 11 / (6 + letterCount));
-            //  11 / (6 + letterCount)
+            let scaleCalc = 11 / (6 + letterCount);
+            scaleCalc = Math.min(scaleCalc, 1.15);
+
+             document.documentElement.style.setProperty('--scale-var', scaleCalc);
+            //  1 / Math.sqrt(letterCount / 4)
             return;
         }
 
@@ -1210,7 +1212,7 @@
             renderWord();
             score = 0;
             chain = 0;
-            bonusMovesAvailable = 0;
+            bonusMovesAvailable = 10;
             shuffleBonusesAvailable = 0;
             invalidAttempts = 0;
             totalPenalty = 0;
