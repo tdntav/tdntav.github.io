@@ -57,6 +57,25 @@
             --scale-var: 1;
         }
 
+        .alt1 {
+            --bg1: #312;
+            --bg2: #645;
+            --text1: #fde;
+            --text2: #cab;
+            --green: #5b8;
+            --disabled: #324;
+            --cell: var(--bg2);
+            --border: var(--text2);
+            --selected-cell: var(--text1);
+            --selected-text: var(--bg1);
+            --red: #546;
+            --refresh: var(--green);
+            --bonus: var(--bg1);
+            --scale-var: 1;
+        }
+
+
+
         body {
             font-family: "Helvetica Neue", monospace;
             background-color: var(--bg1);
@@ -538,7 +557,7 @@
         const themeToggle = document.getElementById("themeToggle");
 
         // Use "default" string instead of null
-        const themes = ["default", "light-theme","superdark" ];
+        const themes = ["default", "light-theme","superdark","alt1","alt2" ];
 
         let currentTheme = localStorage.getItem("theme") || "default";
         if (currentTheme !== "default") {
@@ -1239,7 +1258,6 @@
             rulesDiv.style.display = rulesHidden ? "block" : "none";
             rulesToggle.textContent = rulesHidden ? "^" : "?";
             if (rulesDiv.style.display != "block") { dropdownToggle.click() };
-            // getHighScores();
         });
 
 
