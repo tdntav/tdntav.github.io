@@ -17,11 +17,43 @@
             --border: var(--text2);
             --selected-cell: var(--green);
             --selected-text: var(--bg1);
-            /* --red: var(--disabled); */
             --red: #734;
             --refresh: var(--green);
             --bonus: var(--bg1);
+            --scale-var: 1;
+        }
 
+        .light-theme {
+            --bg1: #9ab;
+            --bg2: #cde;
+            --text1: #123;
+            --text2: #456;
+            --green: #5b8;
+            --disabled: #789;
+            --red: #000;
+            --cell: var(--bg2);
+            --border: var(--cell);
+            --selected-cell: #fde;
+            --selected-text: var(--text2);
+            --refresh: var(--green);
+            --bonus: var(--bg1);
+            --scale-var: 1;
+        }
+
+        .superdark {
+            --bg1: #000;
+            --bg2: #444;
+            --text1: #bbb;
+            --text2: #ddd;
+            --green: #5b8;
+            --disabled: #222;
+            --red: #710;
+            --cell: var(--bg2);
+            --border: #fff;
+            --selected-cell: #ea1;
+            --selected-text: var(--bg1);
+            --refresh: var(--green);
+            --bonus: var(--bg1);
             --scale-var: 1;
         }
 
@@ -83,7 +115,7 @@
             padding: 10px;
             border-radius: 4px;
             /* width:100%; */
-            
+
             /* transform-origin: center; */
             /*ADDING THIS TO SEE IF I CAN SCALE TO FIT*/
             /* transition: transform 0.25s ease, gap 0.25s ease; */
@@ -184,7 +216,7 @@
 
         .grid-cell.selected {
             background: var(--selected-cell);
-            color: var(--bg1);
+            color: var(--selected-text);
         }
 
         .button-row {
@@ -231,7 +263,7 @@
 
         .help-dark {
             border-radius: 20px;
-            background: #123;
+            background: var(--bg1);
             margin-top: 15px;
             min-height: 40px;
             min-width: 40px;
@@ -380,7 +412,11 @@
 
         @keyframes animate-already-used {
             0% {
-                background-color: var(--disabled);
+                background-color: var(--bg1);
+            }
+
+            50% {
+                background-color: var(--bg1);
             }
 
             100% {
@@ -430,7 +466,8 @@
                 <br>Enjoy!
             </p>
         </div>
-        <button id="toggle-rules" class="help-dark">?</button>
+        <button id="themeToggle" class="help-dark">CHANGE IT UP</button><button id="toggle-rules"
+            class="help-dark">?</button>
 
     </div>
     <div id="message" style="display: none;"></div>
@@ -496,6 +533,40 @@
         let lastSelectedCell = null;
         let lastUsedGridCell = null; // NEW: Track last used cell for invalid move rollback
         let specialModeActive = false; // NEW: Track bonus special mode
+
+
+        const themeToggle = document.getElementById("themeToggle");
+
+        // Use "default" string instead of null
+        const themes = ["default", "light-theme","superdark" ];
+
+        let currentTheme = localStorage.getItem("theme") || "default";
+        if (currentTheme !== "default") {
+            document.documentElement.classList.add(currentTheme);
+        }
+
+        themeToggle.addEventListener("click", () => {
+            // Remove current theme if not default
+            if (currentTheme !== "default") {
+                document.documentElement.classList.remove(currentTheme);
+            }
+
+            // Cycle to next theme
+            const currentIndex = themes.indexOf(currentTheme);
+            const nextIndex = (currentIndex + 1) % themes.length;
+
+            currentTheme = themes[nextIndex];
+
+            // Apply if not default
+            if (currentTheme !== "default") {
+                document.documentElement.classList.add(currentTheme);
+            }
+
+            // Save
+            localStorage.setItem("theme", currentTheme);
+        });
+
+
 
 
         function saveGameState() {
@@ -590,26 +661,26 @@
             let scaleCalc = 11 / (6 + letterCount);
             scaleCalc = Math.min(scaleCalc, 1.15);
 
-             document.documentElement.style.setProperty('--scale-var', scaleCalc);
+            document.documentElement.style.setProperty('--scale-var', scaleCalc);
             //  1 / Math.sqrt(letterCount / 4)
             return;
         }
 
 
-//         function fitWordContainer() {
+        //         function fitWordContainer() {
 
-//     const wrapperWidth = scaleWrapper.offsetWidth;
-//     const wordWidth = wordContainer.scrollWidth;
-//     console.warn("Missing element(s)", { wordWidth, wrapperWidth });
-//     // Calculate scale ratio
-//     let scale = wrapperWidth / wordWidth;
+        //     const wrapperWidth = scaleWrapper.offsetWidth;
+        //     const wordWidth = wordContainer.scrollWidth;
+        //     console.warn("Missing element(s)", { wordWidth, wrapperWidth });
+        //     // Calculate scale ratio
+        //     let scale = wrapperWidth / wordWidth;
 
-//     // Clamp so it doesn't blow up too large
-//     // scale = Math.min(scale, 1);
+        //     // Clamp so it doesn't blow up too large
+        //     // scale = Math.min(scale, 1);
 
-//     // Apply scale
-//     document.documentElement.style.setProperty('--scale-var', scale);
-// }
+        //     // Apply scale
+        //     document.documentElement.style.setProperty('--scale-var', scale);
+        // }
 
 
 
@@ -1036,7 +1107,7 @@
             const lower = currentWord.toLowerCase();
             if (playedWords.has(lower)) {
                 messageElement.textContent = "Word already used!";
-                
+
                 alreadyUsedAnimation();
                 currentWord = previousWord;
                 renderWord();
@@ -1123,7 +1194,7 @@
                     }
                     scoreElement.textContent = score;
                     chainElement.textContent = chain;
-                    
+
                     // updateStatus();
                     updateBonusButton();
                     updateShuffleButton();
@@ -1167,7 +1238,7 @@
             const rulesHidden = rulesDiv.style.display === "none";
             rulesDiv.style.display = rulesHidden ? "block" : "none";
             rulesToggle.textContent = rulesHidden ? "^" : "?";
-            if (rulesDiv.style.display != "block") { dropdownToggle.click()};
+            if (rulesDiv.style.display != "block") { dropdownToggle.click() };
             // getHighScores();
         });
 
@@ -1221,7 +1292,7 @@
             localStorage.removeItem("stringChainState");
             localStorage.removeItem("isDisqualified");
 
-            gameID = new Date().toISOString().slice(0, 19).replace('T', ' '); 
+            gameID = new Date().toISOString().slice(0, 19).replace('T', ' ');
             currentWord = randomWord();
             lastValidWord = currentWord;
             gridSize = 3;
