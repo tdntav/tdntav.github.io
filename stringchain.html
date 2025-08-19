@@ -11,14 +11,15 @@
             --accent: #456;
             --text: #cde;
             --accent-text: #9ab;
-            --green: #7da;
+            --positive-feedback: #7da;
+            --pos-fb-text: var(--bg);
+            --negative-feedback: #734;
             --disabled: #234;
             --cell: var(--accent);
             --border: var(--accent-text);
-            --selected-cell: var(--green);
-            --selected-text: var(--bg);
-            --red: #734;
-            --refresh: var(--green);
+            --selected-cell: var(--positive-feedback);
+            --selected-text: var(--pos-fb-text);
+            --refresh: var(--positive-feedback);
             --bonus: var(--bg);
             --scale-var: 1;
         }
@@ -28,14 +29,15 @@
             --accent: #cde;
             --text: #123;
             --accent-text: #456;
-            --green: #5b8;
+            --positive-feedback: #5b8;
+            --pos-fb-text: var(--bg);
             --disabled: #789;
-            --red: #000;
+            --negative-feedback: #000;
             --cell: var(--accent);
             --border: var(--cell);
             --selected-cell: #fde;
             --selected-text: var(--accent-text);
-            --refresh: var(--green);
+            --refresh: var(--positive-feedback);
             --bonus: var(--bg);
             --scale-var: 1;
         }
@@ -45,14 +47,14 @@
             --accent: #6c9;
             --text: #fff;
             --accent-text: #000;
-            --green: #396;
+            --positive-feedback: #396;
             --disabled: #555;
-            --red: #ea1;
+            --negative-feedback: #ea1;
             --cell: #888;
             --border: #aaa;
             --selected-cell: #ea1;
             --selected-text: var(--bg);
-            --refresh: var(--green);
+            --refresh: var(--positive-feedback);
             --bonus: var(--bg);
             --scale-var: 1;
         }
@@ -62,14 +64,14 @@
             --accent: #645;
             --text: #fde;
             --accent-text: #cab;
-            --green: #5b8;
+            --positive-feedback: #5b8;
             --disabled: #324;
             --cell: var(--accent);
             --border: var(--accent-text);
             --selected-cell: var(--text);
             --selected-text: var(--bg);
-            --red: #546;
-            --refresh: var(--green);
+            --negative-feedback: #546;
+            --refresh: var(--positive-feedback);
             --bonus: var(--bg);
             --scale-var: 1;
         }
@@ -79,14 +81,14 @@
             --accent: #cba;
             --text: #321;
             --accent-text: #654;
-            --green: #5b8;
+            --positive-feedback: #5b8;
             --disabled: #a98;
             --cell: var(--accent);
             --border: var(--accent-text);
             --selected-cell: var(--text);
             --selected-text: var(--bg);
-            --red: #321;
-            --refresh: var(--green);
+            --negative-feedback: #321;
+            --refresh: var(--positive-feedback);
             --bonus: var(--bg);
             --scale-var: 1;
         }
@@ -194,13 +196,13 @@
             background-color: var(--disabled) !important;
         }
 
-        .anim-red {
-            animation-name: animate-red;
+        .anim-neg {
+            animation-name: animate-negative;
             animation-duration: 1s;
         }
 
-        .anim-green {
-            animation-name: animate-green;
+        .anim-pos {
+            animation-name: animate-positive;
             animation-duration: 0.5s;
         }
 
@@ -408,9 +410,9 @@
             text-align: center;
         }
 
-        @keyframes animate-green {
+        @keyframes animate-positive {
             0% {
-                background-color: var(--green);
+                background-color: var(--positive-feedback);
             }
 
             100% {
@@ -418,9 +420,9 @@
             }
         }
 
-        @keyframes animate-red {
+        @keyframes animate-negative {
             0% {
-                background-color: var(--red);
+                background-color: var(--negative-feedback);
             }
 
             100% {
@@ -430,7 +432,7 @@
 
         @keyframes animate-bonus {
             0% {
-                background-color: var(--green);
+                background-color: var(--positive-feedback);
             }
 
             100% {
@@ -450,15 +452,11 @@
 
         @keyframes animate-already-used {
             0% {
-                background-color: var(--bg);
-            }
-
-            50% {
-                background-color: var(--bg);
+                background-color: var(--disabled);
             }
 
             100% {
-                background-color: var(--accent);
+                background-color: var(--bg);
             }
         }
     </style>
@@ -735,22 +733,22 @@
             return;
         } 
 
-        // function playAnimation() { acionBtn.classList.add('anim-green'); }
-        function redAnimation() { wordContainer.classList.add('anim-red'); }
-        function greenAnimation() { wordContainer.classList.add('anim-green'); }
+        // function playAnimation() { acionBtn.classList.add('anim-pos'); }
+        function redAnimation() { wordContainer.classList.add('anim-neg'); }
+        function greenAnimation() { wordContainer.classList.add('anim-pos'); }
         function bonusAnimation() { bonusBtn.classList.add('anim-bonus'); }
         function shuffleAnimation() { shuffleBtn.classList.add('anim-bonus'); }
-        function alreadyUsedAnimation() { historyElement.classList.add('anim-used'); }
+        function alreadyUsedAnimation() { wordContainer.classList.add('anim-used'); }
     
 
         function removeAnimation() {
-            if (wordContainer.classList.contains('anim-red')) { wordContainer.classList.remove('anim-red'); }
-            if (wordContainer.classList.contains('anim-green')) { wordContainer.classList.remove('anim-green'); }
+            if (wordContainer.classList.contains('anim-neg')) { wordContainer.classList.remove('anim-neg'); }
+            if (wordContainer.classList.contains('anim-pos')) { wordContainer.classList.remove('anim-pos'); }
             if (letterGrid.classList.contains('anim-refresh')) { letterGrid.classList.remove('anim-refresh'); }
             if (bonusBtn.classList.contains('anim-bonus')) { bonusBtn.classList.remove('anim-bonus'); }
             if (shuffleBtn.classList.contains('anim-bonus')) { shuffleBtn.classList.remove('anim-bonus'); }
             if (historyElement.classList.contains('anim-used')) { historyElement.classList.remove('anim-used'); }
-            // if (acionBtn.classList.contains('anim-green')) { acionBtn.classList.remove('anim-green'); }
+            // if (acionBtn.classList.contains('anim-pos')) { acionBtn.classList.remove('anim-pos'); }
 
         }
 
