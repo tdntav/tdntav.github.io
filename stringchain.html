@@ -42,14 +42,14 @@
 
         .superdark {
             --bg1: #000;
-            --bg2: #444;
-            --text1: #bbb;
-            --text2: #ddd;
+            --bg2: #396;
+            --text1: #def;
+            --text2: #000;
             --green: #5b8;
-            --disabled: #222;
+            --disabled: #555;
             --red: #710;
-            --cell: var(--bg2);
-            --border: #fff;
+            --cell: #354;
+            --border: #aaa;
             --selected-cell: #ea1;
             --selected-text: var(--bg1);
             --refresh: var(--green);
@@ -231,7 +231,7 @@
 
 
         .grid-cell {
-            border: 2px solid var(--bg2);
+            border: 2px solid var(--border);
             width: 60px;
             /* this also needs to be edited in renderGrid function */
             height: 60px;
@@ -300,6 +300,7 @@
         .help-dark {
             border-radius: 20px;
             background: var(--bg1);
+            color: var(--text1);
             margin-top: 15px;
             min-height: 40px;
             min-width: 40px;
@@ -353,6 +354,7 @@
             margin-top: 0px;
             border-top-left-radius: 4px;
             border-top-right-radius: 4px;
+            color: var(--text2);
         }
 
         #definitions {
@@ -731,13 +733,15 @@
             specialModeActive = false;
             wordContainer.classList.remove('special');
             return;
-        }
+        } 
 
+        // function playAnimation() { acionBtn.classList.add('anim-green'); }
         function redAnimation() { wordContainer.classList.add('anim-red'); }
         function greenAnimation() { wordContainer.classList.add('anim-green'); }
         function bonusAnimation() { bonusBtn.classList.add('anim-bonus'); }
         function shuffleAnimation() { shuffleBtn.classList.add('anim-bonus'); }
         function alreadyUsedAnimation() { historyElement.classList.add('anim-used'); }
+    
 
         function removeAnimation() {
             if (wordContainer.classList.contains('anim-red')) { wordContainer.classList.remove('anim-red'); }
@@ -746,6 +750,8 @@
             if (bonusBtn.classList.contains('anim-bonus')) { bonusBtn.classList.remove('anim-bonus'); }
             if (shuffleBtn.classList.contains('anim-bonus')) { shuffleBtn.classList.remove('anim-bonus'); }
             if (historyElement.classList.contains('anim-used')) { historyElement.classList.remove('anim-used'); }
+            // if (acionBtn.classList.contains('anim-green')) { acionBtn.classList.remove('anim-green'); }
+
         }
 
         function randomLetter() {
@@ -1255,9 +1261,11 @@
             if (validate) validateWord(originalWord);
         }
 
-        actionBtn.addEventListener(
-            'click', () => completeMove(true));
-
+        actionBtn.addEventListener('click', () => {
+            // playAnimation();
+    completeMove(true);
+    
+});
 
 
 
