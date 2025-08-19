@@ -7,87 +7,87 @@
     <title>StringChain</title>
     <style>
         :root {
-            --bg1: #123;
-            --bg2: #456;
-            --text1: #cde;
-            --text2: #9ab;
+            --bg: #123;
+            --accent: #456;
+            --text: #cde;
+            --accent-text: #9ab;
             --green: #7da;
             --disabled: #234;
-            --cell: var(--bg2);
-            --border: var(--text2);
+            --cell: var(--accent);
+            --border: var(--accent-text);
             --selected-cell: var(--green);
-            --selected-text: var(--bg1);
+            --selected-text: var(--bg);
             --red: #734;
             --refresh: var(--green);
-            --bonus: var(--bg1);
+            --bonus: var(--bg);
             --scale-var: 1;
         }
 
         .light-theme {
-            --bg1: #9ab;
-            --bg2: #cde;
-            --text1: #123;
-            --text2: #456;
+            --bg: #9ab;
+            --accent: #cde;
+            --text: #123;
+            --accent-text: #456;
             --green: #5b8;
             --disabled: #789;
             --red: #000;
-            --cell: var(--bg2);
+            --cell: var(--accent);
             --border: var(--cell);
             --selected-cell: #fde;
-            --selected-text: var(--text2);
+            --selected-text: var(--accent-text);
             --refresh: var(--green);
-            --bonus: var(--bg1);
+            --bonus: var(--bg);
             --scale-var: 1;
         }
 
         .superdark {
-            --bg1: #111;
-            --bg2: #6c9;
-            --text1: #fff;
-            --text2: #000;
+            --bg: #111;
+            --accent: #6c9;
+            --text: #fff;
+            --accent-text: #000;
             --green: #396;
             --disabled: #555;
             --red: #ea1;
             --cell: #888;
             --border: #aaa;
             --selected-cell: #ea1;
-            --selected-text: var(--bg1);
+            --selected-text: var(--bg);
             --refresh: var(--green);
-            --bonus: var(--bg1);
+            --bonus: var(--bg);
             --scale-var: 1;
         }
 
         .alt1 {
-            --bg1: #312;
-            --bg2: #645;
-            --text1: #fde;
-            --text2: #cab;
+            --bg: #312;
+            --accent: #645;
+            --text: #fde;
+            --accent-text: #cab;
             --green: #5b8;
             --disabled: #324;
-            --cell: var(--bg2);
-            --border: var(--text2);
-            --selected-cell: var(--text1);
-            --selected-text: var(--bg1);
+            --cell: var(--accent);
+            --border: var(--accent-text);
+            --selected-cell: var(--text);
+            --selected-text: var(--bg);
             --red: #546;
             --refresh: var(--green);
-            --bonus: var(--bg1);
+            --bonus: var(--bg);
             --scale-var: 1;
         }
 
         .alt2 {
-            --bg1: #fed;
-            --bg2: #cba;
-            --text1: #321;
-            --text2: #654;
+            --bg: #fed;
+            --accent: #cba;
+            --text: #321;
+            --accent-text: #654;
             --green: #5b8;
             --disabled: #a98;
-            --cell: var(--bg2);
-            --border: var(--text2);
-            --selected-cell: var(--text1);
-            --selected-text: var(--bg1);
+            --cell: var(--accent);
+            --border: var(--accent-text);
+            --selected-cell: var(--text);
+            --selected-text: var(--bg);
             --red: #321;
             --refresh: var(--green);
-            --bonus: var(--bg1);
+            --bonus: var(--bg);
             --scale-var: 1;
         }
 
@@ -95,11 +95,11 @@
 
         body {
             font-family: "Helvetica Neue", monospace;
-            background-color: var(--bg1);
+            background-color: var(--bg);
             max-width: 400px;
             margin: auto;
             /* margin: 0; */
-            color: var(--text1);
+            color: var(--text);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -238,14 +238,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: var(--bg1);
+            background: var(--bg);
             border-radius: 4px;
             text-transform: uppercase;
             cursor: pointer;
         }
 
         .grid-cell.used {
-            background: var(--bg1);
+            background: var(--bg);
             cursor: default;
             border: none;
         }
@@ -267,7 +267,7 @@
             margin: 3px;
             padding: 10px;
             font-family: inherit;
-            color: var(--text2);
+            color: var(--accent-text);
             border-radius: 4px;
             border: none;
             flex: 1 1 30%;
@@ -275,10 +275,10 @@
         }
 
         button {
-            background: var(--bg2);
+            background: var(--accent);
             margin: 10px 0px;
             padding: 0px 10px;
-            color: var(--text2);
+            color: var(--accent-text);
             border-radius: 4px;
             border: none;
             font-size: 11pt;
@@ -299,8 +299,8 @@
 
         .help-dark {
             border-radius: 20px;
-            background: var(--bg1);
-            color: var(--text1);
+            background: var(--bg);
+            color: var(--text);
             margin-top: 15px;
             min-height: 40px;
             min-width: 40px;
@@ -309,20 +309,20 @@
         button:disabled,
         .disabled {
             background: var(--disabled);
-            color: var(--text2);
+            color: var(--accent-text);
             cursor: default;
         }
 
         #status {
             font-size: 10pt;
             margin: 5px 0;
-            color: var(--text1);
+            color: var(--text);
         }
 
         #message {
             font-size: 11pt;
             margin-bottom: 5px;
-            color: var(--text1);
+            color: var(--text);
             min-height: 12px;
         }
 
@@ -336,7 +336,7 @@
             min-height: 22px;
             font-size: 12pt;
             font-family: "Courier New", monospace;
-            background-color: var(--bg2);
+            background-color: var(--accent);
             padding-inline: 2.5%;
             padding-block: 10px;
             /* margin-top: 10px; */
@@ -344,7 +344,7 @@
 
         #disallowed {
             background-color: var(--disabled);
-            /* color: var(--text2);  */
+            /* color: var(--accent-text);  */
             margin-bottom: 0px;
             border-bottom-left-radius: 4px;
             border-bottom-right-radius: 4px;
@@ -354,12 +354,12 @@
             margin-top: 0px;
             border-top-left-radius: 4px;
             border-top-right-radius: 4px;
-            color: var(--text2);
+            color: var(--accent-text);
         }
 
         #definitions {
             font-size: 11pt;
-            color: var(--text1);
+            color: var(--text);
             margin-bottom: 10px;
             width: 80%;
         }
@@ -370,7 +370,7 @@
             margin: 10px;
             border-radius: 5px; */
 
-            color: var(--text2);
+            color: var(--accent-text);
             /* width: 80%; */
             font-size: 14px;
         }
@@ -381,7 +381,7 @@
             margin: 10px;
             border-radius: 5px;
 
-            color: var(--text2);
+            color: var(--accent-text);
             width: 80%;
             font-size: 14px;
             text-align: center;
@@ -390,7 +390,7 @@
         .high-score-table {
             border: 5px solid;
             border-collapse: collapse;
-            border-color: var(--text2);
+            border-color: var(--accent-text);
             font-size: 9pt;
 
 
@@ -404,7 +404,7 @@
             padding: 12px;
             border: 2px solid;
             border-collapse: collapse;
-            border-color: var(--text2);
+            border-color: var(--accent-text);
             text-align: center;
         }
 
@@ -414,7 +414,7 @@
             }
 
             100% {
-                background-color: var(--bg1);
+                background-color: var(--bg);
             }
         }
 
@@ -424,7 +424,7 @@
             }
 
             100% {
-                background-color: var(--bg1);
+                background-color: var(--bg);
             }
         }
 
@@ -434,7 +434,7 @@
             }
 
             100% {
-                background-color: var(--bg2);
+                background-color: var(--accent);
             }
         }
 
@@ -444,21 +444,21 @@
             }
 
             100% {
-                background-color: var(--bg1);
+                background-color: var(--bg);
             }
         }
 
         @keyframes animate-already-used {
             0% {
-                background-color: var(--bg1);
+                background-color: var(--bg);
             }
 
             50% {
-                background-color: var(--bg1);
+                background-color: var(--bg);
             }
 
             100% {
-                background-color: var(--bg2);
+                background-color: var(--accent);
             }
         }
     </style>
