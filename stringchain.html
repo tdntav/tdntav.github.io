@@ -8,49 +8,72 @@
     <style>
         :root {
             --bg: #123;
-            --accent: #456;
             --text: #cde;
+
+            --accent: #456;
             --accent-text: #9ab;
+
             --positive-feedback: #7da;
             --pos-fb-text: var(--bg);
-            --negative-feedback: #734;
+
+            --negative-feedback: #710;
             --disabled: #234;
-            --cell: var(--accent);
-            --border: var(--accent-text);
+
+            --wordcell: var(--accent);
+            --wordcell-text: var(--accent-text);
+            --wordcell-border: 2px solid var(--wordcell);
+
+            --gridcell: var(--bg);
+            --gridcell-text: var(--text);
+            --gridcell-border: 2px solid var(--wordcell);
+
             --selected-cell: var(--positive-feedback);
             --selected-text: var(--pos-fb-text);
-            --refresh: var(--positive-feedback);
-            --bonus: var(--bg);
-            --scale-var: 1;
+
+            --button-border: none;
+
         }
 
         .light-theme {
             --bg: #9ab;
-            --accent: #cde;
             --text: #123;
+
+            --accent: #def;
             --accent-text: #456;
+
             --positive-feedback: #5b8;
             --pos-fb-text: var(--bg);
+
             --disabled: #789;
-            --negative-feedback: #000;
-            --cell: var(--accent);
-            --border: var(--cell);
+            --negative-feedback: #c81;
+
+            --wordcell: var(--accent);
+            --wordcell-text: var(--accent-text);
+            --wordcell-border: 2px solid var(--accent);
+
+            --gridcell: var(--bg);
+            --gridcell-text: var(--text);
+            --gridcell-border: 2px solid var(--wordcell);
+
             --selected-cell: #fde;
             --selected-text: var(--accent-text);
-            --refresh: var(--positive-feedback);
-            --bonus: var(--bg);
-            --scale-var: 1;
+
+            --button-border: none;
         }
+
 
         .superdark {
             --bg: #111;
-            --accent: #6c9;
             --text: #fff;
+
+            --accent: #6c9;
             --accent-text: #000;
+
             --positive-feedback: #396;
-            --disabled: #555;
+            /* --pos-fb-text: ; */
+            --disabled: #666;
             --negative-feedback: #ea1;
-            --cell: #888;
+            --wordcell: #aaa;
             --border: #aaa;
             --selected-cell: #ea1;
             --selected-text: var(--bg);
@@ -59,41 +82,113 @@
             --scale-var: 1;
         }
 
+
         .alt1 {
             --bg: #312;
-            --accent: #645;
             --text: #fde;
+
+            --accent: #645;
             --accent-text: #cab;
+
             --positive-feedback: #5b8;
+            --pos-fb-text: var(--bg);
+
             --disabled: #324;
-            --cell: var(--accent);
-            --border: var(--accent-text);
+            --negative-feedback: #546;
+
+            --wordcell: var(--accent);
+            --wordcell-text: var(--accent-text);
+            --wordcell-border: 2px solid var(--accent);
+
+            --gridcell: var(--bg);
+            --gridcell-text: var(--text);
+            --gridcell-border: 2px solid var(--wordcell);
+
             --selected-cell: var(--text);
             --selected-text: var(--bg);
-            --negative-feedback: #546;
-            --refresh: var(--positive-feedback);
-            --bonus: var(--bg);
-            --scale-var: 1;
+
+            /* --scale-var: 1; */
         }
 
         .alt2 {
             --bg: #fed;
-            --accent: #cba;
             --text: #321;
+
+            --accent: #cba;
             --accent-text: #654;
+
             --positive-feedback: #5b8;
+            --pos-fb-text: var(--bg);
+
+            --negative-feedback: #321;
             --disabled: #a98;
-            --cell: var(--accent);
-            --border: var(--accent-text);
+
+            --wordcell: var(--accent);
+            --wordcell-text: var(--accent-text);
+            --wordcell-border: 2px solid var(--accent);
+
+            --gridcell: var(--bg);
+            --gridcell-text: var(--text);
+            --gridcell-border: 2px solid var(--wordcell);
+
             --selected-cell: var(--text);
             --selected-text: var(--bg);
-            --negative-feedback: #321;
-            --refresh: var(--positive-feedback);
-            --bonus: var(--bg);
-            --scale-var: 1;
+
         }
 
+        .alt3 {
+            --bg: #111;            
+            --text: #fff;
 
+            --accent: #fd5;
+            --accent-text: #000;
+
+            --positive-feedback: #6c9;
+            --pos-fb-text: var(--bg);
+
+            --disabled: #555;
+            --negative-feedback: #e41;
+
+            --wordcell: #5ef;
+            --wordcell-text: var(--accent-text);
+            --wordcell-border: 2px solid var(--wordcell);
+
+            --gridcell: var(--bg);
+            --gridcell-text: var(--accent);
+            --gridcell-border: 2px solid #5ef;
+
+            --selected-cell: var(--accent);
+            --selected-text: var(--bg);
+
+            /* --button-border: 3px inset #5ef; */
+        }
+
+        .alt4 {
+            --bg: #fff;
+            --text: #333;
+
+            --accent: #eee;
+            --accent-text: #555;
+
+            --positive-feedback: #5b8;
+            --pos-fb-text: var(--bg);
+
+            --negative-feedback: #321;
+            --disabled: #aaa;
+
+            --wordcell: #ddd;
+            --wordcell-text: var(--accent-text);
+            --wordcell-border: 2px solid var(--accent);
+
+            --gridcell: var(--wordcell);
+            --gridcell-text: var(--text);
+            --gridcell-border: none;
+
+            --selected-cell: var(--text);
+            --selected-text: var(--bg);
+
+            /* --button-border: 3px inset #000; */
+        }
 
         body {
             font-family: "Helvetica Neue", monospace;
@@ -169,25 +264,26 @@
             text-transform: uppercase;
             cursor: pointer;
             margin: 5px;
-            border: 1px solid var(--cell);
+            background-color: var(--wordcell);
+            color: var(--wordcell-text);
+            border: var(--wordcell-border);
         }
 
         .letter {
             width: 28px;
             height: 60px;
-            background: var(--cell);
             margin: 3px;
         }
 
         .insert-slot {
             width: 12px;
             height: 30px;
-            background: var(--cell);
         }
 
         .selected {
-            border: 1px solid var(--cell);
-            background: var(--selected-cell);
+            border: 2px inset var(--selected-cell);
+            border-color: var(--selected-cell);
+            background-color: var(--selected-cell);
             color: var(--selected-text);
             height: 56px;
         }
@@ -209,6 +305,11 @@
         .anim-bonus {
             animation-name: animate-bonus;
             animation-duration: 1s;
+        }
+
+        .anim-play {
+            animation-name: animate-play;
+            animation-duration: 0.2s;
         }
 
         .anim-refresh {
@@ -233,14 +334,15 @@
 
 
         .grid-cell {
-            border: 2px solid var(--cell);
+            border: var(--gridcell-border);
+            color: var(--gridcell-text);
             width: 60px;
             /* this also needs to be edited in renderGrid function */
             height: 60px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: var(--bg);
+            background-color: var(--gridcell);
             border-radius: 4px;
             text-transform: uppercase;
             cursor: pointer;
@@ -271,7 +373,7 @@
             font-family: inherit;
             color: var(--accent-text);
             border-radius: 4px;
-            border: none;
+            border: var(--button-border);
             flex: 1 1 30%;
             min-width: 80px;
         }
@@ -290,6 +392,7 @@
             width: 80%;
             padding: 10px 10px;
             display: block;
+            border: var(--button-border);
         }
 
         .help {
@@ -346,7 +449,7 @@
 
         #disallowed {
             background-color: var(--disabled);
-            /* color: var(--accent-text);  */
+            color: var(--accent-text); 
             margin-bottom: 0px;
             border-bottom-left-radius: 4px;
             border-bottom-right-radius: 4px;
@@ -360,14 +463,14 @@
         }
 
         #definitions {
-            font-size: 11pt;
+            font-size: 10pt;
             color: var(--text);
             margin-bottom: 10px;
             width: 80%;
         }
 
         #rules {
-            background: var(--cell);
+            background: var(--wordcell);
             /* padding: 10px;
             margin: 10px;
             border-radius: 5px; */
@@ -378,7 +481,7 @@
         }
 
         #dropdown {
-            background: var(--cell);
+            background: var(--wordcell);
             padding: 10px;
             margin: 10px;
             border-radius: 5px;
@@ -433,6 +536,15 @@
         @keyframes animate-bonus {
             0% {
                 background-color: var(--positive-feedback);
+                transform: scale(80%);
+            }
+
+            30% {
+                transform: scale(105%);
+            }
+
+            40% {
+                transform: scale(100%);
             }
 
             100% {
@@ -440,9 +552,24 @@
             }
         }
 
+        @keyframes animate-play {
+            0% {
+                transform: scale(80%);
+            }
+
+            75% {
+                transform: scale(110%);
+            }
+
+            100% {
+                transform: scale(100%);
+            }
+
+        }
+
         @keyframes animate-refresh {
             0% {
-                background-color: var(--refresh);
+                background-color: var(--positive-feedback);
             }
 
             100% {
@@ -495,14 +622,17 @@
                 <br>You can expand the grid once by making a six letter word.
                 <br>
                 <br>Playing a previously played word does not incur a penalty.
+                <br>
                 <br>Words that fail dictionary validation are penalised with increasing severity.
+                <br>
                 <br>Five invalid words leads to disqualification.
+                <br>
                 <br>I know it's sometimes the dictionary's fault and I'm sorry about that.
                 <br>
                 <br>Enjoy!
             </p>
         </div>
-        <button id="themeToggle" class="help-dark">CHANGE IT UP</button><button id="toggle-rules"
+        <button id="themeToggle" class="help-dark">CHANGE UP</button>    <button id="toggle-rules"
             class="help-dark">?</button>
 
     </div>
@@ -546,8 +676,7 @@
         const rulesDiv = document.getElementById("rules");
         const dropdownDiv = document.getElementById("dropdown");
         const alphabet = "EEEEEEEEEAAAARRRRIIIOOONNSSSTTTLLLLCCUUUDDDPPGGHHBBMMYYFFVVWWKKXJQZ".split("");
-        const validWords = ["DUNK", "HEE", "TOW", "AND", "THE", "CUE", "FOR", "ARE", "BUT", "NOT", "YOU", "ALL", "ANY", "CAN", "HAD", "HER", "WAS", "ONE", "OUR", "OUT", "DAY", "GET", "HAS", "HIM", "HIS", "HOW", "MAN", "NEW", "NOW", "OLD", "SEE", "TWO", "WAY", "WHO", "WHY", "USE", "BIG", "FUN", "RUN", "SUN", "TOP", "CAR", "DOG", "CAT", "BOX", "RED", "HOT", "WIN", "JOB", "EAT", "YES", "MOM", "DAD", "BED", "TIME", "YEAR", "WORK", "LIFE", "LOVE", "GOOD", "MAKE", "LOOK", "CUES", "WANT", "WELL", "HAND", "EYES", "GIVE", "TAKE", "KNOW", "INTO", "FROM", "OVER", "MORE", "JUST", "LIKE", "COME", "WHEN", "THEN", "VERY", "EVEN", "BACK", "ONLY", "DOWN", "OPEN", "STOP", "PLAY", "WALK", "TALK", "TURN", "KEEP", "HOME", "ROOM", "WORD", "COLD", "WARM", "BLUE", "GOLD", "FAST", "SLOW", "NEAR", "FAR", "TREE", "FISH", "BIRD", "RAIN", "ABOUT", "AFTER", "AGAIN", "BELOW", "COULD", "EVERY", "FIRST", "FOUND", "GREAT", "HOUSE", "LARGE", "LEARN", "NEVER", "OTHER", "PLANT", "POINT", "RIGHT", "SMALL", "SOUND", "SPELL", "STILL", "STUDY", "THEIR", "THERE", "THESE", "THING", "THINK", "THREE", "WATER", "WHERE", "WHICH", "WORLD", "WOULD", "WRITE", "APPLE", "BREAD", "CHAIR", "CLEAN", "CLOSE", "CLOUD", "EARTH", "TWIST", "TIGHT", "GRASS", "HEART", "MONEY", "MOUTH", "NIGHT", "SLEEP", "TABLE"];
-        // const validWords = ["BLEERCHING","SMARLCH","HAMANANANA"];
+        const validWords = ["DUNK", "DOSE", "RAPE", "HEE", "TOW", "NET", "AND", "THE", "CUE", "FOR", "ARE", "BUT", "NOT", "YOU", "ALL", "ANY", "CAN", "HAD", "HER", "WAS", "ONE", "OUR", "OUT", "DAY", "GET", "HAS", "HIM", "HIS", "HOW", "MAN", "NEW", "NOW", "OLD", "SEE", "TWO", "WAY", "WHO", "WHY", "USE", "BIG", "FUN", "RUN", "SUN", "TOP", "CAR", "DOG", "CAT", "BOX", "RED", "HOT", "WIN", "JOB", "EAT", "YES", "MOM", "DAD", "BED", "TIME", "YEAR", "WORK", "LIFE", "LOVE", "GOOD", "MAKE", "LOOK", "CUES", "WANT", "WELL", "HAND", "EYES", "GIVE", "TAKE", "KNOW", "INTO", "FROM", "OVER", "MORE", "JUST", "LIKE", "COME", "WHEN", "THEN", "VERY", "EVEN", "BACK", "ONLY", "DOWN", "OPEN", "STOP", "PLAY", "WALK", "TALK", "TURN", "KEEP", "HOME", "ROOM", "WORD", "COLD", "WARM", "BLUE", "GOLD", "FAST", "SLOW", "NEAR", "FAR", "TREE", "FISH", "BIRD", "RAIN", "ABOUT", "AFTER", "AGAIN", "BELOW", "COULD", "EVERY", "FIRST", "FOUND", "GREAT", "HOUSE", "LARGE", "LEARN", "NEVER", "OTHER", "PLANT", "POINT", "RIGHT", "SMALL", "SOUND", "SPELL", "STILL", "STUDY", "THEIR", "THERE", "THESE", "THING", "THINK", "THREE", "WATER", "WHERE", "WHICH", "WORLD", "WOULD", "WRITE", "APPLE", "BREAD", "CHAIR", "CLEAN", "CLOSE", "CLOUD", "EARTH", "TWIST", "TIGHT", "GRASS", "HEART", "MONEY", "MOUTH", "NIGHT", "SLEEP", "TABLE"];
 
         let isActiveGame = true;
         let playedWords = new Set();
@@ -574,7 +703,7 @@
         const themeToggle = document.getElementById("themeToggle");
 
         // Use "default" string instead of null
-        const themes = ["default", "light-theme","superdark","alt1","alt2" ];
+        const themes = ["default", "light-theme","superdark","alt1","alt2","alt3","alt4" ];
 
         let currentTheme = localStorage.getItem("theme") || "default";
         if (currentTheme !== "default") {
@@ -733,7 +862,7 @@
             return;
         } 
 
-        // function playAnimation() { acionBtn.classList.add('anim-pos'); }
+        function playAnimation() { actionBtn.classList.add('anim-play'); }
         function redAnimation() { wordContainer.classList.add('anim-neg'); }
         function greenAnimation() { wordContainer.classList.add('anim-pos'); }
         function bonusAnimation() { bonusBtn.classList.add('anim-bonus'); }
@@ -748,7 +877,7 @@
             if (bonusBtn.classList.contains('anim-bonus')) { bonusBtn.classList.remove('anim-bonus'); }
             if (shuffleBtn.classList.contains('anim-bonus')) { shuffleBtn.classList.remove('anim-bonus'); }
             if (historyElement.classList.contains('anim-used')) { historyElement.classList.remove('anim-used'); }
-            // if (acionBtn.classList.contains('anim-pos')) { acionBtn.classList.remove('anim-pos'); }
+            if (actionBtn.classList.contains('anim-play')) { actionBtn.classList.remove('anim-play'); }
 
         }
 
@@ -1260,7 +1389,7 @@
         }
 
         actionBtn.addEventListener('click', () => {
-            // playAnimation();
+            playAnimation();
     completeMove(true);
     
 });
