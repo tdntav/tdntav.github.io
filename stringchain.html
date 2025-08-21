@@ -35,7 +35,7 @@
 
         }
 
-        .light-theme {
+        .not-too-light {
             --bg: #9ab;
             --text: #123;
 
@@ -63,7 +63,7 @@
         }
 
 
-        .superdark {
+        .dark-smart {
             --bg: #111;
             --text: #fff;
 
@@ -87,7 +87,7 @@
         }
 
 
-        .alt1 {
+        .winery {
             --bg: #312;
             --text: #fde;
 
@@ -114,7 +114,7 @@
             /* --scale-var: 1; */
         }
 
-        .alt2 {
+        .tannery {
             --bg: #fed;
             --text: #321;
 
@@ -139,7 +139,7 @@
 
         }
 
-        .alt3 {
+        .yello-pops {
             --bg: #111;            
             --text: #fff;
 
@@ -165,7 +165,7 @@
             /* --button-border: 3px inset #5ef; */
         }
 
-        .alt4 {
+        .too-light {
             --bg: #fff;
             --text: #333;
 
@@ -190,6 +190,66 @@
 
             /* --button-border: 3px inset #000; */
         }
+
+        .greenery {
+            --bg: #020;
+            --text: #dfb;
+
+            --accent: #0c0;
+            --accent-text: #000;
+
+            --positive-feedback: #dfb;
+
+            --negative-feedback: #000;
+            --disabled: #160;
+
+            --wordcell: #4a0;
+            --wordcell-text: var(--bg);
+            --wordcell-border: 2px solid var(--wordcell);
+
+            --gridcell: var(--wordcell);
+            --gridcell-text: var(--bg);
+            --gridcell-border: 2px solid var(--gridcell);
+
+            --selected-cell: var(--positive-feedback);
+            --selected-text: var(--bg);
+
+            /* --button-border: 3px inset #000; */
+        }
+
+
+
+
+        .pinko {
+            --bg: #fdf;
+            --text: #606;
+
+            --accent: #faf;
+            --accent-text: #606;
+
+            --positive-feedback: #fff;
+
+            --negative-feedback: #f00;
+            --disabled: #a4a;
+
+            --wordcell: #fff;
+            --wordcell-text: var(--disabled);
+            --wordcell-border: 2px solid var(--wordcell);
+
+            --gridcell: var(--accent);
+            --gridcell-text: var(--text);
+            --gridcell-border: 2px solid var(--accent);
+
+            --selected-cell: var(--text);
+            --selected-text: var(--bg);
+            --selected-border: 2px solid var(--text);
+
+
+            /* --button-border: 3px inset #000; */
+        }
+
+
+
 
         body {
             font-family: "Helvetica Neue", monospace;
@@ -357,7 +417,7 @@
         .grid-cell.selected {
             background: var(--selected-cell);
             color: var(--selected-text);
-            border: 2px solid var(--selected-cell);
+            border: var(--selected-border);
         }
 
         .button-row {
@@ -621,7 +681,7 @@
                 <br>
                 <br>You can expand the grid once by making a six letter word.
                 <br>
-                <br>Playing a previously played word does not incur a penalty.
+                <br>Attempting to play a previously played word does not incur a penalty.
                 <br>
                 <br>Words that fail dictionary validation are penalised with increasing severity.
                 <br>
@@ -702,7 +762,7 @@
         const themeToggle = document.getElementById("themeToggle");
 
         // Use "default" string instead of null
-        const themes = ["default", "light-theme","superdark","alt1","alt2","alt3","alt4" ];
+        const themes = ["default", "not-too-light","dark-smart","winery","tannery","yello-pops","too-light","greenery","pinko" ];
 
         let currentTheme = localStorage.getItem("theme") || "default";
         if (currentTheme !== "default") {
@@ -907,11 +967,11 @@
             }, duration);
         }
         function updateHistory() {
-            historyElement.textContent = [...playedWords].reverse().map(w => "_" + w).join('');
+            historyElement.textContent = [...playedWords].reverse().map(w => w + " ").join('');
         }
 
         function updateDisallowedWords() {
-            disallowedElement.textContent = [...disallowedWords].reverse().map(w => "_" + w).join('');
+            disallowedElement.textContent = [...disallowedWords].reverse().map(w => w + " ").join('');
         }
 
         function selectCell(cell) {
