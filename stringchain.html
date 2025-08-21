@@ -167,7 +167,7 @@
 
         .too-light {
             --bg: #fff;
-            --text: #333;
+            --text: #666;
 
             --accent: #eee;
             --accent-text: #555;
@@ -521,6 +521,7 @@
             border-top-left-radius: 4px;
             border-top-right-radius: 4px;
             color: var(--accent-text);
+            text-align: justify;
         }
 
         #definitions {
@@ -1488,12 +1489,14 @@
             const rulesHidden = rulesDiv.style.display === "none";
             rulesDiv.style.display = rulesHidden ? "block" : "none";
             rulesToggle.textContent = rulesHidden ? "^" : "?";
-            // if (rulesDiv.style.display != "block") { dropdownToggle.click() };
+            if (rulesDiv.style.display != "block") { dropdownToggle.click() };
             if (rulesDiv.style.display != "block") { 
                 dropdownDiv.style.display = "none"; 
                 dropdownToggle.textContent = "+"
                 aboutDiv.style.display = "none"; 
                 aboutBtn.textContent = "about";
+                rulesDiv.style.display = "none"; 
+                rulesToggle.textContent = "?";
             }
             
             // if (aboutDiv.style.display != "none" && rulesDiv.style.display != "block") {
