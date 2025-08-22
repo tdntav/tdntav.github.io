@@ -541,11 +541,12 @@
             right: 40px;
             z-index: 99;
             border-radius: 20px;
-            background: var(--accent);
-            color: var(--accent-text);
+            background: var(--wordcell);
+            color: var(--wordcell-text);
             margin-top: 15px;
             min-height: 40px;
             min-width: 80px;
+            border: 4px solid var(--bg);
             opacity: 75%;
         }
 
@@ -564,7 +565,7 @@
         }
 
         .help-dark {
-            border-radius: 20px;
+            border-radius: 4px;
             background: var(--bg);
             color: var(--text);
             margin-top: 15px;
@@ -587,9 +588,13 @@
 
         #message {
             font-size: 11pt;
+            font-family:'Courier New', Courier, monospace;
             margin-bottom: 5px;
-            color: var(--text);
-            min-height: 12px;
+            background: var(--wordcell);
+            border-radius: 20px;
+            color: var(--wordcell-text);
+            min-height: 16px;
+            padding:6px 42px;;
         }
 
         #history,
@@ -647,10 +652,10 @@
             background: var(--wordcell);
             padding: 10px;
             margin: 10px;
-            border-radius: 5px;
+            /* border-radius: 5px; */
 
             color: var(--wordcell-text);
-            width: 80%;
+            width: 100%;
             font-size: 14px;
             text-align: center;
         }
@@ -778,7 +783,7 @@
                 <br>BONUSES:<br>Get a bonus no-penalty setup move for every 5 added to your chain.
                 <br>Play bonus setup moves with the "||" button.
                 <br>
-                <br>Get a bonus grid refresh for every 30 points earned. Activate bonus grid refresh with the "#"
+                <br>Get a bonus grid refresh for every 30 string earned. Activate bonus grid refresh with the "#"
                 button.
                 <br>
                 <br>You can expand the grid once by making a six letter word.
@@ -794,19 +799,21 @@
                 <br>Enjoy!
                 <br>
             </p>
-        </div> <button id="toggle-rules" class="help-dark">?</button>
+        </div> <button id="toggle-rules" class="help-dark">HOW TO PLAY</button>
         <div id="about" style="display: none;">
             <p style="text-align: left;"> <b>ABOUT</b>
                 <br>
-                <br>We are a one-person dev team.<br>I mean, I am the dev person. I am the dev team.<br>I made this.
-                <br>
-                <br>Big shoutout to dictionaryapi.dev for providing a free dictionary resource. This is the spirit of
+                <br>Big shoutout to <b><i>dictionaryapi.dev</b></i> for providing a free dictionary resource. This is the spirit of
                 random collaboration that embodies the internet at its best.
                 <br>
                 <br>Without whoever that is, whoever I am couldn't have made this game for whoever you are.
                 <br>
                 <br>You'll notice the lack of ads and surveillance. Doesn't that make a nice change? Play as much as you
                 like. It's a good game, right?
+                <br>
+                <br>Once you save up a lot of bonuses, you can challenge yourself to play longer words, to tap into rich veins of word association and rhyme. Aspiring poets and rappers should love this.
+                <br>
+                <br>But the longer it goes, the harder it gets. Once you've used all the obvious and convenient short words, the game forces you to get creative.
                 <br>
                 <br>If you enjoy this game, consider buying me a coffee or putting my kids through college.
                 <br>
@@ -820,8 +827,10 @@
 
 
     </div>
-    <div id="message" style="display: none;"></div>
-    <div id="status">...</div>
+    <div id="anti-move-wrapper" style="height:40px;">
+        <div id="message" style="display: none;"></div>
+        <div id="status">...</div>
+    </div>
     <div class="scale-wrapper" id="scaleWrapper">
         <div class="word-container" id="wordContainer"></div>
     </div>
@@ -1117,12 +1126,17 @@
         }
 
         function showTemporaryMessage(message, duration = 3000) {
-            let newContent = messageElement.textContent;
+            // let newContent = messageElement.textContent;
             // Show the temporary message
-            statusElement.textContent = newContent;
+            // statusElement.textContent = newContent;
             // Restore after the given time
+            messageElement.style.display = "block";
+            statusElement.style.display = "none";
             setTimeout(() => {
+                // updateStatus();
+                messageElement.style.display = "none";
                 updateStatus();
+                statusElement.style.display = "block";
             }, duration);
         }
         function updateHistory() {
@@ -1600,7 +1614,7 @@
             replenishGrid();
             if (!moved) {
                 // messageElement.textContent = "Valid moves: grid-word, grid-slot, word-word, word-slot";
-                messageElement.textContent = "Invalid move. Click + and ? up top for instructions.";
+                messageElement.textContent = "Invalid move. Click + up top for guidance.";
                 showTemporaryMessage();
                 return;
             }
@@ -1623,7 +1637,7 @@
             getHighScores();
             if (rulesDiv.style.display = "block") {
                 rulesDiv.style.display = "none";
-                rulesToggle.textContent = "?";
+                rulesToggle.textContent = "how to play";
             }
             if (aboutDiv.style.display = "block") {
                 aboutDiv.style.display = "none";
@@ -1636,7 +1650,7 @@
         rulesToggle.addEventListener("click", () => {
             const rulesHidden = rulesDiv.style.display === "none";
             rulesDiv.style.display = rulesHidden ? "block" : "none";
-            rulesToggle.textContent = rulesHidden ? "^" : "?";
+            rulesToggle.textContent = rulesHidden ? "^" : "how to play";
             if (rulesDiv.style.display != "block") { dropdownToggle.click() };
         });
 
