@@ -694,8 +694,8 @@
                 <br>
             </p>
         </div>
-        <button id="aboutBtn" class="help-dark">about</button><div id="about" style="display: none;">
-            <p style="text-align: left;"> <b>ABOUT STRINGCHAIN</b>
+        <button id="aboutBtn" class="help-dark">about</button> <button id="themeToggle" class="help-dark">change</button><div id="about" style="display: none;">
+            <p style="text-align: left;"> <b>ABOUT</b>
                 <br>
                 <br>We are a one-person dev team.<br>I mean, I am the dev person. I am the dev team.<br>I made this.
                 <br>
@@ -711,7 +711,7 @@
                 <br>
                 <br>Word nerd,<br>Dave
             </p>
-        </div> <button id="themeToggle" class="help-dark">change</button> <button id="toggle-rules" class="help-dark">?</button>
+        </div> <button id="toggle-rules" class="help-dark">?</button>
 
     </div>
     <div id="message" style="display: none;"></div>
@@ -1438,6 +1438,7 @@
                     redAnimation();
                     if (invalidAttempts >= 5) {
                         messageElement.textContent += " | Disqualified!";
+                        saveHighScore();
                         disableGame();
                         saveGameState();
                     }
@@ -1510,7 +1511,7 @@
 
 
 
-        
+
 
         bonusBtn.addEventListener('click', () => {
             if (bonusMovesAvailable <= 0) {
