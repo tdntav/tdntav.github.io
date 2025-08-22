@@ -537,10 +537,10 @@
         #scrollBtn {
             display: none;
             position: fixed;
-            bottom: 20px;
-            right: 30px;
+            bottom: 150px;
+            right: 40px;
             z-index: 99;
-            border-radius: 20px;
+            border-radius: 30px;
             background: var(--disabled);
             color: var(--accent-text);
             margin-top: 15px;
@@ -940,11 +940,11 @@
         function topFunction() {
             document.body.scrollTop = 0;
             document.documentElement.scrollTop = 0;
+            if (dropdownDiv.style.display = "block") { dropdownToggle.click() };
         }
 
         scrollBtn.addEventListener("click", () => {
             topFunction();
-            if (dropdownDiv.style.display = "block") { dropdownToggle.click() };
         });
 
 
