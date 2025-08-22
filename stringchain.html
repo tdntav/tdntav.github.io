@@ -140,7 +140,7 @@
         }
 
         .yello-pops {
-            --bg: #111;            
+            --bg: #111;
             --text: #fff;
 
             --accent: #ca2;
@@ -317,7 +317,7 @@
 
             --negative-feedback: #f94;
             --disabled: #444;
- 
+
             --wordcell: var(--accent);
             --wordcell-text: var(--text);
             --wordcell-border: 2px solid var(--wordcell);
@@ -533,6 +533,21 @@
             font-size: 11pt;
         }
 
+
+        #scrollBtn {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 30px;
+            z-index: 99;
+            border-radius: 20px;
+            background: var(--disabled);
+            color: var(--accent-text);
+            margin-top: 15px;
+            min-height: 40px;
+            min-width: 40px;
+        }
+
         .newgame {
             width: 90%;
             padding: 10px 10px;
@@ -594,7 +609,7 @@
 
         #disallowed {
             background-color: var(--disabled);
-            color: var(--accent-text); 
+            color: var(--accent-text);
             margin-bottom: 0px;
             border-bottom-left-radius: 4px;
             border-bottom-right-radius: 4px;
@@ -615,7 +630,8 @@
             width: 80%;
         }
 
-        #rules, #about {
+        #rules,
+        #about {
             background: var(--wordcell);
             /* padding: 10px;
             margin: 10px;
@@ -761,7 +777,8 @@
                 <br>BONUSES:<br>Get a bonus no-penalty setup move for every 5 added to your chain.
                 <br>Play bonus setup moves with the "||" button.
                 <br>
-                <br>Get a bonus grid refresh for every 30 points earned. Activate bonus grid refresh with the "#" button.
+                <br>Get a bonus grid refresh for every 30 points earned. Activate bonus grid refresh with the "#"
+                button.
                 <br>
                 <br>You can expand the grid once by making a six letter word.
                 <br>
@@ -782,22 +799,24 @@
                 <br>
                 <br>We are a one-person dev team.<br>I mean, I am the dev person. I am the dev team.<br>I made this.
                 <br>
-                <br>Big shoutout to dictionaryapi.dev for providing a free dictionary resource. This is the spirit of random collaboration that embodies the internet at its best.
+                <br>Big shoutout to dictionaryapi.dev for providing a free dictionary resource. This is the spirit of
+                random collaboration that embodies the internet at its best.
                 <br>
                 <br>Without whoever that is, whoever I am couldn't have made this game for whoever you are.
                 <br>
-                <br>You'll notice the lack of ads and surveillance. Doesn't that make a nice change? Play as much as you like. It's a good game, right?
+                <br>You'll notice the lack of ads and surveillance. Doesn't that make a nice change? Play as much as you
+                like. It's a good game, right?
                 <br>
-                <br>If you enjoy this game, consider buying me a coffee or putting my kids through college. 
+                <br>If you enjoy this game, consider buying me a coffee or putting my kids through college.
                 <br>
                 <br>If NYT wants to buy this like they bought Wordle, I am open to offers of life-changing sums.
                 <br>
                 <br>Word nerd,<br>Dave
             </p>
         </div>
-        <button id="aboutBtn" class="help-dark">about</button>  
-        
-        
+        <button id="aboutBtn" class="help-dark">about</button>
+
+
 
     </div>
     <div id="message" style="display: none;"></div>
@@ -817,6 +836,7 @@
     <div id="definitions"></div>
 
     <button id="newGameBtn" class="newgame">RESTART</button>
+    <button id="scrollBtn" class="scrollBtn">TOP</button>
 
 
     <script>
@@ -837,12 +857,13 @@
         const definitionsElement = document.getElementById('definitions');
         const rulesToggle = document.getElementById("toggle-rules");
         const dropdownToggle = document.getElementById("toggle-dropdown");
+        const scrollBtn = document.getElementById("scrollBtn");
         const aboutBtn = document.getElementById("aboutBtn");
         const aboutDiv = document.getElementById("about");
         const rulesDiv = document.getElementById("rules");
         const dropdownDiv = document.getElementById("dropdown");
         const alphabet = "EEEEEEEEEAAAARRRRIIIOOONNSSSTTTLLLLCCUUUDDDPPGGHHBBMMYYFFVVWWKKXJQZ".split("");
-        const validWords = ["DUNK", "SIFT","DOSE", "RAPE", "HEE", "TOW", "NET", "AND", "THE", "CUE", "FOR", "ARE", "BUT", "NOT", "YOU", "ALL", "ANY", "CAN", "HAD", "HER", "WAS", "ONE", "OUR", "OUT", "DAY", "GET", "HAS", "HIM", "HIS", "HOW", "MAN", "NEW", "NOW", "OLD", "SEE", "TWO", "WAY", "WHO", "WHY", "USE", "BIG", "FUN", "RUN", "SUN", "TOP", "CAR", "DOG", "CAT", "BOX", "RED", "HOT", "WIN", "JOB", "EAT", "YES", "MOM", "DAD", "BED", "TIME", "YEAR", "WORK", "LIFE", "LOVE", "GOOD", "MAKE", "LOOK", "CUES", "WANT", "WELL", "HAND", "EYES", "GIVE", "TAKE", "KNOW", "INTO", "FROM", "OVER", "MORE", "JUST", "LIKE", "COME", "WHEN", "THEN", "VERY", "EVEN", "BACK", "ONLY", "DOWN", "OPEN", "STOP", "PLAY", "WALK", "TALK", "TURN", "KEEP", "HOME", "ROOM", "WORD", "COLD", "WARM", "BLUE", "GOLD", "FAST", "SLOW", "NEAR", "FAR", "TREE", "FISH", "BIRD", "RAIN", "ABOUT", "AFTER", "AGAIN", "BELOW", "COULD", "EVERY", "FIRST", "FOUND", "GREAT", "HOUSE", "LARGE", "LEARN", "NEVER", "OTHER", "PLANT", "POINT", "RIGHT", "SMALL", "SOUND", "SPELL", "STILL", "STUDY", "THEIR", "THERE", "THESE", "THING", "THINK", "THREE", "WATER", "WHERE", "WHICH", "WORLD", "WOULD", "WRITE", "APPLE", "BREAD", "CHAIR", "CLEAN", "CLOSE", "CLOUD", "EARTH", "TWIST", "TIGHT", "GRASS", "HEART", "MONEY", "MOUTH", "NIGHT", "SLEEP", "TABLE"];
+        const validWords = ["DUNK", "SIFT", "DOSE", "RAPE", "HEE", "TOW", "NET", "AND", "THE", "CUE", "FOR", "ARE", "BUT", "NOT", "YOU", "ALL", "ANY", "CAN", "HAD", "HER", "WAS", "ONE", "OUR", "OUT", "DAY", "GET", "HAS", "HIM", "HIS", "HOW", "MAN", "NEW", "NOW", "OLD", "SEE", "TWO", "WAY", "WHO", "WHY", "USE", "BIG", "FUN", "RUN", "SUN", "TOP", "CAR", "DOG", "CAT", "BOX", "RED", "HOT", "WIN", "JOB", "EAT", "YES", "MOM", "DAD", "BED", "TIME", "YEAR", "WORK", "LIFE", "LOVE", "GOOD", "MAKE", "LOOK", "CUES", "WANT", "WELL", "HAND", "EYES", "GIVE", "TAKE", "KNOW", "INTO", "FROM", "OVER", "MORE", "JUST", "LIKE", "COME", "WHEN", "THEN", "VERY", "EVEN", "BACK", "ONLY", "DOWN", "OPEN", "STOP", "PLAY", "WALK", "TALK", "TURN", "KEEP", "HOME", "ROOM", "WORD", "COLD", "WARM", "BLUE", "GOLD", "FAST", "SLOW", "NEAR", "FAR", "TREE", "FISH", "BIRD", "RAIN", "ABOUT", "AFTER", "AGAIN", "BELOW", "COULD", "EVERY", "FIRST", "FOUND", "GREAT", "HOUSE", "LARGE", "LEARN", "NEVER", "OTHER", "PLANT", "POINT", "RIGHT", "SMALL", "SOUND", "SPELL", "STILL", "STUDY", "THEIR", "THERE", "THESE", "THING", "THINK", "THREE", "WATER", "WHERE", "WHICH", "WORLD", "WOULD", "WRITE", "APPLE", "BREAD", "CHAIR", "CLEAN", "CLOSE", "CLOUD", "EARTH", "TWIST", "TIGHT", "GRASS", "HEART", "MONEY", "MOUTH", "NIGHT", "SLEEP", "TABLE"];
 
         let isActiveGame = true;
         let playedWords = new Set();
@@ -869,7 +890,7 @@
         const themeToggle = document.getElementById("themeToggle");
 
         // Use "default" string instead of null
-        const themes = ["default", "not-too-light", "green-pops", "winery", "tannery", "yello-pops", "too-light", "greenery", "pinko","minimal-animal","minimal-liminal","dark-grey" ];
+        const themes = ["default", "not-too-light", "green-pops", "winery", "tannery", "yello-pops", "too-light", "greenery", "pinko", "minimal-animal", "minimal-liminal", "dark-grey"];
 
         let currentTheme = localStorage.getItem("theme") || "default";
         if (currentTheme !== "default") {
@@ -896,6 +917,36 @@
             // Save
             localStorage.setItem("theme", currentTheme);
         });
+
+
+
+
+
+
+
+
+
+        window.onscroll = function () { scrollFunction() };
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                scrollBtn.style.display = "block";
+            } else {
+                scrollBtn.style.display = "none";
+            }
+        }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+
+        scrollBtn.addEventListener("click", () => {
+            topFunction();
+            if (dropdownDiv.style.display = "block") { dropdownToggle.click() };
+        });
+
 
 
 
@@ -1026,7 +1077,7 @@
             specialModeActive = false;
             wordContainer.classList.remove('special');
             return;
-        } 
+        }
 
         function playAnimation() { actionBtn.classList.add('anim-play'); }
         function redAnimation() { wordContainer.classList.add('anim-neg'); }
@@ -1034,7 +1085,7 @@
         function bonusAnimation() { bonusBtn.classList.add('anim-bonus'); }
         function shuffleAnimation() { shuffleBtn.classList.add('anim-bonus'); }
         function alreadyUsedAnimation() { wordContainer.classList.add('anim-used'); }
-    
+
 
         function removeAnimation() {
             if (wordContainer.classList.contains('anim-neg')) { wordContainer.classList.remove('anim-neg'); }
@@ -1557,9 +1608,9 @@
 
         actionBtn.addEventListener('click', () => {
             playAnimation();
-    completeMove(true);
-    
-});
+            completeMove(true);
+
+        });
 
 
 
@@ -1569,12 +1620,12 @@
             dropdownDiv.style.display = dropdownHidden ? "block" : "none";
             dropdownToggle.textContent = dropdownHidden ? "^" : "+";
             getHighScores();
-            if (rulesDiv.style.display = "block") { 
-                rulesDiv.style.display = "none"; 
+            if (rulesDiv.style.display = "block") {
+                rulesDiv.style.display = "none";
                 rulesToggle.textContent = "?";
             }
-            if (aboutDiv.style.display = "block") { 
-                aboutDiv.style.display = "none"; 
+            if (aboutDiv.style.display = "block") {
+                aboutDiv.style.display = "none";
                 aboutBtn.textContent = "about";
             }
         });
