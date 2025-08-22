@@ -1482,6 +1482,14 @@
             dropdownDiv.style.display = dropdownHidden ? "block" : "none";
             dropdownToggle.textContent = dropdownHidden ? "^" : "+";
             getHighScores();
+            if (rulesDiv.style.display = "block") { 
+                rulesDiv.style.display = "none"; 
+                rulesToggle.textContent = "?";
+            }
+            if (aboutDiv.style.display = "block") { 
+                aboutDiv.style.display = "none"; 
+                aboutBtn.textContent = "about";
+            }
         });
 
 
@@ -1490,20 +1498,6 @@
             rulesDiv.style.display = rulesHidden ? "block" : "none";
             rulesToggle.textContent = rulesHidden ? "^" : "?";
             if (rulesDiv.style.display != "block") { dropdownToggle.click() };
-            if (rulesDiv.style.display != "block") { 
-                dropdownDiv.style.display = "none"; 
-                dropdownToggle.textContent = "+"
-                aboutDiv.style.display = "none"; 
-                aboutBtn.textContent = "about";
-                rulesDiv.style.display = "none"; 
-                rulesToggle.textContent = "?";
-            }
-            
-            // if (aboutDiv.style.display != "none" && rulesDiv.style.display != "block") {
-            //     dropdownToggle.click();
-            //     // actionBtn.click();
-            // }
-            // if (aboutDiv.style.display = "block") { aboutBtn.click() };
         });
 
         aboutBtn.addEventListener("click", () => {
@@ -1511,12 +1505,12 @@
             aboutDiv.style.display = aboutHidden ? "block" : "none";
             aboutBtn.textContent = aboutHidden ? "^" : "about";
             if (aboutDiv.style.display != "block") { dropdownToggle.click() };
-            if (rulesDiv.style.display != "none" && aboutDiv.style.display != "block") {
-                dropdownToggle.click();
-                rulesToggle.click();
-            }
         });
 
+
+
+
+        
 
         bonusBtn.addEventListener('click', () => {
             if (bonusMovesAvailable <= 0) {
