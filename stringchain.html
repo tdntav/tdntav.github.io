@@ -250,6 +250,62 @@
 
 
 
+        .minimal-animal {
+            --bg: #eee;
+            --text: #888;
+
+            --accent: #f87;
+            --accent-text: #eee;
+
+            --positive-feedback: #8d2;
+
+            --negative-feedback: #000;
+            --disabled: #333;
+
+            --wordcell: var(--accent);
+            --wordcell-text: var(--bg);
+            --wordcell-border: 2px solid var(--wordcell);
+
+            --gridcell: var(--wordcell);
+            --gridcell-text: var(--wordcell-text);
+            --gridcell-border: 2px solid var(--wordcell);
+
+            --selected-cell: var(--text);
+            --selected-text: var(--bg);
+            --selected-border: 2px solid var(--text);
+
+
+            /* --button-border: 3px inset #000; */
+        }
+
+        .minimal-liminal {
+            --bg: #eee;
+            --text: #789;
+
+            --accent: #cde;
+            --accent-text: #text;
+
+            --positive-feedback: #7ad;
+
+            --negative-feedback: #f00;
+            --disabled: #abc;
+
+            --wordcell: #fff;
+            --wordcell-text: var(--text);
+            --wordcell-border: 2px solid var(--wordcell);
+
+            --gridcell: var(--wordcell);
+            --gridcell-text: var(--text);
+            --gridcell-border: 2px solid var(--wordcell);
+
+            --selected-cell: var(--text);
+            --selected-text: var(--bg);
+            --selected-border: 2px solid var(--text);
+
+
+            /* --button-border: 3px inset #000; */
+        }
+
 
         body {
             font-family: "Helvetica Neue", monospace;
@@ -345,7 +401,7 @@
             border: var(--selected-border);
             color: var(--selected-text);
             background: var(--selected-cell);
-            height: 56px;
+            /* height: 54px; */
         }
 
         .special {
@@ -783,7 +839,7 @@
         const themeToggle = document.getElementById("themeToggle");
 
         // Use "default" string instead of null
-        const themes = ["default", "not-too-light", "green-pops", "winery", "tannery", "yello-pops", "too-light", "greenery", "pinko" ];
+        const themes = ["default", "not-too-light", "green-pops", "winery", "tannery", "yello-pops", "too-light", "greenery", "pinko","minimal-animal","minimal-liminal" ];
 
         let currentTheme = localStorage.getItem("theme") || "default";
         if (currentTheme !== "default") {
