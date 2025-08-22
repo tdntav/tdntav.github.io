@@ -587,7 +587,7 @@
         }
 
         #message {
-            font-size: 11pt;
+            font-size: 10pt;
             font-family:'Courier New', Courier, monospace;
             margin-bottom: 5px;
             background: var(--wordcell);
@@ -816,8 +816,6 @@
                 <br>But the longer it goes, the harder it gets. Once you've used all the obvious and convenient short words, the game forces you to get creative.
                 <br>
                 <br>If you enjoy this game, consider buying me a coffee or putting my kids through college.
-                <br>
-                <br>If NYT wants to buy this like they bought Wordle, I am open to offers of life-changing sums.
                 <br>
                 <br>Word nerd,<br>Dave
             </p>
@@ -1537,6 +1535,7 @@
                 scoreElement.textContent = score;
                 chainElement.textContent = chain;
                 messageElement.textContent = "Valid word (from local list)!";
+                clearSpecialMode();
                 showTemporaryMessage();
                 greenAnimation();
                 showDefinitions(lower);
