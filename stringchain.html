@@ -761,7 +761,7 @@
         <div id="highScores"></div>
         <button id="themeToggle" class="help-dark">change</button>
         <div id="rules" style="display: none;">
-            <p style="text-align:left;"> <b>INSTRUCTIONS<br>Take a string of letters, make a chain of words.</b>
+            <p style="text-align:left;"> <b>HOW TO PLAY<br>Take a string of letters, make a chain of words.</b>
                 <br>
                 <br>Select cells from the grid and/or the existing word to make a new word.
                 <br>
@@ -941,11 +941,11 @@
         function topFunction() {
             document.body.scrollTop = 0;
             document.documentElement.scrollTop = 0;
-            if (dropdownDiv.style.display = "block") { dropdownToggle.click() };
         }
 
         scrollBtn.addEventListener("click", () => {
             topFunction();
+            if (dropdownDiv.style.display = "block") { dropdownToggle.click() };
         });
 
 
@@ -1629,6 +1629,7 @@
                 aboutDiv.style.display = "none";
                 aboutBtn.textContent = "about";
             }
+            topFunction();
         });
 
 
