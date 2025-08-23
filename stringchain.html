@@ -566,7 +566,7 @@
         }
 
         .help-dark {
-            border-radius: 4px;
+            border-radius: 20px;
             background: var(--bg);
             color: var(--text);
             margin-top: 15px;
@@ -766,7 +766,7 @@
         <h1>stringchain</h1>
 
         <div id="highScores"></div>
-        <button id="themeToggle" class="help-dark">change</button>
+        <button id="themeToggle" class="help-dark">change</button> <button id="toggle-rules" class="help-dark">HOW TO PLAY</button> <button id="aboutBtn" class="help-dark">about</button>
         <div id="rules" style="display: none;">
             <p style="text-align:left;"> <b>HOW TO PLAY<br>Take a string of letters, make a chain of words.</b>
                 <br>
@@ -801,7 +801,7 @@
                 <br>Enjoy!
                 <br>
             </p>
-        </div> <button id="toggle-rules" class="help-dark">HOW TO PLAY</button>
+        </div>
         <div id="about" style="display: none;">
             <p style="text-align: left;"> <b>ABOUT</b>
                 <br>
@@ -825,7 +825,7 @@
                 <br>Word nerd,<br>Dave
             </p>
         </div>
-        <button id="aboutBtn" class="help-dark">about</button>
+        
 
 
 
@@ -1651,7 +1651,7 @@
             getHighScores();
             if (rulesDiv.style.display = "block") {
                 rulesDiv.style.display = "none";
-                rulesToggle.textContent = "how to play";
+                rulesToggle.textContent = "HOW TO PLAY";
             }
             if (aboutDiv.style.display = "block") {
                 aboutDiv.style.display = "none";
@@ -1664,8 +1664,12 @@
         rulesToggle.addEventListener("click", () => {
             const rulesHidden = rulesDiv.style.display === "none";
             rulesDiv.style.display = rulesHidden ? "block" : "none";
-            rulesToggle.textContent = rulesHidden ? "^" : "how to play";
+            rulesToggle.textContent = rulesHidden ? "^" : "HOW TO PLAY";
             if (rulesDiv.style.display != "block") { dropdownToggle.click() };
+            if (aboutDiv.style.display = "block") {
+                aboutDiv.style.display = "none";
+                aboutBtn.textContent = "about";
+            }
         });
 
         aboutBtn.addEventListener("click", () => {
@@ -1673,6 +1677,10 @@
             aboutDiv.style.display = aboutHidden ? "block" : "none";
             aboutBtn.textContent = aboutHidden ? "^" : "about";
             if (aboutDiv.style.display != "block") { dropdownToggle.click() };
+            if (rulesDiv.style.display = "block") {
+                rulesDiv.style.display = "none";
+                rulesToggle.textContent = "HOW TO PLAY";
+            }
         });
 
 
