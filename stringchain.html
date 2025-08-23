@@ -337,7 +337,7 @@
 
         body {
             font-family: "Helvetica Neue", monospace;
-            background-color: var(--bg);
+            background: var(--bg);
             max-width: 400px;
             margin: auto;
             /* margin: 0; */
@@ -589,13 +589,14 @@
 
         #message {
             font-size: 10pt;
-            font-family:'Courier New', Courier, monospace;
+            font-family: 'Courier New', Courier, monospace;
             margin-bottom: 5px;
             background: var(--wordcell);
             border-radius: 20px;
             color: var(--wordcell-text);
             min-height: 16px;
-            padding:6px 42px;;
+            padding: 6px 42px;
+            ;
         }
 
         #history,
@@ -804,7 +805,8 @@
         <div id="about" style="display: none;">
             <p style="text-align: left;"> <b>ABOUT</b>
                 <br>
-                <br>Big shoutout to <b><i>dictionaryapi.dev</b></i> for providing a free dictionary resource. This is the spirit of
+                <br>Big shoutout to <b><i>dictionaryapi.dev</b></i> for providing a free dictionary resource. This is
+                the spirit of
                 random collaboration that embodies the internet at its best.
                 <br>
                 <br>Without whoever that is, whoever I am couldn't have made this game for whoever you are.
@@ -812,9 +814,11 @@
                 <br>You'll notice the lack of ads and surveillance. Doesn't that make a nice change? Play as much as you
                 like. It's a good game, right?
                 <br>
-                <br>Once you save up a lot of bonuses, you can challenge yourself to play longer words, to tap into rich veins of word association and rhyme. Aspiring poets and rappers should love this.
+                <br>Once you save up a lot of bonuses, you can challenge yourself to play longer words, to tap into rich
+                veins of word association and rhyme. Aspiring poets and rappers should love this.
                 <br>
-                <br>But the longer it goes, the harder it gets. Once you've used all the obvious and convenient short words, the game forces you to get creative.
+                <br>But the longer it goes, the harder it gets. Once you've used all the obvious and convenient short
+                words, the game forces you to get creative.
                 <br>
                 <br>If you enjoy this game, consider buying me a coffee or putting my kids through college.
                 <br>
@@ -1148,6 +1152,8 @@
 
         function selectCell(cell) {
             removeAnimation();
+
+
             const type = cell.dataset.type;
             const isSelected = selected.includes(cell);
             // --- Helpers ---
@@ -1346,7 +1352,15 @@
                         cell.classList.add('selected');
                     }
 
-                    cell.addEventListener('click', () => selectCell(cell));
+                    // cell.addEventListener('click', () => selectCell(cell));
+
+                    cell.addEventListener('click', (event) => {
+                        if (cell.classList.contains("used")) {
+                            event.stopPropagation(); // optional
+                            return; // ignore click
+                        }
+                        selectCell(cell);
+                    });
                     gridElement.appendChild(cell);
                 }
             }
