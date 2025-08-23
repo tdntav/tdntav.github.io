@@ -374,7 +374,7 @@
             display: flex;
             /* width:100%; */
             justify-content: center;
-            overflow: hidden;
+            /* overflow: hidden; */
             background: transparent;
             padding: 10px;
             transform-origin: center;
@@ -390,8 +390,9 @@
             /* flex-wrap: wrap; */
             justify-content: center;
             margin-bottom: 10px;
-            padding: 10px;
+            padding: 2px;
             border-radius: 4px;
+            
             /* width:100%; */
 
             /* transform-origin: center; */
@@ -539,7 +540,6 @@
             position: fixed;
             bottom: 200px;
             right: 40px;
-            z-index: 99;
             border-radius: 40px;
             background: var(--wordcell);
             color: var(--wordcell-text);
@@ -596,7 +596,8 @@
             color: var(--wordcell-text);
             min-height: 16px;
             padding: 6px 42px;
-            ;
+            overflow: visible;
+            
         }
 
         #history,
@@ -830,7 +831,7 @@
 
 
     </div>
-    <div id="anti-move-wrapper" style="height:40px;">
+    <div id="anti-move-wrapper" style="height:48px;">
         <div id="message" style="display: none;"></div>
         <div id="status">...</div>
     </div>
