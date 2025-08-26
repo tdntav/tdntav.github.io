@@ -382,7 +382,7 @@
             text-align: center;
             width:90%;
             /* background: var(--wordcell); */
-            background-image: linear-gradient(to top, var(--bg) , var(--wordcell));
+            background-image: linear-gradient(to top, var(--bg) , var(--wordcell), var(--bg));
 
 
         }
@@ -524,16 +524,21 @@
             flex-wrap: wrap;
         }
 
+
+        
+
         .button-row button {
             margin: 3px;
             padding: 10px;
             font-family: inherit;
             color: var(--accent-text);
             border-radius: 5px;
-            border: var(--button-border);
+            border: 2px solid var(--selected-cell);
             flex: 1 1 30%;
             min-width: 80px;
         }
+
+        
 
         button {
             background: var(--accent);
@@ -591,6 +596,8 @@
             background: var(--disabled);
             color: var(--accent-text);
             cursor: default;
+            border: 2px solid transparent;
+
         }
 
 
@@ -974,9 +981,9 @@
                         <div class="insert-slot demo-cell"></div>
                     </div>
                     <p class="demo-para">Hit the <b><i>PLAY</i></b> button to complete the move.<br><br></p>
-                    <div class="button-row demo demoscale"> <button class="bonusBtn disabled">||</button><button
+                    <div class="button-row demo demoscale"> <button class="bonusBtn disabled" style="border:2px solid transparent;">||</button><button
                             class="actionBtn" style="border:2px solid var(--selected-cell);">PLAY</button><button
-                            class="shuffleBtn disabled">#</button></div>
+                            class="shuffleBtn disabled" style="border:2px solid transparent;">#</button></div>
 
                     <div class="word-container demoscale"
                         style="width:75%;background:var(--positive-feedback);margin-top:20px;">
@@ -1009,9 +1016,9 @@
                         <div class="insert-slot demo-cell"></div>
                     </div>
                     <p class="demo-para">Hit <b><i>PLAY</i></b> to complete the move.<br><br></p>
-                    <div class="button-row demo demoscale"> <button class="bonusBtn disabled">||</button><button
+                    <div class="button-row demo demoscale"> <button class="bonusBtn disabled" style="border:2px solid transparent;">||</button><button
                             class="actionBtn" style="border:2px solid var(--selected-cell);">PLAY</button><button
-                            class="shuffleBtn disabled">#</button></div>
+                            class="shuffleBtn disabled" style="border:2px solid transparent;">#</button></div>
                     <div class="word-container demoscale" style="background:var(--positive-feedback);margin-top:20px;">
                         <div class="insert-slot demo-cell"></div>
                         <div class="letter demo-cell">T</div>
@@ -1042,9 +1049,9 @@
                         <div class="insert-slot demo-cell"></div>
                     </div>
                     <p class="demo-para">Hit <b><i>PLAY</i></b> to delete it and make a new valid word.<br><br></p>
-                    <div class="button-row demo demoscale"> <button class="bonusBtn disabled">||</button><button
+                    <div class="button-row demo demoscale"> <button class="bonusBtn disabled" style="border:2px solid transparent;">||</button><button
                             class="actionBtn" style="border:2px solid var(--selected-cell);">PLAY</button><button
-                            class="shuffleBtn disabled">#</button></div>
+                            class="shuffleBtn disabled" style="border:2px solid transparent;">#</button></div>
 
                     <div class="word-container demoscale" style="background:var(--positive-feedback);margin-top:20px;">
                         <div class="insert-slot demo-cell"></div>
@@ -1088,9 +1095,9 @@
                         <div class="grid-cell-demo">T</div>
                     </div>
                     <p class="demo-para">Hit <b><i>PLAY</i></b> to confirm.<br><br></p>
-                    <div class="button-row demo demoscale"> <button class="bonusBtn disabled">||</button><button
+                    <div class="button-row demo demoscale"> <button class="bonusBtn disabled style="border:2px solid transparent;"">||</button><button
                             class="actionBtn" style="border:2px solid var(--selected-cell);">PLAY</button><button
-                            class="shuffleBtn disabled">#</button></div>
+                            class="shuffleBtn disabled" style="border:2px solid transparent;">#</button></div>
                     <div class="word-container demoscale"
                         style="width:75%;background:var(--positive-feedback);margin-top:20px;">
                         <div class="insert-slot demo-cell"></div>
@@ -1136,9 +1143,9 @@
                         <div class="grid-cell-demo selected">T</div>
                     </div>
                     <p class="demo-para">Engage <b><i>PLAY</i></b> to make it so<br><br></p>
-                    <div class="button-row demo demoscale"> <button class="bonusBtn disabled">||</button><button
+                    <div class="button-row demo demoscale"> <button class="bonusBtn disabled" style="border:2px solid transparent;">||</button><button
                             class="actionBtn" style="border:2px solid var(--selected-cell);">PLAY</button><button
-                            class="shuffleBtn disabled">#</button></div>
+                            class="shuffleBtn disabled" style="border:2px solid transparent;">#</button></div>
 
                     <div class="word-container demoscale"
                         style="width:75%;background:var(--positive-feedback);margin-top:20px;">
@@ -1162,8 +1169,8 @@
                     <p class="demo-para">A bonus no-penalty setup move is earned<br>for every 5 words
                         added to the chain.<br><br></p>
                     <div class="button-row demo demoscale"> <button class="bonusBtn" style="border:2px solid var(--selected-cell);">1
-                            ||</button><button class="actionBtn disabled">PLAY</button><button
-                            class="shuffleBtn disabled">#</button></div>
+                            ||</button><button class="actionBtn disabled" style="border:2px solid transparent;">PLAY</button><button
+                            class="shuffleBtn disabled" style="border:2px solid transparent;">#</button></div>
                     <p class="demo-para"><br>To use it, select a move as normal but<br>hit the <b>BONUS ||</b> button
                         instead of <b><i>PLAY</i></b>.
                     </p>
@@ -1174,8 +1181,8 @@
                 <!-- EXAMPLE 6: REFRESH BUTTON -->
                 <div class="demo-board">
                     <p class="demo-para">A free grid refresh bonus is earned<br>for every 30 points (AKA string).<br><br>Play the grid refresh bonus<br>by pressing the # button.<br><br></p>
-                    <div class="button-row demo demoscale"> <button class="bonusBtn disabled">1 ||</button><button
-                            class="actionBtn disabled">PLAY</button><button class="shuffleBtn" style="border:2px solid var(--selected-cell);"># 1</button></div>
+                    <div class="button-row demo demoscale"> <button class="bonusBtn disabled" style="border:2px solid transparent;">1 ||</button><button
+                            class="actionBtn disabled" style="border:2px solid transparent;">PLAY</button><button class="shuffleBtn" style="border:2px solid var(--selected-cell);"># 1</button></div>
                     <p class="demo-para"><br>Existing grid is replaced with a fresh one.</p>
                     <div class="grid-demo selected" style="background:var(--positive-feedback);border:none;">
                         <div class="grid-cell-demo">A</div>
