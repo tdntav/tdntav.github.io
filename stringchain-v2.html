@@ -380,11 +380,31 @@
             font-size: 14pt;
             flex-wrap: wrap;
             text-align: center;
-            width:90%;
+            width: 90%;
+            height: 22px;
             /* background: var(--wordcell); */
-            background-image: linear-gradient(to top, var(--bg) , var(--wordcell), var(--bg));
+            background-image: linear-gradient(to top, var(--wordcell), var(--bg));
+        }
 
-
+        .message {
+            position: relative;
+            bottom: 4px;
+            font-size: 11pt;
+            font-family: 'Courier New', Courier, monospace;
+            text-align: center;
+            flex-wrap: wrap;
+            text-align: center;
+            /* margin-bottom: 5px; */
+            /* background: var(--accent); */
+            /* border-radius: 5px; */
+            color: var(--accent-text);
+            height: 66px;
+            width: 100%;
+            background-image: linear-gradient(to top, var(--bg), var(--accent));
+            padding-block: 10px;
+            /* overflow: visible; */
+            opacity: 75%;
+            z-index: -1;
         }
 
         .scale-wrapper {
@@ -456,7 +476,7 @@
 
         .anim-pos {
             animation-name: animate-positive;
-            animation-duration: 0.5s;
+            animation-duration: 1.5s;
         }
 
         .anim-bonus {
@@ -523,10 +543,11 @@
             justify-content: center;
             width: 90%;
             flex-wrap: wrap;
+            z-index: 1;
         }
 
 
-        
+
 
         .button-row button {
             margin: 3px;
@@ -539,7 +560,7 @@
             min-width: 80px;
         }
 
-        
+
 
         button {
             background: var(--accent);
@@ -572,7 +593,7 @@
             width: 90%;
             padding: 10px 10px;
             display: block;
-            background-image: linear-gradient(to right, var(--text) , var(--accent), var(--accent-text));
+            background-image: linear-gradient(to right, var(--text), var(--accent), var(--accent-text));
 
         }
 
@@ -634,24 +655,7 @@
         }
 
 
-        #message {
-            position: relative;
-            bottom: 20px;
-            font-size: 11pt;
-            font-family: 'Courier New', Courier, monospace;
-            text-align: center;
-            /* margin-bottom: 5px; */
-            /* background: var(--accent); */
-            /* border-radius: 5px; */
-            color: var(--accent-text);
-            height: 88px;
-            min-width: 100%;
-            background-image: linear-gradient(to top, var(--bg) , var(--accent));
-            padding-block:10px;
-            overflow: visible;
-            opacity: 75%;
-            z-index: 1;
-        }
+
 
 
 
@@ -715,6 +719,7 @@
             padding: 10px;
             margin: 0px 10px 0px;
             border-radius: 0 0 5px 5px;
+            margin: 0px 0px 10px;
 
             color: var(--wordcell-text);
             width: 100%;
@@ -791,8 +796,8 @@
             /* line-height: 1.4; */
         }
 
-       
-        
+
+
         .grid-demo {
             display: inline-grid;
             grid-template-columns: repeat(3, 36px);
@@ -841,7 +846,7 @@
         .demoscale {
             transform: scale(0.8);
             transform-origin: center;
-            overflow:hidden;
+            overflow: hidden;
         }
 
 
@@ -850,7 +855,7 @@
             color: var(--gridcell-text);
             width: 36px;
             height: 36px;
-            font-size:11pt;
+            font-size: 11pt;
             /* this also needs to be edited in renderGrid function */
             display: flex;
             align-items: center;
@@ -884,7 +889,7 @@
             }
 
             100% {
-                background-color: var(--bg);
+                background-color: var(--wordcell);
             }
         }
 
@@ -983,8 +988,9 @@
                         <div class="insert-slot demo-cell"></div>
                     </div>
                     <p class="demo-para">Hit the <b><i>PLAY</i></b> button to complete the move.<br><br></p>
-                    <div class="button-row demo demoscale"> <button class="bonusBtn disabled" style="border:2px solid transparent;">||</button><button
-                            class="actionBtn" style="border:2px solid var(--selected-cell);">PLAY</button><button
+                    <div class="button-row demo demoscale"> <button class="bonusBtn disabled"
+                            style="border:2px solid transparent;">||</button><button class="actionBtn"
+                            style="border:2px solid var(--selected-cell);">PLAY</button><button
                             class="shuffleBtn disabled" style="border:2px solid transparent;">#</button></div>
 
                     <div class="word-container demoscale"
@@ -1018,8 +1024,9 @@
                         <div class="insert-slot demo-cell"></div>
                     </div>
                     <p class="demo-para">Hit <b><i>PLAY</i></b> to complete the move.<br><br></p>
-                    <div class="button-row demo demoscale"> <button class="bonusBtn disabled" style="border:2px solid transparent;">||</button><button
-                            class="actionBtn" style="border:2px solid var(--selected-cell);">PLAY</button><button
+                    <div class="button-row demo demoscale"> <button class="bonusBtn disabled"
+                            style="border:2px solid transparent;">||</button><button class="actionBtn"
+                            style="border:2px solid var(--selected-cell);">PLAY</button><button
                             class="shuffleBtn disabled" style="border:2px solid transparent;">#</button></div>
                     <div class="word-container demoscale" style="background:var(--positive-feedback);margin-top:20px;">
                         <div class="insert-slot demo-cell"></div>
@@ -1051,8 +1058,9 @@
                         <div class="insert-slot demo-cell"></div>
                     </div>
                     <p class="demo-para">Hit <b><i>PLAY</i></b> to delete it and make a new valid word.<br><br></p>
-                    <div class="button-row demo demoscale"> <button class="bonusBtn disabled" style="border:2px solid transparent;">||</button><button
-                            class="actionBtn" style="border:2px solid var(--selected-cell);">PLAY</button><button
+                    <div class="button-row demo demoscale"> <button class="bonusBtn disabled"
+                            style="border:2px solid transparent;">||</button><button class="actionBtn"
+                            style="border:2px solid var(--selected-cell);">PLAY</button><button
                             class="shuffleBtn disabled" style="border:2px solid transparent;">#</button></div>
 
                     <div class="word-container demoscale" style="background:var(--positive-feedback);margin-top:20px;">
@@ -1097,8 +1105,9 @@
                         <div class="grid-cell-demo">T</div>
                     </div>
                     <p class="demo-para">Hit <b><i>PLAY</i></b> to confirm.<br><br></p>
-                    <div class="button-row demo demoscale"> <button class="bonusBtn disabled" style="border:2px solid transparent;">||</button><button
-                            class="actionBtn" style="border:2px solid var(--selected-cell);">PLAY</button><button
+                    <div class="button-row demo demoscale"> <button class="bonusBtn disabled"
+                            style="border:2px solid transparent;">||</button><button class="actionBtn"
+                            style="border:2px solid var(--selected-cell);">PLAY</button><button
                             class="shuffleBtn disabled" style="border:2px solid transparent;">#</button></div>
                     <div class="word-container demoscale"
                         style="width:75%;background:var(--positive-feedback);margin-top:20px;">
@@ -1145,8 +1154,9 @@
                         <div class="grid-cell-demo selected">T</div>
                     </div>
                     <p class="demo-para">Engage <b><i>PLAY</i></b> to make it so<br><br></p>
-                    <div class="button-row demo demoscale"> <button class="bonusBtn disabled" style="border:2px solid transparent;">||</button><button
-                            class="actionBtn" style="border:2px solid var(--selected-cell);">PLAY</button><button
+                    <div class="button-row demo demoscale"> <button class="bonusBtn disabled"
+                            style="border:2px solid transparent;">||</button><button class="actionBtn"
+                            style="border:2px solid var(--selected-cell);">PLAY</button><button
                             class="shuffleBtn disabled" style="border:2px solid transparent;">#</button></div>
 
                     <div class="word-container demoscale"
@@ -1170,9 +1180,11 @@
                 <div class="demo-board">
                     <p class="demo-para">A bonus no-penalty setup move is earned<br>for every 5 words
                         added to the chain.<br><br></p>
-                    <div class="button-row demo demoscale"> <button class="bonusBtn" style="border:2px solid var(--selected-cell);">1
-                            ||</button><button class="actionBtn disabled" style="border:2px solid transparent;">PLAY</button><button
-                            class="shuffleBtn disabled" style="border:2px solid transparent;">#</button></div>
+                    <div class="button-row demo demoscale"> <button class="bonusBtn"
+                            style="border:2px solid var(--selected-cell);">1
+                            ||</button><button class="actionBtn disabled"
+                            style="border:2px solid transparent;">PLAY</button><button class="shuffleBtn disabled"
+                            style="border:2px solid transparent;">#</button></div>
                     <p class="demo-para"><br>To use it, select a move as normal but<br>hit the <b>BONUS ||</b> button
                         instead of <b><i>PLAY</i></b>.
                     </p>
@@ -1182,9 +1194,12 @@
             <div class="demo-div">
                 <!-- EXAMPLE 6: REFRESH BUTTON -->
                 <div class="demo-board">
-                    <p class="demo-para">A free grid refresh bonus is earned<br>for every 30 points (AKA string).<br><br>Play the grid refresh bonus<br>by pressing the # button.<br><br></p>
-                    <div class="button-row demo demoscale"> <button class="bonusBtn disabled" style="border:2px solid transparent;">1 ||</button><button
-                            class="actionBtn disabled" style="border:2px solid transparent;">PLAY</button><button class="shuffleBtn" style="border:2px solid var(--selected-cell);"># 1</button></div>
+                    <p class="demo-para">A free grid refresh bonus is earned<br>for every 30 points (AKA
+                        string).<br><br>Play the grid refresh bonus<br>by pressing the # button.<br><br></p>
+                    <div class="button-row demo demoscale"> <button class="bonusBtn disabled"
+                            style="border:2px solid transparent;">1 ||</button><button class="actionBtn disabled"
+                            style="border:2px solid transparent;">PLAY</button><button class="shuffleBtn"
+                            style="border:2px solid var(--selected-cell);"># 1</button></div>
                     <p class="demo-para"><br>Existing grid is replaced with a fresh one.</p>
                     <div class="grid-demo selected" style="background:var(--positive-feedback);border:none;">
                         <div class="grid-cell-demo">A</div>
@@ -1221,8 +1236,7 @@
                         <div class="insert-slot demo-cell"></div>
                     </div>
                     <p class="demo-para">Reach a six letter word once<br>and the grid expands to 4x4.</p>
-                    <div class="grid-demo-four selected"
-                        style="background:var(--positive-feedback);border:none;">
+                    <div class="grid-demo-four selected" style="background:var(--positive-feedback);border:none;">
                         <div class="grid-cell-demo">F</div>
                         <div class="grid-cell-demo">O</div>
                         <div class="grid-cell-demo">U</div>
@@ -1247,7 +1261,8 @@
             </div>
             <br>
             <h2>GOOD TO KNOW</h2>
-            <p style="text-align:left;">If no grid refresh bonus is used, grid letters refresh when a row or column is completed.
+            <p style="text-align:left;">If no grid refresh bonus is used, grid letters refresh when a row or column is
+                completed.
                 <br>
                 <br>Attempting to play a previously played word does not incur a penalty.
                 <br>
@@ -1296,7 +1311,7 @@
     <div class="scores"><span id="score">0</span>&nbsp;&nbsp;&nbsp; STRING <button id="toggle-dropdown"
             class="help toggle-dropdown">+</button> CHAIN &nbsp;&nbsp;&nbsp;<span id="chain">0</span></div>
     <div id="anti-move-wrapper">
-        <div id="message"></div>
+        <div id="message" class="message"></div>
     </div>
     <div class="scale-wrapper" id="scaleWrapper">
         <div class="word-container" id="wordContainer"></div>
@@ -1562,10 +1577,36 @@
 
         function playAnimation() { actionBtn.classList.add('anim-play'); }
         function redAnimation() { wordContainer.classList.add('anim-neg'); }
-        function greenAnimation() { wordContainer.classList.add('anim-pos'); }
         function bonusAnimation() { bonusBtn.classList.add('anim-bonus'); }
         function shuffleAnimation() { shuffleBtn.classList.add('anim-bonus'); }
         function alreadyUsedAnimation() { wordContainer.classList.add('anim-used'); }
+        // function greenAnimation() { wordContainer.classList.add('anim-pos'); }
+
+        // function greenAnimation() {
+        //     const cells = wordContainer.querySelectorAll('.letter'); // or whatever your cell selector is
+        //     cells.forEach(cell => cell.classList.add('anim-pos'));
+        // }
+
+        function greenAnimation() {
+  const elements = wordContainer.querySelectorAll('.letter, .insert-slot');
+  const animationDuration = 500; // in ms (0.5s from CSS)
+  const stagger = 30; // in ms (0.1s)
+
+  elements.forEach((el, index) => {
+    el.classList.remove('anim-pos'); 
+    void el.offsetWidth; // reflow to restart animation
+
+    el.style.animationDelay = `${index * stagger / 1000}s`;
+    el.classList.add('anim-pos');
+
+    // Calculate when to remove the class
+    const totalDelay = animationDuration + index * stagger;
+    setTimeout(() => {
+      el.classList.remove('anim-pos');
+    //   el.style.animationDelay = ''; // optional: clean up inline style
+    }, totalDelay);
+  });
+}
 
 
         function removeAnimation() {
@@ -2028,7 +2069,7 @@
                 }
                 scoreElement.textContent = score;
                 chainElement.textContent = chain;
-                if (chain != 1) {messageElement.textContent = "Valid word!"}; //FROM LOCAL LIST
+                if (chain != 1) { messageElement.textContent = "Valid word!" }; //FROM LOCAL LIST
                 clearSpecialMode();
                 showTemporaryMessage();
                 greenAnimation();
@@ -2083,7 +2124,7 @@
 
                     redAnimation();
                     if (invalidAttempts >= 5) {
-                        messageElement.textContent += " GAME OVER";
+                        messageElement.textContent += " - GAME OVER";
                         saveHighScore();
                         disableGame();
                         saveGameState();
@@ -2194,7 +2235,7 @@
             bonusMovesAvailable--;
             updateBonusButton();
             lastValidWord = currentWord;
-            messageElement.innerHTML = `Bonus setup move played.` + '<br>' + `We need a real word now`;
+            messageElement.innerHTML = `Bonus setup move played.`;
             showTemporaryMessage();
             activateSpecialMode(); //ADDED FOR BONUS MOVE EFFECT
             return;
