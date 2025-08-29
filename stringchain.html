@@ -1312,7 +1312,7 @@
                 <br>
                 <br>Words that fail dictionary validation are penalised with increasing severity.
                 <br>
-                <br>The fifth invalid attempt ends the game.
+                <br>The fifth invalid attempt ends the game. You can see your remaining lives under the <b><i>PLAY</i></b> button.
                 <br>
                 <br>I know it's sometimes the dictionary's fault and I'm sorry about that.
                 <br>
@@ -1332,9 +1332,10 @@
                 <br>You'll notice the lack of ads and surveillance. Doesn't that make a nice change? Play as much as you
                 like. It's a good game, right?
                 <br>
-                <br>Once you save up a lot of bonuses, you can challenge yourself to play longer words, to tap into rich
-                veins of association and rhyme. The game displays definitions to help you explore your
-                own vocabulary.
+                <br>Once you bank some bonuses, you can challenge yourself to play longer words. Tap into your rich
+                personal lexicon, or just guess at words that are likely to exist.
+                <br>
+                <br>The game displays definitions to help you explore your own ever-expanding vocabulary.
                 <br>
                 <br>But the longer it goes, the harder it gets. Once you've used up all the obvious and convenient short
                 words, the game forces you to get creative.
@@ -1633,15 +1634,15 @@
 
         function alreadyUsedAnimation() {
             wordContainer.classList.add("shake");
-  // Remove class after animation so it can trigger again later
-  wordContainer.addEventListener("animationend", () => {
-    wordContainer.classList.remove("shake");
-  }, { once: true });
-}
+            // Remove class after animation so it can trigger again later
+            wordContainer.addEventListener("animationend", () => {
+                wordContainer.classList.remove("shake");
+            }, { once: true });
+        }
 
 
 
-        
+
 
         function greenAnimation() {
             const elements = wordContainer.querySelectorAll('.letter, .insert-slot');
@@ -1969,7 +1970,7 @@
                     }
                 }
             }
-            if (currentWord.length >= 6 && gridSize === 3 && !specialModeActive) {
+            if (currentWord.length >= 6 && gridSize === 3) {
                 gridSize = 4;
                 initGrid();
             } else {
@@ -1983,7 +1984,7 @@
         }
 
         function updateBonusButton() {
-            if (bonusMovesAvailable > 0 && !disqualified) {
+            if (bonusMovesAvailable > 0 && disqualified == false) {
                 bonusBtn.textContent = `${bonusMovesAvailable} ||`;
                 bonusBtn.classList.remove('disabled');
                 bonusBtn.disabled = false;
@@ -1995,7 +1996,7 @@
         }
 
         function updateShuffleButton() {
-            if (shuffleBonusesAvailable > 0 && !disqualified) {
+            if (shuffleBonusesAvailable > 0 && disqualified == false) {
                 shuffleBtn.textContent = `# ${shuffleBonusesAvailable}`;
                 shuffleBtn.classList.remove('disabled');
                 shuffleBtn.disabled = false;
@@ -2282,7 +2283,7 @@
             let moved = applyMove();
             clearSelection();
             renderWord();
-            // replenishGrid();
+            // replenishGrid(); // MOVED TO THE END
             if (!moved) {
                 messageElement.textContent = "Invalid move. Click + for guidance.";
                 showTemporaryMessage();
