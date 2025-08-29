@@ -605,7 +605,7 @@
             margin-top: 15px;
             min-height: 40px;
             min-width: 40px;
-            opacity:50%;
+            opacity: 50%;
         }
 
         button:disabled,
@@ -691,14 +691,14 @@
         #definitions {
             font-size: 10pt;
             color: var(--text);
-            margin-bottom: 20px; 
+            margin-bottom: 20px;
             width: 85%;
             background: var(--disabled);
             color: var(--accent-text);
             padding-inline: 2.5%;
             padding-block: 10px;
             border-radius: 8px;
-            opacity:66%
+            opacity: 66%
         }
 
         #rules,
@@ -812,31 +812,39 @@
         } */
 
         .grid-demo {
-  display: grid;
-  grid-template-columns: repeat(3, 36px);
-  grid-auto-rows: 36px; /* Make cells square */
-  gap: 7px;
-  padding: 5px;
-  margin: 20px;
-  justify-items: center;   /* center content in each cell */
-  align-items: center;     /* vertically center */
-  justify-content: center; /* center entire grid in container */
-  align-content: center;
-  border-radius: 5px;
-}
+            display: grid;
+            grid-template-columns: repeat(3, 36px);
+            grid-auto-rows: 36px;
+            /* Make cells square */
+            gap: 7px;
+            padding: 5px;
+            margin: 20px;
+            justify-items: center;
+            /* center content in each cell */
+            align-items: center;
+            /* vertically center */
+            justify-content: center;
+            /* center entire grid in container */
+            align-content: center;
+            border-radius: 5px;
+        }
 
         .grid-demo-four {
             display: grid;
-  grid-template-columns: repeat(4, 36px);
-  grid-auto-rows: 36px; /* Make cells square */
-  gap: 7px;
-  padding: 5px;
-  margin: 20px;
-  justify-items: center;   /* center content in each cell */
-  align-items: center;     /* vertically center */
-  justify-content: center; /* center entire grid in container */
-  align-content: center;
-  border-radius: 5px;
+            grid-template-columns: repeat(4, 36px);
+            grid-auto-rows: 36px;
+            /* Make cells square */
+            gap: 7px;
+            padding: 5px;
+            margin: 20px;
+            justify-items: center;
+            /* center content in each cell */
+            align-items: center;
+            /* vertically center */
+            justify-content: center;
+            /* center entire grid in container */
+            align-content: center;
+            border-radius: 5px;
         }
 
         .demo {
@@ -966,6 +974,32 @@
                 background-color: var(--bg);
             }
         }
+
+        @keyframes shake {
+            0% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-5px);
+            }
+
+            50% {
+                transform: translateX(5px);
+            }
+
+            75% {
+                transform: translateX(-5px);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        .shake {
+            animation: shake 0.3s ease;
+        }
     </style>
 </head>
 
@@ -1000,8 +1034,8 @@
                     <p class="demo-para">Hit the <b><i>PLAY</i></b> button to complete the move.<br><br></p>
                     <div class="button-row demo demoscale"> <button class="bonusBtn disabled"
                             style="border:2px solid transparent;">||</button><button class="actionBtn"
-                            style="border:var(--selected-border);">PLAY</button><button
-                            class="shuffleBtn disabled" style="border:2px solid transparent;">#</button></div>
+                            style="border:var(--selected-border);">PLAY</button><button class="shuffleBtn disabled"
+                            style="border:2px solid transparent;">#</button></div>
 
                     <div class="word-container demoscale"
                         style="width:75%;background:var(--positive-feedback);margin-top:20px;">
@@ -1036,8 +1070,8 @@
                     <p class="demo-para">Hit <b><i>PLAY</i></b> to complete the move.<br><br></p>
                     <div class="button-row demo demoscale"> <button class="bonusBtn disabled"
                             style="border:2px solid transparent;">||</button><button class="actionBtn"
-                            style="border:var(--selected-border);">PLAY</button><button
-                            class="shuffleBtn disabled" style="border:2px solid transparent;">#</button></div>
+                            style="border:var(--selected-border);">PLAY</button><button class="shuffleBtn disabled"
+                            style="border:2px solid transparent;">#</button></div>
                     <div class="word-container demoscale" style="background:var(--positive-feedback);margin-top:20px;">
                         <div class="insert-slot demo-cell"></div>
                         <div class="letter demo-cell">T</div>
@@ -1070,8 +1104,8 @@
                     <p class="demo-para">Hit <b><i>PLAY</i></b> to delete it<br>and make a new valid word.<br><br></p>
                     <div class="button-row demo demoscale"> <button class="bonusBtn disabled"
                             style="border:2px solid transparent;">||</button><button class="actionBtn"
-                            style="border:var(--selected-border);">PLAY</button><button
-                            class="shuffleBtn disabled" style="border:2px solid transparent;">#</button></div>
+                            style="border:var(--selected-border);">PLAY</button><button class="shuffleBtn disabled"
+                            style="border:2px solid transparent;">#</button></div>
 
                     <div class="word-container demoscale" style="background:var(--positive-feedback);margin-top:20px;">
                         <div class="insert-slot demo-cell"></div>
@@ -1117,8 +1151,8 @@
                     <p class="demo-para">Hit <b><i>PLAY</i></b> to confirm.<br><br></p>
                     <div class="button-row demo demoscale"> <button class="bonusBtn disabled"
                             style="border:2px solid transparent;">||</button><button class="actionBtn"
-                            style="border:var(--selected-border);">PLAY</button><button
-                            class="shuffleBtn disabled" style="border:2px solid transparent;">#</button></div>
+                            style="border:var(--selected-border);">PLAY</button><button class="shuffleBtn disabled"
+                            style="border:2px solid transparent;">#</button></div>
                     <div class="word-container demoscale"
                         style="width:75%;background:var(--positive-feedback);margin-top:20px;">
                         <div class="insert-slot demo-cell"></div>
@@ -1166,8 +1200,8 @@
                     <p class="demo-para">Engage <b><i>PLAY</i></b> to make it so<br><br></p>
                     <div class="button-row demo demoscale"> <button class="bonusBtn disabled"
                             style="border:2px solid transparent;">||</button><button class="actionBtn"
-                            style="border:var(--selected-border);">PLAY</button><button
-                            class="shuffleBtn disabled" style="border:2px solid transparent;">#</button></div>
+                            style="border:var(--selected-border);">PLAY</button><button class="shuffleBtn disabled"
+                            style="border:2px solid transparent;">#</button></div>
 
                     <div class="word-container demoscale"
                         style="width:75%;background:var(--positive-feedback);margin-top:20px;">
@@ -1305,7 +1339,8 @@
                 <br>But the longer it goes, the harder it gets. Once you've used up all the obvious and convenient short
                 words, the game forces you to get creative.
                 <br>
-                <br>Get a high score.<br>Beat that high score. <br>Screenshot that high score and challenge your friends.
+                <br>Get a high score.<br>Beat that high score. <br>Screenshot that high score and challenge your
+                friends.
                 <br>
                 <br>If you enjoy this game, consider buying me a coffee or putting my kids through college.
                 <br>
@@ -1452,13 +1487,13 @@
         });
 
 
-function rollbackGrid() {
-    const savedGridState = localStorage.getItem("stringChainState");
-    const gridState = JSON.parse(savedGridState);
-    grid = gridState.grid;
-    gridSize = gridState.gridSize;
-    renderGrid();
-}
+        function rollbackGrid() {
+            const savedGridState = localStorage.getItem("stringChainState");
+            const gridState = JSON.parse(savedGridState);
+            grid = gridState.grid;
+            gridSize = gridState.gridSize;
+            renderGrid();
+        }
 
 
         function saveGameState() {
@@ -1593,34 +1628,41 @@ function rollbackGrid() {
         function redAnimation() { wordContainer.classList.add('anim-neg'); }
         function bonusAnimation() { bonusBtn.classList.add('anim-bonus'); }
         function shuffleAnimation() { shuffleBtn.classList.add('anim-bonus'); }
-        function alreadyUsedAnimation() { wordContainer.classList.add('anim-used'); }
-        // function greenAnimation() { wordContainer.classList.add('anim-pos'); }
+        // function alreadyUsedAnimation() { wordContainer.classList.add('anim-used'); }
+        // function alreadyUsedAnimation() { wordContainer.classList.add('shake'); }
 
-        // function greenAnimation() {
-        //     const cells = wordContainer.querySelectorAll('.letter'); // or whatever your cell selector is
-        //     cells.forEach(cell => cell.classList.add('anim-pos'));
-        // }
+        function alreadyUsedAnimation() {
+            wordContainer.classList.add("shake");
+  // Remove class after animation so it can trigger again later
+  wordContainer.addEventListener("animationend", () => {
+    wordContainer.classList.remove("shake");
+  }, { once: true });
+}
+
+
+
+        
 
         function greenAnimation() {
-  const elements = wordContainer.querySelectorAll('.letter, .insert-slot');
-  const animationDuration = 1500; // in ms (0.5s from CSS)
-  const stagger = 30; // in ms (0.03s)
+            const elements = wordContainer.querySelectorAll('.letter, .insert-slot');
+            const animationDuration = 1500; // in ms (0.5s from CSS)
+            const stagger = 30; // in ms (0.03s)
 
-  elements.forEach((el, index) => {
-    el.classList.remove('anim-pos'); 
-    void el.offsetWidth; // reflow to restart animation
+            elements.forEach((el, index) => {
+                el.classList.remove('anim-pos');
+                void el.offsetWidth; // reflow to restart animation
 
-    el.style.animationDelay = `${index * stagger / 1000}s`;
-    el.classList.add('anim-pos');
+                el.style.animationDelay = `${index * stagger / 1000}s`;
+                el.classList.add('anim-pos');
 
-    // Calculate when to remove the class
-    const totalDelay = animationDuration + index * stagger;
-    setTimeout(() => {
-      el.classList.remove('anim-pos');
-    //   el.style.animationDelay = ''; // optional: clean up inline style
-    }, totalDelay);
-  });
-}
+                // Calculate when to remove the class
+                const totalDelay = animationDuration + index * stagger;
+                setTimeout(() => {
+                    el.classList.remove('anim-pos');
+                    //   el.style.animationDelay = ''; // optional: clean up inline style
+                }, totalDelay);
+            });
+        }
 
 
         function removeAnimation() {
@@ -1629,7 +1671,7 @@ function rollbackGrid() {
             if (letterGrid.classList.contains('anim-refresh')) { letterGrid.classList.remove('anim-refresh'); }
             if (bonusBtn.classList.contains('anim-bonus')) { bonusBtn.classList.remove('anim-bonus'); }
             if (shuffleBtn.classList.contains('anim-bonus')) { shuffleBtn.classList.remove('anim-bonus'); }
-            if (historyElement.classList.contains('anim-used')) { historyElement.classList.remove('anim-used'); }
+            if (wordContainer.classList.contains('shake')) { wordContainer.classList.remove('shake'); }
             if (actionBtn.classList.contains('anim-play')) { actionBtn.classList.remove('anim-play'); }
 
         }
@@ -1927,7 +1969,7 @@ function rollbackGrid() {
                     }
                 }
             }
-            if (currentWord.length >= 6 && gridSize === 3) {
+            if (currentWord.length >= 6 && gridSize === 3 && !specialModeActive) {
                 gridSize = 4;
                 initGrid();
             } else {
@@ -2054,7 +2096,7 @@ function rollbackGrid() {
         function validateWord(previousWord) {
             const lower = currentWord.toLowerCase();
             if (playedWords.has(lower)) {
-                messageElement.textContent = "Word already used!";
+                messageElement.textContent = `${currentWord} already used!`;
 
                 alreadyUsedAnimation();
                 currentWord = previousWord;
@@ -2240,7 +2282,7 @@ function rollbackGrid() {
             let moved = applyMove();
             clearSelection();
             renderWord();
-            replenishGrid();
+            // replenishGrid();
             if (!moved) {
                 messageElement.textContent = "Invalid move. Click + for guidance.";
                 showTemporaryMessage();
@@ -2252,6 +2294,8 @@ function rollbackGrid() {
             messageElement.innerHTML = `Bonus setup move played.`;
             showTemporaryMessage();
             activateSpecialMode(); //ADDED FOR BONUS MOVE EFFECT
+            replenishGrid(); //MOVED TO HERE TO STOP GRID EXPAND FOR SETUP MOVE
+
             return;
         });
 
