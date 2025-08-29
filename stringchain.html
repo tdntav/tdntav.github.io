@@ -2268,7 +2268,7 @@
 
         bonusBtn.addEventListener('click', () => {
             if (bonusMovesAvailable <= 0) {
-                messageElement.textContent = "Bonuses are earned. Click + for guidance.";
+                messageElement.textContent = "You get a bonus after every 5 words. Click + for guidance.";
                 showTemporaryMessage();
                 return;
             }
@@ -2307,6 +2307,7 @@
                 messageElement.textContent = "Grid refreshed!";
                 showTemporaryMessage();
                 letterGrid.classList.add('anim-refresh');
+                saveGameState();
             }
         });
 
