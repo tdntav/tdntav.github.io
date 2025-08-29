@@ -1364,6 +1364,7 @@
         const aboutDiv = document.getElementById("about");
         const rulesDiv = document.getElementById("rules");
         const dropdownDiv = document.getElementById("dropdown");
+        const disqualified = localStorage.getItem("isDisqualified") === "true";
         const alphabet = "EEEEEEEEEAAAARRRRIIIOOONNSSSTTTLLLLCCUUUDDDPPGGHHBBMMYYFFVVWWKKXJQZ".split("");
         const validWords = ["DUNK", "SIFT", "DOSE", "RAPE", "HEE", "TOW", "NET", "AND", "THE", "CUE", "FOR", "ARE", "BUT", "NOT", "YOU", "ALL", "ANY", "CAN", "HAD", "HER", "WAS", "ONE", "OUR", "OUT", "DAY", "GET", "HAS", "HIM", "HIS", "HOW", "MAN", "NEW", "NOW", "OLD", "SEE", "TWO", "WAY", "WHO", "USE", "BIG", "FUN", "RUN", "SUN", "TOP", "CAR", "DOG", "CAT", "BOX", "RED", "HOT", "WIN", "JOB", "EAT", "YES", "MOM", "DAD", "BED", "TIME", "YEAR", "WORK", "LIFE", "LOVE", "GOOD", "MAKE", "LOOK", "WANT", "WELL", "HAND", "GIVE", "TAKE", "KNOW", "INTO", "FROM", "OVER", "MORE", "JUST", "LIKE", "COME", "WHEN", "THEN", "VERY", "EVEN", "BACK", "DOWN", "OPEN", "STOP", "PLAY", "WALK", "TALK", "TURN", "KEEP", "HOME", "ROOM", "WORD", "COLD", "WARM", "GOLD", "FAST", "SLOW", "NEAR", "FAR", "TREE", "FISH", "BIRD", "RAIN", "ABOUT", "AFTER", "AGAIN", "BELOW", "COULD", "EVERY", "FIRST", "FOUND", "GREAT", "HOUSE", "LARGE", "LEARN", "NEVER", "OTHER", "PLANT", "POINT", "RIGHT", "SMALL", "SOUND", "SPELL", "STILL", "STUDY", "THEIR", "THERE", "THESE", "THING", "THINK", "THREE", "WATER", "WHERE", "WHICH", "WORLD", "WOULD", "WRITE", "APPLE", "BREAD", "CHAIR", "CLEAN", "CLOSE", "CLOUD", "EARTH", "TWIST", "TIGHT", "GRASS", "HEART", "MONEY", "MOUTH", "NIGHT", "SLEEP", "TABLE"];
 
@@ -1451,7 +1452,13 @@
         });
 
 
-
+function rollbackGrid() {
+    const savedGridState = localStorage.getItem("stringChainState");
+    const gridState = JSON.parse(savedGridState);
+    grid = gridState.grid;
+    gridSize = gridState.gridSize;
+    renderGrid();
+}
 
 
         function saveGameState() {
@@ -1461,7 +1468,6 @@
 
         // Load and restore directly
         function loadGameState() {
-            const disqualified = localStorage.getItem("isDisqualified") === "true";
             // actionBtn.disabled = disqualified; 
             if (disqualified) {
                 newGameBtn.click();
@@ -1935,7 +1941,7 @@
         }
 
         function updateBonusButton() {
-            if (bonusMovesAvailable > 0) {
+            if (bonusMovesAvailable > 0 && !disqualified) {
                 bonusBtn.textContent = `${bonusMovesAvailable} ||`;
                 bonusBtn.classList.remove('disabled');
                 bonusBtn.disabled = false;
@@ -1947,7 +1953,7 @@
         }
 
         function updateShuffleButton() {
-            if (shuffleBonusesAvailable > 0) {
+            if (shuffleBonusesAvailable > 0 && !disqualified) {
                 shuffleBtn.textContent = `# ${shuffleBonusesAvailable}`;
                 shuffleBtn.classList.remove('disabled');
                 shuffleBtn.disabled = false;
@@ -2053,6 +2059,7 @@
                 alreadyUsedAnimation();
                 currentWord = previousWord;
                 renderWord();
+                rollbackGrid();
                 showTemporaryMessage();
                 saveGameState();
                 return;
@@ -2128,9 +2135,11 @@
                     currentWord = lastValidWord;
                     renderWord();
                     messageElement.textContent = `Invalid word! Penalty: -${penalty}`;
-
-
+                    rollbackGrid();
+                    updateBonusButton();
+                    updateShuffleButton();
                     redAnimation();
+
                     if (invalidAttempts >= 5) {
                         messageElement.textContent += " - GAME OVER";
                         saveHighScore();
@@ -2141,8 +2150,6 @@
                     chainElement.textContent = chain;
 
                     updateStatus();
-                    updateBonusButton();
-                    updateShuffleButton();
                     updateDisallowedWords();
                     saveGameState();
                     showTemporaryMessage();
@@ -2154,8 +2161,6 @@
             let moved = applyMove();
             clearSelection();
             renderWord();
-            replenishGrid();
-
             if (!moved) {
                 // messageElement.textContent = "Valid moves: grid-word, grid-slot, word-word, word-slot";
                 messageElement.textContent = "Invalid move. Click + for guidance.";
@@ -2163,6 +2168,7 @@
                 return;
             }
             if (validate) validateWord(originalWord);
+            replenishGrid();
         }
 
         actionBtn.addEventListener('click', () => {
@@ -2220,7 +2226,7 @@
 
         bonusBtn.addEventListener('click', () => {
             if (bonusMovesAvailable <= 0) {
-                messageElement.textContent = "Bonuses are earned. You have none.";
+                messageElement.textContent = "Bonuses are earned. Click + for guidance.";
                 showTemporaryMessage();
                 return;
             }
