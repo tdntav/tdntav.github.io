@@ -1484,7 +1484,25 @@
 
 
 
+        function highlightPlayed(currentWord) {
+            // Escape any special regex characters in the word
+            const safeWord = currentWord.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
+            // Match whole word only
+            const regex = new RegExp(`\\b${safeWord}\\b`, 'gi');
+
+            // Highlight the word
+            historyElement.innerHTML = historyElement.innerHTML.replace(
+                regex,
+                '<mark class="highlight">$&</mark>'
+            );
+
+            // Keep highlight for 60s
+            const newMarks = historyElement.querySelectorAll('mark.highlight:not(.fade)');
+            newMarks.forEach(mark => {
+                setTimeout(() => mark.outerHTML = mark.innerText, 60000);
+            });
+        }
 
 
 
