@@ -209,9 +209,9 @@
             --positive-feedback: #dfb;
 
             --negative-feedback: #000;
-            --disabled: #150;
+            --disabled: #372;
 
-            --wordcell: #372;
+            --wordcell: #6a5;
             --wordcell-text: var(--accent-text);
             --wordcell-border: 2px solid var(--wordcell);
 
@@ -693,8 +693,9 @@
             color: var(--text);
             margin-bottom: 20px;
             width: 85%;
-            background: var(--disabled);
-            color: var(--accent-text);
+            background: var(--gridcell);
+            color: var(--gridcell-text);
+            border: var(--gridcell-border);
             padding-inline: 2.5%;
             padding-block: 10px;
             border-radius: 8px;
@@ -1000,6 +1001,22 @@
         .shake {
             animation: shake 0.3s ease;
         }
+
+        mark.highlight {
+            background: var(--wordcell-text);
+            text-decoration: underline 3px solid var(--wordcell);
+            color: var(--wordcell);
+            /* padding: 4px; */
+            /* border: 2px solid var(--bg); */
+            border-radius: 3px;
+            /* font-weight: bold; */
+            /* opacity:75%; */
+            transition: font-color text-decoration 5s ease;
+        }
+
+        mark.highlight.fade {
+            color: transparent;
+        }
     </style>
 </head>
 
@@ -1301,6 +1318,8 @@
                         <div class="grid-cell-demo">O</div>
                         <div class="grid-cell-demo">L</div>
                     </div>
+                    <p class="demo-para">If you're thinking a few moves ahead<br>note that the 4x4 grid
+                        expansion<br>also completely refreshes the grid.</p>
                 </div>
             </div>
             <br>
@@ -1328,8 +1347,10 @@
                 <br>
                 <br>Without whoever that is, whoever I am couldn't have made this game for whoever you are.
                 <br>
-                <br>The dictionary is amazing but it's not perfect. Occasionally you might try to play a real word that is inexplicably
-                missing from the dictionary. It will fail validation. I'm sorry about that. We all want validation. The random cruelty of the fates is just a part of the game now, I'm afraid.  
+                <br>The dictionary is amazing but it's not perfect. Occasionally you might try to play a real word that
+                is inexplicably
+                missing from the dictionary. It will fail validation. I'm sorry about that. We all want validation. The
+                random cruelty of the fates is just a part of the game now, I'm afraid.
                 <br>
                 <br>You'll notice the lack of ads and surveillance. Doesn't that make a nice change? Play as much as you
                 like. It's a good game, right?
@@ -1404,7 +1425,7 @@
         const dropdownDiv = document.getElementById("dropdown");
         const disqualified = localStorage.getItem("isDisqualified") === "true";
         const alphabet = "EEEEEEEEEAAAARRRRIIIOOONNSSSTTTLLLLCCUUUDDDPPGGHHBBMMYYFFVVWWKKXJQZ".split("");
-        const validWords = ["DUNK", "SIFT", "DOSE", "RAPE", "HEE", "TOW", "NET", "AND", "THE", "CUE", "FOR", "ARE", "BUT", "NOT", "YOU", "ALL", "ANY", "CAN", "HAD", "HER", "WAS", "ONE", "OUR", "OUT", "DAY", "GET", "HAS", "HIM", "HIS", "HOW", "MAN", "NEW", "NOW", "OLD", "SEE", "TWO", "WAY", "WHO", "USE", "BIG", "FUN", "RUN", "SUN", "TOP", "CAR", "DOG", "CAT", "BOX", "RED", "HOT", "WIN", "JOB", "EAT", "YES", "MOM", "DAD", "BED", "TIME", "YEAR", "WORK", "LIFE", "LOVE", "GOOD", "MAKE", "LOOK", "WANT", "WELL", "HAND", "GIVE", "TAKE", "KNOW", "INTO", "FROM", "OVER", "MORE", "JUST", "LIKE", "COME", "WHEN", "THEN", "VERY", "EVEN", "BACK", "DOWN", "OPEN", "STOP", "PLAY", "WALK", "TALK", "TURN", "KEEP", "HOME", "ROOM", "WORD", "COLD", "WARM", "GOLD", "FAST", "SLOW", "NEAR", "FAR", "TREE", "FISH", "BIRD", "RAIN", "ABOUT", "AFTER", "AGAIN", "BELOW", "COULD", "EVERY", "FIRST", "FOUND", "GREAT", "HOUSE", "LARGE", "LEARN", "NEVER", "OTHER", "PLANT", "POINT", "RIGHT", "SMALL", "SOUND", "SPELL", "STILL", "STUDY", "THEIR", "THERE", "THESE", "THING", "THINK", "THREE", "WATER", "WHERE", "WHICH", "WORLD", "WOULD", "WRITE", "APPLE", "BREAD", "CHAIR", "CLEAN", "CLOSE", "CLOUD", "EARTH", "TWIST", "TIGHT", "GRASS", "HEART", "MONEY", "MOUTH", "NIGHT", "SLEEP", "TABLE"];
+        const validWords = ["DUNK", "SIFT", "DOSE", "RAPE", "KITE", "KITES", "DUNKS", "HEE", "TOW", "NET", "AND", "THE", "CUE", "FOR", "ARE", "BUT", "NOT", "YOU", "ALL", "ANY", "CAN", "HAD", "HER", "WAS", "ONE", "OUR", "OUT", "DAY", "GET", "HAS", "HIM", "HIS", "HOW", "MAN", "NEW", "NOW", "OLD", "SEE", "TWO", "WAY", "WHO", "USE", "BIG", "FUN", "RUN", "SUN", "TOP", "CAR", "DOG", "CAT", "BOX", "RED", "HOT", "WIN", "JOB", "EAT", "YES", "MOM", "DAD", "BED", "TIME", "YEAR", "WORK", "LIFE", "LOVE", "GOOD", "MAKE", "LOOK", "WANT", "WELL", "HAND", "GIVE", "TAKE", "KNOW", "INTO", "FROM", "OVER", "MORE", "JUST", "LIKE", "COME", "WHEN", "THEN", "VERY", "EVEN", "BACK", "DOWN", "OPEN", "STOP", "PLAY", "WALK", "TALK", "TURN", "KEEP", "HOME", "ROOM", "WORD", "COLD", "WARM", "GOLD", "FAST", "SLOW", "NEAR", "FAR", "TREE", "FISH", "BIRD", "RAIN", "ABOUT", "AFTER", "AGAIN", "BELOW", "COULD", "EVERY", "FIRST", "FOUND", "GREAT", "HOUSE", "LARGE", "LEARN", "NEVER", "OTHER", "PLANT", "POINT", "RIGHT", "SMALL", "SOUND", "SPELL", "STILL", "STUDY", "THEIR", "THERE", "THESE", "THING", "THINK", "THREE", "WATER", "WHERE", "WHICH", "WORLD", "WOULD", "WRITE", "APPLE", "BREAD", "CHAIR", "CLEAN", "CLOSE", "CLOUD", "EARTH", "TWIST", "TIGHT", "GRASS", "HEART", "MONEY", "MOUTH", "NIGHT", "SLEEP", "TABLE"];
 
         let isActiveGame = true;
         let playedWords = new Set();
@@ -1427,6 +1448,54 @@
         let lastSelectedCell = null;
         let lastUsedGridCell = null; // NEW: Track last used cell for invalid move rollback
         let specialModeActive = false; // NEW: Track bonus special mode
+
+
+
+
+        function highlightPlayed(currentWord) {
+            // Remove any existing highlights
+            // historyElement.innerHTML = historyElement.innerHTML.replace(/(<mark class="highlight">|<\/mark>)/g, '');
+
+            // Highlight the word
+            historyElement.innerHTML = historyElement.innerHTML.replace(
+                new RegExp(currentWord, 'gi'),
+                '<mark class="highlight">$&</mark>'
+            );
+
+            // Trigger fade
+            // const mark = historyElement.querySelector('mark.highlight');
+            // if (mark) {
+            //     setTimeout(() => mark.classList.add('fade'), 3000);  // start fade
+            //     setTimeout(() => mark.outerHTML = mark.innerText, 5000); // cleanup
+            // }
+
+            //   Fade out each new mark
+            const newMarks = historyElement.querySelectorAll('mark.highlight:not(.fade)');
+            newMarks.forEach(mark => {
+                // setTimeout(() => mark.classList.add('fade'), 18000);  // start fade
+                setTimeout(() => mark.outerHTML = mark.innerText, 60000); // remove
+            });
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         const themeToggle = document.getElementById("themeToggle");
@@ -1986,7 +2055,7 @@
         }
 
         function updateBonusButton() {
-            if (bonusMovesAvailable > 0 && disqualified == false) {
+            if (bonusMovesAvailable > 0) {
                 bonusBtn.textContent = `${bonusMovesAvailable} ||`;
                 bonusBtn.classList.remove('disabled');
                 bonusBtn.disabled = false;
@@ -1998,7 +2067,7 @@
         }
 
         function updateShuffleButton() {
-            if (shuffleBonusesAvailable > 0 && disqualified == false) {
+            if (shuffleBonusesAvailable > 0) {
                 shuffleBtn.textContent = `# ${shuffleBonusesAvailable}`;
                 shuffleBtn.classList.remove('disabled');
                 shuffleBtn.disabled = false;
@@ -2100,7 +2169,7 @@
             const lower = currentWord.toLowerCase();
             if (playedWords.has(lower)) {
                 messageElement.textContent = `${currentWord} already used!`;
-
+                highlightPlayed(currentWord);
                 alreadyUsedAnimation();
                 currentWord = previousWord;
                 renderWord();
