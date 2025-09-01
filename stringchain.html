@@ -1427,7 +1427,7 @@
         "HAIR", "HALF", "HAND", "ICON", "IDEA", "IDLE", "JACK", "JAIL", "KING", "KIND", "LACK", "LAKE", "LIMP", "MADE", "MAIL", "NAME", "NAIL", "ONCE", "ODDS", "PACK", "PAGE", 
         "RACE", "RAIN", "SAFE", "SAIL", "TAKE", "TALE", "TINE", "UNIT", "URGE", "VARY", "VAST", "WAGE", "WAIT", "YARD", "YARN", "ZAPS" ];
 
-        const allowList = ["DUNK", "DUNKS", "DUNKING", "DUNKED", "TOW", "TIGHT", "SIFT", "DOSE", "DOSES", "DOSING", "KITE", "KITES", "NET", "CUE", "CUES", "CUED", "CUEING", "CUING", "RAPE", "PEND", "PENDS", "PENDED", "PENDING"];
+        const allowList = ["DUNK", "DUNKS", "DUNKING", "DUNKED", "TOW", "TIGHT", "SIFT", "DOSE", "DOSES", "DOSED", "DOSING", "KITE", "KITES", "NET", "CUE", "CUES", "CUED", "CUEING", "CUING", "RAPE", "RAPES", "RAPED", "RAPING","PEND", "PENDS", "PENDED", "PENDING", "BE" ];
 
         let isActiveGame = true;
         let playedWords = new Set();
@@ -2046,28 +2046,68 @@
             renderGrid();
         }
 
+
+        
         function replenishGrid() {
-            for (let r = 0; r < gridSize; r++) {
-                if (grid[r].every(cell => cell === null)) {
-                    for (let c = 0; c < gridSize; c++) {
-                        grid[r][c] = randomLetter();
-                    }
-                }
-            }
+    // --- Original behavior: only refill fully empty rows ---
+    for (let r = 0; r < gridSize; r++) {
+        if (grid[r].every(cell => cell === null)) {
             for (let c = 0; c < gridSize; c++) {
-                if (grid.every(row => row[c] === null)) {
-                    for (let r = 0; r < gridSize; r++) {
-                        grid[r][c] = randomLetter();
-                    }
-                }
-            }
-            if (currentWord.length >= 6 && gridSize === 3) {
-                gridSize = 4;
-                initGrid();
-            } else {
-                renderGrid();
+                grid[r][c] = randomLetter();
             }
         }
+    }
+
+    // --- Original behavior: only refill fully empty columns ---
+    for (let c = 0; c < gridSize; c++) {
+        if (grid.every(row => row[c] === null)) {
+            for (let r = 0; r < gridSize; r++) {
+                grid[r][c] = randomLetter();
+            }
+        }
+    }
+
+    // --- Expansion: 3x3 -> 4x4 with preservation and selective refill ---
+    if (currentWord.length >= 6 && gridSize === 3 && !specialModeActive) {
+        const oldGrid = grid.map(row => row.slice()); // copy current 3x3
+
+        // Build new 4x4 grid, start as null
+        const newSize = 4;
+        const newGrid = Array.from({ length: newSize }, () => Array(newSize).fill(null));
+
+        // Preserve existing letters/empties in top-left 3x3
+        for (let r = 0; r < 3; r++) {
+            for (let c = 0; c < 3; c++) {
+                newGrid[r][c] = oldGrid[r][c]; // may be a letter or null
+            }
+        }
+
+        // Refresh ONLY the used cells (nulls) inside the original 3x3
+        for (let r = 0; r < 3; r++) {
+            for (let c = 0; c < 3; c++) {
+                if (newGrid[r][c] === null) {
+                    newGrid[r][c] = randomLetter();
+                }
+            }
+        }
+
+        // Populate the new right column (c = 3) and bottom row (r = 3)
+        for (let r = 0; r < 4; r++) newGrid[r][3] = randomLetter();
+        for (let c = 0; c < 4; c++) newGrid[3][c] = randomLetter();
+
+        // Commit expansion
+        gridSize = 4;
+        grid = newGrid;
+    }
+
+    renderGrid();
+}
+
+
+
+
+
+
 
         function clearSelection() {
             selected.forEach(s => s.classList.remove('selected'));
@@ -2219,7 +2259,7 @@
                 scoreElement.textContent = score;
                 chainElement.textContent = chain;
                 if (chain != 1) { messageElement.textContent = "Valid word!" }; //FROM LOCAL LIST
-                clearSpecialMode();
+                // clearSpecialMode(); // SEP 1 EDIT                    
                 showTemporaryMessage();
                 greenAnimation();
                 showDefinitions(lower);
@@ -2251,7 +2291,7 @@
                     scoreElement.textContent = score;
                     chainElement.textContent = chain;
                     messageElement.textContent = "Valid word!";
-                    clearSpecialMode();
+                    // clearSpecialMode(); // SEP 1 EDIT
                     greenAnimation();
                     showDefinitions(lower);
                     saveGameState();
@@ -2302,6 +2342,7 @@
                 return;
             }
             if (validate) validateWord(originalWord);
+            clearSpecialMode();
             replenishGrid();
         }
 
