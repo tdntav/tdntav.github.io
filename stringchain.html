@@ -344,7 +344,7 @@
         }
 
         .blue-pops {
-            --bg: #111;
+            --bg: #033;
             --text: #fff;
 
             --accent: #2aa;
@@ -366,8 +366,6 @@
             --selected-cell: #055;
             --selected-text: var(--text);
             --selected-border: 2px solid #0ff;
-
-
         }
 
 
@@ -402,7 +400,7 @@
 
         .scores {
             padding-block: 10px;
-            font-size: 16pt;
+            font-size: 15pt;
             flex-wrap: wrap;
             text-align: center;
             width: 100%;
@@ -624,7 +622,8 @@
             width: 44px;
             align-items:center;
             text-align:center;
-            margin:auto;
+            margin-block: 0px;
+            margin-inline:4px;
             padding:auto;
         }
 
@@ -1410,8 +1409,8 @@
 
 
     </div>
-    <div class="scores"><span id="score">0</span>&nbsp; <b>string</b> <button id="toggle-dropdown"
-            class="help toggle-dropdown">+</button> <b>chain</b> &nbsp;<span id="chain">0</span></div>
+    <div class="scores"><span id="score">0</span>&nbsp; <b>string</b><button id="toggle-dropdown"
+            class="help toggle-dropdown">+</button><b>chain</b> &nbsp;<span id="chain">0</span></div>
     <div id="anti-move-wrapper">
         <div id="message" class="message"></div>
     </div>
