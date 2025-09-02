@@ -183,7 +183,7 @@
             --negative-feedback: #321;
             --disabled: #aaa;
 
-            --wordcell: #ddd;
+            --wordcell: var(--accent);
             --wordcell-text: var(--accent-text);
             --wordcell-border: 2px solid var(--accent);
 
@@ -343,6 +343,33 @@
 
         }
 
+        .blue-pops {
+            --bg: #111;
+            --text: #fff;
+
+            --accent: #2aa;
+            --accent-text: var(--bg);
+
+            --positive-feedback: #0ff;
+
+            --negative-feedback: #815;
+            --disabled: #477;
+
+            --wordcell: #cff;
+            --wordcell-text: var(--bg);
+            --wordcell-border: 2px solid var(--wordcell);
+
+            --gridcell: var(--bg);
+            --gridcell-text: var(--text);
+            --gridcell-border: 2px solid var(--disabled);
+
+            --selected-cell: #055;
+            --selected-text: var(--text);
+            --selected-border: 2px solid #0ff;
+
+
+        }
+
 
 
 
@@ -375,11 +402,13 @@
 
         .scores {
             padding-block: 10px;
-            font-size: 14pt;
+            font-size: 16pt;
             flex-wrap: wrap;
             text-align: center;
             width: 100%;
             height: 22px;
+            font-family:'Courier New', Courier, monospace;
+            /* font-weight: bold; */
             /* background-image: linear-gradient(to top, var(--wordcell), var(--bg)); */
         }
 
@@ -467,10 +496,6 @@
             animation-duration: 1s;
         }
 
-        .anim-pos {
-            animation-name: animate-positive;
-            animation-duration: 1.5s;
-        }
 
         .anim-bonus {
             animation-name: animate-bonus;
@@ -592,10 +617,15 @@
         }
 
         .help {
-            border-radius: 20px;
-            margin: 0.5px;
-            min-height: 40px;
-            min-width: 40px;
+            border-radius: 23px;
+            /* margin: 0.5px; */
+            /* border: 2px solid var(--selected-cell); */
+            height: 44px;
+            width: 44px;
+            align-items:center;
+            text-align:center;
+            margin:auto;
+            padding:auto;
         }
 
         .help-dark {
@@ -643,7 +673,7 @@
             color: var(--accent);
             /* text-align:end; */
             /* align-items: top; */
-            opacity: 50%;
+            opacity: 66%;
             max-height: 9px;
             /* padding-top:-5px; */
             /* margin-top: -15px; */
@@ -900,14 +930,21 @@
             
         } */
 
+        .anim-pos {
+            animation-name: animate-positive;
+            animation-duration: 1.5s;
+        }
+
         @keyframes animate-positive {
             0% {
                 background-color: var(--positive-feedback);
+                border-color: var(--positive-feedback);
                 color: var(--bg);
             }
 
             100% {
                 background-color: var(--wordcell);
+                border: var(--wordcell-border);
                 color: var(--wordcell-text);
             }
         }
@@ -1136,7 +1173,7 @@
                 </div>
             </div>
 
-            <p class="demo-para"><br>A move can also use a letter from the grid.<br><br></p>
+            <p><br>A move can also use a letter from the grid.<br><br></p>
 
 
             <div class="demo-div"><!-- EXAMPLE 4: REPLACE -->
@@ -1373,8 +1410,8 @@
 
 
     </div>
-    <div class="scores"><span id="score">0</span>&nbsp;&nbsp;&nbsp; STRING <button id="toggle-dropdown"
-            class="help toggle-dropdown">+</button> CHAIN &nbsp;&nbsp;&nbsp;<span id="chain">0</span></div>
+    <div class="scores"><span id="score">0</span>&nbsp; <b>string</b> <button id="toggle-dropdown"
+            class="help toggle-dropdown">+</button> <b>chain</b> &nbsp;<span id="chain">0</span></div>
     <div id="anti-move-wrapper">
         <div id="message" class="message"></div>
     </div>
@@ -1422,11 +1459,8 @@
         const dropdownDiv = document.getElementById("dropdown");
         const disqualified = localStorage.getItem("isDisqualified") === "true";
         const alphabet = "EEEEEEEEEAAAARRRRIIIOOONNSSSTTTLLLLCCUUUDDDPPGGHHBBMMYYFFVVWWKKXJQZ".split("");
-        const starterWords = ["ACE", "ACT", "ADD", "ADO", "ADS", "AFT", "AGE", "AGO", "AIR", "ALL", "AND", "ANT", "ANY", "APE", "APT", "ARC", "ARE", "ARK", "ARM", "ART", "ASH", "ASK", "AWE", "AWL", "AXE", "BAD", "BAG", "BAN", "BAR", "BAT", "BAY", "BED", "BEE", "BEG", "BET", "BIG", "BIN", "BIT", "BOA", "BOB", "BOG", "BOP", "BOW", "BOY", "BRA", "BRO", "BUD", "BUG", "BUM", "BUS", "BUT", "BUY", "BYE", "CAB", "CAD", "CAM", "CAN", "CAP", "CAR", "CAT", "CAW", "COB", "COD", "COG", "CON", "COO", "COP", "COT", "COW", "COY", "CRY", "CUB", "CUE", "CUP", "CUR", "CUT", "DAB", "DAD", "DAG", "DAM", "DAY", "DEB", "DEN", "DEW", "DID", "DIE", "DIG", "DIN", "DIP", "DOC", "DOE", "DOG", "DON", "DOT", "DRY", "DUB", "DUD", "DUE", "DUG", "EAR", "EAT", "EEL", "EGG", "EGO", "ELF", "ELL", "EMU", "END", "ERA", "EVE", "EWE", "EYE", "FAD", "FAN", "FAR", "FAT", "FAX", "FED", "FEE", "FEW", "FIB", "FIG", "FIN", "FIR", "FIT", "FLY", "FOE", "FOG", "FOR", "FRY", "FUN", "FUR", "GAG", "GAP", "GAS", "GAY", "GEL", "GEM", "GET", "GIG", "GIN", "GOT", "GUM", "GUN", "GUT", "GUY", "GAP", "HAD", "HAM", "HAS", "HAT", "HAW", "HAY", "HEW", "HEY", "HIM", "HIP", "HIS", "HIT", "HOG", "HOP", "HOT", "HOW", "HUB", "HUE", "HUG", "HUM", "HUT", "ICE", "ILL", "INK", "INN", "ION", "JAB", "JAM", "JAR", "JAW", "JAY", "JAW", "JIG", "JOB", "JOE", "JOG", "JOT", "JOY", "JUG", "KEY", "KIT", "LAB", "LAD", "LAG", "LAP", "LAW", "LAY", "LEA", "LED", "LEG", "LET", "LID", "LIE", "LOG", "LOT", "LOW", "MAD", "MAN", "MAP", "MAT", "MAX", "MAY", "MEN", "MET", "MID", "MIX", "MOB", "MOD", "MOM", "MOP", "MOW", "MUD", "MUG", "MUM", "NAB", "NAP", "NOD", "NOT", "NOW", "NUN", "NUT", "OAR", "OAT", "ODD", "OFF", "OIL", "OLD", "ONE", "ORB", "OUR", "OUT", "OVA", "OWE", "OWL", "OWN", "PAD", "PAL", "PAN", "PAR", "PAT", "PAW", "PAY", "PEG", "PEN", "PET", "PEW", "PHI", "PIE", "PIG", "PIN", "PIT", "PLY", "POD", "POP", "POT", "PRO", "PUB", "PUG", "PUP", "PUT", "RAM", "RAN", "RAP", "RAT", "RAW", "RAY", "RED", "REP", "REV", "RIB", "RID", "RIG", "RIM", "RIP", "ROB", "ROD", "ROE", "ROT", "ROW", "RUB", "RUE", "RUG", "RUN", "RUT", "SAC", "SAD", "SAG", "SAP", "SAT", "SAW", "SAX", "SAY", "SEA", "SEE", "SET", "SEW", "SEX", "SHY", "SIB", "SIC", "SIN", "SIP", "SIR", "SIS", "SIT", "SKY", "SOB", "SOD", "SOL", "SON", "SOP", "SOS", "SOW", "SOX", "SPA", "SPY", "SUB", "SUE", "SUM", "SUN", "SUP", "TAB", "TAD", "TAG", "TAP", "TAR", "TEA", "TEE", "TEN", "THE", "TIE", "TIN", "TIP", "TOE", "TOG", "TON", "TOO", "TOP", "TOT", "TOW", "TOY", "TRY", "TUB", "TUG", "TUX", "TWO", "URN", "USE", "VAN", "VAT", "VET", "VIA", "VIE", "WAR", "WAS", "WAY", "WEB", "WED", "WEE", "WET", "WHO", "WHY", "WIN", "WIT", "WOK", "WON", "WOO", "YAK", "YAM", "YAP", "YAW", "YES",
-
-            "ABLE", "ACID", "ACRE", "BACK", "BALL", "BAND", "CALM", "CAMP", "CARD", "DAWN", "DAYS", "DEAL", "EACH", "EARN", "ELSE", "FACE", "FACT", "FINE", "GAIN", "GATE", "GAVE", "GIRD",
-            "HAIR", "HALF", "HAND", "ICON", "IDEA", "IDLE", "JACK", "JAIL", "KING", "KIND", "LACK", "LAKE", "LIMP", "MADE", "MAIL", "NAME", "NAIL", "ONCE", "ODDS", "PACK", "PAGE",
-            "RACE", "RAIN", "SAFE", "SAIL", "TAKE", "TALE", "TINE", "UNIT", "URGE", "VARY", "VAST", "WAGE", "WAIT", "YARD", "YARN", "ZAPS"];
+        const starterWords = ["ACE", "ACT", "ADD", "ADO", "ADS", "AFT", "AGE", "AGO", "AIR", "ALL", "AND", "ANT", "ANY", "APE", "APT", "ARC", "ARE", "ARK", "ARM", "ART", "ASH", "ASK", "AWE", "AWL", "AXE", "BAD", "BAG", "BAN", "BAR", "BAT", "BAY", "BED", "BEE", "BEG", "BET", "BIG", "BIN", "BIT", "BOA", "BOB", "BOG", "BOP", "BOW", "BOY", "BRA", "BRO", "BUD", "BUG", "BUM", "BUS", "BUT", "BUY", "BYE", "CAB", "CAD", "CAM", "CAN", "CAP", "CAR", "CAT", "CAW", "COB", "COD", "COG", "CON", "COO", "COP", "COT", "COW", "COY", "CRY", "CUB", "CUE", "CUP", "CUR", "CUT", "DAB", "DAD", "DAG", "DAM", "DAY", "DEB", "DEN", "DEW", "DID", "DIE", "DIG", "DIN", "DIP", "DOC", "DOE", "DOG", "DON", "DOT", "DRY", "DUB", "DUD", "DUE", "DUG", "EAR", "EAT", "EEL", "EGG", "EGO", "ELF", "ELL", "EMU", "END", "ERA", "EVE", "EWE", "EYE", "FAD", "FAN", "FAR", "FAT", "FAX", "FED", "FEE", "FEW", "FIB", "FIG", "FIN", "FIR", "FIT", "FLY", "FOE", "FOG", "FOR", "FRY", "FUN", "FUR", "GAG", "GAP", "GAS", "GAY", "GEL", "GEM", "GET", "GIG", "GIN", "GOT", "GUM", "GUN", "GUT", "GUY", "GAP", "HAD", "HAM", "HAS", "HAT", "HAW", "HAY", "HEW", "HEY", "HIM", "HIP", "HIS", "HIT", "HOG", "HOP", "HOT", "HOW", "HUB", "HUE", "HUG", "HUM", "HUT", "ICE", "ILL", "INK", "INN", "ION", "JAB", "JAM", "JAR", "JAW", "JAY", "JAW", "JIG", "JOB", "JOE", "JOG", "JOT", "JOY", "JUG", "KEY", "KIT", "LAB", "LAD", "LAG", "LAP", "LAW", "LAY", "LEA", "LED", "LEG", "LET", "LID", "LIE", "LOG", "LOT", "LOW", "MAD", "MAN", "MAP", "MAT", "MAX", "MAY", "MEN", "MET", "MID", "MIX", "MOB", "MOD", "MOM", "MOP", "MOW", "MUD", "MUG", "MUM", "NAB", "NAP", "NOD", "NOT", "NOW", "NUN", "NUT", "OAR", "OAT", "ODD", "OFF", "OIL", "OLD", "ONE", "ORB", "OUR", "OUT", "OVA", "OWE", "OWL", "OWN", "PAD", "PAL", "PAN", "PAR", "PAT", "PAW", "PAY", "PEG", "PEN", "PET", "PEW", "PHI", "PIE", "PIG", "PIN", "PIT", "PLY", "POD", "POP", "POT", "PRO", "PUB", "PUG", "PUP", "PUT", "RAM", "RAN", "RAP", "RAT", "RAW", "RAY", "RED", "REP", "REV", "RIB", "RID", "RIG", "RIM", "RIP", "ROB", "ROD", "ROE", "ROT", "ROW", "RUB", "RUE", "RUG", "RUN", "RUT", "SAC", "SAD", "SAG", "SAP", "SAT", "SAW", "SAX", "SAY", "SEA", "SEE", "SET", "SEW", "SEX", "SHY", "SIB", "SIC", "SIN", "SIP", "SIR", "SIS", "SIT", "SKY", "SOB", "SOD", "SOL", "SON", "SOP", "SOS", "SOW", "SOX", "SPA", "SPY", "SUB", "SUE", "SUM", "SUN", "SUP", "TAB", "TAD", "TAG", "TAP", "TAR", "TEA", "TEE", "TEN", "THE", "TIE", "TIN", "TIP", "TOE", "TOG", "TON", "TOO", "TOP", "TOT", "TOW", "TOY", "TRY", "TUB", "TUG", "TUX", "TWO", "URN", "USE", "VAN", "VAT", "VET", "VIA", "VIE", "WAR", "WAS", "WAY", "WEB", "WED", "WEE", "WET", "WHO", "WHY", "WIN", "WIT", "WOK", "WON", "WOO", "YAK", "YAM", "YAP", "YAW", "YES", "ABLE", "ACID", "ACRE", "BACK", "BALL", "BAND", "CALM", "CAMP", "CARD", "DAWN", "DAYS", "DEAL", "EACH", "EARN", "ELSE", "FACE", "FACT", "FINE", "GAIN", "GATE", "GAVE", "GIRD", "HAIR", "HALF", "HAND", "ICON", "IDEA", "IDLE", "JACK", "JAIL", "KING", "KIND", "LACK", "LAKE", "LIMP", "MADE", "MAIL", "NAME", "NAIL", "ONCE", "ODDS", "PACK", "PAGE", "RACE", "RAIN", "SAFE", "SAIL", "TAKE", "TALE", "TINE", "UNIT", "URGE", "VARY", "VAST", "WAGE", "WAIT", "YARD", "YARN", "ZAPS"];
+        // const starterWords = ["EIGHT123","NINE12345","TEN1234567","ELEVEN12345","TWELVE123456"];
 
         const allowList = ["DUNK", "DUNKS", "DUNKING", "DUNKED", "TOW", "TIGHT", "SIFT", "DOSE", "DOSES", "DOSED", "DOSING", "KITE", "KITES", "NET", "CUE", "CUES", "CUED", "CUEING", "CUING", "RAPE", "RAPES", "RAPED", "RAPING", "PEND", "PENDS", "PENDED", "PENDING", "BE"];
 
@@ -1522,7 +1556,7 @@
         const themeToggle = document.getElementById("themeToggle");
 
         // Use "default" string instead of null
-        const themes = ["default", "not-too-light", "green-pops", "winery", "tannery", "yello-pops", "too-light", "greenery", "pinko", "minimal-animal", "minimal-liminal", "dark-grey"];
+        const themes = ["default", "not-too-light", "green-pops", "winery", "tannery", "yello-pops", "too-light", "greenery", "pinko", "minimal-animal", "minimal-liminal", "dark-grey", "blue-pops" ];
 
         let currentTheme = localStorage.getItem("theme") || "default";
         if (currentTheme !== "default") {
