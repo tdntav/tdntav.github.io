@@ -2337,7 +2337,7 @@
                     totalChainLoss++;
                     score -= penalty;
                     chain = chain - 1;
-                    disallowedWords.add(lower);
+                    disallowedWords.add(lower + `(-${penalty})`);
                     currentWord = lastValidWord;
                     renderWord();
                     messageElement.textContent = `Invalid word! Penalty: -${penalty}`;
