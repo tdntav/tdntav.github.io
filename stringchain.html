@@ -4,9 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StringChain</title>
+    <meta name="description" content="Stringchain is a word game. Replace, add, swap, or delete a letter to make a new word. How long can you make your chain of words?">
+    <title>stringchain - word game</title>
     <style>
         :root {
+
+            --rounding: 8px;
+            --rounding-small: 4px;
+
             --bg: #123;
             --text: #cde;
 
@@ -35,6 +40,9 @@
         }
 
         .not-too-light {
+            --rounding: 8px;
+            --rounding-small: 4px;
+
             --bg: #9ab;
             --text: #123;
 
@@ -63,6 +71,9 @@
 
 
         .green-pops {
+            --rounding: 18px;
+            --rounding-small: 12px;
+
             --bg: #111;
             --text: #fff;
 
@@ -91,6 +102,9 @@
 
 
         .winery {
+            --rounding: 8px;
+            --rounding-small: 4px;
+
             --bg: #312;
             --text: #fde;
 
@@ -118,6 +132,9 @@
         }
 
         .tannery {
+            --rounding: 8px;
+            --rounding-small: 4px;
+
             --bg: #fed;
             --text: #321;
 
@@ -145,6 +162,9 @@
         }
 
         .yello-pops {
+            --rounding: 20px;
+            --rounding-small: 10px;
+
             --bg: #111;
             --text: #fff;
 
@@ -172,6 +192,9 @@
         }
 
         .too-light {
+            --rounding: 4px;
+            --rounding-small: 2px;
+
             --bg: #fff;
             --text: #666;
 
@@ -183,7 +206,7 @@
             --negative-feedback: #321;
             --disabled: #aaa;
 
-            --wordcell: #ddd;
+            --wordcell: var(--accent);
             --wordcell-text: var(--accent-text);
             --wordcell-border: 2px solid var(--accent);
 
@@ -200,6 +223,9 @@
         }
 
         .greenery {
+            --rounding: 8px;
+            --rounding-small: 4px;
+
             --bg: #020;
             --text: #dfb;
 
@@ -209,9 +235,9 @@
             --positive-feedback: #dfb;
 
             --negative-feedback: #000;
-            --disabled: #150;
+            --disabled: #372;
 
-            --wordcell: #372;
+            --wordcell: #6a5;
             --wordcell-text: var(--accent-text);
             --wordcell-border: 2px solid var(--wordcell);
 
@@ -231,6 +257,9 @@
 
 
         .pinko {
+            --rounding: 8px;
+            --rounding-small: 4px;
+
             --bg: #fdf;
             --text: #606;
 
@@ -262,6 +291,9 @@
 
 
         .minimal-animal {
+            --rounding: 24px;
+            --rounding-small: 12px;
+
             --bg: #eee;
             --text: #555;
 
@@ -290,6 +322,9 @@
         }
 
         .minimal-liminal {
+            --rounding: 8px;
+            --rounding-small: 4px;
+
             --bg: #ddd;
             --text: #456;
 
@@ -317,6 +352,9 @@
         }
 
         .dark-grey {
+            --rounding: 2px;
+            --rounding-small: 2px;
+
             --bg: #000;
             --text: #ccc;
 
@@ -341,6 +379,34 @@
             --selected-border: 2px dashed #ff0;
 
 
+        }
+
+        .blue-pops {
+            --rounding: 8px;
+            --rounding-small: 4px;
+
+            --bg: #033;
+            --text: #fff;
+
+            --accent: #2aa;
+            --accent-text: var(--bg);
+
+            --positive-feedback: #0ff;
+
+            --negative-feedback: #815;
+            --disabled: #477;
+
+            --wordcell: #cff;
+            --wordcell-text: var(--bg);
+            --wordcell-border: 2px solid var(--wordcell);
+
+            --gridcell: var(--bg);
+            --gridcell-text: var(--text);
+            --gridcell-border: 2px solid var(--disabled);
+
+            --selected-cell: #055;
+            --selected-text: var(--text);
+            --selected-border: 2px solid #0ff;
         }
 
 
@@ -374,12 +440,16 @@
         }
 
         .scores {
+            position:relative;
             padding-block: 10px;
-            font-size: 14pt;
+            font-size: 15pt;
             flex-wrap: wrap;
             text-align: center;
             width: 100%;
             height: 22px;
+            font-family:'Courier New', Courier, monospace;
+            z-index:1;
+            /* font-weight: bold; */
             /* background-image: linear-gradient(to top, var(--wordcell), var(--bg)); */
         }
 
@@ -387,7 +457,7 @@
             /* position: relative; */
             /* bottom: 2px; */
             font-size: 11pt;
-            border-radius: 8px;
+            border-radius: var(--rounding) var(--rounding) 0px 0px;
             font-family: 'Courier New', Courier, monospace;
             flex-wrap: wrap;
             text-align: center;
@@ -410,7 +480,7 @@
             padding: 10px;
             transform-origin: center;
             transition: transform 1s ease;
-            border-radius: 8px;
+            border-radius: var(--rounding);
             z-index: 2;
         }
 
@@ -423,7 +493,7 @@
             justify-content: center;
             margin-bottom: 10px;
             padding: 2px;
-            border-radius: 8px;
+            border-radius: var(--rounding);
         }
 
         .letter,
@@ -431,7 +501,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 5px;
+            border-radius: var(--rounding-small);
             text-transform: uppercase;
             cursor: pointer;
             margin: 5px;
@@ -467,10 +537,6 @@
             animation-duration: 1s;
         }
 
-        .anim-pos {
-            animation-name: animate-positive;
-            animation-duration: 1.5s;
-        }
 
         .anim-bonus {
             animation-name: animate-bonus;
@@ -513,7 +579,7 @@
             align-items: center;
             justify-content: center;
             background-color: var(--gridcell);
-            border-radius: 8px;
+            border-radius: var(--rounding);
             text-transform: uppercase;
             cursor: pointer;
         }
@@ -547,7 +613,7 @@
             padding: 10px;
             font-family: inherit;
             color: var(--accent-text);
-            border-radius: 8px;
+            border-radius: var(--rounding);
             border: 2px solid var(--selected-cell);
             flex: 1 1 30%;
             min-width: 80px;
@@ -560,7 +626,7 @@
             margin: 10px 0px;
             padding: 0px 10px;
             color: var(--accent-text);
-            border-radius: 8px;
+            border-radius: var(--rounding);
             border: none;
             font-size: 11pt;
         }
@@ -592,20 +658,26 @@
         }
 
         .help {
-            border-radius: 20px;
-            margin: 0.5px;
-            min-height: 40px;
-            min-width: 40px;
+            border-radius: 23px;
+            /* margin: 0.5px; */
+            /* border: 2px solid var(--selected-cell); */
+            height: 44px;
+            width: 44px;
+            align-items:center;
+            text-align:center;
+            margin-block: 0px;
+            margin-inline:4px;
+            padding:auto;
         }
 
         .help-dark {
-            border-radius: 8px;
+            border-radius: var(--rounding);
             background: var(--bg);
             color: var(--text);
             margin-top: 15px;
             min-height: 40px;
             min-width: 40px;
-            opacity:50%;
+            opacity: 50%;
         }
 
         button:disabled,
@@ -643,7 +715,7 @@
             color: var(--accent);
             /* text-align:end; */
             /* align-items: top; */
-            opacity: 50%;
+            opacity: 66%;
             max-height: 9px;
             /* padding-top:-5px; */
             /* margin-top: -15px; */
@@ -678,12 +750,13 @@
             background-color: var(--disabled);
             color: var(--accent-text);
             margin-bottom: 0px;
-            border-radius: 0px 0px 8px 8px;
+            border-radius: 0px 0px var(--rounding) var(--rounding);           
+
         }
 
         #history {
             margin-top: 0px;
-            border-radius: 8px 8px 0px 0px;
+            border-radius: var(--rounding) var(--rounding) 0px 0px;           
             color: var(--accent-text);
             text-align: justify;
         }
@@ -691,14 +764,15 @@
         #definitions {
             font-size: 10pt;
             color: var(--text);
-            margin-bottom: 20px; 
+            margin-bottom: 20px;
             width: 85%;
-            background: var(--disabled);
-            color: var(--accent-text);
+            background: var(--gridcell);
+            color: var(--gridcell-text);
+            border: var(--gridcell-border);
             padding-inline: 2.5%;
             padding-block: 10px;
-            border-radius: 8px;
-            opacity:66%
+            border-radius: var(--rounding);
+            opacity: 66%
         }
 
         #rules,
@@ -717,7 +791,8 @@
             background: var(--wordcell);
             padding-block: 20px;
             margin: 0px 10px 0px;
-            border-radius: 0 0 8px 8px;
+            border-radius: 0 0 var(--rounding) var(--rounding);             
+
             margin: 0px 0px 10px;
 
             color: var(--wordcell-text);
@@ -754,7 +829,7 @@
             width: 100%;
             background: var(--bg);
             font-size: 22pt;
-            border-radius: 8px;
+            border-radius: var(--rounding);
             display: flex;
             flex-direction: column;
             padding-block: 20px;
@@ -812,31 +887,39 @@
         } */
 
         .grid-demo {
-  display: grid;
-  grid-template-columns: repeat(3, 36px);
-  grid-auto-rows: 36px; /* Make cells square */
-  gap: 7px;
-  padding: 5px;
-  margin: 20px;
-  justify-items: center;   /* center content in each cell */
-  align-items: center;     /* vertically center */
-  justify-content: center; /* center entire grid in container */
-  align-content: center;
-  border-radius: 5px;
-}
+            display: grid;
+            grid-template-columns: repeat(3, 36px);
+            grid-auto-rows: 36px;
+            /* Make cells square */
+            gap: 7px;
+            padding: 5px;
+            margin: 20px;
+            justify-items: center;
+            /* center content in each cell */
+            align-items: center;
+            /* vertically center */
+            justify-content: center;
+            /* center entire grid in container */
+            align-content: center;
+            border-radius: 5px;
+        }
 
         .grid-demo-four {
             display: grid;
-  grid-template-columns: repeat(4, 36px);
-  grid-auto-rows: 36px; /* Make cells square */
-  gap: 7px;
-  padding: 5px;
-  margin: 20px;
-  justify-items: center;   /* center content in each cell */
-  align-items: center;     /* vertically center */
-  justify-content: center; /* center entire grid in container */
-  align-content: center;
-  border-radius: 5px;
+            grid-template-columns: repeat(4, 36px);
+            grid-auto-rows: 36px;
+            /* Make cells square */
+            gap: 7px;
+            padding: 5px;
+            margin: 20px;
+            justify-items: center;
+            /* center content in each cell */
+            align-items: center;
+            /* vertically center */
+            justify-content: center;
+            /* center entire grid in container */
+            align-content: center;
+            border-radius: 5px;
         }
 
         .demo {
@@ -869,7 +952,7 @@
             align-items: center;
             justify-content: center;
             background-color: var(--gridcell);
-            border-radius: 5px;
+            border-radius: var(--rounding-small);
             text-transform: uppercase;
             cursor: auto;
         }
@@ -891,14 +974,21 @@
             
         } */
 
+        .anim-pos {
+            animation-name: animate-positive;
+            animation-duration: 1.5s;
+        }
+
         @keyframes animate-positive {
             0% {
                 background-color: var(--positive-feedback);
+                border-color: var(--positive-feedback);
                 color: var(--bg);
             }
 
             100% {
                 background-color: var(--wordcell);
+                border: var(--wordcell-border);
                 color: var(--wordcell-text);
             }
         }
@@ -966,6 +1056,48 @@
                 background-color: var(--bg);
             }
         }
+
+        @keyframes shake {
+            0% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-5px);
+            }
+
+            50% {
+                transform: translateX(5px);
+            }
+
+            75% {
+                transform: translateX(-5px);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        .shake {
+            animation: shake 0.3s ease;
+        }
+
+        mark.highlight {
+            background: var(--wordcell-text);
+            /* text-decoration: underline 3px solid var(--wordcell); */
+            color: var(--wordcell);
+            /* padding: 4px; */
+            border: 2px solid var(--bg);
+            border-radius: var(--rounding);            
+            /* font-weight: bold; */
+            /* opacity:75%; */
+            transition: font-color text-decoration 5s ease;
+        }
+
+        mark.highlight.fade {
+            color: transparent;
+        }
     </style>
 </head>
 
@@ -1000,8 +1132,8 @@
                     <p class="demo-para">Hit the <b><i>PLAY</i></b> button to complete the move.<br><br></p>
                     <div class="button-row demo demoscale"> <button class="bonusBtn disabled"
                             style="border:2px solid transparent;">||</button><button class="actionBtn"
-                            style="border:var(--selected-border);">PLAY</button><button
-                            class="shuffleBtn disabled" style="border:2px solid transparent;">#</button></div>
+                            style="border:var(--selected-border);">PLAY</button><button class="shuffleBtn disabled"
+                            style="border:2px solid transparent;">#</button></div>
 
                     <div class="word-container demoscale"
                         style="width:75%;background:var(--positive-feedback);margin-top:20px;">
@@ -1036,8 +1168,8 @@
                     <p class="demo-para">Hit <b><i>PLAY</i></b> to complete the move.<br><br></p>
                     <div class="button-row demo demoscale"> <button class="bonusBtn disabled"
                             style="border:2px solid transparent;">||</button><button class="actionBtn"
-                            style="border:var(--selected-border);">PLAY</button><button
-                            class="shuffleBtn disabled" style="border:2px solid transparent;">#</button></div>
+                            style="border:var(--selected-border);">PLAY</button><button class="shuffleBtn disabled"
+                            style="border:2px solid transparent;">#</button></div>
                     <div class="word-container demoscale" style="background:var(--positive-feedback);margin-top:20px;">
                         <div class="insert-slot demo-cell"></div>
                         <div class="letter demo-cell">T</div>
@@ -1070,8 +1202,8 @@
                     <p class="demo-para">Hit <b><i>PLAY</i></b> to delete it<br>and make a new valid word.<br><br></p>
                     <div class="button-row demo demoscale"> <button class="bonusBtn disabled"
                             style="border:2px solid transparent;">||</button><button class="actionBtn"
-                            style="border:var(--selected-border);">PLAY</button><button
-                            class="shuffleBtn disabled" style="border:2px solid transparent;">#</button></div>
+                            style="border:var(--selected-border);">PLAY</button><button class="shuffleBtn disabled"
+                            style="border:2px solid transparent;">#</button></div>
 
                     <div class="word-container demoscale" style="background:var(--positive-feedback);margin-top:20px;">
                         <div class="insert-slot demo-cell"></div>
@@ -1085,7 +1217,7 @@
                 </div>
             </div>
 
-            <p class="demo-para"><br>A move can also use a letter from the grid.<br><br></p>
+            <p><br>A move can also use a letter from the grid.<br><br></p>
 
 
             <div class="demo-div"><!-- EXAMPLE 4: REPLACE -->
@@ -1117,8 +1249,8 @@
                     <p class="demo-para">Hit <b><i>PLAY</i></b> to confirm.<br><br></p>
                     <div class="button-row demo demoscale"> <button class="bonusBtn disabled"
                             style="border:2px solid transparent;">||</button><button class="actionBtn"
-                            style="border:var(--selected-border);">PLAY</button><button
-                            class="shuffleBtn disabled" style="border:2px solid transparent;">#</button></div>
+                            style="border:var(--selected-border);">PLAY</button><button class="shuffleBtn disabled"
+                            style="border:2px solid transparent;">#</button></div>
                     <div class="word-container demoscale"
                         style="width:75%;background:var(--positive-feedback);margin-top:20px;">
                         <div class="insert-slot demo-cell"></div>
@@ -1166,8 +1298,8 @@
                     <p class="demo-para">Engage <b><i>PLAY</i></b> to make it so<br><br></p>
                     <div class="button-row demo demoscale"> <button class="bonusBtn disabled"
                             style="border:2px solid transparent;">||</button><button class="actionBtn"
-                            style="border:var(--selected-border);">PLAY</button><button
-                            class="shuffleBtn disabled" style="border:2px solid transparent;">#</button></div>
+                            style="border:var(--selected-border);">PLAY</button><button class="shuffleBtn disabled"
+                            style="border:2px solid transparent;">#</button></div>
 
                     <div class="word-container demoscale"
                         style="width:75%;background:var(--positive-feedback);margin-top:20px;">
@@ -1267,6 +1399,7 @@
                         <div class="grid-cell-demo">O</div>
                         <div class="grid-cell-demo">L</div>
                     </div>
+                    
                 </div>
             </div>
             <br>
@@ -1278,9 +1411,8 @@
                 <br>
                 <br>Words that fail dictionary validation are penalised with increasing severity.
                 <br>
-                <br>The fifth invalid attempt ends the game.
-                <br>
-                <br>I know it's sometimes the dictionary's fault and I'm sorry about that.
+                <br>The fifth invalid attempt ends the game. You can see your remaining lives under the
+                <b><i>PLAY</i></b> button.
                 <br>
                 <br>Enjoy!
                 <br>
@@ -1295,17 +1427,22 @@
                 <br>
                 <br>Without whoever that is, whoever I am couldn't have made this game for whoever you are.
                 <br>
-                <br>You'll notice the lack of ads and surveillance. Doesn't that make a nice change? Play as much as you
-                like. It's a good game, right?
+                <br>Occasionally you might try to play a real word that
+                is inexplicably
+                missing from the dictionary. It will fail validation. I'm sorry about that. The dictionary is amazing
+                but it's not perfect.
                 <br>
-                <br>Once you save up a lot of bonuses, you can challenge yourself to play longer words, to tap into rich
-                veins of association and rhyme. The game displays definitions to help you explore your
-                own vocabulary.
+                <br>Gameplay is what you make it. You have to start off with short words, but once you bank some
+                bonuses, you can challenge yourself to play longer words. Tap into your rich
+                personal lexicon, or just guess at words that are likely to exist.
+                <br>
+                <br>The game displays definitions to help you explore your own ever-expanding vocabulary.
                 <br>
                 <br>But the longer it goes, the harder it gets. Once you've used up all the obvious and convenient short
                 words, the game forces you to get creative.
                 <br>
-                <br>Get a high score.<br>Beat that high score. <br>Screenshot that high score and challenge your friends.
+                <br>Get a high score.<br>Beat that high score. <br>Screenshot that high score and challenge your
+                friends.<br>Show off your word list. You made that. Look at all the words you know.
                 <br>
                 <br>If you enjoy this game, consider buying me a coffee or putting my kids through college.
                 <br>
@@ -1317,8 +1454,8 @@
 
 
     </div>
-    <div class="scores"><span id="score">0</span>&nbsp;&nbsp;&nbsp; STRING <button id="toggle-dropdown"
-            class="help toggle-dropdown">+</button> CHAIN &nbsp;&nbsp;&nbsp;<span id="chain">0</span></div>
+    <div class="scores"><span id="score">0</span>&nbsp; <b>string</b><button id="toggle-dropdown"
+            class="help toggle-dropdown">+</button><b>chain</b> &nbsp;<span id="chain">0</span></div>
     <div id="anti-move-wrapper">
         <div id="message" class="message"></div>
     </div>
@@ -1364,8 +1501,12 @@
         const aboutDiv = document.getElementById("about");
         const rulesDiv = document.getElementById("rules");
         const dropdownDiv = document.getElementById("dropdown");
+        const disqualified = localStorage.getItem("isDisqualified") === "true";
         const alphabet = "EEEEEEEEEAAAARRRRIIIOOONNSSSTTTLLLLCCUUUDDDPPGGHHBBMMYYFFVVWWKKXJQZ".split("");
-        const validWords = ["DUNK", "SIFT", "DOSE", "RAPE", "HEE", "TOW", "NET", "AND", "THE", "CUE", "FOR", "ARE", "BUT", "NOT", "YOU", "ALL", "ANY", "CAN", "HAD", "HER", "WAS", "ONE", "OUR", "OUT", "DAY", "GET", "HAS", "HIM", "HIS", "HOW", "MAN", "NEW", "NOW", "OLD", "SEE", "TWO", "WAY", "WHO", "USE", "BIG", "FUN", "RUN", "SUN", "TOP", "CAR", "DOG", "CAT", "BOX", "RED", "HOT", "WIN", "JOB", "EAT", "YES", "MOM", "DAD", "BED", "TIME", "YEAR", "WORK", "LIFE", "LOVE", "GOOD", "MAKE", "LOOK", "WANT", "WELL", "HAND", "GIVE", "TAKE", "KNOW", "INTO", "FROM", "OVER", "MORE", "JUST", "LIKE", "COME", "WHEN", "THEN", "VERY", "EVEN", "BACK", "DOWN", "OPEN", "STOP", "PLAY", "WALK", "TALK", "TURN", "KEEP", "HOME", "ROOM", "WORD", "COLD", "WARM", "GOLD", "FAST", "SLOW", "NEAR", "FAR", "TREE", "FISH", "BIRD", "RAIN", "ABOUT", "AFTER", "AGAIN", "BELOW", "COULD", "EVERY", "FIRST", "FOUND", "GREAT", "HOUSE", "LARGE", "LEARN", "NEVER", "OTHER", "PLANT", "POINT", "RIGHT", "SMALL", "SOUND", "SPELL", "STILL", "STUDY", "THEIR", "THERE", "THESE", "THING", "THINK", "THREE", "WATER", "WHERE", "WHICH", "WORLD", "WOULD", "WRITE", "APPLE", "BREAD", "CHAIR", "CLEAN", "CLOSE", "CLOUD", "EARTH", "TWIST", "TIGHT", "GRASS", "HEART", "MONEY", "MOUTH", "NIGHT", "SLEEP", "TABLE"];
+        const starterWords = ["ACE", "ACT", "ADD", "ADO", "ADS", "AFT", "AGE", "AGO", "AIR", "ALL", "AND", "ANT", "ANY", "APE", "APT", "ARC", "ARE", "ARK", "ARM", "ART", "ASH", "ASK", "AWE", "AWL", "AXE", "BAD", "BAG", "BAN", "BAR", "BAT", "BAY", "BED", "BEE", "BEG", "BET", "BIG", "BIN", "BIT", "BOA", "BOB", "BOG", "BOP", "BOW", "BOY", "BRA", "BRO", "BUD", "BUG", "BUM", "BUS", "BUT", "BUY", "BYE", "CAB", "CAD", "CAM", "CAN", "CAP", "CAR", "CAT", "CAW", "COB", "COD", "COG", "CON", "COO", "COP", "COT", "COW", "COY", "CRY", "CUB", "CUE", "CUP", "CUR", "CUT", "DAB", "DAD", "DAG", "DAM", "DAY", "DEB", "DEN", "DEW", "DID", "DIE", "DIG", "DIN", "DIP", "DOC", "DOE", "DOG", "DON", "DOT", "DRY", "DUB", "DUD", "DUE", "DUG", "EAR", "EAT", "EEL", "EGG", "EGO", "ELF", "ELL", "EMU", "END", "ERA", "EVE", "EWE", "EYE", "FAD", "FAN", "FAR", "FAT", "FAX", "FED", "FEE", "FEW", "FIB", "FIG", "FIN", "FIR", "FIT", "FLY", "FOE", "FOG", "FOR", "FRY", "FUN", "FUR", "GAG", "GAP", "GAS", "GAY", "GEL", "GEM", "GET", "GIG", "GIN", "GOT", "GUM", "GUN", "GUT", "GUY", "GAP", "HAD", "HAM", "HAS", "HAT", "HAW", "HAY", "HEW", "HEY", "HIM", "HIP", "HIS", "HIT", "HOG", "HOP", "HOT", "HOW", "HUB", "HUE", "HUG", "HUM", "HUT", "ICE", "ILL", "INK", "INN", "ION", "JAB", "JAM", "JAR", "JAW", "JAY", "JAW", "JIG", "JOB", "JOE", "JOG", "JOT", "JOY", "JUG", "KEY", "KIT", "LAB", "LAD", "LAG", "LAP", "LAW", "LAY", "LEA", "LED", "LEG", "LET", "LID", "LIE", "LOG", "LOT", "LOW", "MAD", "MAN", "MAP", "MAT", "MAX", "MAY", "MEN", "MET", "MID", "MIX", "MOB", "MOD", "MOM", "MOP", "MOW", "MUD", "MUG", "MUM", "NAB", "NAP", "NOD", "NOT", "NOW", "NUN", "NUT", "OAR", "OAT", "ODD", "OFF", "OIL", "OLD", "ONE", "ORB", "OUR", "OUT", "OVA", "OWE", "OWL", "OWN", "PAD", "PAL", "PAN", "PAR", "PAT", "PAW", "PAY", "PEG", "PEN", "PET", "PEW", "PHI", "PIE", "PIG", "PIN", "PIT", "PLY", "POD", "POP", "POT", "PRO", "PUB", "PUG", "PUP", "PUT", "RAM", "RAN", "RAP", "RAT", "RAW", "RAY", "RED", "REP", "REV", "RIB", "RID", "RIG", "RIM", "RIP", "ROB", "ROD", "ROE", "ROT", "ROW", "RUB", "RUE", "RUG", "RUN", "RUT", "SAC", "SAD", "SAG", "SAP", "SAT", "SAW", "SAX", "SAY", "SEA", "SEE", "SET", "SEW", "SEX", "SHY", "SIB", "SIC", "SIN", "SIP", "SIR", "SIS", "SIT", "SKY", "SOB", "SOD", "SOL", "SON", "SOP", "SOS", "SOW", "SOX", "SPA", "SPY", "SUB", "SUE", "SUM", "SUN", "SUP", "TAB", "TAD", "TAG", "TAP", "TAR", "TEA", "TEE", "TEN", "THE", "TIE", "TIN", "TIP", "TOE", "TOG", "TON", "TOO", "TOP", "TOT", "TOW", "TOY", "TRY", "TUB", "TUG", "TUX", "TWO", "URN", "USE", "VAN", "VAT", "VET", "VIA", "VIE", "WAR", "WAS", "WAY", "WEB", "WED", "WEE", "WET", "WHO", "WHY", "WIN", "WIT", "WOK", "WON", "WOO", "YAK", "YAM", "YAP", "YAW", "YES", "ABLE", "ACID", "ACRE", "BACK", "BALL", "BAND", "CALM", "CAMP", "CARD", "DAWN", "DAYS", "DEAL", "EACH", "EARN", "ELSE", "FACE", "FACT", "FINE", "GAIN", "GATE", "GAVE", "GIRD", "HAIR", "HALF", "HAND", "ICON", "IDEA", "IDLE", "JACK", "JAIL", "KING", "KIND", "LACK", "LAKE", "LIMP", "MADE", "MAIL", "NAME", "NAIL", "ONCE", "ODDS", "PACK", "PAGE", "RACE", "RAIN", "SAFE", "SAIL", "TAKE", "TALE", "TINE", "UNIT", "URGE", "VARY", "VAST", "WAGE", "WAIT", "YARD", "YARN", "ZAPS"];
+        // const starterWords = ["EIGHT123","NINE12345","TEN1234567","ELEVEN12345","TWELVE123456"];
+
+        const allowList = ["DUNK", "HELL", "HELLS", "TOW", "TOWS", "TOWED", "TOWING", "DUNKS", "DUNKING", "DUNKED", "TOW", "TIGHT", "SIFT", "DOSE", "DOSES", "DOSED", "DOSING", "KITE", "KITES", "NET", "CUE", "CUES", "CUED", "CUEING", "CUING", "RAPE", "RAPES", "RAPED", "RAPING", "PEND", "PENDS", "PENDED", "PENDING", "BE", "LOOK","LOOKS","LOOKED","LOOKING","","" ];
 
         let isActiveGame = true;
         let playedWords = new Set();
@@ -1390,10 +1531,76 @@
         let specialModeActive = false; // NEW: Track bonus special mode
 
 
+
+
+        function highlightPlayed(currentWord) {
+            // Remove any existing highlights
+            // historyElement.innerHTML = historyElement.innerHTML.replace(/(<mark class="highlight">|<\/mark>)/g, '');
+
+            // Highlight the word
+            historyElement.innerHTML = historyElement.innerHTML.replace(
+                new RegExp(currentWord, 'gi'),
+                '<mark class="highlight">$&</mark>'
+            );
+
+            // Trigger fade
+            // const mark = historyElement.querySelector('mark.highlight');
+            // if (mark) {
+            //     setTimeout(() => mark.classList.add('fade'), 3000);  // start fade
+            //     setTimeout(() => mark.outerHTML = mark.innerText, 5000); // cleanup
+            // }
+
+            //   Fade out each new mark
+            const newMarks = historyElement.querySelectorAll('mark.highlight:not(.fade)');
+            newMarks.forEach(mark => {
+                // setTimeout(() => mark.classList.add('fade'), 18000);  // start fade
+                setTimeout(() => mark.outerHTML = mark.innerText, 60000); // remove
+            });
+        }
+
+
+
+
+
+
+
+
+        function highlightPlayed(currentWord) {
+            // Escape any special regex characters in the word
+            const safeWord = currentWord.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+            // Match whole word only
+            const regex = new RegExp(`\\b${safeWord}\\b`, 'gi');
+
+            // Highlight the word
+            historyElement.innerHTML = historyElement.innerHTML.replace(
+                regex,
+                '<mark class="highlight">$&</mark>'
+            );
+
+            // Keep highlight for 60s
+            const newMarks = historyElement.querySelectorAll('mark.highlight:not(.fade)');
+            newMarks.forEach(mark => {
+                setTimeout(() => mark.outerHTML = mark.innerText, 60000);
+            });
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
         const themeToggle = document.getElementById("themeToggle");
 
         // Use "default" string instead of null
-        const themes = ["default", "not-too-light", "green-pops", "winery", "tannery", "yello-pops", "too-light", "greenery", "pinko", "minimal-animal", "minimal-liminal", "dark-grey"];
+        const themes = ["default", "not-too-light", "green-pops", "winery", "tannery", "yello-pops", "too-light", "greenery", "pinko", "minimal-animal", "minimal-liminal", "dark-grey", "blue-pops" ];
 
         let currentTheme = localStorage.getItem("theme") || "default";
         if (currentTheme !== "default") {
@@ -1451,7 +1658,13 @@
         });
 
 
-
+        function rollbackGrid() {
+            const savedGridState = localStorage.getItem("stringChainState");
+            const gridState = JSON.parse(savedGridState);
+            grid = gridState.grid;
+            gridSize = gridState.gridSize;
+            renderGrid();
+        }
 
 
         function saveGameState() {
@@ -1461,7 +1674,6 @@
 
         // Load and restore directly
         function loadGameState() {
-            const disqualified = localStorage.getItem("isDisqualified") === "true";
             // actionBtn.disabled = disqualified; 
             if (disqualified) {
                 newGameBtn.click();
@@ -1587,34 +1799,41 @@
         function redAnimation() { wordContainer.classList.add('anim-neg'); }
         function bonusAnimation() { bonusBtn.classList.add('anim-bonus'); }
         function shuffleAnimation() { shuffleBtn.classList.add('anim-bonus'); }
-        function alreadyUsedAnimation() { wordContainer.classList.add('anim-used'); }
-        // function greenAnimation() { wordContainer.classList.add('anim-pos'); }
+        // function alreadyUsedAnimation() { wordContainer.classList.add('anim-used'); }
+        // function alreadyUsedAnimation() { wordContainer.classList.add('shake'); }
 
-        // function greenAnimation() {
-        //     const cells = wordContainer.querySelectorAll('.letter'); // or whatever your cell selector is
-        //     cells.forEach(cell => cell.classList.add('anim-pos'));
-        // }
+        function alreadyUsedAnimation() {
+            wordContainer.classList.add("shake");
+            // Remove class after animation so it can trigger again later
+            wordContainer.addEventListener("animationend", () => {
+                wordContainer.classList.remove("shake");
+            }, { once: true });
+        }
+
+
+
+
 
         function greenAnimation() {
-  const elements = wordContainer.querySelectorAll('.letter, .insert-slot');
-  const animationDuration = 1500; // in ms (0.5s from CSS)
-  const stagger = 30; // in ms (0.03s)
+            const elements = wordContainer.querySelectorAll('.letter, .insert-slot');
+            const animationDuration = 1500; // in ms (0.5s from CSS)
+            const stagger = 30; // in ms (0.03s)
 
-  elements.forEach((el, index) => {
-    el.classList.remove('anim-pos'); 
-    void el.offsetWidth; // reflow to restart animation
+            elements.forEach((el, index) => {
+                el.classList.remove('anim-pos');
+                void el.offsetWidth; // reflow to restart animation
 
-    el.style.animationDelay = `${index * stagger / 1000}s`;
-    el.classList.add('anim-pos');
+                el.style.animationDelay = `${index * stagger / 1000}s`;
+                el.classList.add('anim-pos');
 
-    // Calculate when to remove the class
-    const totalDelay = animationDuration + index * stagger;
-    setTimeout(() => {
-      el.classList.remove('anim-pos');
-    //   el.style.animationDelay = ''; // optional: clean up inline style
-    }, totalDelay);
-  });
-}
+                // Calculate when to remove the class
+                const totalDelay = animationDuration + index * stagger;
+                setTimeout(() => {
+                    el.classList.remove('anim-pos');
+                    //   el.style.animationDelay = ''; // optional: clean up inline style
+                }, totalDelay);
+            });
+        }
 
 
         function removeAnimation() {
@@ -1623,7 +1842,7 @@
             if (letterGrid.classList.contains('anim-refresh')) { letterGrid.classList.remove('anim-refresh'); }
             if (bonusBtn.classList.contains('anim-bonus')) { bonusBtn.classList.remove('anim-bonus'); }
             if (shuffleBtn.classList.contains('anim-bonus')) { shuffleBtn.classList.remove('anim-bonus'); }
-            if (historyElement.classList.contains('anim-used')) { historyElement.classList.remove('anim-used'); }
+            if (wordContainer.classList.contains('shake')) { wordContainer.classList.remove('shake'); }
             if (actionBtn.classList.contains('anim-play')) { actionBtn.classList.remove('anim-play'); }
 
         }
@@ -1633,7 +1852,7 @@
         }
 
         function randomWord() {
-            return validWords[Math.floor(Math.random() * validWords.length)];
+            return starterWords[Math.floor(Math.random() * starterWords.length)];
         }
 
         function updateStatus() {
@@ -1906,6 +2125,8 @@
             renderGrid();
         }
 
+
+
         function replenishGrid() {
             for (let r = 0; r < gridSize; r++) {
                 if (grid[r].every(cell => cell === null)) {
@@ -1914,6 +2135,7 @@
                     }
                 }
             }
+
             for (let c = 0; c < gridSize; c++) {
                 if (grid.every(row => row[c] === null)) {
                     for (let r = 0; r < gridSize; r++) {
@@ -1921,13 +2143,47 @@
                     }
                 }
             }
-            if (currentWord.length >= 6 && gridSize === 3) {
+
+            if (currentWord.length >= 6 && gridSize === 3 && !specialModeActive) {
+                const oldGrid = grid.map(row => row.slice()); // copy current 3x3
+
+                // Build new 4x4 grid, start as null
+                const newSize = 4;
+                const newGrid = Array.from({ length: newSize }, () => Array(newSize).fill(null));
+
+                // Preserve existing letters/empties in top-left 3x3
+                for (let r = 0; r < 3; r++) {
+                    for (let c = 0; c < 3; c++) {
+                        newGrid[r][c] = oldGrid[r][c]; // may be a letter or null
+                    }
+                }
+
+                // Refresh ONLY the used cells (nulls) inside the original 3x3
+                for (let r = 0; r < 3; r++) {
+                    for (let c = 0; c < 3; c++) {
+                        if (newGrid[r][c] === null) {
+                            newGrid[r][c] = randomLetter();
+                        }
+                    }
+                }
+
+                // Populate the new right column (c = 3) and bottom row (r = 3)
+                for (let r = 0; r < 4; r++) newGrid[r][3] = randomLetter();
+                for (let c = 0; c < 4; c++) newGrid[3][c] = randomLetter();
+
+                // Commit expansion
                 gridSize = 4;
-                initGrid();
-            } else {
-                renderGrid();
+                grid = newGrid;
             }
+
+            renderGrid();
         }
+
+
+
+
+
+
 
         function clearSelection() {
             selected.forEach(s => s.classList.remove('selected'));
@@ -2048,17 +2304,18 @@
         function validateWord(previousWord) {
             const lower = currentWord.toLowerCase();
             if (playedWords.has(lower)) {
-                messageElement.textContent = "Word already used!";
-
+                messageElement.textContent = `${currentWord} already used!`;
+                highlightPlayed(currentWord);
                 alreadyUsedAnimation();
                 currentWord = previousWord;
                 renderWord();
+                rollbackGrid();
                 showTemporaryMessage();
                 saveGameState();
                 return;
             }
 
-            if (validWords.includes(currentWord.toUpperCase())) {
+            if (starterWords.includes(currentWord.toUpperCase()) || allowList.includes(currentWord.toUpperCase())) {
                 playedWords.add(lower);
                 updateHistory();
                 lastValidWord = currentWord;
@@ -2078,7 +2335,7 @@
                 scoreElement.textContent = score;
                 chainElement.textContent = chain;
                 if (chain != 1) { messageElement.textContent = "Valid word!" }; //FROM LOCAL LIST
-                clearSpecialMode();
+                // clearSpecialMode(); // SEP 1 EDIT                    
                 showTemporaryMessage();
                 greenAnimation();
                 showDefinitions(lower);
@@ -2110,7 +2367,7 @@
                     scoreElement.textContent = score;
                     chainElement.textContent = chain;
                     messageElement.textContent = "Valid word!";
-                    clearSpecialMode();
+                    // clearSpecialMode(); // SEP 1 EDIT
                     greenAnimation();
                     showDefinitions(lower);
                     saveGameState();
@@ -2124,13 +2381,15 @@
                     totalChainLoss++;
                     score -= penalty;
                     chain = chain - 1;
-                    disallowedWords.add(lower);
+                    disallowedWords.add(lower + `(-${penalty})`);
                     currentWord = lastValidWord;
                     renderWord();
                     messageElement.textContent = `Invalid word! Penalty: -${penalty}`;
-
-
+                    rollbackGrid();
+                    updateBonusButton();
+                    updateShuffleButton();
                     redAnimation();
+
                     if (invalidAttempts >= 5) {
                         messageElement.textContent += " - GAME OVER";
                         saveHighScore();
@@ -2141,8 +2400,6 @@
                     chainElement.textContent = chain;
 
                     updateStatus();
-                    updateBonusButton();
-                    updateShuffleButton();
                     updateDisallowedWords();
                     saveGameState();
                     showTemporaryMessage();
@@ -2154,8 +2411,6 @@
             let moved = applyMove();
             clearSelection();
             renderWord();
-            replenishGrid();
-
             if (!moved) {
                 // messageElement.textContent = "Valid moves: grid-word, grid-slot, word-word, word-slot";
                 messageElement.textContent = "Invalid move. Click + for guidance.";
@@ -2163,6 +2418,8 @@
                 return;
             }
             if (validate) validateWord(originalWord);
+            clearSpecialMode();
+            replenishGrid();
         }
 
         actionBtn.addEventListener('click', () => {
@@ -2220,7 +2477,7 @@
 
         bonusBtn.addEventListener('click', () => {
             if (bonusMovesAvailable <= 0) {
-                messageElement.textContent = "Bonuses are earned. You have none.";
+                messageElement.textContent = "You get a bonus after every 5 words. Click + for guidance.";
                 showTemporaryMessage();
                 return;
             }
@@ -2234,7 +2491,7 @@
             let moved = applyMove();
             clearSelection();
             renderWord();
-            replenishGrid();
+            // replenishGrid(); // MOVED TO THE END
             if (!moved) {
                 messageElement.textContent = "Invalid move. Click + for guidance.";
                 showTemporaryMessage();
@@ -2246,6 +2503,8 @@
             messageElement.innerHTML = `Bonus setup move played.`;
             showTemporaryMessage();
             activateSpecialMode(); //ADDED FOR BONUS MOVE EFFECT
+            replenishGrid(); //MOVED TO HERE TO STOP GRID EXPAND FOR SETUP MOVE
+
             return;
         });
 
@@ -2257,6 +2516,7 @@
                 messageElement.textContent = "Grid refreshed!";
                 showTemporaryMessage();
                 letterGrid.classList.add('anim-refresh');
+                saveGameState();
             }
         });
 
