@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Stringchain is a word game. Replace, add, swap, or delete a letter to make a new word. How long can you make your chain of words?">
+    <meta name="description"
+        content="Stringchain is a word game. Replace, add, swap, or delete a letter to make a new word. How long can you make your chain of words?">
     <title>stringchain - word game</title>
     <style>
         :root {
@@ -69,7 +70,6 @@
 
         }
 
-
         .green-pops {
             --rounding: 18px;
             --rounding-small: 12px;
@@ -99,7 +99,6 @@
 
 
         }
-
 
         .winery {
             --rounding: 8px;
@@ -253,9 +252,6 @@
 
         }
 
-
-
-
         .pinko {
             --rounding: 8px;
             --rounding-small: 4px;
@@ -287,8 +283,6 @@
 
             /* --button-border: 3px inset #000; */
         }
-
-
 
         .minimal-animal {
             --rounding: 24px;
@@ -409,8 +403,65 @@
             --selected-border: 2px solid #0ff;
         }
 
+        .hi-contrast {
+            --rounding: 6px;
+            --rounding-small: 3px;
+
+            --bg: #101;
+            --text: #fff;
+
+            --accent: #a7f;
+            --accent-text: var(--bg);
+
+            --positive-feedback: #daf;
+
+            --negative-feedback: #f00;
+            --disabled: #645;
+
+            --wordcell: var(--text);
+            --wordcell-text: var(--bg);
+            --wordcell-border: 2px solid var(--text);
+
+            --gridcell: var(--text);
+            --gridcell-text: var(--bg);
+            --gridcell-border: 2px solid var(--text);
+
+            --selected-cell: var(--bg);
+            --selected-text: var(--positive-feedback);
+            --selected-border: 2px solid var(--positive-feedback);
+        }
+
+        .fruit-salad {
+            --rounding: 26px;
+            --rounding-small: 14px;
+
+            --bg: #fff;
+            --text: #f87;
+
+            --accent: #fa4;
+            --accent-text: #720;
+
+            --positive-feedback: #6c9;
+
+            --disabled: #d89;
+            --negative-feedback: #800;
+
+            --wordcell: #cba;
+            --wordcell-text: #fff;
+            --wordcell-border: 2px solid var(--wordcell);
+
+            --gridcell: var(--bg);
+            --gridcell-text: var(--accent);
+            --gridcell-border: 2px solid var(--wordcell);
+
+            --selected-cell: ;
+            --selected-text: var(--text);
+            --selected-border: 2px solid var(--text);
 
 
+        }
+
+        /* END OF THEMES*/
 
         body {
             font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
@@ -440,15 +491,15 @@
         }
 
         .scores {
-            position:relative;
+            position: relative;
             padding-block: 10px;
             font-size: 15pt;
             flex-wrap: wrap;
             text-align: center;
             width: 100%;
             height: 22px;
-            font-family:'Courier New', Courier, monospace;
-            z-index:1;
+            font-family: 'Courier New', Courier, monospace;
+            z-index: 1;
             /* font-weight: bold; */
             /* background-image: linear-gradient(to top, var(--wordcell), var(--bg)); */
         }
@@ -525,38 +576,16 @@
             border: var(--selected-border);
             color: var(--selected-text);
             background: var(--selected-cell);
+            filter: none;
             /* height: 54px; */
         }
 
         .special {
-            background-color: var(--disabled) !important;
-        }
-
-        .anim-neg {
-            animation-name: animate-negative;
-            animation-duration: 1s;
+            background: linear-gradient(var(--bg), var(--accent));
         }
 
 
-        .anim-bonus {
-            animation-name: animate-bonus;
-            animation-duration: 1s;
-        }
 
-        .anim-play {
-            animation-name: animate-play;
-            animation-duration: 0.2s;
-        }
-
-        .anim-refresh {
-            animation-name: animate-refresh;
-            animation-duration: 1s;
-        }
-
-        .anim-used {
-            animation-name: animate-already-used;
-            animation-duration: 5s;
-        }
 
         .grid {
             display: grid;
@@ -663,11 +692,11 @@
             /* border: 2px solid var(--selected-cell); */
             height: 44px;
             width: 44px;
-            align-items:center;
-            text-align:center;
+            align-items: center;
+            text-align: center;
             margin-block: 0px;
-            margin-inline:4px;
-            padding:auto;
+            margin-inline: 4px;
+            padding: auto;
         }
 
         .help-dark {
@@ -686,6 +715,8 @@
             color: var(--accent-text);
             cursor: default;
             border: 2px solid transparent;
+            /* filter:blur(1px); */
+            /* opacity:67%; */
 
         }
 
@@ -722,14 +753,6 @@
         }
 
 
-
-
-
-
-
-
-
-
         #history,
         #disallowed {
             display: block;
@@ -750,16 +773,33 @@
             background-color: var(--disabled);
             color: var(--accent-text);
             margin-bottom: 0px;
-            border-radius: 0px 0px var(--rounding) var(--rounding);           
+            border-radius: 0px 0px var(--rounding) var(--rounding);
 
         }
 
         #history {
             margin-top: 0px;
-            border-radius: var(--rounding) var(--rounding) 0px 0px;           
+            border-radius: var(--rounding) var(--rounding) 0px 0px;
             color: var(--accent-text);
             text-align: justify;
         }
+
+        mark.highlight {
+            background: var(--wordcell-text);
+            /* text-decoration: underline 3px solid var(--wordcell); */
+            color: var(--wordcell);
+            /* padding: 4px; */
+            border: 2px solid var(--bg);
+            border-radius: var(--rounding);
+            /* font-weight: bold; */
+            /* opacity:75%; */
+            transition: font-color text-decoration 5s ease;
+        }
+
+        mark.highlight.fade {
+            color: transparent;
+        }
+
 
         #definitions {
             font-size: 10pt;
@@ -791,7 +831,7 @@
             background: var(--wordcell);
             padding-block: 20px;
             margin: 0px 10px 0px;
-            border-radius: 0 0 var(--rounding) var(--rounding);             
+            border-radius: 0 0 var(--rounding) var(--rounding);
 
             margin: 0px 0px 10px;
 
@@ -869,22 +909,6 @@
             text-align: center;
             /* line-height: 1.4; */
         }
-
-
-
-        /* .grid-demo {
-            display: inline-grid;
-            grid-template-columns: repeat(3, 36px);
-            grid-auto-rows: min-content;
-            gap: 5px 5px;
-            padding: 5px;
-            margin: 20px 20px;
-            align-items: center;
-            align-content: center;
-            width: fit-content;
-            height: auto;
-            border-radius: 3px;
-        } */
 
         .grid-demo {
             display: grid;
@@ -968,15 +992,24 @@
             border: var(--bg);
         }
 
-        /* #toggle-dropdown {
-            position: absolute;
-            justify-content:center;
-            
-        } */
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /* ANIMATIONS AND ANIMATION CLASSES*/
 
         .anim-pos {
             animation-name: animate-positive;
-            animation-duration: 1.5s;
+            animation-duration: 0.5s;
         }
 
         @keyframes animate-positive {
@@ -993,6 +1026,12 @@
             }
         }
 
+
+        .anim-neg {
+            animation-name: animate-negative;
+            animation-duration: 1s;
+        }
+
         @keyframes animate-negative {
             0% {
                 background-color: var(--negative-feedback);
@@ -1001,6 +1040,12 @@
             100% {
                 background-color: var(--bg);
             }
+        }
+
+
+        .anim-bonus {
+            animation-name: animate-bonus;
+            animation-duration: 1s;
         }
 
         @keyframes animate-bonus {
@@ -1022,6 +1067,12 @@
             }
         }
 
+
+        .anim-play {
+            animation-name: animate-play;
+            animation-duration: 0.2s;
+        }
+
         @keyframes animate-play {
             0% {
                 transform: scale(80%);
@@ -1037,6 +1088,12 @@
 
         }
 
+
+        .anim-refresh {
+            animation-name: animate-refresh;
+            animation-duration: 1s;
+        }
+
         @keyframes animate-refresh {
             0% {
                 background-color: var(--positive-feedback);
@@ -1047,6 +1104,12 @@
             }
         }
 
+
+        .anim-used {
+            animation-name: animate-already-used;
+            animation-duration: 5s;
+        }
+
         @keyframes animate-already-used {
             0% {
                 background-color: var(--disabled);
@@ -1055,6 +1118,11 @@
             100% {
                 background-color: var(--bg);
             }
+        }
+
+
+        .shake {
+            animation: shake 0.3s ease;
         }
 
         @keyframes shake {
@@ -1077,26 +1145,6 @@
             100% {
                 transform: translateX(0);
             }
-        }
-
-        .shake {
-            animation: shake 0.3s ease;
-        }
-
-        mark.highlight {
-            background: var(--wordcell-text);
-            /* text-decoration: underline 3px solid var(--wordcell); */
-            color: var(--wordcell);
-            /* padding: 4px; */
-            border: 2px solid var(--bg);
-            border-radius: var(--rounding);            
-            /* font-weight: bold; */
-            /* opacity:75%; */
-            transition: font-color text-decoration 5s ease;
-        }
-
-        mark.highlight.fade {
-            color: transparent;
         }
     </style>
 </head>
@@ -1399,7 +1447,7 @@
                         <div class="grid-cell-demo">O</div>
                         <div class="grid-cell-demo">L</div>
                     </div>
-                    
+
                 </div>
             </div>
             <br>
@@ -1503,10 +1551,10 @@
         const dropdownDiv = document.getElementById("dropdown");
         const disqualified = localStorage.getItem("isDisqualified") === "true";
         const alphabet = "EEEEEEEEEAAAARRRRIIIOOONNSSSTTTLLLLCCUUUDDDPPGGHHBBMMYYFFVVWWKKXJQZ".split("");
-        const starterWords = ["ACE", "ACT", "ADD", "ADO", "ADS", "AFT", "AGE", "AGO", "AIR", "ALL", "AND", "ANT", "ANY", "APE", "APT", "ARC", "ARE", "ARK", "ARM", "ART", "ASH", "ASK", "AWE", "AWL", "AXE", "BAD", "BAG", "BAN", "BAR", "BAT", "BAY", "BED", "BEE", "BEG", "BET", "BIG", "BIN", "BIT", "BOA", "BOB", "BOG", "BOP", "BOW", "BOY", "BRA", "BRO", "BUD", "BUG", "BUM", "BUS", "BUT", "BUY", "BYE", "CAB", "CAD", "CAM", "CAN", "CAP", "CAR", "CAT", "CAW", "COB", "COD", "COG", "CON", "COO", "COP", "COT", "COW", "COY", "CRY", "CUB", "CUE", "CUP", "CUR", "CUT", "DAB", "DAD", "DAG", "DAM", "DAY", "DEB", "DEN", "DEW", "DID", "DIE", "DIG", "DIN", "DIP", "DOC", "DOE", "DOG", "DON", "DOT", "DRY", "DUB", "DUD", "DUE", "DUG", "EAR", "EAT", "EEL", "EGG", "EGO", "ELF", "ELL", "EMU", "END", "ERA", "EVE", "EWE", "EYE", "FAD", "FAN", "FAR", "FAT", "FAX", "FED", "FEE", "FEW", "FIB", "FIG", "FIN", "FIR", "FIT", "FLY", "FOE", "FOG", "FOR", "FRY", "FUN", "FUR", "GAG", "GAP", "GAS", "GAY", "GEL", "GEM", "GET", "GIG", "GIN", "GOT", "GUM", "GUN", "GUT", "GUY", "GAP", "HAD", "HAM", "HAS", "HAT", "HAW", "HAY", "HEW", "HEY", "HIM", "HIP", "HIS", "HIT", "HOG", "HOP", "HOT", "HOW", "HUB", "HUE", "HUG", "HUM", "HUT", "ICE", "ILL", "INK", "INN", "ION", "JAB", "JAM", "JAR", "JAW", "JAY", "JAW", "JIG", "JOB", "JOE", "JOG", "JOT", "JOY", "JUG", "KEY", "KIT", "LAB", "LAD", "LAG", "LAP", "LAW", "LAY", "LEA", "LED", "LEG", "LET", "LID", "LIE", "LOG", "LOT", "LOW", "MAD", "MAN", "MAP", "MAT", "MAX", "MAY", "MEN", "MET", "MID", "MIX", "MOB", "MOD", "MOM", "MOP", "MOW", "MUD", "MUG", "MUM", "NAB", "NAP", "NOD", "NOT", "NOW", "NUN", "NUT", "OAR", "OAT", "ODD", "OFF", "OIL", "OLD", "ONE", "ORB", "OUR", "OUT", "OVA", "OWE", "OWL", "OWN", "PAD", "PAL", "PAN", "PAR", "PAT", "PAW", "PAY", "PEG", "PEN", "PET", "PEW", "PHI", "PIE", "PIG", "PIN", "PIT", "PLY", "POD", "POP", "POT", "PRO", "PUB", "PUG", "PUP", "PUT", "RAM", "RAN", "RAP", "RAT", "RAW", "RAY", "RED", "REP", "REV", "RIB", "RID", "RIG", "RIM", "RIP", "ROB", "ROD", "ROE", "ROT", "ROW", "RUB", "RUE", "RUG", "RUN", "RUT", "SAC", "SAD", "SAG", "SAP", "SAT", "SAW", "SAX", "SAY", "SEA", "SEE", "SET", "SEW", "SEX", "SHY", "SIB", "SIC", "SIN", "SIP", "SIR", "SIS", "SIT", "SKY", "SOB", "SOD", "SOL", "SON", "SOP", "SOS", "SOW", "SOX", "SPA", "SPY", "SUB", "SUE", "SUM", "SUN", "SUP", "TAB", "TAD", "TAG", "TAP", "TAR", "TEA", "TEE", "TEN", "THE", "TIE", "TIN", "TIP", "TOE", "TOG", "TON", "TOO", "TOP", "TOT", "TOW", "TOY", "TRY", "TUB", "TUG", "TUX", "TWO", "URN", "USE", "VAN", "VAT", "VET", "VIA", "VIE", "WAR", "WAS", "WAY", "WEB", "WED", "WEE", "WET", "WHO", "WHY", "WIN", "WIT", "WOK", "WON", "WOO", "YAK", "YAM", "YAP", "YAW", "YES", "ABLE", "ACID", "ACRE", "BACK", "BALL", "BAND", "CALM", "CAMP", "CARD", "DAWN", "DAYS", "DEAL", "EACH", "EARN", "ELSE", "FACE", "FACT", "FINE", "GAIN", "GATE", "GAVE", "GIRD", "HAIR", "HALF", "HAND", "ICON", "IDEA", "IDLE", "JACK", "JAIL", "KING", "KIND", "LACK", "LAKE", "LIMP", "MADE", "MAIL", "NAME", "NAIL", "ONCE", "ODDS", "PACK", "PAGE", "RACE", "RAIN", "SAFE", "SAIL", "TAKE", "TALE", "TINE", "UNIT", "URGE", "VARY", "VAST", "WAGE", "WAIT", "YARD", "YARN", "ZAPS"];
+        const starterWords = ["ACE", "ACT", "ADD", "ADO", "ADS", "AFT", "AGE", "AGO", "AIR", "ALL", "AND", "ANT", "ANY", "APE", "APT", "ARC", "ARE", "ARK", "ARM", "ART", "ASH", "ASK", "AWE", "AWL", "AXE", "BAD", "BAG", "BAN", "BAR", "BAT", "BAY", "BED", "BEE", "BEG", "BET", "BIG", "BIN", "BIT", "BOA", "BOB", "BOG", "BOP", "BOW", "BOY", "BRA", "BRO", "BUD", "BUG", "BUM", "BUS", "BUT", "BUY", "BYE", "CAB", "CAD", "CAM", "CAN", "CAP", "CAR", "CAT", "CAW", "COB", "COD", "COG", "CON", "COO", "COP", "COT", "COW", "COY", "CRY", "CUB", "CUE", "CUP", "CUR", "CUT", "DAB", "DAD", "DAG", "DAM", "DAY", "DEB", "DEN", "DEW", "DID", "DIE", "DIG", "DIN", "DIP", "DOC", "DOE", "DOG", "DON", "DOT", "DRY", "DUB", "DUD", "DUE", "DUG", "EAR", "EAT", "EEL", "EGG", "EGO", "ELF", "ELL", "EMU", "END", "ERA", "EVE", "EWE", "EYE", "FAD", "FAN", "FAR", "FAT", "FAX", "FED", "FEE", "FEW", "FIB", "FIG", "FIN", "FIR", "FIT", "FLY", "FOE", "FOG", "FOR", "FRY", "FUN", "FUR", "GAG", "GAP", "GAS", "GAY", "GEL", "GEM", "GET", "GIG", "GIN", "GOT", "GUM", "GUN", "GUT", "GUY", "GAP", "HAD", "HAM", "HAS", "HAT", "HAW", "HAY", "HEW", "HEY", "HIM", "HIP", "HIS", "HIT", "HOG", "HOP", "HOT", "HOW", "HUB", "HUE", "HUG", "HUM", "HUT", "ICE", "ILL", "INK", "INN", "ION", "JAB", "JAM", "JAR", "JAW", "JAY", "JAW", "JIG", "JOB", "JOE", "JOG", "JOT", "JOY", "JUG", "KEY", "KIT", "LAB", "LAD", "LAG", "LAP", "LAW", "LAY", "LEA", "LED", "LEG", "LET", "LID", "LIE", "LOG", "LOT", "LOW", "MAD", "MAN", "MAP", "MAT", "MAX", "MAY", "MEN", "MET", "MID", "MIX", "MOB", "MOD", "MOM", "MOP", "MOW", "MUD", "MUG", "MUM", "NAB", "NAP", "NOD", "NOT", "NOW", "NUN", "NUT", "OAR", "OAT", "ODD", "OFF", "OIL", "OLD", "ONE", "OPT", "OUR", "OUT", "OVA", "OWE", "OWL", "OWN", "PAD", "PAL", "PAN", "PAR", "PAT", "PAW", "PAY", "PEG", "PEN", "PET", "PEW", "PHI", "PIE", "PIG", "PIN", "PIT", "PLY", "POD", "POP", "POT", "PRO", "PUB", "PUG", "PUP", "PUT", "RAM", "RAN", "RAP", "RAT", "RAW", "RAY", "RED", "REP", "REV", "RIB", "RID", "RIG", "RIM", "RIP", "ROB", "ROD", "ROE", "ROT", "ROW", "RUB", "RUE", "RUG", "RUN", "RUT", "SAC", "SAD", "SAG", "SAP", "SAT", "SAW", "SAX", "SAY", "SEA", "SEE", "SET", "SEW", "SEX", "SHY", "SIB", "SIC", "SIN", "SIP", "SIR", "SIS", "SIT", "SKY", "SOB", "SOD", "SOL", "SON", "SOP", "SOS", "SOW", "SOX", "SPA", "SPY", "SUB", "SUE", "SUM", "SUN", "SUP", "TAB", "TAD", "TAG", "TAP", "TAR", "TEA", "TEE", "TEN", "THE", "TIE", "TIN", "TIP", "TOE", "TOG", "TON", "TOO", "TOP", "TOT", "TOW", "TOY", "TRY", "TUB", "TUG", "TUX", "TWO", "URN", "USE", "VAN", "VAT", "VET", "VIA", "VIE", "WAR", "WAS", "WAY", "WEB", "WED", "WEE", "WET", "WHO", "WHY", "WIN", "WIT", "WOK", "WON", "WOO", "YAK", "YAM", "YAP", "YAW", "YES", "ABLE", "ACID", "ACRE", "BACK", "BALL", "BAND", "CALM", "CAMP", "CARD", "DAWN", "DAYS", "DEAL", "EACH", "EARN", "ELSE", "FACE", "FACT", "FINE", "GAIN", "GATE", "GAVE", "GIRD", "HAIR", "HALF", "HAND", "ICON", "IDEA", "IDLE", "JACK", "JAIL", "KING", "KIND", "LACK", "LAKE", "LIMP", "MADE", "MAIL", "NAME", "NAIL", "ONCE", "ODDS", "PACK", "PAGE", "RACE", "RAIN", "SAFE", "SAIL", "TAKE", "TALE", "TINE", "UNIT", "URGE", "VARY", "VAST", "WAGE", "WAIT", "YARD", "YARN", "ZAPS"];
         // const starterWords = ["EIGHT123","NINE12345","TEN1234567","ELEVEN12345","TWELVE123456"];
 
-        const allowList = ["DUNK", "HELL", "HELLS", "TOW", "TOWS", "TOWED", "TOWING", "DUNKS", "DUNKING", "DUNKED", "TOW", "TIGHT", "SIFT", "DOSE", "DOSES", "DOSED", "DOSING", "KITE", "KITES", "NET", "CUE", "CUES", "CUED", "CUEING", "CUING", "RAPE", "RAPES", "RAPED", "RAPING", "PEND", "PENDS", "PENDED", "PENDING", "BE", "LOOK","LOOKS","LOOKED","LOOKING","","" ];
+        const allowList = ["HELL", "DRAB", "LIVES", "LIVED", "LIVING", "HELLS", "TOW", "TOWS", "TOWED", "TOWING", "DUNK", "DUNKS", "DUNKING", "DUNKED", "TOW", "TOWS", "TOWING", "TOWED", "TIGHT", "SIFT", "DOSE", "DOSES", "DOSED", "DOSING", "KITE", "KITES", "NET", "CUE", "CUES", "CUED", "CUEING", "CUING", "RAPE", "RAPES", "RAPED", "SATES", "SATED", "SATING", "RAPING", "PEND", "PENDS", "PENDED", "PENDING", "BE", "LOOK", "LOOKS", "LOOKED", "LOOKING", "VEINY", "WEAN", "WEANS", "WEANED", "WEANING"];
 
         let isActiveGame = true;
         let playedWords = new Set();
@@ -1527,8 +1575,8 @@
         let totalChainLoss = 0;
         let lastSelectedType = null;
         let lastSelectedCell = null;
-        let lastUsedGridCell = null; // NEW: Track last used cell for invalid move rollback
-        let specialModeActive = false; // NEW: Track bonus special mode
+        let lastUsedGridCell = null; // Track last used cell for invalid move rollback
+        let specialModeActive = false; // Track bonus special mode
 
 
 
@@ -1599,8 +1647,7 @@
 
         const themeToggle = document.getElementById("themeToggle");
 
-        // Use "default" string instead of null
-        const themes = ["default", "not-too-light", "green-pops", "winery", "tannery", "yello-pops", "too-light", "greenery", "pinko", "minimal-animal", "minimal-liminal", "dark-grey", "blue-pops" ];
+        const themes = ["default", "fruit-salad", "hi-contrast", "green-pops", "tannery", "dark-grey", "not-too-light", "winery", "minimal-liminal", "blue-pops", "pinko", "greenery", "minimal-animal", "yello-pops", "too-light"];
 
         let currentTheme = localStorage.getItem("theme") || "default";
         if (currentTheme !== "default") {
@@ -1860,32 +1907,14 @@
             let baseStr = "■ ■ ■ ■ ■"
             let xStr = "□ □ □ □ □ "
             let base = '<big><big><big>' + xStr.slice(2 * left) + baseStr.slice(2 * invalidAttempts) + '</big></big></big>';
-            // let base = `${left} li${left === 1 ? 'fe' : 'ves'} left.`;
-            // let base = ' ' + 'o '.repeat(left) + 'X '.repeat(totalLives - left).trim();
-            // if (totalChainLoss > 0) {
-            //     base = '<small>' + `-${totalPenalty}` + '</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + base + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small>' + `-${totalChainLoss}` + '</small>';
-            // }
             statusElement.innerHTML = base;
         }
 
-        // function showTemporaryMessage(message, duration = 3000) {
-        //     messageElement.style.display = "block";
-        //     setTimeout(() => {
-        //         messageElement.style.display = "none";
-        //         updateStatus();
-        //     }, duration);
-        // }
+
 
         function showTemporaryMessage(message) {
             messageElement.style.display = "block";
-            // setTimeout(() => {
-            //     messageElement.style.display = "none";
-            //     updateStatus();
-            // }, duration);
         }
-
-
-
 
 
         function updateHistory() {
@@ -2087,19 +2116,12 @@
                     cell.dataset.row = r;
                     cell.dataset.col = c;
 
-                    // Highlight if selected (selected stores selected cells as strings? 
-                    // If so, match by row,col string like "r,c"
-                    // But you gave no details on format of selected for grid cells.
-                    // Let's assume selected contains objects {type:'grid', row:r, col:c} or strings "grid-r-c"
-
-                    // Since selected is an array, let's check for a string "r,c" for simplicity
-                    // We'll define the cell ID as `${r},${c}`
+                    
                     const cellId = `${r},${c}`;
                     if (selected.includes(cellId)) {
                         cell.classList.add('selected');
                     }
 
-                    // cell.addEventListener('click', () => selectCell(cell));
 
                     cell.addEventListener('click', (event) => {
                         if (cell.classList.contains("used")) {
@@ -2321,13 +2343,13 @@
                 lastValidWord = currentWord;
                 score += currentWord.length;
                 chain++;
-                if ((chain % 5 === 0) && chain > 4) { //ADDED FIX TO STOP BONUS ACCRUING FOR PASSING ZERO
+                if ((chain % 5 === 0) && chain > 4) { 
                     bonusMovesAvailable++;
                     updateBonusButton();
                     bonusAnimation();
 
                 }
-                if (Math.floor(score / 30) > Math.floor((score - currentWord.length) / 30) && score > 29) { //ADDED FIX TO STOP BONUS ACCRUING FOR PASSING ZERO
+                if (Math.floor(score / 30) > Math.floor((score - currentWord.length) / 30) && score > 29) { 
                     shuffleBonusesAvailable++;
                     updateShuffleButton();
                     shuffleAnimation();
@@ -2335,7 +2357,6 @@
                 scoreElement.textContent = score;
                 chainElement.textContent = chain;
                 if (chain != 1) { messageElement.textContent = "Valid word!" }; //FROM LOCAL LIST
-                // clearSpecialMode(); // SEP 1 EDIT                    
                 showTemporaryMessage();
                 greenAnimation();
                 showDefinitions(lower);
@@ -2354,12 +2375,12 @@
                     lastValidWord = currentWord;
                     score += currentWord.length;
                     chain++;
-                    if ((chain % 5 === 0) && chain > 4) { //ADDED FIX TO STOP BONUS ACCRUING FOR PASSING ZERO
+                    if ((chain % 5 === 0) && chain > 4) { 
                         bonusMovesAvailable++;
                         updateBonusButton();
                         bonusAnimation();
                     }
-                    if (Math.floor(score / 30) > Math.floor((score - currentWord.length) / 30) && score > 29) { //ADDED FIX TO STOP BONUS ACCRUING FOR PASSING ZERO
+                    if (Math.floor(score / 30) > Math.floor((score - currentWord.length) / 30) && score > 29) { 
                         shuffleBonusesAvailable++;
                         updateShuffleButton();
                         shuffleAnimation();
@@ -2412,7 +2433,6 @@
             clearSelection();
             renderWord();
             if (!moved) {
-                // messageElement.textContent = "Valid moves: grid-word, grid-slot, word-word, word-slot";
                 messageElement.textContent = "Invalid move. Click + for guidance.";
                 showTemporaryMessage();
                 return;
@@ -2525,7 +2545,6 @@
             getHighScores();
             localStorage.removeItem("stringChainState");
             localStorage.removeItem("isDisqualified");
-
             gameID = new Date().toISOString().slice(0, 19).replace('T', ' ');
             gridSize = 3;
             score = 0;
@@ -2554,7 +2573,6 @@
             currentWord = randomWord();
             initGrid();
             renderWord();
-            // lastValidWord = currentWord;
             validateWord(previousWord);
             updateHistory();
             updateStatus();
