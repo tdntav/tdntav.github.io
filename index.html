@@ -742,12 +742,12 @@
         #status {
             font-size: 9pt;
             font-family: 'Courier New', Courier, monospace;
-            /* margin: 25px 0; */
+            margin: 5px 0 3px;
             color: var(--accent);
             /* text-align:end; */
             /* align-items: top; */
             opacity: 66%;
-            max-height: 9px;
+            max-height: 7px;
             /* padding-top:-5px; */
             /* margin-top: -15px; */
         }
@@ -844,26 +844,36 @@
         .high-score-table {
             border: 5px solid;
             border-collapse: collapse;
-            border-color: var(--accent-text);
+            border-color: var(--wordcell-text);
             font-size: 9pt;
             margin-inline: auto;
 
 
-            /* width: 100%; */
+            width: 94%;
 
         }
 
         th,
         tr,
         td {
-            padding: 12px;
+            padding: 8px;
             border: 2px solid;
             border-collapse: collapse;
-            border-color: var(--accent-text);
+            border-color: var(--wordcell-text);
             text-align: center;
         }
 
-
+        .highlight-reel {
+            font-family: 'Courier New', Courier, monospace;
+            text-align: center;
+            /* font-size: 9pt; */
+            width:auto;
+            /* padding:8px; */
+            height:10px;
+            /* background-image: linear-gradient(to top, var(--word-cell), var(--accent)); */
+            /* background: var(--wordcell-text); */
+            /* color: var(--wordcell); */
+        }
 
         .demo-div {
             width: 100%;
@@ -1527,6 +1537,8 @@
 
 
     <script>
+
+//DECLARATIONS
         const scaleWrapper = document.getElementById('scaleWrapper');
         const wordContainer = document.getElementById('wordContainer');
         const highScoresElement = document.getElementById('highScores');
@@ -1552,10 +1564,7 @@
         const disqualified = localStorage.getItem("isDisqualified") === "true";
         const alphabet = "EEEEEEEEEAAAARRRRIIIOOONNSSSTTTLLLLCCUUUDDDPPGGHHBBMMYYFFVVWWKKXJQZ".split("");
         const starterWords = ["ACE", "ACT", "ADD", "ADO", "ADS", "AFT", "AGE", "AGO", "AIR", "ALL", "AND", "ANT", "ANY", "APE", "APT", "ARC", "ARE", "ARK", "ARM", "ART", "ASH", "ASK", "AWE", "AWL", "AXE", "BAD", "BAG", "BAN", "BAR", "BAT", "BAY", "BED", "BEE", "BEG", "BET", "BIG", "BIN", "BIT", "BOA", "BOB", "BOG", "BOP", "BOW", "BOY", "BRA", "BRO", "BUD", "BUG", "BUM", "BUS", "BUT", "BUY", "BYE", "CAB", "CAD", "CAM", "CAN", "CAP", "CAR", "CAT", "CAW", "COB", "COD", "COG", "CON", "COO", "COP", "COT", "COW", "COY", "CRY", "CUB", "CUE", "CUP", "CUR", "CUT", "DAB", "DAD", "DAG", "DAM", "DAY", "DEB", "DEN", "DEW", "DID", "DIE", "DIG", "DIN", "DIP", "DOC", "DOE", "DOG", "DON", "DOT", "DRY", "DUB", "DUD", "DUE", "DUG", "EAR", "EAT", "EEL", "EGG", "EGO", "ELF", "ELL", "EMU", "END", "ERA", "EVE", "EWE", "EYE", "FAD", "FAN", "FAR", "FAT", "FAX", "FED", "FEE", "FEW", "FIB", "FIG", "FIN", "FIR", "FIT", "FLY", "FOE", "FOG", "FOR", "FRY", "FUN", "FUR", "GAG", "GAP", "GAS", "GAY", "GEL", "GEM", "GET", "GIG", "GIN", "GOT", "GUM", "GUN", "GUT", "GUY", "GAP", "HAD", "HAM", "HAS", "HAT", "HAW", "HAY", "HEW", "HEY", "HIM", "HIP", "HIS", "HIT", "HOG", "HOP", "HOT", "HOW", "HUB", "HUE", "HUG", "HUM", "HUT", "ICE", "ILL", "INK", "INN", "ION", "JAB", "JAM", "JAR", "JAW", "JAY", "JAW", "JIG", "JOB", "JOE", "JOG", "JOT", "JOY", "JUG", "KEY", "KIT", "LAB", "LAD", "LAG", "LAP", "LAW", "LAY", "LEA", "LED", "LEG", "LET", "LID", "LIE", "LOG", "LOT", "LOW", "MAD", "MAN", "MAP", "MAT", "MAX", "MAY", "MEN", "MET", "MID", "MIX", "MOB", "MOD", "MOM", "MOP", "MOW", "MUD", "MUG", "MUM", "NAB", "NAP", "NOD", "NOT", "NOW", "NUN", "NUT", "OAR", "OAT", "ODD", "OFF", "OIL", "OLD", "ONE", "OPT", "OUR", "OUT", "OVA", "OWE", "OWL", "OWN", "PAD", "PAL", "PAN", "PAR", "PAT", "PAW", "PAY", "PEG", "PEN", "PET", "PEW", "PHI", "PIE", "PIG", "PIN", "PIT", "PLY", "POD", "POP", "POT", "PRO", "PUB", "PUG", "PUP", "PUT", "RAM", "RAN", "RAP", "RAT", "RAW", "RAY", "RED", "REP", "REV", "RIB", "RID", "RIG", "RIM", "RIP", "ROB", "ROD", "ROE", "ROT", "ROW", "RUB", "RUE", "RUG", "RUN", "RUT", "SAC", "SAD", "SAG", "SAP", "SAT", "SAW", "SAX", "SAY", "SEA", "SEE", "SET", "SEW", "SEX", "SHY", "SIB", "SIC", "SIN", "SIP", "SIR", "SIS", "SIT", "SKY", "SOB", "SOD", "SOL", "SON", "SOP", "SOS", "SOW", "SOX", "SPA", "SPY", "SUB", "SUE", "SUM", "SUN", "SUP", "TAB", "TAD", "TAG", "TAP", "TAR", "TEA", "TEE", "TEN", "THE", "TIE", "TIN", "TIP", "TOE", "TOG", "TON", "TOO", "TOP", "TOT", "TOW", "TOY", "TRY", "TUB", "TUG", "TUX", "TWO", "URN", "USE", "VAN", "VAT", "VET", "VIA", "VIE", "WAR", "WAS", "WAY", "WEB", "WED", "WEE", "WET", "WHO", "WHY", "WIN", "WIT", "WOK", "WON", "WOO", "YAK", "YAM", "YAP", "YAW", "YES", "ABLE", "ACID", "ACRE", "BACK", "BALL", "BAND", "CALM", "CAMP", "CARD", "DAWN", "DAYS", "DEAL", "EACH", "EARN", "ELSE", "FACE", "FACT", "FINE", "GAIN", "GATE", "GAVE", "GIRD", "HAIR", "HALF", "HAND", "ICON", "IDEA", "IDLE", "JACK", "JAIL", "KING", "KIND", "LACK", "LAKE", "LIMP", "MADE", "MAIL", "NAME", "NAIL", "ONCE", "ODDS", "PACK", "PAGE", "RACE", "RAIN", "SAFE", "SAIL", "TAKE", "TALE", "TINE", "UNIT", "URGE", "VARY", "VAST", "WAGE", "WAIT", "YARD", "YARN", "ZAPS"];
-        // const starterWords = ["EIGHT123","NINE12345","TEN1234567","ELEVEN12345","TWELVE123456"];
-
-        const allowList = ["HELL", "DRAB", "LIVES", "LIVED", "LIVING", "HELLS", "TOW", "TOWS", "TOWED", "TOWING", "DUNK", "DUNKS", "DUNKING", "DUNKED", "TOW", "TOWS", "TOWING", "TOWED", "TIGHT", "SIFT", "DOSE", "DOSES", "DOSED", "DOSING", "KITE", "KITES", "NET", "CUE", "CUES", "CUED", "CUEING", "CUING", "RAPE", "RAPES", "RAPED", "SATES", "SATED", "SATING", "RAPING", "PEND", "PENDS", "PENDED", "PENDING", "BE", "LOOK", "LOOKS", "LOOKED", "LOOKING", "VEINY", "WEAN", "WEANS", "WEANED", "WEANING"];
-
+        const allowList = [ "DOLLING", "DOLLED", "TOCK", "HELL", "FEWER", "YOUR", "PATTER", "DRAB", "LIVES", "LIVED", "LIVING", "HELLS", "TOW", "TOWS", "TOWED", "TOWING", "DUNK", "DUNKS", "DUNKING", "DUNKED", "TOW", "TOWS", "TOWING", "TOWED", "TIGHT", "SIFT", "DOSE", "DOSES", "DOSED", "DOSING", "KITE", "KITES", "NET", "CUE", "CUES", "CUED", "CUEING", "CUING", "RAPE", "RAPES", "RAPED", "SATES", "SATED", "SATING", "RAPING", "PEND", "PENDS", "PENDED", "PENDING", "BE", "LOOK", "LOOKS", "LOOKED", "LOOKING", "VEINY", "WEAN", "WEANS", "WEANED", "WEANING"];
         let isActiveGame = true;
         let playedWords = new Set();
         let disallowedWords = new Set();
@@ -1577,41 +1586,156 @@
         let lastSelectedCell = null;
         let lastUsedGridCell = null; // Track last used cell for invalid move rollback
         let specialModeActive = false; // Track bonus special mode
+//END OF DELARATIONS
+
+//BUTTONS
+
+        actionBtn.addEventListener('click', () => {
+            playAnimation();
+            completeMove(true);
+
+        });
+
+        dropdownToggle.addEventListener("click", () => {
+            const dropdownHidden = dropdownDiv.style.display === "none";
+            dropdownDiv.style.display = dropdownHidden ? "block" : "none";
+            dropdownToggle.textContent = dropdownHidden ? "^" : "+";
+            getHighScores();
+            if (rulesDiv.style.display = "block") {
+                rulesDiv.style.display = "none";
+                rulesToggle.textContent = "HOW TO PLAY";
+            }
+            if (aboutDiv.style.display = "block") {
+                aboutDiv.style.display = "none";
+                aboutBtn.textContent = "about";
+            }
+            topFunction();
+        });
+
+        rulesToggle.addEventListener("click", () => {
+            const rulesHidden = rulesDiv.style.display === "none";
+            rulesDiv.style.display = rulesHidden ? "block" : "none";
+            rulesToggle.textContent = rulesHidden ? "^" : "HOW TO PLAY";
+            if (rulesDiv.style.display != "block") { dropdownToggle.click() };
+            if (aboutDiv.style.display = "block") {
+                aboutDiv.style.display = "none";
+                aboutBtn.textContent = "about";
+            }
+        });
+
+        aboutBtn.addEventListener("click", () => {
+            const aboutHidden = aboutDiv.style.display === "none";
+            aboutDiv.style.display = aboutHidden ? "block" : "none";
+            aboutBtn.textContent = aboutHidden ? "^" : "about";
+            if (aboutDiv.style.display != "block") { dropdownToggle.click() };
+            if (rulesDiv.style.display = "block") {
+                rulesDiv.style.display = "none";
+                rulesToggle.textContent = "HOW TO PLAY";
+            }
+        });
+
+        bonusBtn.addEventListener('click', () => {
+            if (bonusMovesAvailable <= 0) {
+                messageElement.textContent = "You get a bonus after every 5 words. Click + for guidance.";
+                showTemporaryMessage();
+                return;
+            }
+            if (selected.length === 0) {
+                messageElement.textContent = "Select a playable move first";
+                showTemporaryMessage();
+                return;
+            }
 
 
+            let moved = applyMove();
+            clearSelection();
+            renderWord();
+            // replenishGrid(); // MOVED TO THE END
+            if (!moved) {
+                messageElement.textContent = "Invalid move. Click + for guidance.";
+                showTemporaryMessage();
+                return;
+            }
+            bonusMovesAvailable--;
+            updateBonusButton();
+            lastValidWord = currentWord;
+            messageElement.innerHTML = `Bonus setup move played.`;
+            showTemporaryMessage();
+            activateSpecialMode(); //ADDED FOR BONUS MOVE EFFECT
+            replenishGrid(); //MOVED TO HERE TO STOP GRID EXPAND FOR SETUP MOVE
 
+            return;
+        });
+
+        shuffleBtn.addEventListener('click', () => {
+            if (shuffleBonusesAvailable > 0) {
+                shuffleBonusesAvailable--;
+                initGrid();
+                updateShuffleButton();
+                messageElement.textContent = "Grid refreshed!";
+                showTemporaryMessage();
+                letterGrid.classList.add('anim-refresh');
+                saveGameState();
+            }
+        });
+
+        newGameBtn.addEventListener('click', () => {
+            saveHighScore();
+            getHighScores();
+            localStorage.removeItem("stringChainState");
+            localStorage.removeItem("isDisqualified");
+            gameID = new Date().toISOString().slice(0, 19).replace('T', ' ');
+            gridSize = 3;
+            score = 0;
+            chain = 0;
+            bonusMovesAvailable = 0;
+            shuffleBonusesAvailable = 0;
+            invalidAttempts = 0;
+            totalPenalty = 0;
+            totalChainLoss = 0;
+            playedWords.clear();
+            disallowedWords.clear();
+            gridElement.style.pointerEvents = 'auto';
+            wordContainer.style.pointerEvents = 'auto';
+            scoreElement.textContent = score;
+            chainElement.textContent = chain;
+            messageElement.textContent = '';
+            disallowedElement.textContent = '';
+            updateBonusButton();
+            updateShuffleButton();
+            definitionsElement.textContent = '';
+            specialModeActive = false;
+            fitWordContainer();
+            isActiveGame = true;
+            previousWord = '';
+            actionBtn.disabled = false;
+            currentWord = randomWord();
+            initGrid();
+            renderWord();
+            validateWord(previousWord);
+            updateHistory();
+            updateStatus();
+            removeAnimation();
+            clearSpecialMode();
+            // localStorage.clear(); // FOR HARD RESET TO SEE NEW USER EXPERIENCE
+            if (dropdownDiv.style.display = "block") { dropdownToggle.click(); }
+        });
+//END OF BUTTONS
+
+//ANIMATIONS AND HIGHLIGHTS
 
         function highlightPlayed(currentWord) {
-            // Remove any existing highlights
-            // historyElement.innerHTML = historyElement.innerHTML.replace(/(<mark class="highlight">|<\/mark>)/g, '');
-
-            // Highlight the word
             historyElement.innerHTML = historyElement.innerHTML.replace(
                 new RegExp(currentWord, 'gi'),
                 '<mark class="highlight">$&</mark>'
             );
 
-            // Trigger fade
-            // const mark = historyElement.querySelector('mark.highlight');
-            // if (mark) {
-            //     setTimeout(() => mark.classList.add('fade'), 3000);  // start fade
-            //     setTimeout(() => mark.outerHTML = mark.innerText, 5000); // cleanup
-            // }
-
-            //   Fade out each new mark
             const newMarks = historyElement.querySelectorAll('mark.highlight:not(.fade)');
             newMarks.forEach(mark => {
                 // setTimeout(() => mark.classList.add('fade'), 18000);  // start fade
                 setTimeout(() => mark.outerHTML = mark.innerText, 60000); // remove
             });
         }
-
-
-
-
-
-
-
 
         function highlightPlayed(currentWord) {
             // Escape any special regex characters in the word
@@ -1632,28 +1756,92 @@
                 setTimeout(() => mark.outerHTML = mark.innerText, 60000);
             });
         }
+        function playAnimation() { actionBtn.classList.add('anim-play'); }
+        function redAnimation() { wordContainer.classList.add('anim-neg'); }
+        function bonusAnimation() { bonusBtn.classList.add('anim-bonus'); }
+        function shuffleAnimation() { shuffleBtn.classList.add('anim-bonus'); }
+        function alreadyUsedAnimation() {
+            wordContainer.classList.add("shake");
+            // Remove class after animation so it can trigger again later
+            wordContainer.addEventListener("animationend", () => {
+                wordContainer.classList.remove("shake");
+            }, { once: true });
+        }
+        function greenAnimation() {
+            const elements = wordContainer.querySelectorAll('.letter, .insert-slot');
+            const animationDuration = 500; // in ms (0.5s from CSS)
+            const stagger = 30; // in ms (0.03s)
 
+            elements.forEach((el, index) => {
+                el.classList.remove('anim-pos');
+                void el.offsetWidth; // reflow to restart animation
 
+                el.style.animationDelay = `${index * stagger / 1000}s`;
+                el.classList.add('anim-pos');
 
+                // Calculate when to remove the class
+                const totalDelay = animationDuration + index * stagger;
+                setTimeout(() => {
+                    el.classList.remove('anim-pos');
+                    //   el.style.animationDelay = ''; // optional: clean up inline style
+                }, totalDelay);
+            });
+        }
 
+        function removeAnimation() {
+            if (wordContainer.classList.contains('anim-neg')) { wordContainer.classList.remove('anim-neg'); }
+            if (wordContainer.classList.contains('anim-pos')) { wordContainer.classList.remove('anim-pos'); }
+            if (letterGrid.classList.contains('anim-refresh')) { letterGrid.classList.remove('anim-refresh'); }
+            if (bonusBtn.classList.contains('anim-bonus')) { bonusBtn.classList.remove('anim-bonus'); }
+            if (shuffleBtn.classList.contains('anim-bonus')) { shuffleBtn.classList.remove('anim-bonus'); }
+            if (wordContainer.classList.contains('shake')) { wordContainer.classList.remove('shake'); }
+            if (actionBtn.classList.contains('anim-play')) { actionBtn.classList.remove('anim-play'); }
 
+        }
 
+        function activateSpecialMode() {
+            specialModeActive = true;
+            wordContainer.classList.add('special');
+            return;
+        }
+        function clearSpecialMode() {
+            specialModeActive = false;
+            wordContainer.classList.remove('special');
+            return;
+        }
 
+//END OF ANIMATIONS AND HIGHLIGHTS
 
+//THEMES AND PRESENTATION
 
+        //SCROLLING ETC
+        window.onscroll = function () { scrollFunction() };
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                scrollBtn.style.display = "block";
+            } else {
+                scrollBtn.style.display = "none";
+            }
+        }
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
 
+        scrollBtn.addEventListener("click", () => {
+            topFunction();
+            if (dropdownDiv.style.display = "block") { dropdownToggle.click() };
+        });
+        //END OF SCROLLING ETC
 
-
-
+        //THEMES
         const themeToggle = document.getElementById("themeToggle");
-
         const themes = ["default", "fruit-salad", "hi-contrast", "green-pops", "tannery", "dark-grey", "not-too-light", "winery", "minimal-liminal", "blue-pops", "pinko", "greenery", "minimal-animal", "yello-pops", "too-light"];
-
         let currentTheme = localStorage.getItem("theme") || "default";
         if (currentTheme !== "default") {
             document.documentElement.classList.add(currentTheme);
         }
-
         themeToggle.addEventListener("click", () => {
             // Remove current theme if not default
             if (currentTheme !== "default") {
@@ -1674,45 +1862,22 @@
             // Save
             localStorage.setItem("theme", currentTheme);
         });
+        //END OF THEMES
 
+        //WORD CONTAINER
+        function fitWordContainer() {
+            let letterCount = wordContainer.querySelectorAll('.letter').length;
+            let scaleCalc = 11 / (6 + letterCount);
+            scaleCalc = Math.min(scaleCalc, 1.15);
 
-
-
-
-
-
-
-
-        window.onscroll = function () { scrollFunction() };
-
-        function scrollFunction() {
-            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-                scrollBtn.style.display = "block";
-            } else {
-                scrollBtn.style.display = "none";
-            }
+            document.documentElement.style.setProperty('--scale-var', scaleCalc);
+            return;
         }
+        //END OF WORD CONTAINER
 
-        // When the user clicks on the button, scroll to the top of the document
-        function topFunction() {
-            document.body.scrollTop = 0;
-            document.documentElement.scrollTop = 0;
-        }
+//END OF THEMES AND PRESENTATION
 
-        scrollBtn.addEventListener("click", () => {
-            topFunction();
-            if (dropdownDiv.style.display = "block") { dropdownToggle.click() };
-        });
-
-
-        function rollbackGrid() {
-            const savedGridState = localStorage.getItem("stringChainState");
-            const gridState = JSON.parse(savedGridState);
-            grid = gridState.grid;
-            gridSize = gridState.gridSize;
-            renderGrid();
-        }
-
+//SAVING, LOADING, HIGHSCORES
 
         function saveGameState() {
             const gameState = { isActiveGame, gameID, currentWord, lastValidWord, gridSize, grid, score, chain, bonusMovesAvailable, shuffleBonusesAvailable, invalidAttempts, totalPenalty, totalChainLoss, playedWords: Array.from(playedWords), disallowedWords: Array.from(disallowedWords) };
@@ -1754,7 +1919,6 @@
 
         function saveHighScore() {
             const stringchainHighScore = JSON.parse(localStorage.getItem("stringchainHighScore")) || [];
-            // const saveTime = new Date().toISOString().slice(0, 19).replace('T', ' ');
             const saveTime = new Intl.DateTimeFormat(undefined, {
                 year: 'numeric',
                 month: 'long',
@@ -1766,13 +1930,15 @@
             })
                 .format(new Date())
                 .replace(/,/g, ''); // strip commas
-            const newHighScore = { saveTime, score, chain, gameID };
+            // const newHighScore = { saveTime, score, chain, gameID };
+            // const highlight = getHighlightReel();
+            const highlight = getHighlightReel();
+            const newHighScore = { saveTime, score, chain, gameID, highlight };
 
             // Check if an entry already exists for this gameID
             const existingIndex = stringchainHighScore.findIndex(entry => entry.gameID === gameID);
 
             if (chain < 5) { return };
-
             if (existingIndex !== -1) {
                 // Overwrite the existing record
                 stringchainHighScore[existingIndex] = newHighScore;
@@ -1790,7 +1956,8 @@
                 saveTime: saveTime,
                 score: score,
                 chain: chain,
-                gameID: gameID
+                gameID: gameID,
+                highlight: highlight
             });
 
             stringchainHighScore.sort((a, b) => b.score - a.score);
@@ -1807,101 +1974,87 @@
             localStorage.setItem('stringchainHighScore', JSON.stringify(combined));
         }
 
-        function getHighScores() {
-            const scoreTableParse = JSON.parse(localStorage.getItem('stringchainHighScore')) || [];
-            let scoreTable = scoreTableParse
-            scoreTable = scoreTable.filter(entry => !(entry.score === 0 && entry.chain === 0));
-            const rows = scoreTable.map(entry => `<tr><td>${entry.score}</td><td>${entry.chain}</td><td>${entry.saveTime}</td></tr>`).join('');
-            if (!rows) { return };
-            highScoresElement.innerHTML = `<h4>YOUR BEST GAMES</h4><table class = "high-score-table"><tr><th>STRING</th><th>CHAIN</th><th>SAVED</th></tr>${rows}</table>`;
+            function getHighScores() {
+                const scoreTableParse = JSON.parse(localStorage.getItem('stringchainHighScore')) || [];
+                let scoreTable = scoreTableParse
+                scoreTable = scoreTable.filter(entry => !(entry.score === 0 && entry.chain === 0));
+                // const rows = scoreTable.map(entry => `<tr><td>${entry.score}</td><td>${entry.chain}</td><td>${entry.saveTime}</td></tr>`).join('');
+                const rows = scoreTable.map(entry => {
+                    const highlightRow = entry.highlight && entry.highlight.trim()
+                        ? `<tr><td colspan="3" class="highlight-reel">${entry.highlight}</td></tr>`
+                        : "";
+                    return `<tr><td>${entry.score}</td><td>${entry.chain}</td><td>${entry.saveTime}</td></tr>${highlightRow}`;
+                }).join('');
+
+                if (!rows) { return };
+                highScoresElement.innerHTML = `<h4>YOUR BEST GAMES</h4><table class = "high-score-table"><tr><th>STRING</th><th>CHAIN</th><th>SAVED</th></tr>${rows}</table>`;
+            }
+
+
+        // >>> FINAL getHighlightReel
+        function getHighlightReel() {
+            let words = Array.from(playedWords);
+            if (words.length === 0) return "";
+
+            const longestWordLength = Math.max(...words.map(w => w.length));
+            let runStart = -1, runLength = 0;
+
+            // find first run of consecutive longest words
+            for (let i = 0; i < words.length; i++) {
+                if (words[i].length === longestWordLength) {
+                    if (runStart === -1) runStart = i;
+                    runLength++;
+                } else if (runStart !== -1) {
+                    break;
+                }
+            }
+
+            if (runStart === -1) return words.slice(0, 5).join(" "); // fallback
+
+            let sliceStart = runStart - 1;
+            let sliceEnd = runStart + 3;
+
+            // if (runLength >= 5) {
+            //     // Take 4 centered inside the run
+            //     const middleOffset = Math.floor((runLength - 1) / 2); // earlier if even
+            //     const middleIndex = runStart + middleOffset;
+            //     sliceStart = middleIndex - 2;
+            //     sliceEnd = middleIndex + 3;
+            // } else if (runLength === 5) {
+            //     sliceStart = runStart;
+            //     sliceEnd = runStart + 5;
+            // } else if (runLength === 4) {
+            //     sliceStart = Math.max(0, runStart - 1);
+            //     sliceEnd = runStart + 4;
+            // } else if (runLength === 3) {
+            //     sliceStart = Math.max(0, runStart - 1);
+            //     sliceEnd = Math.min(words.length, runStart + 4);
+            // } else {
+            //     // Run length 1 or 2: use middle logic
+            //     const middleOffset = Math.floor((runLength - 1) / 2); // earlier if even
+            //     const middleIndex = runStart + middleOffset;
+            //     sliceStart = middleIndex - 2;
+            //     sliceEnd = middleIndex + 3;
+            // }
+
+            // Clamp to history bounds
+            // sliceStart = Math.max(0, sliceStart);
+            // sliceEnd = Math.min(words.length, sliceEnd);
+
+            return words.slice(sliceStart, sliceEnd).join(" ");
         }
-
-
-        function fitWordContainer() {
-            let letterCount = wordContainer.querySelectorAll('.letter').length;
-            let scaleCalc = 11 / (6 + letterCount);
-            scaleCalc = Math.min(scaleCalc, 1.15);
-
-            document.documentElement.style.setProperty('--scale-var', scaleCalc);
-            return;
-        }
+        // <<< END FINAL
 
 
 
 
 
-        function activateSpecialMode() {
-            specialModeActive = true;
-            wordContainer.classList.add('special');
-            return;
-        }
-
-        function clearSpecialMode() {
-            specialModeActive = false;
-            wordContainer.classList.remove('special');
-            return;
-        }
-
-        function playAnimation() { actionBtn.classList.add('anim-play'); }
-        function redAnimation() { wordContainer.classList.add('anim-neg'); }
-        function bonusAnimation() { bonusBtn.classList.add('anim-bonus'); }
-        function shuffleAnimation() { shuffleBtn.classList.add('anim-bonus'); }
-        // function alreadyUsedAnimation() { wordContainer.classList.add('anim-used'); }
-        // function alreadyUsedAnimation() { wordContainer.classList.add('shake'); }
-
-        function alreadyUsedAnimation() {
-            wordContainer.classList.add("shake");
-            // Remove class after animation so it can trigger again later
-            wordContainer.addEventListener("animationend", () => {
-                wordContainer.classList.remove("shake");
-            }, { once: true });
-        }
 
 
+        
+//END OF SAVING, LOADING, HIGHSCORES
 
-
-
-        function greenAnimation() {
-            const elements = wordContainer.querySelectorAll('.letter, .insert-slot');
-            const animationDuration = 500; // in ms (0.5s from CSS)
-            const stagger = 30; // in ms (0.03s)
-
-            elements.forEach((el, index) => {
-                el.classList.remove('anim-pos');
-                void el.offsetWidth; // reflow to restart animation
-
-                el.style.animationDelay = `${index * stagger / 1000}s`;
-                el.classList.add('anim-pos');
-
-                // Calculate when to remove the class
-                const totalDelay = animationDuration + index * stagger;
-                setTimeout(() => {
-                    el.classList.remove('anim-pos');
-                    //   el.style.animationDelay = ''; // optional: clean up inline style
-                }, totalDelay);
-            });
-        }
-
-
-        function removeAnimation() {
-            if (wordContainer.classList.contains('anim-neg')) { wordContainer.classList.remove('anim-neg'); }
-            if (wordContainer.classList.contains('anim-pos')) { wordContainer.classList.remove('anim-pos'); }
-            if (letterGrid.classList.contains('anim-refresh')) { letterGrid.classList.remove('anim-refresh'); }
-            if (bonusBtn.classList.contains('anim-bonus')) { bonusBtn.classList.remove('anim-bonus'); }
-            if (shuffleBtn.classList.contains('anim-bonus')) { shuffleBtn.classList.remove('anim-bonus'); }
-            if (wordContainer.classList.contains('shake')) { wordContainer.classList.remove('shake'); }
-            if (actionBtn.classList.contains('anim-play')) { actionBtn.classList.remove('anim-play'); }
-
-        }
-
-        function randomLetter() {
-            return alphabet[Math.floor(Math.random() * alphabet.length)];
-        }
-
-        function randomWord() {
-            return starterWords[Math.floor(Math.random() * starterWords.length)];
-        }
-
+//CHANGING STATES MESSAGES TEXT
         function updateStatus() {
             let left = 5 - invalidAttempts;
             let baseStr = "■ ■ ■ ■ ■"
@@ -1910,12 +2063,43 @@
             statusElement.innerHTML = base;
         }
 
+        function updateBonusButton() {
+            if (bonusMovesAvailable > 0) {
+                bonusBtn.textContent = `${bonusMovesAvailable} ||`;
+                bonusBtn.classList.remove('disabled');
+                bonusBtn.disabled = false;
+            } else {
+                bonusBtn.textContent = `||`;
+                bonusBtn.classList.add('disabled');
+                bonusBtn.disabled = true;
+            }
+        }
 
+        function updateShuffleButton() {
+            if (shuffleBonusesAvailable > 0) {
+                shuffleBtn.textContent = `# ${shuffleBonusesAvailable}`;
+                shuffleBtn.classList.remove('disabled');
+                shuffleBtn.disabled = false;
+            } else {
+                shuffleBtn.textContent = `#`;
+                shuffleBtn.classList.add('disabled');
+                shuffleBtn.disabled = true;
+            }
+        }
+
+        function disableGame() {
+            isActiveGame = false;
+            localStorage.setItem("isDisqualified", "true");
+            actionBtn.disabled = true;
+            bonusBtn.disabled = true;
+            shuffleBtn.disabled = true;
+            gridElement.style.pointerEvents = 'none';
+            wordContainer.style.pointerEvents = 'none';
+        }
 
         function showTemporaryMessage(message) {
             messageElement.style.display = "block";
         }
-
 
         function updateHistory() {
             historyElement.textContent = [...playedWords].reverse().map(w => w + " ").join('');
@@ -1924,6 +2108,49 @@
         function updateDisallowedWords() {
             disallowedElement.textContent = [...disallowedWords].reverse().map(w => w + " ").join('');
         }
+
+        function rollbackGrid() {
+            const savedGridState = localStorage.getItem("stringChainState");
+            const gridState = JSON.parse(savedGridState);
+            grid = gridState.grid;
+            gridSize = gridState.gridSize;
+            renderGrid();
+        }
+
+        function showDefinitions(word) {
+            // Fetch up to first 3 definitions and show them
+            fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (!Array.isArray(data)) throw new Error();
+                    let defs = [];
+                    data.forEach(entry => {
+                        entry.meanings?.forEach(meaning => {
+                            meaning.definitions?.forEach(defObj => {
+                                if (defs.length < 3) defs.push(defObj.definition);
+                            });
+                        });
+                    });
+                    definitionsElement.innerHTML = defs.length
+                        ? `<strong>${word}</strong>:<br>${defs.map(d => `- ${d}`).join('<br>')}`
+                        : `No definitions found for "${word}".`;
+                })
+                .catch(() => {
+                    definitionsElement.textContent = `No definitions found for "${word}".`;
+                });
+        }
+//END OF CHANGING STATES
+
+
+//CORE GAMEPLAY
+        function randomLetter() {
+            return alphabet[Math.floor(Math.random() * alphabet.length)];
+        }
+
+        function randomWord() {
+            return starterWords[Math.floor(Math.random() * starterWords.length)];
+        }
+
 
         function selectCell(cell) {
             removeAnimation();
@@ -2116,7 +2343,7 @@
                     cell.dataset.row = r;
                     cell.dataset.col = c;
 
-                    
+
                     const cellId = `${r},${c}`;
                     if (selected.includes(cellId)) {
                         cell.classList.add('selected');
@@ -2212,39 +2439,6 @@
             selected = [];
         }
 
-        function updateBonusButton() {
-            if (bonusMovesAvailable > 0) {
-                bonusBtn.textContent = `${bonusMovesAvailable} ||`;
-                bonusBtn.classList.remove('disabled');
-                bonusBtn.disabled = false;
-            } else {
-                bonusBtn.textContent = `||`;
-                bonusBtn.classList.add('disabled');
-                bonusBtn.disabled = true;
-            }
-        }
-
-        function updateShuffleButton() {
-            if (shuffleBonusesAvailable > 0) {
-                shuffleBtn.textContent = `# ${shuffleBonusesAvailable}`;
-                shuffleBtn.classList.remove('disabled');
-                shuffleBtn.disabled = false;
-            } else {
-                shuffleBtn.textContent = `#`;
-                shuffleBtn.classList.add('disabled');
-                shuffleBtn.disabled = true;
-            }
-        }
-
-        function disableGame() {
-            isActiveGame = false;
-            localStorage.setItem("isDisqualified", "true");
-            actionBtn.disabled = true;
-            bonusBtn.disabled = true;
-            shuffleBtn.disabled = true;
-            gridElement.style.pointerEvents = 'none';
-            wordContainer.style.pointerEvents = 'none';
-        }
 
         function applyMove() {
             if (selected.length === 0) return false;
@@ -2300,28 +2494,6 @@
             return moveHappened;
         }
 
-        function showDefinitions(word) {
-            // Fetch up to first 3 definitions and show them
-            fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
-                .then(res => res.json())
-                .then(data => {
-                    if (!Array.isArray(data)) throw new Error();
-                    let defs = [];
-                    data.forEach(entry => {
-                        entry.meanings?.forEach(meaning => {
-                            meaning.definitions?.forEach(defObj => {
-                                if (defs.length < 3) defs.push(defObj.definition);
-                            });
-                        });
-                    });
-                    definitionsElement.innerHTML = defs.length
-                        ? `<strong>${word}</strong>:<br>${defs.map(d => `- ${d}`).join('<br>')}`
-                        : `No definitions found for "${word}".`;
-                })
-                .catch(() => {
-                    definitionsElement.textContent = `No definitions found for "${word}".`;
-                });
-        }
 
         function validateWord(previousWord) {
             const lower = currentWord.toLowerCase();
@@ -2343,13 +2515,13 @@
                 lastValidWord = currentWord;
                 score += currentWord.length;
                 chain++;
-                if ((chain % 5 === 0) && chain > 4) { 
+                if ((chain % 5 === 0) && chain > 4) {
                     bonusMovesAvailable++;
                     updateBonusButton();
                     bonusAnimation();
 
                 }
-                if (Math.floor(score / 30) > Math.floor((score - currentWord.length) / 30) && score > 29) { 
+                if (Math.floor(score / 30) > Math.floor((score - currentWord.length) / 30) && score > 29) {
                     shuffleBonusesAvailable++;
                     updateShuffleButton();
                     shuffleAnimation();
@@ -2375,12 +2547,12 @@
                     lastValidWord = currentWord;
                     score += currentWord.length;
                     chain++;
-                    if ((chain % 5 === 0) && chain > 4) { 
+                    if ((chain % 5 === 0) && chain > 4) {
                         bonusMovesAvailable++;
                         updateBonusButton();
                         bonusAnimation();
                     }
-                    if (Math.floor(score / 30) > Math.floor((score - currentWord.length) / 30) && score > 29) { 
+                    if (Math.floor(score / 30) > Math.floor((score - currentWord.length) / 30) && score > 29) {
                         shuffleBonusesAvailable++;
                         updateShuffleButton();
                         shuffleAnimation();
@@ -2441,150 +2613,8 @@
             clearSpecialMode();
             replenishGrid();
         }
-
-        actionBtn.addEventListener('click', () => {
-            playAnimation();
-            completeMove(true);
-
-        });
-
-
-
-
-        dropdownToggle.addEventListener("click", () => {
-            const dropdownHidden = dropdownDiv.style.display === "none";
-            dropdownDiv.style.display = dropdownHidden ? "block" : "none";
-            dropdownToggle.textContent = dropdownHidden ? "^" : "+";
-            getHighScores();
-            if (rulesDiv.style.display = "block") {
-                rulesDiv.style.display = "none";
-                rulesToggle.textContent = "HOW TO PLAY";
-            }
-            if (aboutDiv.style.display = "block") {
-                aboutDiv.style.display = "none";
-                aboutBtn.textContent = "about";
-            }
-            topFunction();
-        });
-
-
-        rulesToggle.addEventListener("click", () => {
-            const rulesHidden = rulesDiv.style.display === "none";
-            rulesDiv.style.display = rulesHidden ? "block" : "none";
-            rulesToggle.textContent = rulesHidden ? "^" : "HOW TO PLAY";
-            if (rulesDiv.style.display != "block") { dropdownToggle.click() };
-            if (aboutDiv.style.display = "block") {
-                aboutDiv.style.display = "none";
-                aboutBtn.textContent = "about";
-            }
-        });
-
-        aboutBtn.addEventListener("click", () => {
-            const aboutHidden = aboutDiv.style.display === "none";
-            aboutDiv.style.display = aboutHidden ? "block" : "none";
-            aboutBtn.textContent = aboutHidden ? "^" : "about";
-            if (aboutDiv.style.display != "block") { dropdownToggle.click() };
-            if (rulesDiv.style.display = "block") {
-                rulesDiv.style.display = "none";
-                rulesToggle.textContent = "HOW TO PLAY";
-            }
-        });
-
-
-
-
-
-
-        bonusBtn.addEventListener('click', () => {
-            if (bonusMovesAvailable <= 0) {
-                messageElement.textContent = "You get a bonus after every 5 words. Click + for guidance.";
-                showTemporaryMessage();
-                return;
-            }
-            if (selected.length === 0) {
-                messageElement.textContent = "Select a playable move first";
-                showTemporaryMessage();
-                return;
-            }
-
-
-            let moved = applyMove();
-            clearSelection();
-            renderWord();
-            // replenishGrid(); // MOVED TO THE END
-            if (!moved) {
-                messageElement.textContent = "Invalid move. Click + for guidance.";
-                showTemporaryMessage();
-                return;
-            }
-            bonusMovesAvailable--;
-            updateBonusButton();
-            lastValidWord = currentWord;
-            messageElement.innerHTML = `Bonus setup move played.`;
-            showTemporaryMessage();
-            activateSpecialMode(); //ADDED FOR BONUS MOVE EFFECT
-            replenishGrid(); //MOVED TO HERE TO STOP GRID EXPAND FOR SETUP MOVE
-
-            return;
-        });
-
-        shuffleBtn.addEventListener('click', () => {
-            if (shuffleBonusesAvailable > 0) {
-                shuffleBonusesAvailable--;
-                initGrid();
-                updateShuffleButton();
-                messageElement.textContent = "Grid refreshed!";
-                showTemporaryMessage();
-                letterGrid.classList.add('anim-refresh');
-                saveGameState();
-            }
-        });
-
-        newGameBtn.addEventListener('click', () => {
-            saveHighScore();
-            getHighScores();
-            localStorage.removeItem("stringChainState");
-            localStorage.removeItem("isDisqualified");
-            gameID = new Date().toISOString().slice(0, 19).replace('T', ' ');
-            gridSize = 3;
-            score = 0;
-            chain = 0;
-            bonusMovesAvailable = 0;
-            shuffleBonusesAvailable = 0;
-            invalidAttempts = 0;
-            totalPenalty = 0;
-            totalChainLoss = 0;
-            playedWords.clear();
-            disallowedWords.clear();
-            gridElement.style.pointerEvents = 'auto';
-            wordContainer.style.pointerEvents = 'auto';
-            scoreElement.textContent = score;
-            chainElement.textContent = chain;
-            messageElement.textContent = '';
-            disallowedElement.textContent = '';
-            updateBonusButton();
-            updateShuffleButton();
-            definitionsElement.textContent = '';
-            specialModeActive = false;
-            fitWordContainer();
-            isActiveGame = true;
-            previousWord = '';
-            actionBtn.disabled = false;
-            currentWord = randomWord();
-            initGrid();
-            renderWord();
-            validateWord(previousWord);
-            updateHistory();
-            updateStatus();
-            removeAnimation();
-            clearSpecialMode();
-            // localStorage.clear(); // FOR HARD RESET TO SEE NEW USER EXPERIENCE
-            if (dropdownDiv.style.display = "block") { dropdownToggle.click(); }
-        });
-
+//END OF CORE GAMEPLAY
         loadGameState();
-
-
     </script>
 
 
