@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Stringchain is a word game. Replace, add, swap, or delete a letter to make a new word. How long can you make your chain of words?">
+    <meta name="description"
+        content="Stringchain is a word game. Replace, add, swap, or delete a letter to make a new word. How long can you make your chain of words?">
     <title>stringchain - word game</title>
     <style>
         :root {
@@ -28,7 +29,7 @@
             --wordcell-text: var(--accent-text);
             --wordcell-border: 2px solid var(--wordcell);
 
-            --gridcell: var(--bg);
+            --gridcell: transparent;
             --gridcell-text: var(--text);
             --gridcell-border: 2px solid var(--wordcell);
 
@@ -58,7 +59,7 @@
             --wordcell-text: var(--accent-text);
             --wordcell-border: 2px solid var(--accent);
 
-            --gridcell: var(--bg);
+            --gridcell: transparent;
             --gridcell-text: var(--text);
             --gridcell-border: 2px solid var(--wordcell);
 
@@ -68,7 +69,6 @@
 
 
         }
-
 
         .green-pops {
             --rounding: 18px;
@@ -89,7 +89,7 @@
             --wordcell-text: #333;
             --wordcell-border: 2px solid var(--wordcell);
 
-            --gridcell: var(--bg);
+            --gridcell: transparent;
             --gridcell-text: var(--text);
             --gridcell-border: 2px solid var(--wordcell);
 
@@ -99,7 +99,6 @@
 
 
         }
-
 
         .winery {
             --rounding: 8px;
@@ -121,7 +120,7 @@
             --wordcell-text: var(--accent-text);
             --wordcell-border: 2px solid var(--accent);
 
-            --gridcell: var(--bg);
+            --gridcell: transparent;
             --gridcell-text: var(--text);
             --gridcell-border: 2px solid var(--wordcell);
 
@@ -150,7 +149,7 @@
             --wordcell-text: var(--accent-text);
             --wordcell-border: 2px solid var(--accent);
 
-            --gridcell: var(--bg);
+            --gridcell: transparent;
             --gridcell-text: var(--text);
             --gridcell-border: 2px solid var(--wordcell);
 
@@ -253,9 +252,6 @@
 
         }
 
-
-
-
         .pinko {
             --rounding: 8px;
             --rounding-small: 4px;
@@ -287,8 +283,6 @@
 
             /* --button-border: 3px inset #000; */
         }
-
-
 
         .minimal-animal {
             --rounding: 24px;
@@ -370,7 +364,7 @@
             --wordcell-text: var(--text);
             --wordcell-border: 2px solid var(--wordcell);
 
-            --gridcell: var(--bg);
+            --gridcell: transparent;
             --gridcell-text: var(--wordcell-text);
             --gridcell-border: 2px solid var(--accent);
 
@@ -409,8 +403,65 @@
             --selected-border: 2px solid #0ff;
         }
 
+        .hi-contrast {
+            --rounding: 6px;
+            --rounding-small: 3px;
+
+            --bg: #101;
+            --text: #fff;
+
+            --accent: #a7f;
+            --accent-text: var(--bg);
+
+            --positive-feedback: #daf;
+
+            --negative-feedback: #f00;
+            --disabled: #645;
+
+            --wordcell: var(--text);
+            --wordcell-text: var(--bg);
+            --wordcell-border: 2px solid var(--text);
+
+            --gridcell: var(--text);
+            --gridcell-text: var(--bg);
+            --gridcell-border: 2px solid var(--text);
+
+            --selected-cell: var(--bg);
+            --selected-text: var(--positive-feedback);
+            --selected-border: 2px solid var(--positive-feedback);
+        }
+
+        .fruit-salad {
+            --rounding: 26px;
+            --rounding-small: 14px;
+
+            --bg: #fef;
+            --text: #606;
+
+            --accent: #fab;
+            --accent-text: #606;
+
+            --positive-feedback: #adf;
+
+            --disabled: #b8b;
+            --negative-feedback: #800;
+
+            --wordcell: var(--accent);
+            --wordcell-text: #fff;
+            --wordcell-border: 2px solid var(--wordcell);
+
+            --gridcell: var(--bg);
+            --gridcell-text: var(--accent);
+            --gridcell-border: 2px solid var(--wordcell);
+
+            --selected-cell: var(--accent-text);
+            --selected-text: var(--bg);
+            --selected-border: 2px solid var(--selected-cell);
 
 
+        }
+
+        /* END OF THEMES*/
 
         body {
             font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
@@ -433,22 +484,22 @@
             text-align: center;
         }
 
-        h4 {
+        h4, h5, h6 {
             /* font-family: "Courier New", monospace; */
             margin: 0 0 5px 0;
             text-align: center;
         }
 
         .scores {
-            position:relative;
+            position: relative;
             padding-block: 10px;
             font-size: 15pt;
             flex-wrap: wrap;
             text-align: center;
             width: 100%;
             height: 22px;
-            font-family:'Courier New', Courier, monospace;
-            z-index:1;
+            font-family: 'Courier New', Courier, monospace;
+            z-index: 1;
             /* font-weight: bold; */
             /* background-image: linear-gradient(to top, var(--wordcell), var(--bg)); */
         }
@@ -525,38 +576,16 @@
             border: var(--selected-border);
             color: var(--selected-text);
             background: var(--selected-cell);
+            filter: none;
             /* height: 54px; */
         }
 
         .special {
-            background-color: var(--disabled) !important;
-        }
-
-        .anim-neg {
-            animation-name: animate-negative;
-            animation-duration: 1s;
+            background: linear-gradient(var(--bg), var(--accent));
         }
 
 
-        .anim-bonus {
-            animation-name: animate-bonus;
-            animation-duration: 1s;
-        }
 
-        .anim-play {
-            animation-name: animate-play;
-            animation-duration: 0.2s;
-        }
-
-        .anim-refresh {
-            animation-name: animate-refresh;
-            animation-duration: 1s;
-        }
-
-        .anim-used {
-            animation-name: animate-already-used;
-            animation-duration: 5s;
-        }
 
         .grid {
             display: grid;
@@ -663,11 +692,11 @@
             /* border: 2px solid var(--selected-cell); */
             height: 44px;
             width: 44px;
-            align-items:center;
-            text-align:center;
+            align-items: center;
+            text-align: center;
             margin-block: 0px;
-            margin-inline:4px;
-            padding:auto;
+            margin-inline: 4px;
+            padding: auto;
         }
 
         .help-dark {
@@ -686,6 +715,8 @@
             color: var(--accent-text);
             cursor: default;
             border: 2px solid transparent;
+            /* filter:blur(1px); */
+            /* opacity:67%; */
 
         }
 
@@ -711,23 +742,15 @@
         #status {
             font-size: 9pt;
             font-family: 'Courier New', Courier, monospace;
-            /* margin: 25px 0; */
+            margin: 5px 0 3px;
             color: var(--accent);
             /* text-align:end; */
             /* align-items: top; */
             opacity: 66%;
-            max-height: 9px;
+            max-height: 7px;
             /* padding-top:-5px; */
             /* margin-top: -15px; */
         }
-
-
-
-
-
-
-
-
 
 
         #history,
@@ -750,16 +773,33 @@
             background-color: var(--disabled);
             color: var(--accent-text);
             margin-bottom: 0px;
-            border-radius: 0px 0px var(--rounding) var(--rounding);           
+            border-radius: 0px 0px var(--rounding) var(--rounding);
 
         }
 
         #history {
             margin-top: 0px;
-            border-radius: var(--rounding) var(--rounding) 0px 0px;           
+            border-radius: var(--rounding) var(--rounding) 0px 0px;
             color: var(--accent-text);
             text-align: justify;
         }
+
+        mark.highlight {
+            background: var(--wordcell-text);
+            /* text-decoration: underline 3px solid var(--wordcell); */
+            color: var(--wordcell);
+            /* padding: 4px; */
+            border: 2px solid var(--bg);
+            border-radius: var(--rounding);
+            /* font-weight: bold; */
+            /* opacity:75%; */
+            transition: font-color text-decoration 5s ease;
+        }
+
+        mark.highlight.fade {
+            color: transparent;
+        }
+
 
         #definitions {
             font-size: 10pt;
@@ -791,7 +831,7 @@
             background: var(--wordcell);
             padding-block: 20px;
             margin: 0px 10px 0px;
-            border-radius: 0 0 var(--rounding) var(--rounding);             
+            border-radius: 0 0 var(--rounding) var(--rounding);
 
             margin: 0px 0px 10px;
 
@@ -804,26 +844,36 @@
         .high-score-table {
             border: 5px solid;
             border-collapse: collapse;
-            border-color: var(--accent-text);
+            border-color: var(--wordcell-text);
             font-size: 9pt;
             margin-inline: auto;
 
 
-            /* width: 100%; */
+            width: 94%;
 
         }
 
         th,
         tr,
         td {
-            padding: 12px;
+            padding: 8px;
             border: 2px solid;
             border-collapse: collapse;
-            border-color: var(--accent-text);
+            border-color: var(--wordcell-text);
             text-align: center;
         }
 
-
+        .highlight-reel {
+            font-family: 'Courier New', Courier, monospace;
+            text-align: center;
+            /* font-size: 9pt; */
+            width:auto;
+            /* padding:8px; */
+            height:10px;
+            /* background-image: linear-gradient(to top, var(--word-cell), var(--accent)); */
+            /* background: var(--wordcell-text); */
+            /* color: var(--wordcell); */
+        }
 
         .demo-div {
             width: 100%;
@@ -869,22 +919,6 @@
             text-align: center;
             /* line-height: 1.4; */
         }
-
-
-
-        /* .grid-demo {
-            display: inline-grid;
-            grid-template-columns: repeat(3, 36px);
-            grid-auto-rows: min-content;
-            gap: 5px 5px;
-            padding: 5px;
-            margin: 20px 20px;
-            align-items: center;
-            align-content: center;
-            width: fit-content;
-            height: auto;
-            border-radius: 3px;
-        } */
 
         .grid-demo {
             display: grid;
@@ -947,7 +981,6 @@
             width: 36px;
             height: 36px;
             font-size: 11pt;
-            /* this also needs to be edited in renderGrid function */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -968,15 +1001,72 @@
             border: var(--bg);
         }
 
-        /* #toggle-dropdown {
-            position: absolute;
-            justify-content:center;
-            
-        } */
+
+
+
+        .modal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  /* background-image: linear-gradient(to top, var(--accent), var(--bg)); */
+  /* opacity:80%; */
+}
+.modal.hidden { display: none; }
+
+.modal-content {
+    background-image: linear-gradient(to bottom, var(--accent), var(--bg));  
+    padding:22px;
+  border-radius: var(--rounding);
+  border:var(--text) solid 5px;
+  text-align: center;
+  width: 320px;
+  /* opacity: unset; */
+}
+
+.letter-grid {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: 0;
+  margin: 0;
+}
+.letter-grid button {
+  /* padding: 30px 12px; */
+  /* font-weight: bold; */
+  /* border: 1px solid #ccc; */
+  /* border-radius: var(--rounding-small); */
+  /* cursor: pointer; */
+  border: var(--gridcell-border);
+            color: var(--gridcell-text);
+            width: 32px;
+            height: 48px;
+            font-size: 18pt;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--gridcell);
+            border-radius: var(--rounding-small);
+            text-transform: uppercase;
+            cursor: auto;
+
+
+}
+
+
+
+
+
+
+
+
+
+        /* ANIMATIONS AND ANIMATION CLASSES*/
 
         .anim-pos {
             animation-name: animate-positive;
-            animation-duration: 1.5s;
+            animation-duration: 0.5s;
         }
 
         @keyframes animate-positive {
@@ -993,6 +1083,12 @@
             }
         }
 
+
+        .anim-neg {
+            animation-name: animate-negative;
+            animation-duration: 1s;
+        }
+
         @keyframes animate-negative {
             0% {
                 background-color: var(--negative-feedback);
@@ -1001,6 +1097,12 @@
             100% {
                 background-color: var(--bg);
             }
+        }
+
+
+        .anim-bonus {
+            animation-name: animate-bonus;
+            animation-duration: 1s;
         }
 
         @keyframes animate-bonus {
@@ -1022,6 +1124,12 @@
             }
         }
 
+
+        .anim-play {
+            animation-name: animate-play;
+            animation-duration: 0.2s;
+        }
+
         @keyframes animate-play {
             0% {
                 transform: scale(80%);
@@ -1037,6 +1145,12 @@
 
         }
 
+
+        .anim-refresh {
+            animation-name: animate-refresh;
+            animation-duration: 1s;
+        }
+
         @keyframes animate-refresh {
             0% {
                 background-color: var(--positive-feedback);
@@ -1047,6 +1161,12 @@
             }
         }
 
+
+        .anim-used {
+            animation-name: animate-already-used;
+            animation-duration: 5s;
+        }
+
         @keyframes animate-already-used {
             0% {
                 background-color: var(--disabled);
@@ -1055,6 +1175,11 @@
             100% {
                 background-color: var(--bg);
             }
+        }
+
+
+        .shake {
+            animation: shake 0.3s ease;
         }
 
         @keyframes shake {
@@ -1079,25 +1204,7 @@
             }
         }
 
-        .shake {
-            animation: shake 0.3s ease;
-        }
-
-        mark.highlight {
-            background: var(--wordcell-text);
-            /* text-decoration: underline 3px solid var(--wordcell); */
-            color: var(--wordcell);
-            /* padding: 4px; */
-            border: 2px solid var(--bg);
-            border-radius: var(--rounding);            
-            /* font-weight: bold; */
-            /* opacity:75%; */
-            transition: font-color text-decoration 5s ease;
-        }
-
-        mark.highlight.fade {
-            color: transparent;
-        }
+        .blur { filter: blur(50%) }
     </style>
 </head>
 
@@ -1399,7 +1506,7 @@
                         <div class="grid-cell-demo">O</div>
                         <div class="grid-cell-demo">L</div>
                     </div>
-                    
+
                 </div>
             </div>
             <br>
@@ -1476,9 +1583,23 @@
     <button id="newGameBtn" class="newgame">RESTART</button>
     <div id="definitions"></div>
     <button id="scrollBtn" class="scrollBtn">^</button>
+    <!-- Asterisk Letter Picker Modal -->
+<div id="asteriskModal" class="modal hidden">
+    <div class="modal-content">
+      <h6>WILDCARD BONUS</h6>
+      <p class="demo-para" style="text-align:left"><br>Pick a letter...</p>
+      <div class="letter-grid"></div>
+      <!-- <button id="closeAsteriskModal">LATER</button> -->
+      <p class="demo-para" style="text-align:right">...or save for later using *</p>
+      <br>
+      <p class="demo-para" style="text-align:justify;font-size: 8pt;">Get your first wildcard bonus after your chain reaches 128 and receive another for every additional 32 words. They will appear as rows and columns are cleared.<br><br>This is a secret bonus.<br>There's nothing about this in the 'How To Play'.<br><br>You have earned this hitherto unthinkable power. Use it wisely.</p>
+    </div>
+  </div>
 
 
     <script>
+
+//DECLARATIONS
         const scaleWrapper = document.getElementById('scaleWrapper');
         const wordContainer = document.getElementById('wordContainer');
         const highScoresElement = document.getElementById('highScores');
@@ -1503,11 +1624,8 @@
         const dropdownDiv = document.getElementById("dropdown");
         const disqualified = localStorage.getItem("isDisqualified") === "true";
         const alphabet = "EEEEEEEEEAAAARRRRIIIOOONNSSSTTTLLLLCCUUUDDDPPGGHHBBMMYYFFVVWWKKXJQZ".split("");
-        const starterWords = ["ACE", "ACT", "ADD", "ADO", "ADS", "AFT", "AGE", "AGO", "AIR", "ALL", "AND", "ANT", "ANY", "APE", "APT", "ARC", "ARE", "ARK", "ARM", "ART", "ASH", "ASK", "AWE", "AWL", "AXE", "BAD", "BAG", "BAN", "BAR", "BAT", "BAY", "BED", "BEE", "BEG", "BET", "BIG", "BIN", "BIT", "BOA", "BOB", "BOG", "BOP", "BOW", "BOY", "BRA", "BRO", "BUD", "BUG", "BUM", "BUS", "BUT", "BUY", "BYE", "CAB", "CAD", "CAM", "CAN", "CAP", "CAR", "CAT", "CAW", "COB", "COD", "COG", "CON", "COO", "COP", "COT", "COW", "COY", "CRY", "CUB", "CUE", "CUP", "CUR", "CUT", "DAB", "DAD", "DAG", "DAM", "DAY", "DEB", "DEN", "DEW", "DID", "DIE", "DIG", "DIN", "DIP", "DOC", "DOE", "DOG", "DON", "DOT", "DRY", "DUB", "DUD", "DUE", "DUG", "EAR", "EAT", "EEL", "EGG", "EGO", "ELF", "ELL", "EMU", "END", "ERA", "EVE", "EWE", "EYE", "FAD", "FAN", "FAR", "FAT", "FAX", "FED", "FEE", "FEW", "FIB", "FIG", "FIN", "FIR", "FIT", "FLY", "FOE", "FOG", "FOR", "FRY", "FUN", "FUR", "GAG", "GAP", "GAS", "GAY", "GEL", "GEM", "GET", "GIG", "GIN", "GOT", "GUM", "GUN", "GUT", "GUY", "GAP", "HAD", "HAM", "HAS", "HAT", "HAW", "HAY", "HEW", "HEY", "HIM", "HIP", "HIS", "HIT", "HOG", "HOP", "HOT", "HOW", "HUB", "HUE", "HUG", "HUM", "HUT", "ICE", "ILL", "INK", "INN", "ION", "JAB", "JAM", "JAR", "JAW", "JAY", "JAW", "JIG", "JOB", "JOE", "JOG", "JOT", "JOY", "JUG", "KEY", "KIT", "LAB", "LAD", "LAG", "LAP", "LAW", "LAY", "LEA", "LED", "LEG", "LET", "LID", "LIE", "LOG", "LOT", "LOW", "MAD", "MAN", "MAP", "MAT", "MAX", "MAY", "MEN", "MET", "MID", "MIX", "MOB", "MOD", "MOM", "MOP", "MOW", "MUD", "MUG", "MUM", "NAB", "NAP", "NOD", "NOT", "NOW", "NUN", "NUT", "OAR", "OAT", "ODD", "OFF", "OIL", "OLD", "ONE", "ORB", "OUR", "OUT", "OVA", "OWE", "OWL", "OWN", "PAD", "PAL", "PAN", "PAR", "PAT", "PAW", "PAY", "PEG", "PEN", "PET", "PEW", "PHI", "PIE", "PIG", "PIN", "PIT", "PLY", "POD", "POP", "POT", "PRO", "PUB", "PUG", "PUP", "PUT", "RAM", "RAN", "RAP", "RAT", "RAW", "RAY", "RED", "REP", "REV", "RIB", "RID", "RIG", "RIM", "RIP", "ROB", "ROD", "ROE", "ROT", "ROW", "RUB", "RUE", "RUG", "RUN", "RUT", "SAC", "SAD", "SAG", "SAP", "SAT", "SAW", "SAX", "SAY", "SEA", "SEE", "SET", "SEW", "SEX", "SHY", "SIB", "SIC", "SIN", "SIP", "SIR", "SIS", "SIT", "SKY", "SOB", "SOD", "SOL", "SON", "SOP", "SOS", "SOW", "SOX", "SPA", "SPY", "SUB", "SUE", "SUM", "SUN", "SUP", "TAB", "TAD", "TAG", "TAP", "TAR", "TEA", "TEE", "TEN", "THE", "TIE", "TIN", "TIP", "TOE", "TOG", "TON", "TOO", "TOP", "TOT", "TOW", "TOY", "TRY", "TUB", "TUG", "TUX", "TWO", "URN", "USE", "VAN", "VAT", "VET", "VIA", "VIE", "WAR", "WAS", "WAY", "WEB", "WED", "WEE", "WET", "WHO", "WHY", "WIN", "WIT", "WOK", "WON", "WOO", "YAK", "YAM", "YAP", "YAW", "YES", "ABLE", "ACID", "ACRE", "BACK", "BALL", "BAND", "CALM", "CAMP", "CARD", "DAWN", "DAYS", "DEAL", "EACH", "EARN", "ELSE", "FACE", "FACT", "FINE", "GAIN", "GATE", "GAVE", "GIRD", "HAIR", "HALF", "HAND", "ICON", "IDEA", "IDLE", "JACK", "JAIL", "KING", "KIND", "LACK", "LAKE", "LIMP", "MADE", "MAIL", "NAME", "NAIL", "ONCE", "ODDS", "PACK", "PAGE", "RACE", "RAIN", "SAFE", "SAIL", "TAKE", "TALE", "TINE", "UNIT", "URGE", "VARY", "VAST", "WAGE", "WAIT", "YARD", "YARN", "ZAPS"];
-        // const starterWords = ["EIGHT123","NINE12345","TEN1234567","ELEVEN12345","TWELVE123456"];
-
-        const allowList = ["DUNK", "HELL", "HELLS", "TOW", "TOWS", "TOWED", "TOWING", "DUNKS", "DUNKING", "DUNKED", "TOW", "TIGHT", "SIFT", "DOSE", "DOSES", "DOSED", "DOSING", "KITE", "KITES", "NET", "CUE", "CUES", "CUED", "CUEING", "CUING", "RAPE", "RAPES", "RAPED", "RAPING", "PEND", "PENDS", "PENDED", "PENDING", "BE", "LOOK","LOOKS","LOOKED","LOOKING","","" ];
-
+        const starterWords = ["ACE", "ACT", "ADD", "ADO", "ADS", "AFT", "AGE", "AGO", "AIR", "ALL", "AND", "ANT", "ANY", "APE", "APT", "ARC", "ARE", "ARK", "ARM", "ART", "ASH", "ASK", "AWE", "AWL", "AXE", "BAD", "BAG", "BAN", "BAR", "BAT", "BAY", "BED", "BEE", "BEG", "BET", "BIG", "BIN", "BIT", "BOA", "BOB", "BOG", "BOP", "BOW", "BOY", "BRA", "BRO", "BUD", "BUG", "BUM", "BUS", "BUT", "BUY", "BYE", "CAB", "CAD", "CAM", "CAN", "CAP", "CAR", "CAT", "CAW", "COB", "COD", "COG", "CON", "COO", "COP", "COT", "COW", "COY", "CRY", "CUB", "CUE", "CUP", "CUR", "CUT", "DAB", "DAD", "DAG", "DAM", "DAY", "DEB", "DEN", "DEW", "DID", "DIE", "DIG", "DIN", "DIP", "DOC", "DOE", "DOG", "DON", "DOT", "DRY", "DUB", "DUD", "DUE", "DUG", "EAR", "EAT", "EEL", "EGG", "EGO", "ELF", "ELL", "EMU", "END", "ERA", "EVE", "EWE", "EYE", "FAD", "FAN", "FAR", "FAT", "FAX", "FED", "FEE", "FEW", "FIB", "FIG", "FIN", "FIR", "FIT", "FLY", "FOE", "FOG", "FOR", "FRY", "FUN", "FUR", "GAG", "GAP", "GAS", "GAY", "GEL", "GEM", "GET", "GIG", "GIN", "GOT", "GUM", "GUN", "GUT", "GUY", "GAP", "HAD", "HAM", "HAS", "HAT", "HAW", "HAY", "HEW", "HEY", "HIM", "HIP", "HIS", "HIT", "HOG", "HOP", "HOT", "HOW", "HUB", "HUE", "HUG", "HUM", "HUT", "ICE", "ILL", "INK", "INN", "ION", "JAB", "JAM", "JAR", "JAW", "JAY", "JAW", "JIG", "JOB", "JOE", "JOG", "JOT", "JOY", "JUG", "KEY", "KIT", "LAB", "LAD", "LAG", "LAP", "LAW", "LAY", "LEA", "LED", "LEG", "LET", "LID", "LIE", "LOG", "LOT", "LOW", "MAD", "MAN", "MAP", "MAT", "MAX", "MAY", "MEN", "MET", "MID", "MIX", "MOB", "MOD", "MOM", "MOP", "MOW", "MUD", "MUG", "MUM", "NAB", "NAP", "NOD", "NOT", "NOW", "NUN", "NUT", "OAR", "OAT", "ODD", "OFF", "OIL", "OLD", "ONE", "OPT", "OUR", "OUT", "OVA", "OWE", "OWL", "OWN", "PAD", "PAL", "PAN", "PAR", "PAT", "PAW", "PAY", "PEG", "PEN", "PET", "PEW", "PHI", "PIE", "PIG", "PIN", "PIT", "PLY", "POD", "POP", "POT", "PRO", "PUB", "PUG", "PUP", "PUT", "RAM", "RAN", "RAP", "RAT", "RAW", "RAY", "RED", "REP", "REV", "RIB", "RID", "RIG", "RIM", "RIP", "ROB", "ROD", "ROE", "ROT", "ROW", "RUB", "RUE", "RUG", "RUN", "RUT", "SAC", "SAD", "SAG", "SAP", "SAT", "SAW", "SAX", "SAY", "SEA", "SEE", "SET", "SEW", "SEX", "SHY", "SIB", "SIC", "SIN", "SIP", "SIR", "SIS", "SIT", "SKY", "SOB", "SOD", "SOL", "SON", "SOP", "SOS", "SOW", "SOX", "SPA", "SPY", "SUB", "SUE", "SUM", "SUN", "SUP", "TAB", "TAD", "TAG", "TAP", "TAR", "TEA", "TEE", "TEN", "THE", "TIE", "TIN", "TIP", "TOE", "TOG", "TON", "TOO", "TOP", "TOT", "TOW", "TOY", "TRY", "TUB", "TUG", "TUX", "TWO", "URN", "USE", "VAN", "VAT", "VET", "VIA", "VIE", "WAR", "WAS", "WAY", "WEB", "WED", "WEE", "WET", "WHO", "WHY", "WIN", "WIT", "WOK", "WON", "WOO", "YAK", "YAM", "YAP", "YAW", "YES", "ABLE", "ACID", "ACRE", "BACK", "BALL", "BAND", "CALM", "CAMP", "CARD", "DAWN", "DAYS", "DEAL", "EACH", "EARN", "ELSE", "FACE", "FACT", "FINE", "GAIN", "GATE", "GAVE", "GIRD", "HAIR", "HALF", "HAND", "ICON", "IDEA", "IDLE", "JACK", "JAIL", "KING", "KIND", "LACK", "LAKE", "LIMP", "MADE", "MAIL", "NAME", "NAIL", "ONCE", "ODDS", "PACK", "PAGE", "RACE", "RAIN", "SAFE", "SAIL", "TAKE", "TALE", "TINE", "UNIT", "URGE", "VARY", "VAST", "WAGE", "WAIT", "YARD", "YARN", "ZAPS"];
+        const allowList = [ "DOLLING", "DOLLED", "TOCK", "HELL", "FEWER", "YOUR", "PATTER", "DRAB", "LIVES", "LIVED", "LIVING", "HELLS", "TOW", "TOWS", "TOWED", "TOWING", "DUNK", "DUNKS", "DUNKING", "DUNKED", "TOW", "TOWS", "TOWING", "TOWED", "TIGHT", "SIFT", "DOSE", "DOSES", "DOSED", "DOSING", "KITE", "KITES", "NET", "CUE", "CUES", "CUED", "CUEING", "CUING", "RAPE", "RAPES", "RAPED", "SATES", "SATED", "SATING", "RAPING", "PEND", "PENDS", "PENDED", "PENDING", "BE", "LOOK", "LOOKS", "LOOKED", "LOOKING", "VEINY", "WEAN", "WEANS", "WEANED", "WEANING"];
         let isActiveGame = true;
         let playedWords = new Set();
         let disallowedWords = new Set();
@@ -1522,48 +1640,165 @@
         let selected = [];
         let bonusMovesAvailable = 0;
         let shuffleBonusesAvailable = 0;
+        let asteriskEarned = 10; 
+        let lastAsteriskThreshold = 0;
         let invalidAttempts = 0;
         let totalPenalty = 0;
         let totalChainLoss = 0;
         let lastSelectedType = null;
         let lastSelectedCell = null;
-        let lastUsedGridCell = null; // NEW: Track last used cell for invalid move rollback
-        let specialModeActive = false; // NEW: Track bonus special mode
+        let lastUsedGridCell = null; // Track last used cell for invalid move rollback
+        let specialModeActive = false; // Track bonus special mode
+//END OF DELARATIONS
+
+//BUTTONS
+
+        actionBtn.addEventListener('click', () => {
+            playAnimation();
+            completeMove(true);
+
+        });
+
+        dropdownToggle.addEventListener("click", () => {
+            const dropdownHidden = dropdownDiv.style.display === "none";
+            dropdownDiv.style.display = dropdownHidden ? "block" : "none";
+            dropdownToggle.textContent = dropdownHidden ? "^" : "+";
+            getHighScores();
+            if (rulesDiv.style.display = "block") {
+                rulesDiv.style.display = "none";
+                rulesToggle.textContent = "HOW TO PLAY";
+            }
+            if (aboutDiv.style.display = "block") {
+                aboutDiv.style.display = "none";
+                aboutBtn.textContent = "about";
+            }
+            topFunction();
+        });
+
+        rulesToggle.addEventListener("click", () => {
+            const rulesHidden = rulesDiv.style.display === "none";
+            rulesDiv.style.display = rulesHidden ? "block" : "none";
+            rulesToggle.textContent = rulesHidden ? "^" : "HOW TO PLAY";
+            if (rulesDiv.style.display != "block") { dropdownToggle.click() };
+            if (aboutDiv.style.display = "block") {
+                aboutDiv.style.display = "none";
+                aboutBtn.textContent = "about";
+            }
+        });
+
+        aboutBtn.addEventListener("click", () => {
+            const aboutHidden = aboutDiv.style.display === "none";
+            aboutDiv.style.display = aboutHidden ? "block" : "none";
+            aboutBtn.textContent = aboutHidden ? "^" : "about";
+            if (aboutDiv.style.display != "block") { dropdownToggle.click() };
+            if (rulesDiv.style.display = "block") {
+                rulesDiv.style.display = "none";
+                rulesToggle.textContent = "HOW TO PLAY";
+            }
+        });
+
+        bonusBtn.addEventListener('click', () => {
+            if (bonusMovesAvailable <= 0) {
+                messageElement.textContent = "You get a bonus after every 5 words. Click + for guidance.";
+                showTemporaryMessage();
+                return;
+            }
+            if (selected.length === 0) {
+                messageElement.textContent = "Select a playable move first";
+                showTemporaryMessage();
+                return;
+            }
 
 
+            let moved = applyMove();
+            clearSelection();
+            renderWord();
+            // replenishGrid(); // MOVED TO THE END
+            if (!moved) {
+                messageElement.textContent = "Invalid move. Click + for guidance.";
+                showTemporaryMessage();
+                return;
+            }
+            bonusMovesAvailable--;
+            updateBonusButton();
+            lastValidWord = currentWord;
+            messageElement.innerHTML = `Bonus setup move played.`;
+            showTemporaryMessage();
+            activateSpecialMode(); //ADDED FOR BONUS MOVE EFFECT
+            replenishGrid(); //MOVED TO HERE TO STOP GRID EXPAND FOR SETUP MOVE
 
+            return;
+        });
+
+        shuffleBtn.addEventListener('click', () => {
+            if (shuffleBonusesAvailable > 0) {
+                shuffleBonusesAvailable--;
+                initGrid();
+                updateShuffleButton();
+                messageElement.textContent = "Grid refreshed!";
+                showTemporaryMessage();
+                letterGrid.classList.add('anim-refresh');
+                saveGameState();
+            }
+        });
+
+        newGameBtn.addEventListener('click', () => {
+            saveHighScore();
+            getHighScores();
+            localStorage.removeItem("stringChainState");
+            localStorage.removeItem("isDisqualified");
+            gameID = new Date().toISOString().slice(0, 19).replace('T', ' ');
+            gridSize = 3;
+            score = 0;
+            chain = 0;
+            bonusMovesAvailable = 0;
+            shuffleBonusesAvailable = 0;
+            invalidAttempts = 0;
+            totalPenalty = 0;
+            totalChainLoss = 0;
+            playedWords.clear();
+            disallowedWords.clear();
+            gridElement.style.pointerEvents = 'auto';
+            wordContainer.style.pointerEvents = 'auto';
+            scoreElement.textContent = score;
+            chainElement.textContent = chain;
+            messageElement.textContent = '';
+            disallowedElement.textContent = '';
+            updateBonusButton();
+            updateShuffleButton();
+            definitionsElement.textContent = '';
+            specialModeActive = false;
+            fitWordContainer();
+            isActiveGame = true;
+            previousWord = '';
+            actionBtn.disabled = false;
+            currentWord = randomWord();
+            initGrid();
+            renderWord();
+            validateWord(previousWord);
+            updateHistory();
+            updateStatus();
+            removeAnimation();
+            clearSpecialMode();
+            // localStorage.clear(); // FOR HARD RESET TO SEE NEW USER EXPERIENCE
+            if (dropdownDiv.style.display = "block") { dropdownToggle.click(); }
+        });
+//END OF BUTTONS
+
+//ANIMATIONS AND HIGHLIGHTS
 
         function highlightPlayed(currentWord) {
-            // Remove any existing highlights
-            // historyElement.innerHTML = historyElement.innerHTML.replace(/(<mark class="highlight">|<\/mark>)/g, '');
-
-            // Highlight the word
             historyElement.innerHTML = historyElement.innerHTML.replace(
                 new RegExp(currentWord, 'gi'),
                 '<mark class="highlight">$&</mark>'
             );
 
-            // Trigger fade
-            // const mark = historyElement.querySelector('mark.highlight');
-            // if (mark) {
-            //     setTimeout(() => mark.classList.add('fade'), 3000);  // start fade
-            //     setTimeout(() => mark.outerHTML = mark.innerText, 5000); // cleanup
-            // }
-
-            //   Fade out each new mark
             const newMarks = historyElement.querySelectorAll('mark.highlight:not(.fade)');
             newMarks.forEach(mark => {
                 // setTimeout(() => mark.classList.add('fade'), 18000);  // start fade
                 setTimeout(() => mark.outerHTML = mark.innerText, 60000); // remove
             });
         }
-
-
-
-
-
-
-
 
         function highlightPlayed(currentWord) {
             // Escape any special regex characters in the word
@@ -1584,29 +1819,92 @@
                 setTimeout(() => mark.outerHTML = mark.innerText, 60000);
             });
         }
+        function playAnimation() { actionBtn.classList.add('anim-play'); }
+        function redAnimation() { wordContainer.classList.add('anim-neg'); }
+        function bonusAnimation() { bonusBtn.classList.add('anim-bonus'); }
+        function shuffleAnimation() { shuffleBtn.classList.add('anim-bonus'); }
+        function alreadyUsedAnimation() {
+            wordContainer.classList.add("shake");
+            // Remove class after animation so it can trigger again later
+            wordContainer.addEventListener("animationend", () => {
+                wordContainer.classList.remove("shake");
+            }, { once: true });
+        }
+        function greenAnimation() {
+            const elements = wordContainer.querySelectorAll('.letter, .insert-slot');
+            const animationDuration = 500; // in ms (0.5s from CSS)
+            const stagger = 30; // in ms (0.03s)
 
+            elements.forEach((el, index) => {
+                el.classList.remove('anim-pos');
+                void el.offsetWidth; // reflow to restart animation
 
+                el.style.animationDelay = `${index * stagger / 1000}s`;
+                el.classList.add('anim-pos');
 
+                // Calculate when to remove the class
+                const totalDelay = animationDuration + index * stagger;
+                setTimeout(() => {
+                    el.classList.remove('anim-pos');
+                    //   el.style.animationDelay = ''; // optional: clean up inline style
+                }, totalDelay);
+            });
+        }
 
+        function removeAnimation() {
+            if (wordContainer.classList.contains('anim-neg')) { wordContainer.classList.remove('anim-neg'); }
+            if (wordContainer.classList.contains('anim-pos')) { wordContainer.classList.remove('anim-pos'); }
+            if (letterGrid.classList.contains('anim-refresh')) { letterGrid.classList.remove('anim-refresh'); }
+            if (bonusBtn.classList.contains('anim-bonus')) { bonusBtn.classList.remove('anim-bonus'); }
+            if (shuffleBtn.classList.contains('anim-bonus')) { shuffleBtn.classList.remove('anim-bonus'); }
+            if (wordContainer.classList.contains('shake')) { wordContainer.classList.remove('shake'); }
+            if (actionBtn.classList.contains('anim-play')) { actionBtn.classList.remove('anim-play'); }
 
+        }
 
+        function activateSpecialMode() {
+            specialModeActive = true;
+            wordContainer.classList.add('special');
+            return;
+        }
+        function clearSpecialMode() {
+            specialModeActive = false;
+            wordContainer.classList.remove('special');
+            return;
+        }
 
+//END OF ANIMATIONS AND HIGHLIGHTS
 
+//THEMES AND PRESENTATION
 
+        //SCROLLING ETC
+        window.onscroll = function () { scrollFunction() };
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                scrollBtn.style.display = "block";
+            } else {
+                scrollBtn.style.display = "none";
+            }
+        }
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
 
+        scrollBtn.addEventListener("click", () => {
+            topFunction();
+            if (dropdownDiv.style.display = "block") { dropdownToggle.click() };
+        });
+        //END OF SCROLLING ETC
 
-
-
+        //THEMES
         const themeToggle = document.getElementById("themeToggle");
-
-        // Use "default" string instead of null
-        const themes = ["default", "not-too-light", "green-pops", "winery", "tannery", "yello-pops", "too-light", "greenery", "pinko", "minimal-animal", "minimal-liminal", "dark-grey", "blue-pops" ];
-
+        const themes = ["default", "fruit-salad", "hi-contrast", "green-pops", "tannery", "dark-grey", "not-too-light", "winery", "minimal-liminal", "blue-pops", "pinko", "greenery", "minimal-animal", "yello-pops", "too-light"];
         let currentTheme = localStorage.getItem("theme") || "default";
         if (currentTheme !== "default") {
             document.documentElement.classList.add(currentTheme);
         }
-
         themeToggle.addEventListener("click", () => {
             // Remove current theme if not default
             if (currentTheme !== "default") {
@@ -1627,48 +1925,25 @@
             // Save
             localStorage.setItem("theme", currentTheme);
         });
+        //END OF THEMES
 
+        //WORD CONTAINER
+        function fitWordContainer() {
+            let letterCount = wordContainer.querySelectorAll('.letter').length;
+            let scaleCalc = 11 / (6 + letterCount);
+            scaleCalc = Math.min(scaleCalc, 1.15);
 
-
-
-
-
-
-
-
-        window.onscroll = function () { scrollFunction() };
-
-        function scrollFunction() {
-            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-                scrollBtn.style.display = "block";
-            } else {
-                scrollBtn.style.display = "none";
-            }
+            document.documentElement.style.setProperty('--scale-var', scaleCalc);
+            return;
         }
+        //END OF WORD CONTAINER
 
-        // When the user clicks on the button, scroll to the top of the document
-        function topFunction() {
-            document.body.scrollTop = 0;
-            document.documentElement.scrollTop = 0;
-        }
+//END OF THEMES AND PRESENTATION
 
-        scrollBtn.addEventListener("click", () => {
-            topFunction();
-            if (dropdownDiv.style.display = "block") { dropdownToggle.click() };
-        });
-
-
-        function rollbackGrid() {
-            const savedGridState = localStorage.getItem("stringChainState");
-            const gridState = JSON.parse(savedGridState);
-            grid = gridState.grid;
-            gridSize = gridState.gridSize;
-            renderGrid();
-        }
-
+//SAVING, LOADING, HIGHSCORES
 
         function saveGameState() {
-            const gameState = { isActiveGame, gameID, currentWord, lastValidWord, gridSize, grid, score, chain, bonusMovesAvailable, shuffleBonusesAvailable, invalidAttempts, totalPenalty, totalChainLoss, playedWords: Array.from(playedWords), disallowedWords: Array.from(disallowedWords) };
+            const gameState = { isActiveGame, gameID, currentWord, lastValidWord, gridSize, grid, score, chain, bonusMovesAvailable, asteriskEarned, shuffleBonusesAvailable, invalidAttempts, totalPenalty, totalChainLoss, playedWords: Array.from(playedWords), disallowedWords: Array.from(disallowedWords) };
             localStorage.setItem("stringChainState", JSON.stringify(gameState));
         }
 
@@ -1686,7 +1961,7 @@
             }
 
             try {
-                ({ isActiveGame, gameID, currentWord, lastValidWord, gridSize, grid, score, chain, bonusMovesAvailable, shuffleBonusesAvailable, invalidAttempts, totalPenalty, totalChainLoss, playedWords, disallowedWords } = JSON.parse(saved));
+                ({ isActiveGame, gameID, currentWord, lastValidWord, gridSize, grid, score, chain, bonusMovesAvailable, asteriskEarned, shuffleBonusesAvailable, invalidAttempts, totalPenalty, totalChainLoss, playedWords, disallowedWords } = JSON.parse(saved));
                 disallowedWords = new Set(disallowedWords);
                 playedWords = new Set(playedWords);
                 renderWord();
@@ -1707,7 +1982,6 @@
 
         function saveHighScore() {
             const stringchainHighScore = JSON.parse(localStorage.getItem("stringchainHighScore")) || [];
-            // const saveTime = new Date().toISOString().slice(0, 19).replace('T', ' ');
             const saveTime = new Intl.DateTimeFormat(undefined, {
                 year: 'numeric',
                 month: 'long',
@@ -1719,13 +1993,15 @@
             })
                 .format(new Date())
                 .replace(/,/g, ''); // strip commas
-            const newHighScore = { saveTime, score, chain, gameID };
+            // const newHighScore = { saveTime, score, chain, gameID };
+            // const highlight = getHighlightReel();
+            const highlight = getHighlightReel();
+            const newHighScore = { saveTime, score, chain, gameID, highlight };
 
             // Check if an entry already exists for this gameID
             const existingIndex = stringchainHighScore.findIndex(entry => entry.gameID === gameID);
 
             if (chain < 5) { return };
-
             if (existingIndex !== -1) {
                 // Overwrite the existing record
                 stringchainHighScore[existingIndex] = newHighScore;
@@ -1743,7 +2019,8 @@
                 saveTime: saveTime,
                 score: score,
                 chain: chain,
-                gameID: gameID
+                gameID: gameID,
+                highlight: highlight
             });
 
             stringchainHighScore.sort((a, b) => b.score - a.score);
@@ -1760,133 +2037,132 @@
             localStorage.setItem('stringchainHighScore', JSON.stringify(combined));
         }
 
-        function getHighScores() {
-            const scoreTableParse = JSON.parse(localStorage.getItem('stringchainHighScore')) || [];
-            let scoreTable = scoreTableParse
-            scoreTable = scoreTable.filter(entry => !(entry.score === 0 && entry.chain === 0));
-            const rows = scoreTable.map(entry => `<tr><td>${entry.score}</td><td>${entry.chain}</td><td>${entry.saveTime}</td></tr>`).join('');
-            if (!rows) { return };
-            highScoresElement.innerHTML = `<h4>YOUR BEST GAMES</h4><table class = "high-score-table"><tr><th>STRING</th><th>CHAIN</th><th>SAVED</th></tr>${rows}</table>`;
+            function getHighScores() {
+                const scoreTableParse = JSON.parse(localStorage.getItem('stringchainHighScore')) || [];
+                let scoreTable = scoreTableParse
+                scoreTable = scoreTable.filter(entry => !(entry.score === 0 && entry.chain === 0));
+                // const rows = scoreTable.map(entry => `<tr><td>${entry.score}</td><td>${entry.chain}</td><td>${entry.saveTime}</td></tr>`).join('');
+                const rows = scoreTable.map(entry => {
+                    const highlightRow = entry.highlight && entry.highlight.trim()
+                        ? `<tr><td colspan="3" class="highlight-reel">${entry.highlight}</td></tr>`
+                        : "";
+                    return `<tr><td>${entry.score}</td><td>${entry.chain}</td><td>${entry.saveTime}</td></tr>${highlightRow}`;
+                }).join('');
+
+                if (!rows) { return };
+                highScoresElement.innerHTML = `<h4>YOUR BEST GAMES</h4><table class = "high-score-table"><tr><th>STRING</th><th>CHAIN</th><th>SAVED</th></tr>${rows}</table>`;
+            }
+
+
+         // >>> FINAL getHighlightReel
+         function getHighlightReel() {
+            let words = Array.from(playedWords);
+            if (words.length === 0) return "";
+
+            const longestWordLength = Math.max(...words.map(w => w.length));
+            let runStart = -1, runLength = 0;
+
+            // find first run of consecutive longest words
+            for (let i = 0; i < words.length; i++) {
+                if (words[i].length === longestWordLength) {
+                    if (runStart === -1) runStart = i;
+                    runLength++;
+                } else if (runStart !== -1) {
+                    break;
+                }
+            }
+
+            if (runStart === -1) return words.slice(0, 5).join(" "); // fallback
+
+            let sliceStart = runStart - 1;
+            let sliceEnd = runStart + 3;
+
+            // if (runLength >= 5) {
+            //     // Take 4 centered inside the run
+            //     const middleOffset = Math.floor((runLength - 1) / 2); // earlier if even
+            //     const middleIndex = runStart + middleOffset;
+            //     sliceStart = middleIndex - 2;
+            //     sliceEnd = middleIndex + 3;
+            // } else if (runLength === 5) {
+            //     sliceStart = runStart;
+            //     sliceEnd = runStart + 5;
+            // } else if (runLength === 4) {
+            //     sliceStart = Math.max(0, runStart - 1);
+            //     sliceEnd = runStart + 4;
+            // } else if (runLength === 3) {
+            //     sliceStart = Math.max(0, runStart - 1);
+            //     sliceEnd = Math.min(words.length, runStart + 4);
+            // } else {
+            //     // Run length 1 or 2: use middle logic
+            //     const middleOffset = Math.floor((runLength - 1) / 2); // earlier if even
+            //     const middleIndex = runStart + middleOffset;
+            //     sliceStart = middleIndex - 2;
+            //     sliceEnd = middleIndex + 3;
+            // }
+
+            // Clamp to history bounds
+            // sliceStart = Math.max(0, sliceStart);
+            // sliceEnd = Math.min(words.length, sliceEnd);
+
+            return words.slice(sliceStart, sliceEnd).join(" ");
         }
-
-
-        function fitWordContainer() {
-            let letterCount = wordContainer.querySelectorAll('.letter').length;
-            let scaleCalc = 11 / (6 + letterCount);
-            scaleCalc = Math.min(scaleCalc, 1.15);
-
-            document.documentElement.style.setProperty('--scale-var', scaleCalc);
-            return;
-        }
+        // <<< END FINAL
 
 
 
 
 
-        function activateSpecialMode() {
-            specialModeActive = true;
-            wordContainer.classList.add('special');
-            return;
-        }
-
-        function clearSpecialMode() {
-            specialModeActive = false;
-            wordContainer.classList.remove('special');
-            return;
-        }
-
-        function playAnimation() { actionBtn.classList.add('anim-play'); }
-        function redAnimation() { wordContainer.classList.add('anim-neg'); }
-        function bonusAnimation() { bonusBtn.classList.add('anim-bonus'); }
-        function shuffleAnimation() { shuffleBtn.classList.add('anim-bonus'); }
-        // function alreadyUsedAnimation() { wordContainer.classList.add('anim-used'); }
-        // function alreadyUsedAnimation() { wordContainer.classList.add('shake'); }
-
-        function alreadyUsedAnimation() {
-            wordContainer.classList.add("shake");
-            // Remove class after animation so it can trigger again later
-            wordContainer.addEventListener("animationend", () => {
-                wordContainer.classList.remove("shake");
-            }, { once: true });
-        }
 
 
+        
+//END OF SAVING, LOADING, HIGHSCORES
 
-
-
-        function greenAnimation() {
-            const elements = wordContainer.querySelectorAll('.letter, .insert-slot');
-            const animationDuration = 1500; // in ms (0.5s from CSS)
-            const stagger = 30; // in ms (0.03s)
-
-            elements.forEach((el, index) => {
-                el.classList.remove('anim-pos');
-                void el.offsetWidth; // reflow to restart animation
-
-                el.style.animationDelay = `${index * stagger / 1000}s`;
-                el.classList.add('anim-pos');
-
-                // Calculate when to remove the class
-                const totalDelay = animationDuration + index * stagger;
-                setTimeout(() => {
-                    el.classList.remove('anim-pos');
-                    //   el.style.animationDelay = ''; // optional: clean up inline style
-                }, totalDelay);
-            });
-        }
-
-
-        function removeAnimation() {
-            if (wordContainer.classList.contains('anim-neg')) { wordContainer.classList.remove('anim-neg'); }
-            if (wordContainer.classList.contains('anim-pos')) { wordContainer.classList.remove('anim-pos'); }
-            if (letterGrid.classList.contains('anim-refresh')) { letterGrid.classList.remove('anim-refresh'); }
-            if (bonusBtn.classList.contains('anim-bonus')) { bonusBtn.classList.remove('anim-bonus'); }
-            if (shuffleBtn.classList.contains('anim-bonus')) { shuffleBtn.classList.remove('anim-bonus'); }
-            if (wordContainer.classList.contains('shake')) { wordContainer.classList.remove('shake'); }
-            if (actionBtn.classList.contains('anim-play')) { actionBtn.classList.remove('anim-play'); }
-
-        }
-
-        function randomLetter() {
-            return alphabet[Math.floor(Math.random() * alphabet.length)];
-        }
-
-        function randomWord() {
-            return starterWords[Math.floor(Math.random() * starterWords.length)];
-        }
-
+//CHANGING STATES MESSAGES TEXT
         function updateStatus() {
             let left = 5 - invalidAttempts;
             let baseStr = "■ ■ ■ ■ ■"
             let xStr = "□ □ □ □ □ "
             let base = '<big><big><big>' + xStr.slice(2 * left) + baseStr.slice(2 * invalidAttempts) + '</big></big></big>';
-            // let base = `${left} li${left === 1 ? 'fe' : 'ves'} left.`;
-            // let base = ' ' + 'o '.repeat(left) + 'X '.repeat(totalLives - left).trim();
-            // if (totalChainLoss > 0) {
-            //     base = '<small>' + `-${totalPenalty}` + '</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + base + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small>' + `-${totalChainLoss}` + '</small>';
-            // }
             statusElement.innerHTML = base;
         }
 
-        // function showTemporaryMessage(message, duration = 3000) {
-        //     messageElement.style.display = "block";
-        //     setTimeout(() => {
-        //         messageElement.style.display = "none";
-        //         updateStatus();
-        //     }, duration);
-        // }
+        function updateBonusButton() {
+            if (bonusMovesAvailable > 0) {
+                bonusBtn.textContent = `${bonusMovesAvailable} ||`;
+                bonusBtn.classList.remove('disabled');
+                bonusBtn.disabled = false;
+            } else {
+                bonusBtn.textContent = `||`;
+                bonusBtn.classList.add('disabled');
+                bonusBtn.disabled = true;
+            }
+        }
+
+        function updateShuffleButton() {
+            if (shuffleBonusesAvailable > 0) {
+                shuffleBtn.textContent = `# ${shuffleBonusesAvailable}`;
+                shuffleBtn.classList.remove('disabled');
+                shuffleBtn.disabled = false;
+            } else {
+                shuffleBtn.textContent = `#`;
+                shuffleBtn.classList.add('disabled');
+                shuffleBtn.disabled = true;
+            }
+        }
+
+        function disableGame() {
+            isActiveGame = false;
+            localStorage.setItem("isDisqualified", "true");
+            actionBtn.disabled = true;
+            bonusBtn.disabled = true;
+            shuffleBtn.disabled = true;
+            gridElement.style.pointerEvents = 'none';
+            wordContainer.style.pointerEvents = 'none';
+        }
 
         function showTemporaryMessage(message) {
             messageElement.style.display = "block";
-            // setTimeout(() => {
-            //     messageElement.style.display = "none";
-            //     updateStatus();
-            // }, duration);
         }
-
-
-
-
 
         function updateHistory() {
             historyElement.textContent = [...playedWords].reverse().map(w => w + " ").join('');
@@ -1896,9 +2172,140 @@
             disallowedElement.textContent = [...disallowedWords].reverse().map(w => w + " ").join('');
         }
 
+        function rollbackGrid() {
+            const savedGridState = localStorage.getItem("stringChainState");
+            const gridState = JSON.parse(savedGridState);
+            grid = gridState.grid;
+            gridSize = gridState.gridSize;
+            renderGrid();
+        }
+
+        function showDefinitions(word) {
+            // Fetch up to first 3 definitions and show them
+            fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (!Array.isArray(data)) throw new Error();
+                    let defs = [];
+                    data.forEach(entry => {
+                        entry.meanings?.forEach(meaning => {
+                            meaning.definitions?.forEach(defObj => {
+                                if (defs.length < 3) defs.push(defObj.definition);
+                            });
+                        });
+                    });
+                    definitionsElement.innerHTML = defs.length
+                        ? `<strong>${word}</strong>:<br>${defs.map(d => `- ${d}`).join('<br>')}`
+                        : `No definitions found for "${word}".`;
+                })
+                .catch(() => {
+                    definitionsElement.textContent = `No definitions found for "${word}".`;
+                });
+        }
+//END OF CHANGING STATES
+
+
+//CORE GAMEPLAY
+        function randomLetter() {
+            return alphabet[Math.floor(Math.random() * alphabet.length)];
+        }
+
+        function randomWord() {
+            return starterWords[Math.floor(Math.random() * starterWords.length)];
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        const asteriskModal = document.getElementById("asteriskModal");
+const letterGrid = asteriskModal.querySelector(".letter-grid");
+
+// Close modal if clicking outside content
+asteriskModal.addEventListener("click", (e) => {
+  if (e.target === asteriskModal) {
+    pendingAsteriskCell = null;
+    asteriskModal.classList.add("hidden");
+  }
+});
+
+
+
+
+
+let pendingAsteriskCell = null; // the cell being replaced
+
+// Build A–Z buttons + one asterisk
+const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ*".split("");
+letters.forEach(l => {
+  const btn = document.createElement("button");
+  btn.textContent = l;
+  btn.addEventListener("click", () => chooseAsteriskLetter(l));
+  letterGrid.appendChild(btn);
+});
+
+// Called when a letter is chosen
+function chooseAsteriskLetter(letter) {
+  if (!pendingAsteriskCell) return;
+
+  if (letter === "*") {
+    // Exit: keep the bonus intact
+    pendingAsteriskCell = null;
+    asteriskModal.classList.add("hidden");
+    return;
+  }
+
+  // Replace board asterisk with chosen letter
+  const cell = pendingAsteriskCell;
+  const r = parseInt(cell.dataset.row, 10);
+  const c = parseInt(cell.dataset.col, 10);
+
+  grid[r][c] = letter;
+  cell.textContent = letter;
+  cell.dataset.type = "grid";
+
+  pendingAsteriskCell = null;
+  asteriskModal.classList.add("hidden");
+  saveGameState();
+  // Auto-select this cell after replacement
+  selectCell(cell);
+}
+
+
+
+
+        // Expose this function for selectCell
+        function openAsteriskModal(cell) {
+        pendingAsteriskCell = cell;
+        asteriskModal.classList.remove("hidden");
+        }
+
+
+
+
         function selectCell(cell) {
             removeAnimation();
             if (!specialModeActive) { messageElement.textContent = "" };
+
+
+
+
+            // --- Handle Asterisk Bonus Early ---
+            if (cell.textContent === "*") {
+                openAsteriskModal(cell);
+                return; // stop here, wait for modal choice
+            }
+
+
 
 
             const type = cell.dataset.type;
@@ -2087,19 +2494,12 @@
                     cell.dataset.row = r;
                     cell.dataset.col = c;
 
-                    // Highlight if selected (selected stores selected cells as strings? 
-                    // If so, match by row,col string like "r,c"
-                    // But you gave no details on format of selected for grid cells.
-                    // Let's assume selected contains objects {type:'grid', row:r, col:c} or strings "grid-r-c"
 
-                    // Since selected is an array, let's check for a string "r,c" for simplicity
-                    // We'll define the cell ID as `${r},${c}`
                     const cellId = `${r},${c}`;
                     if (selected.includes(cellId)) {
                         cell.classList.add('selected');
                     }
 
-                    // cell.addEventListener('click', () => selectCell(cell));
 
                     cell.addEventListener('click', (event) => {
                         if (cell.classList.contains("used")) {
@@ -2114,70 +2514,177 @@
         }
 
         function initGrid() {
-            grid = [];
-            for (let r = 0; r < gridSize; r++) {
-                const row = [];
-                for (let c = 0; c < gridSize; c++) {
-                    row.push(randomLetter());
-                }
-                grid.push(row);
+    for (let r = 0; r < gridSize; r++) {
+        for (let c = 0; c < gridSize; c++) {
+            // If cell is not already an asterisk, replace it with a new letter
+            if (grid[r] && grid[r][c] === "*" && chain > 0) {
+                continue; // keep existing bonus
             }
-            renderGrid();
+            if (!grid[r]) grid[r] = [];
+            grid[r][c] = randomLetter();
+        }
+    }
+    renderGrid();
+}
+
+//#region replenishGrid Function working
+
+        // function replenishGrid() {
+        //     for (let r = 0; r < gridSize; r++) {
+        //         if (grid[r].every(cell => cell === null)) {
+        //             for (let c = 0; c < gridSize; c++) {
+        //                 grid[r][c] = randomLetter();
+        //             }
+        //         }
+        //     }
+
+        //     for (let c = 0; c < gridSize; c++) {
+        //         if (grid.every(row => row[c] === null)) {
+        //             for (let r = 0; r < gridSize; r++) {
+        //                 grid[r][c] = randomLetter();
+        //             }
+        //         }
+        //     }
+
+        //     if (currentWord.length >= 6 && gridSize === 3 && !specialModeActive) {
+        //         const oldGrid = grid.map(row => row.slice()); // copy current 3x3
+
+        //         // Build new 4x4 grid, start as null
+        //         const newSize = 4;
+        //         const newGrid = Array.from({ length: newSize }, () => Array(newSize).fill(null));
+
+        //         // Preserve existing letters/empties in top-left 3x3
+        //         for (let r = 0; r < 3; r++) {
+        //             for (let c = 0; c < 3; c++) {
+        //                 newGrid[r][c] = oldGrid[r][c]; // may be a letter or null
+        //             }
+        //         }
+
+        //         // Refresh ONLY the used cells (nulls) inside the original 3x3
+        //         for (let r = 0; r < 3; r++) {
+        //             for (let c = 0; c < 3; c++) {
+        //                 if (newGrid[r][c] === null) {
+        //                     newGrid[r][c] = randomLetter();
+        //                 }
+        //             }
+        //         }
+
+        //         // Populate the new right column (c = 3) and bottom row (r = 3)
+        //         for (let r = 0; r < 4; r++) newGrid[r][3] = randomLetter();
+        //         for (let c = 0; c < 4; c++) newGrid[3][c] = randomLetter();
+
+        //         // Commit expansion
+        //         gridSize = 4;
+        //         grid = newGrid;
+        //     }
+
+        //     renderGrid();
+        // }
+
+//#endregion
+
+
+        // Track earned bonuses
+
+        function checkAsteriskBonus(chain) {
+            if (chain >= 0) {
+                // Calculate the most recent threshold
+                const threshold = 128 + Math.floor((chain - 128) / 32) * 32;
+                if (threshold > lastAsteriskThreshold) {
+                    asteriskEarned++;
+                    lastAsteriskThreshold = threshold;
+                }
+            }
         }
 
-
+        function maybePlaceAsterisk(refreshedCells) {
+            if (asteriskEarned > 0 && refreshedCells.length > 0) {
+                const [r, c] = refreshedCells[Math.floor(Math.random() * refreshedCells.length)];
+                grid[r][c] = "*";
+                asteriskEarned--;
+            }
+        }
 
         function replenishGrid() {
+            let refreshedCells = [];
+
+            // Refill empty rows
             for (let r = 0; r < gridSize; r++) {
                 if (grid[r].every(cell => cell === null)) {
                     for (let c = 0; c < gridSize; c++) {
                         grid[r][c] = randomLetter();
+                        refreshedCells.push([r, c]);
                     }
                 }
             }
 
+            // Refill empty columns
             for (let c = 0; c < gridSize; c++) {
                 if (grid.every(row => row[c] === null)) {
                     for (let r = 0; r < gridSize; r++) {
                         grid[r][c] = randomLetter();
+                        refreshedCells.push([r, c]);
                     }
                 }
             }
 
-            if (currentWord.length >= 6 && gridSize === 3 && !specialModeActive) {
-                const oldGrid = grid.map(row => row.slice()); // copy current 3x3
+            // Place asterisk if earned
+            maybePlaceAsterisk(refreshedCells);
 
-                // Build new 4x4 grid, start as null
+            // Handle 3x3 → 4x4 expansion
+            if (currentWord.length >= 6 && gridSize === 3 && !specialModeActive) {
+                const oldGrid = grid.map(row => row.slice());
                 const newSize = 4;
                 const newGrid = Array.from({ length: newSize }, () => Array(newSize).fill(null));
 
-                // Preserve existing letters/empties in top-left 3x3
+                // Preserve old 3x3
                 for (let r = 0; r < 3; r++) {
                     for (let c = 0; c < 3; c++) {
-                        newGrid[r][c] = oldGrid[r][c]; // may be a letter or null
+                        newGrid[r][c] = oldGrid[r][c];
                     }
                 }
 
-                // Refresh ONLY the used cells (nulls) inside the original 3x3
+                // Refill used/nulls inside old 3x3
                 for (let r = 0; r < 3; r++) {
                     for (let c = 0; c < 3; c++) {
                         if (newGrid[r][c] === null) {
                             newGrid[r][c] = randomLetter();
+                            refreshedCells.push([r, c]);
                         }
                     }
                 }
 
-                // Populate the new right column (c = 3) and bottom row (r = 3)
-                for (let r = 0; r < 4; r++) newGrid[r][3] = randomLetter();
-                for (let c = 0; c < 4; c++) newGrid[3][c] = randomLetter();
+                // Populate new row + col
+                for (let r = 0; r < 4; r++) {
+                    newGrid[r][3] = randomLetter();
+                    refreshedCells.push([r, 3]);
+                }
+                for (let c = 0; c < 4; c++) {
+                    newGrid[3][c] = randomLetter();
+                    refreshedCells.push([3, c]);
+                }
 
-                // Commit expansion
                 gridSize = 4;
                 grid = newGrid;
-            }
 
+                // Place asterisk if earned (again for expansion refresh)
+                maybePlaceAsterisk(refreshedCells);
+            }
+            saveGameState();
             renderGrid();
         }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2190,39 +2697,6 @@
             selected = [];
         }
 
-        function updateBonusButton() {
-            if (bonusMovesAvailable > 0) {
-                bonusBtn.textContent = `${bonusMovesAvailable} ||`;
-                bonusBtn.classList.remove('disabled');
-                bonusBtn.disabled = false;
-            } else {
-                bonusBtn.textContent = `||`;
-                bonusBtn.classList.add('disabled');
-                bonusBtn.disabled = true;
-            }
-        }
-
-        function updateShuffleButton() {
-            if (shuffleBonusesAvailable > 0) {
-                shuffleBtn.textContent = `# ${shuffleBonusesAvailable}`;
-                shuffleBtn.classList.remove('disabled');
-                shuffleBtn.disabled = false;
-            } else {
-                shuffleBtn.textContent = `#`;
-                shuffleBtn.classList.add('disabled');
-                shuffleBtn.disabled = true;
-            }
-        }
-
-        function disableGame() {
-            isActiveGame = false;
-            localStorage.setItem("isDisqualified", "true");
-            actionBtn.disabled = true;
-            bonusBtn.disabled = true;
-            shuffleBtn.disabled = true;
-            gridElement.style.pointerEvents = 'none';
-            wordContainer.style.pointerEvents = 'none';
-        }
 
         function applyMove() {
             if (selected.length === 0) return false;
@@ -2278,28 +2752,6 @@
             return moveHappened;
         }
 
-        function showDefinitions(word) {
-            // Fetch up to first 3 definitions and show them
-            fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
-                .then(res => res.json())
-                .then(data => {
-                    if (!Array.isArray(data)) throw new Error();
-                    let defs = [];
-                    data.forEach(entry => {
-                        entry.meanings?.forEach(meaning => {
-                            meaning.definitions?.forEach(defObj => {
-                                if (defs.length < 3) defs.push(defObj.definition);
-                            });
-                        });
-                    });
-                    definitionsElement.innerHTML = defs.length
-                        ? `<strong>${word}</strong>:<br>${defs.map(d => `- ${d}`).join('<br>')}`
-                        : `No definitions found for "${word}".`;
-                })
-                .catch(() => {
-                    definitionsElement.textContent = `No definitions found for "${word}".`;
-                });
-        }
 
         function validateWord(previousWord) {
             const lower = currentWord.toLowerCase();
@@ -2321,13 +2773,13 @@
                 lastValidWord = currentWord;
                 score += currentWord.length;
                 chain++;
-                if ((chain % 5 === 0) && chain > 4) { //ADDED FIX TO STOP BONUS ACCRUING FOR PASSING ZERO
+                if ((chain % 5 === 0) && chain > 4) {
                     bonusMovesAvailable++;
                     updateBonusButton();
                     bonusAnimation();
 
                 }
-                if (Math.floor(score / 30) > Math.floor((score - currentWord.length) / 30) && score > 29) { //ADDED FIX TO STOP BONUS ACCRUING FOR PASSING ZERO
+                if (Math.floor(score / 30) > Math.floor((score - currentWord.length) / 30) && score > 29) {
                     shuffleBonusesAvailable++;
                     updateShuffleButton();
                     shuffleAnimation();
@@ -2335,7 +2787,6 @@
                 scoreElement.textContent = score;
                 chainElement.textContent = chain;
                 if (chain != 1) { messageElement.textContent = "Valid word!" }; //FROM LOCAL LIST
-                // clearSpecialMode(); // SEP 1 EDIT                    
                 showTemporaryMessage();
                 greenAnimation();
                 showDefinitions(lower);
@@ -2354,12 +2805,12 @@
                     lastValidWord = currentWord;
                     score += currentWord.length;
                     chain++;
-                    if ((chain % 5 === 0) && chain > 4) { //ADDED FIX TO STOP BONUS ACCRUING FOR PASSING ZERO
+                    if ((chain % 5 === 0) && chain > 4) {
                         bonusMovesAvailable++;
                         updateBonusButton();
                         bonusAnimation();
                     }
-                    if (Math.floor(score / 30) > Math.floor((score - currentWord.length) / 30) && score > 29) { //ADDED FIX TO STOP BONUS ACCRUING FOR PASSING ZERO
+                    if (Math.floor(score / 30) > Math.floor((score - currentWord.length) / 30) && score > 29) {
                         shuffleBonusesAvailable++;
                         updateShuffleButton();
                         shuffleAnimation();
@@ -2412,7 +2863,6 @@
             clearSelection();
             renderWord();
             if (!moved) {
-                // messageElement.textContent = "Valid moves: grid-word, grid-slot, word-word, word-slot";
                 messageElement.textContent = "Invalid move. Click + for guidance.";
                 showTemporaryMessage();
                 return;
@@ -2421,152 +2871,8 @@
             clearSpecialMode();
             replenishGrid();
         }
-
-        actionBtn.addEventListener('click', () => {
-            playAnimation();
-            completeMove(true);
-
-        });
-
-
-
-
-        dropdownToggle.addEventListener("click", () => {
-            const dropdownHidden = dropdownDiv.style.display === "none";
-            dropdownDiv.style.display = dropdownHidden ? "block" : "none";
-            dropdownToggle.textContent = dropdownHidden ? "^" : "+";
-            getHighScores();
-            if (rulesDiv.style.display = "block") {
-                rulesDiv.style.display = "none";
-                rulesToggle.textContent = "HOW TO PLAY";
-            }
-            if (aboutDiv.style.display = "block") {
-                aboutDiv.style.display = "none";
-                aboutBtn.textContent = "about";
-            }
-            topFunction();
-        });
-
-
-        rulesToggle.addEventListener("click", () => {
-            const rulesHidden = rulesDiv.style.display === "none";
-            rulesDiv.style.display = rulesHidden ? "block" : "none";
-            rulesToggle.textContent = rulesHidden ? "^" : "HOW TO PLAY";
-            if (rulesDiv.style.display != "block") { dropdownToggle.click() };
-            if (aboutDiv.style.display = "block") {
-                aboutDiv.style.display = "none";
-                aboutBtn.textContent = "about";
-            }
-        });
-
-        aboutBtn.addEventListener("click", () => {
-            const aboutHidden = aboutDiv.style.display === "none";
-            aboutDiv.style.display = aboutHidden ? "block" : "none";
-            aboutBtn.textContent = aboutHidden ? "^" : "about";
-            if (aboutDiv.style.display != "block") { dropdownToggle.click() };
-            if (rulesDiv.style.display = "block") {
-                rulesDiv.style.display = "none";
-                rulesToggle.textContent = "HOW TO PLAY";
-            }
-        });
-
-
-
-
-
-
-        bonusBtn.addEventListener('click', () => {
-            if (bonusMovesAvailable <= 0) {
-                messageElement.textContent = "You get a bonus after every 5 words. Click + for guidance.";
-                showTemporaryMessage();
-                return;
-            }
-            if (selected.length === 0) {
-                messageElement.textContent = "Select a playable move first";
-                showTemporaryMessage();
-                return;
-            }
-
-
-            let moved = applyMove();
-            clearSelection();
-            renderWord();
-            // replenishGrid(); // MOVED TO THE END
-            if (!moved) {
-                messageElement.textContent = "Invalid move. Click + for guidance.";
-                showTemporaryMessage();
-                return;
-            }
-            bonusMovesAvailable--;
-            updateBonusButton();
-            lastValidWord = currentWord;
-            messageElement.innerHTML = `Bonus setup move played.`;
-            showTemporaryMessage();
-            activateSpecialMode(); //ADDED FOR BONUS MOVE EFFECT
-            replenishGrid(); //MOVED TO HERE TO STOP GRID EXPAND FOR SETUP MOVE
-
-            return;
-        });
-
-        shuffleBtn.addEventListener('click', () => {
-            if (shuffleBonusesAvailable > 0) {
-                shuffleBonusesAvailable--;
-                initGrid();
-                updateShuffleButton();
-                messageElement.textContent = "Grid refreshed!";
-                showTemporaryMessage();
-                letterGrid.classList.add('anim-refresh');
-                saveGameState();
-            }
-        });
-
-        newGameBtn.addEventListener('click', () => {
-            saveHighScore();
-            getHighScores();
-            localStorage.removeItem("stringChainState");
-            localStorage.removeItem("isDisqualified");
-
-            gameID = new Date().toISOString().slice(0, 19).replace('T', ' ');
-            gridSize = 3;
-            score = 0;
-            chain = 0;
-            bonusMovesAvailable = 0;
-            shuffleBonusesAvailable = 0;
-            invalidAttempts = 0;
-            totalPenalty = 0;
-            totalChainLoss = 0;
-            playedWords.clear();
-            disallowedWords.clear();
-            gridElement.style.pointerEvents = 'auto';
-            wordContainer.style.pointerEvents = 'auto';
-            scoreElement.textContent = score;
-            chainElement.textContent = chain;
-            messageElement.textContent = '';
-            disallowedElement.textContent = '';
-            updateBonusButton();
-            updateShuffleButton();
-            definitionsElement.textContent = '';
-            specialModeActive = false;
-            fitWordContainer();
-            isActiveGame = true;
-            previousWord = '';
-            actionBtn.disabled = false;
-            currentWord = randomWord();
-            initGrid();
-            renderWord();
-            // lastValidWord = currentWord;
-            validateWord(previousWord);
-            updateHistory();
-            updateStatus();
-            removeAnimation();
-            clearSpecialMode();
-            // localStorage.clear(); // FOR HARD RESET TO SEE NEW USER EXPERIENCE
-            if (dropdownDiv.style.display = "block") { dropdownToggle.click(); }
-        });
-
+//END OF CORE GAMEPLAY
         loadGameState();
-
-
     </script>
 
 
