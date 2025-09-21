@@ -29,7 +29,7 @@
             --wordcell-text: var(--accent-text);
             --wordcell-border: 2px solid var(--wordcell);
 
-            --gridcell: transparent;
+            --gridcell: var(--bg);
             --gridcell-text: var(--text);
             --gridcell-border: 2px solid var(--wordcell);
 
@@ -59,7 +59,7 @@
             --wordcell-text: var(--accent-text);
             --wordcell-border: 2px solid var(--accent);
 
-            --gridcell: transparent;
+            --gridcell: var(--bg);
             --gridcell-text: var(--text);
             --gridcell-border: 2px solid var(--wordcell);
 
@@ -89,7 +89,7 @@
             --wordcell-text: #333;
             --wordcell-border: 2px solid var(--wordcell);
 
-            --gridcell: transparent;
+            --gridcell: var(--bg);
             --gridcell-text: var(--text);
             --gridcell-border: 2px solid var(--wordcell);
 
@@ -120,7 +120,7 @@
             --wordcell-text: var(--accent-text);
             --wordcell-border: 2px solid var(--accent);
 
-            --gridcell: transparent;
+            --gridcell: var(--bg);
             --gridcell-text: var(--text);
             --gridcell-border: 2px solid var(--wordcell);
 
@@ -149,7 +149,7 @@
             --wordcell-text: var(--accent-text);
             --wordcell-border: 2px solid var(--accent);
 
-            --gridcell: transparent;
+            --gridcell: var(--bg);
             --gridcell-text: var(--text);
             --gridcell-border: 2px solid var(--wordcell);
 
@@ -364,7 +364,7 @@
             --wordcell-text: var(--text);
             --wordcell-border: 2px solid var(--wordcell);
 
-            --gridcell: transparent;
+            --gridcell: var(--bg);
             --gridcell-text: var(--wordcell-text);
             --gridcell-border: 2px solid var(--accent);
 
@@ -616,7 +616,7 @@
         .grid-cell.used {
             background: transparent;
             cursor: default;
-            border: 1px transparent;
+            border: 2px transparent;
         }
 
         .grid-cell.selected {
@@ -1004,6 +1004,7 @@
 
 
 
+
         .modal {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
@@ -1011,28 +1012,31 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  background-image: linear-gradient(to bottom, var(--accent), var(--bg));  
+
   /* background-image: linear-gradient(to top, var(--accent), var(--bg)); */
   /* opacity:80%; */
 }
-.modal.hidden { display: none; }
 
 .modal-content {
-    background-image: linear-gradient(to bottom, var(--accent), var(--bg));  
+    background: var(--bg);
     padding:22px;
   border-radius: var(--rounding);
-  border:var(--text) solid 5px;
+  border:var(--accent) solid 5px;
   text-align: center;
   width: 320px;
   /* opacity: unset; */
 }
 
-.letter-grid {
+.alpha-grid {
   display: grid;
-  grid-template-columns: repeat(9, 1fr);
+  grid-template-columns: repeat(7, 1fr);
   gap: 0;
   margin: 0;
 }
-.letter-grid button {
+
+
+.alpha-grid button {
   /* padding: 30px 12px; */
   /* font-weight: bold; */
   /* border: 1px solid #ccc; */
@@ -1040,7 +1044,7 @@
   /* cursor: pointer; */
   border: var(--gridcell-border);
             color: var(--gridcell-text);
-            width: 32px;
+            width: 40px;
             height: 48px;
             font-size: 18pt;
             display: flex;
@@ -1050,9 +1054,14 @@
             border-radius: var(--rounding-small);
             text-transform: uppercase;
             cursor: auto;
-
-
 }
+.alpha-grid button.selected {
+            background: var(--selected-cell);
+            color: var(--selected-text);
+            border: var(--selected-border);
+}
+
+
 
 
 
@@ -1205,6 +1214,9 @@
         }
 
         .blur { filter: blur(50%) }
+        .hidden { display:none;}
+        .opacity-hide { opacity: 0%; }
+
     </style>
 </head>
 
@@ -1584,17 +1596,21 @@
     <div id="definitions"></div>
     <button id="scrollBtn" class="scrollBtn">^</button>
     <!-- Asterisk Letter Picker Modal -->
-<div id="asteriskModal" class="modal hidden">
-    <div class="modal-content">
-      <h6>WILDCARD BONUS</h6>
-      <p class="demo-para" style="text-align:left"><br>Pick a letter...</p>
-      <div class="letter-grid"></div>
-      <!-- <button id="closeAsteriskModal">LATER</button> -->
-      <p class="demo-para" style="text-align:right">...or save for later using *</p>
-      <br>
-      <p class="demo-para" style="text-align:justify;font-size: 8pt;">Get your first wildcard bonus after your chain reaches 128 and receive another for every additional 32 words. They will appear as rows and columns are cleared.<br><br>This is a secret bonus.<br>There's nothing about this in the 'How To Play'.<br><br>You have earned this hitherto unthinkable power. Use it wisely.</p>
+    <div id="asteriskModal" class="modal hidden">
+        <div class="modal-content">
+          <h6>WILDCARD BONUS</h6>
+          <p class="demo-para opacity-hide" style="text-align:left" id="wildcard-1"><br>Pick a letter...</p>
+          <div class="alpha-grid"></div>
+          <p class="demo-para opacity-hide" style="text-align:right" id="wildcard-2">...or save for later using *</p>
+          <br>
+          <p class="demo-para opacity-hide" style="text-align:justify;" id="wildcard-3">
+            <!-- First wildcard bonus when chain reaches 128, another for every additional 32 words. They appear when grid rows and columns are cleared.<br><br> -->
+            Wildcard bonuses are secret. There's nothing about it in HOW TO PLAY. 
+            When a player reaches 128 words in a chain, a wildcard bonus will appear the next time a grid row or column refreshes.
+            Every 32 additional words, another wildcard bonus is acquired.
+            You have earned this hitherto unthinkable power. Use it wisely.</p>
+        </div>
     </div>
-  </div>
 
 
     <script>
@@ -1608,6 +1624,9 @@
         const newGameBtn = document.getElementById('newGameBtn');
         const bonusBtn = document.getElementById('bonusBtn');
         const shuffleBtn = document.getElementById('shuffleBtn');
+        const wildcardOne = document.getElementById('wildcard-1');
+        const wildcardTwo = document.getElementById('wildcard-2');
+        const wildcardThree = document.getElementById('wildcard-3');
         const messageElement = document.getElementById('message');
         const scoreElement = document.getElementById('score');
         const chainElement = document.getElementById('chain');
@@ -1647,7 +1666,7 @@
         let totalChainLoss = 0;
         let lastSelectedType = null;
         let lastSelectedCell = null;
-        let lastUsedGridCell = null; // Track last used cell for invalid move rollback
+        // let lastUsedGridCell = null; // Track last used cell for invalid move rollback
         let specialModeActive = false; // Track bonus special mode
 //END OF DELARATIONS
 
@@ -1943,7 +1962,7 @@
 //SAVING, LOADING, HIGHSCORES
 
         function saveGameState() {
-            const gameState = { isActiveGame, gameID, currentWord, lastValidWord, gridSize, grid, score, chain, bonusMovesAvailable, asteriskEarned, shuffleBonusesAvailable, invalidAttempts, totalPenalty, totalChainLoss, playedWords: Array.from(playedWords), disallowedWords: Array.from(disallowedWords) };
+            const gameState = { isActiveGame, gameID, currentWord, lastValidWord, gridSize, grid, gridFallback, score, chain, bonusMovesAvailable, asteriskEarned, lastAsteriskThreshold, shuffleBonusesAvailable, invalidAttempts, totalPenalty, totalChainLoss, playedWords: Array.from(playedWords), disallowedWords: Array.from(disallowedWords) };
             localStorage.setItem("stringChainState", JSON.stringify(gameState));
         }
 
@@ -1961,7 +1980,7 @@
             }
 
             try {
-                ({ isActiveGame, gameID, currentWord, lastValidWord, gridSize, grid, score, chain, bonusMovesAvailable, asteriskEarned, shuffleBonusesAvailable, invalidAttempts, totalPenalty, totalChainLoss, playedWords, disallowedWords } = JSON.parse(saved));
+                ({ isActiveGame, gameID, currentWord, lastValidWord, gridSize, grid, gridFallback, score, chain, bonusMovesAvailable, asteriskEarned, lastAsteriskThreshold, shuffleBonusesAvailable, invalidAttempts, totalPenalty, totalChainLoss, playedWords, disallowedWords } = JSON.parse(saved));
                 disallowedWords = new Set(disallowedWords);
                 playedWords = new Set(playedWords);
                 renderWord();
@@ -2177,7 +2196,9 @@
             const gridState = JSON.parse(savedGridState);
             grid = gridState.grid;
             gridSize = gridState.gridSize;
-            renderGrid();
+            // messageElement.textContent = `GRID ROLLBACK STATE: ${grid}`
+            // grid = gridFallback; // ALT VERSION - ALSO NOT WORKING
+            // renderGrid();
         }
 
         function showDefinitions(word) {
@@ -2228,7 +2249,7 @@
 
 
         const asteriskModal = document.getElementById("asteriskModal");
-const letterGrid = asteriskModal.querySelector(".letter-grid");
+const alphaGrid = asteriskModal.querySelector(".alpha-grid");
 
 // Close modal if clicking outside content
 asteriskModal.addEventListener("click", (e) => {
@@ -2245,12 +2266,12 @@ asteriskModal.addEventListener("click", (e) => {
 let pendingAsteriskCell = null; // the cell being replaced
 
 // Build A–Z buttons + one asterisk
-const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ*".split("");
+const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ*?".split("");
 letters.forEach(l => {
   const btn = document.createElement("button");
   btn.textContent = l;
   btn.addEventListener("click", () => chooseAsteriskLetter(l));
-  letterGrid.appendChild(btn);
+  alphaGrid.appendChild(btn);
 });
 
 // Called when a letter is chosen
@@ -2263,6 +2284,49 @@ function chooseAsteriskLetter(letter) {
     asteriskModal.classList.add("hidden");
     return;
   }
+
+
+
+
+
+
+
+
+  if (letter === "?") {
+    //show basic instruction
+    if ( wildcardOne.classList.contains('opacity-hide') && wildcardThree.classList.contains('opacity-hide') ) {
+        wildcardOne.classList.remove('opacity-hide');
+        wildcardTwo.classList.remove('opacity-hide');
+        return;
+    }
+
+        //Show even more info
+    if ( wildcardThree.classList.contains('opacity-hide') && !(wildcardOne.classList.contains('opacity-hide')) ) {
+        wildcardThree.classList.remove('opacity-hide');
+        return;
+    }
+
+    // Hide all info if already shown
+    if ( !wildcardOne.classList.contains('opacity-hide') && !wildcardThree.classList.contains('opacity-hide') ) {
+        wildcardOne.classList.add('opacity-hide');
+        wildcardTwo.classList.add('opacity-hide');
+        wildcardThree.classList.add('opacity-hide');
+        return;
+    }
+
+    // wildcardOne.classList.remove('opacity-hide');
+    // wildcardTwo.classList.remove('opacity-hide');
+    // wildcardThree.classList.remove('opacity-hide');
+    // // alphaGrid.btn.classList.add('selected');
+    // return;
+  }
+
+
+
+
+
+
+
 
   // Replace board asterisk with chosen letter
   const cell = pendingAsteriskCell;
@@ -2525,6 +2589,7 @@ function chooseAsteriskLetter(letter) {
         }
     }
     renderGrid();
+    gridFallback = grid;
 }
 
 //#region replenishGrid Function working
@@ -2762,6 +2827,8 @@ function chooseAsteriskLetter(letter) {
                 currentWord = previousWord;
                 renderWord();
                 rollbackGrid();
+                // grid = gridFallback;
+                // renderGrid();
                 showTemporaryMessage();
                 saveGameState();
                 return;
@@ -2790,6 +2857,8 @@ function chooseAsteriskLetter(letter) {
                 showTemporaryMessage();
                 greenAnimation();
                 showDefinitions(lower);
+                replenishGrid();
+                gridFallback = grid;
                 saveGameState();
                 return;
             }
@@ -2821,6 +2890,8 @@ function chooseAsteriskLetter(letter) {
                     // clearSpecialMode(); // SEP 1 EDIT
                     greenAnimation();
                     showDefinitions(lower);
+                    replenishGrid();
+                    gridFallback = grid;
                     saveGameState();
                     showTemporaryMessage();
                     return;
@@ -2837,6 +2908,8 @@ function chooseAsteriskLetter(letter) {
                     renderWord();
                     messageElement.textContent = `Invalid word! Penalty: -${penalty}`;
                     rollbackGrid();
+                    // grid = gridFallback;
+                    // renderGrid();
                     updateBonusButton();
                     updateShuffleButton();
                     redAnimation();
@@ -2869,7 +2942,7 @@ function chooseAsteriskLetter(letter) {
             }
             if (validate) validateWord(originalWord);
             clearSpecialMode();
-            replenishGrid();
+            // replenishGrid();
         }
 //END OF CORE GAMEPLAY
         loadGameState();
