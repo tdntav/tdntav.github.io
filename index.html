@@ -484,7 +484,7 @@
             text-align: center;
         }
 
-        h4 {
+        h4, h5, h6 {
             /* font-family: "Courier New", monospace; */
             margin: 0 0 5px 0;
             text-align: center;
@@ -616,7 +616,7 @@
         .grid-cell.used {
             background: transparent;
             cursor: default;
-            border: 1px transparent;
+            border: 2px solid transparent;
         }
 
         .grid-cell.selected {
@@ -981,7 +981,6 @@
             width: 36px;
             height: 36px;
             font-size: 11pt;
-            /* this also needs to be edited in renderGrid function */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1004,6 +1003,63 @@
 
 
 
+
+
+        .modal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  background-image: linear-gradient(to bottom, var(--accent), var(--bg));  
+
+  /* background-image: linear-gradient(to top, var(--accent), var(--bg)); */
+  /* opacity:80%; */
+}
+
+.modal-content {
+    background: var(--bg);
+    padding:22px;
+  border-radius: var(--rounding);
+  border:var(--accent) solid 5px;
+  text-align: center;
+  width: 320px;
+  /* opacity: unset; */
+}
+
+.alpha-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0;
+  margin: 0;
+}
+
+
+.alpha-grid button {
+  /* padding: 30px 12px; */
+  /* font-weight: bold; */
+  /* border: 1px solid #ccc; */
+  /* border-radius: var(--rounding-small); */
+  /* cursor: pointer; */
+  border: var(--gridcell-border);
+            color: var(--gridcell-text);
+            width: 40px;
+            height: 48px;
+            font-size: 18pt;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--gridcell);
+            border-radius: var(--rounding-small);
+            text-transform: uppercase;
+            cursor: auto;
+}
+.alpha-grid button.selected {
+            background: var(--selected-cell);
+            color: var(--selected-text);
+            border: var(--selected-border);
+}
 
 
 
@@ -1156,6 +1212,11 @@
                 transform: translateX(0);
             }
         }
+
+        .blur { filter: blur(50%) }
+        .hidden { display:none;}
+        .opacity-hide { opacity: 0%; }
+
     </style>
 </head>
 
@@ -1534,6 +1595,22 @@
     <button id="newGameBtn" class="newgame">RESTART</button>
     <div id="definitions"></div>
     <button id="scrollBtn" class="scrollBtn">^</button>
+    <!-- Asterisk Letter Picker Modal -->
+    <div id="asteriskModal" class="modal hidden">
+        <div class="modal-content">
+          <h6>WILDCARD BONUS</h6>
+          <p class="demo-para opacity-hide" style="text-align:left" id="wildcard-1"><br>Pick a letter...</p>
+          <div class="alpha-grid"></div>
+          <p class="demo-para opacity-hide" style="text-align:right" id="wildcard-2">...or save for later using *</p>
+          <br>
+          <p class="demo-para opacity-hide" style="text-align:justify;" id="wildcard-3">
+            <!-- First wildcard bonus when chain reaches 128, another for every additional 32 words. They appear when grid rows and columns are cleared.<br><br> -->
+            Wildcard bonuses are secret. There's nothing about it in HOW TO PLAY. 
+            When a player reaches 128 words in a chain, a wildcard bonus will appear the next time a grid row or column refreshes.
+            Every 32 additional words, another wildcard bonus is acquired.
+            You have earned this hitherto unthinkable power. Use it wisely.</p>
+        </div>
+    </div>
 
 
     <script>
@@ -1547,6 +1624,9 @@
         const newGameBtn = document.getElementById('newGameBtn');
         const bonusBtn = document.getElementById('bonusBtn');
         const shuffleBtn = document.getElementById('shuffleBtn');
+        const wildcardOne = document.getElementById('wildcard-1');
+        const wildcardTwo = document.getElementById('wildcard-2');
+        const wildcardThree = document.getElementById('wildcard-3');
         const messageElement = document.getElementById('message');
         const scoreElement = document.getElementById('score');
         const chainElement = document.getElementById('chain');
@@ -1579,12 +1659,14 @@
         let selected = [];
         let bonusMovesAvailable = 0;
         let shuffleBonusesAvailable = 0;
+        let asteriskEarned = 0; 
+        let lastAsteriskThreshold = 0;
         let invalidAttempts = 0;
         let totalPenalty = 0;
         let totalChainLoss = 0;
         let lastSelectedType = null;
         let lastSelectedCell = null;
-        let lastUsedGridCell = null; // Track last used cell for invalid move rollback
+        // let lastUsedGridCell = null; // Track last used cell for invalid move rollback
         let specialModeActive = false; // Track bonus special mode
 //END OF DELARATIONS
 
@@ -1686,10 +1768,13 @@
             localStorage.removeItem("isDisqualified");
             gameID = new Date().toISOString().slice(0, 19).replace('T', ' ');
             gridSize = 3;
+            grid = [];
             score = 0;
             chain = 0;
             bonusMovesAvailable = 0;
             shuffleBonusesAvailable = 0;
+            asteriskEarned = 0;
+            lastAsteriskThreshold = 0;
             invalidAttempts = 0;
             totalPenalty = 0;
             totalChainLoss = 0;
@@ -1880,7 +1965,7 @@
 //SAVING, LOADING, HIGHSCORES
 
         function saveGameState() {
-            const gameState = { isActiveGame, gameID, currentWord, lastValidWord, gridSize, grid, score, chain, bonusMovesAvailable, shuffleBonusesAvailable, invalidAttempts, totalPenalty, totalChainLoss, playedWords: Array.from(playedWords), disallowedWords: Array.from(disallowedWords) };
+            const gameState = { isActiveGame, gameID, currentWord, lastValidWord, gridSize, grid, gridFallback, score, chain, bonusMovesAvailable, asteriskEarned, lastAsteriskThreshold, shuffleBonusesAvailable, invalidAttempts, totalPenalty, totalChainLoss, playedWords: Array.from(playedWords), disallowedWords: Array.from(disallowedWords) };
             localStorage.setItem("stringChainState", JSON.stringify(gameState));
         }
 
@@ -1898,7 +1983,7 @@
             }
 
             try {
-                ({ isActiveGame, gameID, currentWord, lastValidWord, gridSize, grid, score, chain, bonusMovesAvailable, shuffleBonusesAvailable, invalidAttempts, totalPenalty, totalChainLoss, playedWords, disallowedWords } = JSON.parse(saved));
+                ({ isActiveGame, gameID, currentWord, lastValidWord, gridSize, grid, gridFallback, score, chain, bonusMovesAvailable, asteriskEarned, lastAsteriskThreshold, shuffleBonusesAvailable, invalidAttempts, totalPenalty, totalChainLoss, playedWords, disallowedWords } = JSON.parse(saved));
                 disallowedWords = new Set(disallowedWords);
                 playedWords = new Set(playedWords);
                 renderWord();
@@ -1991,8 +2076,8 @@
             }
 
 
-        // >>> FINAL getHighlightReel
-        function getHighlightReel() {
+         // >>> FINAL getHighlightReel
+         function getHighlightReel() {
             let words = Array.from(playedWords);
             if (words.length === 0) return "";
 
@@ -2109,12 +2194,15 @@
             disallowedElement.textContent = [...disallowedWords].reverse().map(w => w + " ").join('');
         }
 
+
         function rollbackGrid() {
             const savedGridState = localStorage.getItem("stringChainState");
             const gridState = JSON.parse(savedGridState);
             grid = gridState.grid;
             gridSize = gridState.gridSize;
-            renderGrid();
+            // messageElement.textContent = `GRID ROLLBACK STATE: ${grid}`
+            // grid = gridFallback; // ALT VERSION - ALSO NOT WORKING
+            // renderGrid();
         }
 
         function showDefinitions(word) {
@@ -2152,9 +2240,140 @@
         }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+        const asteriskModal = document.getElementById("asteriskModal");
+const alphaGrid = asteriskModal.querySelector(".alpha-grid");
+
+// Close modal if clicking outside content
+asteriskModal.addEventListener("click", (e) => {
+  if (e.target === asteriskModal) {
+    pendingAsteriskCell = null;
+    asteriskModal.classList.add("hidden");
+  }
+});
+
+
+
+
+
+let pendingAsteriskCell = null; // the cell being replaced
+
+// Build A–Z buttons + one asterisk
+const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ*?".split("");
+letters.forEach(l => {
+  const btn = document.createElement("button");
+  btn.textContent = l;
+  if (l === "?") {
+    btn.id = "helpBtn"; // or btn.classList.add("helpBtn");
+  }
+  btn.addEventListener("click", () => chooseAsteriskLetter(l));
+  alphaGrid.appendChild(btn);
+});
+
+// Called when a letter is chosen
+function chooseAsteriskLetter(letter) {
+  if (!pendingAsteriskCell) return;
+
+  if (letter === "*") {
+    // Exit: keep the bonus intact
+    pendingAsteriskCell = null;
+    asteriskModal.classList.add("hidden");
+    return;
+  }
+
+
+  if (letter === "?") {
+    //show basic instruction
+    if ( wildcardOne.classList.contains('opacity-hide') && wildcardThree.classList.contains('opacity-hide') ) {
+        wildcardOne.classList.remove('opacity-hide');
+        wildcardTwo.classList.remove('opacity-hide');
+        helpBtn.classList.add("selected");   // when showing instructions
+        return;
+    }
+
+        //Show even more info
+    if ( wildcardThree.classList.contains('opacity-hide') && !(wildcardOne.classList.contains('opacity-hide')) ) {
+        wildcardThree.classList.remove('opacity-hide');
+        helpBtn.classList.add("selected");   // when showing instructions
+        return;
+    }
+
+    // Hide all info if already shown
+    if ( !wildcardOne.classList.contains('opacity-hide') && !wildcardThree.classList.contains('opacity-hide') ) {
+        wildcardOne.classList.add('opacity-hide');
+        wildcardTwo.classList.add('opacity-hide');
+        wildcardThree.classList.add('opacity-hide');
+        helpBtn.classList.remove("selected");   // when showing instructions
+        return;
+    }
+
+    // wildcardOne.classList.remove('opacity-hide');
+    // wildcardTwo.classList.remove('opacity-hide');
+    // wildcardThree.classList.remove('opacity-hide');
+    // // alphaGrid.btn.classList.add('selected');
+    // return;
+  }
+
+
+
+
+
+
+
+
+  // Replace board asterisk with chosen letter
+  const cell = pendingAsteriskCell;
+  const r = parseInt(cell.dataset.row, 10);
+  const c = parseInt(cell.dataset.col, 10);
+
+  grid[r][c] = letter;
+  cell.textContent = letter;
+  cell.dataset.type = "grid";
+
+  pendingAsteriskCell = null;
+  asteriskModal.classList.add("hidden");
+  saveGameState();
+  // Auto-select this cell after replacement
+  selectCell(cell);
+}
+
+
+
+
+        // Expose this function for selectCell
+        function openAsteriskModal(cell) {
+        pendingAsteriskCell = cell;
+        asteriskModal.classList.remove("hidden");
+        }
+
+
+
+
         function selectCell(cell) {
             removeAnimation();
             if (!specialModeActive) { messageElement.textContent = "" };
+
+
+
+
+            // --- Handle Asterisk Bonus Early ---
+            if (cell.textContent === "*") {
+                openAsteriskModal(cell);
+                return; // stop here, wait for modal choice
+            }
+
+
 
 
             const type = cell.dataset.type;
@@ -2327,6 +2546,7 @@
         }
 
         function renderGrid() {
+            // maybePlaceAsterisk();
             gridElement.innerHTML = '';
             gridElement.style.gridTemplateColumns = `repeat(${gridSize}, 60px)`;
 
@@ -2363,70 +2583,179 @@
         }
 
         function initGrid() {
-            grid = [];
-            for (let r = 0; r < gridSize; r++) {
-                const row = [];
-                for (let c = 0; c < gridSize; c++) {
-                    row.push(randomLetter());
-                }
-                grid.push(row);
+    for (let r = 0; r < gridSize; r++) {
+        for (let c = 0; c < gridSize; c++) {
+            // If cell is not already an asterisk, replace it with a new letter
+            if (grid[r] && grid[r][c] === "*" && chain > 0) {
+                continue; // keep existing bonus
             }
-            renderGrid();
+            if (!grid[r]) grid[r] = [];
+            grid[r][c] = randomLetter();
+        }
+    }
+    renderGrid();
+    gridFallback = grid;
+}
+
+//#region replenishGrid Function working
+
+        // function replenishGrid() {
+        //     for (let r = 0; r < gridSize; r++) {
+        //         if (grid[r].every(cell => cell === null)) {
+        //             for (let c = 0; c < gridSize; c++) {
+        //                 grid[r][c] = randomLetter();
+        //             }
+        //         }
+        //     }
+
+        //     for (let c = 0; c < gridSize; c++) {
+        //         if (grid.every(row => row[c] === null)) {
+        //             for (let r = 0; r < gridSize; r++) {
+        //                 grid[r][c] = randomLetter();
+        //             }
+        //         }
+        //     }
+
+        //     if (currentWord.length >= 6 && gridSize === 3 && !specialModeActive) {
+        //         const oldGrid = grid.map(row => row.slice()); // copy current 3x3
+
+        //         // Build new 4x4 grid, start as null
+        //         const newSize = 4;
+        //         const newGrid = Array.from({ length: newSize }, () => Array(newSize).fill(null));
+
+        //         // Preserve existing letters/empties in top-left 3x3
+        //         for (let r = 0; r < 3; r++) {
+        //             for (let c = 0; c < 3; c++) {
+        //                 newGrid[r][c] = oldGrid[r][c]; // may be a letter or null
+        //             }
+        //         }
+
+        //         // Refresh ONLY the used cells (nulls) inside the original 3x3
+        //         for (let r = 0; r < 3; r++) {
+        //             for (let c = 0; c < 3; c++) {
+        //                 if (newGrid[r][c] === null) {
+        //                     newGrid[r][c] = randomLetter();
+        //                 }
+        //             }
+        //         }
+
+        //         // Populate the new right column (c = 3) and bottom row (r = 3)
+        //         for (let r = 0; r < 4; r++) newGrid[r][3] = randomLetter();
+        //         for (let c = 0; c < 4; c++) newGrid[3][c] = randomLetter();
+
+        //         // Commit expansion
+        //         gridSize = 4;
+        //         grid = newGrid;
+        //     }
+
+        //     renderGrid();
+        // }
+
+//#endregion
+
+
+        // Track earned bonuses
+
+        function checkAsteriskBonus(chain) {
+            if (chain >= 128) {
+                // Calculate the most recent threshold
+                const threshold = 128 + Math.floor((chain - 128) / 32) * 32;
+                // const threshold = Math.floor((chain) / 5) * 5; //test mode
+                if (threshold > lastAsteriskThreshold) {
+                    asteriskEarned++;
+                    lastAsteriskThreshold = threshold;
+                }
+            }
         }
 
-
+        function maybePlaceAsterisk(refreshedCells) {
+            if (asteriskEarned > 0 && refreshedCells.length > 0) {
+                const [r, c] = refreshedCells[Math.floor(Math.random() * refreshedCells.length)];
+                grid[r][c] = "*";
+                asteriskEarned--;
+            }
+        }
 
         function replenishGrid() {
+            let refreshedCells = [];
+
+            // Refill empty rows
             for (let r = 0; r < gridSize; r++) {
                 if (grid[r].every(cell => cell === null)) {
                     for (let c = 0; c < gridSize; c++) {
                         grid[r][c] = randomLetter();
+                        refreshedCells.push([r, c]);
                     }
                 }
             }
 
+            // Refill empty columns
             for (let c = 0; c < gridSize; c++) {
                 if (grid.every(row => row[c] === null)) {
                     for (let r = 0; r < gridSize; r++) {
                         grid[r][c] = randomLetter();
+                        refreshedCells.push([r, c]);
                     }
                 }
             }
 
-            if (currentWord.length >= 6 && gridSize === 3 && !specialModeActive) {
-                const oldGrid = grid.map(row => row.slice()); // copy current 3x3
+            // Place asterisk if earned
+            maybePlaceAsterisk(refreshedCells);
 
-                // Build new 4x4 grid, start as null
+            // Handle 3x3 → 4x4 expansion
+            if (currentWord.length >= 6 && gridSize === 3 && !specialModeActive) {
+                const oldGrid = grid.map(row => row.slice());
                 const newSize = 4;
                 const newGrid = Array.from({ length: newSize }, () => Array(newSize).fill(null));
 
-                // Preserve existing letters/empties in top-left 3x3
+                // Preserve old 3x3
                 for (let r = 0; r < 3; r++) {
                     for (let c = 0; c < 3; c++) {
-                        newGrid[r][c] = oldGrid[r][c]; // may be a letter or null
+                        newGrid[r][c] = oldGrid[r][c];
                     }
                 }
 
-                // Refresh ONLY the used cells (nulls) inside the original 3x3
+                // Refill used/nulls inside old 3x3
                 for (let r = 0; r < 3; r++) {
                     for (let c = 0; c < 3; c++) {
                         if (newGrid[r][c] === null) {
                             newGrid[r][c] = randomLetter();
+                            refreshedCells.push([r, c]);
                         }
                     }
                 }
 
-                // Populate the new right column (c = 3) and bottom row (r = 3)
-                for (let r = 0; r < 4; r++) newGrid[r][3] = randomLetter();
-                for (let c = 0; c < 4; c++) newGrid[3][c] = randomLetter();
+                // Populate new row + col
+                for (let r = 0; r < 4; r++) {
+                    newGrid[r][3] = randomLetter();
+                    refreshedCells.push([r, 3]);
+                }
+                for (let c = 0; c < 4; c++) {
+                    newGrid[3][c] = randomLetter();
+                    refreshedCells.push([3, c]);
+                }
 
-                // Commit expansion
                 gridSize = 4;
                 grid = newGrid;
-            }
 
+                // Place asterisk if earned (again for expansion refresh)
+                maybePlaceAsterisk(refreshedCells);
+            }
+            saveGameState();
             renderGrid();
         }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2504,17 +2833,20 @@
                 currentWord = previousWord;
                 renderWord();
                 rollbackGrid();
+                // grid = gridFallback;
+                // renderGrid();
                 showTemporaryMessage();
                 saveGameState();
                 return;
             }
 
-            if (starterWords.includes(currentWord.toUpperCase()) || allowList.includes(currentWord.toUpperCase())) {
+            if ( starterWords.includes(currentWord.toUpperCase()) || allowList.includes(currentWord.toUpperCase()) ) {
                 playedWords.add(lower);
                 updateHistory();
                 lastValidWord = currentWord;
                 score += currentWord.length;
                 chain++;
+                checkAsteriskBonus(chain);
                 if ((chain % 5 === 0) && chain > 4) {
                     bonusMovesAvailable++;
                     updateBonusButton();
@@ -2532,6 +2864,8 @@
                 showTemporaryMessage();
                 greenAnimation();
                 showDefinitions(lower);
+                replenishGrid();
+                gridFallback = grid;
                 saveGameState();
                 return;
             }
@@ -2547,6 +2881,7 @@
                     lastValidWord = currentWord;
                     score += currentWord.length;
                     chain++;
+                    checkAsteriskBonus(chain);
                     if ((chain % 5 === 0) && chain > 4) {
                         bonusMovesAvailable++;
                         updateBonusButton();
@@ -2563,6 +2898,8 @@
                     // clearSpecialMode(); // SEP 1 EDIT
                     greenAnimation();
                     showDefinitions(lower);
+                    replenishGrid();
+                    gridFallback = grid;
                     saveGameState();
                     showTemporaryMessage();
                     return;
@@ -2579,6 +2916,8 @@
                     renderWord();
                     messageElement.textContent = `Invalid word! Penalty: -${penalty}`;
                     rollbackGrid();
+                    // grid = gridFallback;
+                    // renderGrid();
                     updateBonusButton();
                     updateShuffleButton();
                     redAnimation();
@@ -2611,7 +2950,7 @@
             }
             if (validate) validateWord(originalWord);
             clearSpecialMode();
-            replenishGrid();
+            // replenishGrid();
         }
 //END OF CORE GAMEPLAY
         loadGameState();
