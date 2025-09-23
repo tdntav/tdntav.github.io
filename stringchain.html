@@ -616,7 +616,7 @@
         .grid-cell.used {
             background: transparent;
             cursor: default;
-            border: 2px transparent;
+            border: 2px solid transparent;
         }
 
         .grid-cell.selected {
@@ -1659,7 +1659,7 @@
         let selected = [];
         let bonusMovesAvailable = 0;
         let shuffleBonusesAvailable = 0;
-        let asteriskEarned = 10; 
+        let asteriskEarned = 0; 
         let lastAsteriskThreshold = 0;
         let invalidAttempts = 0;
         let totalPenalty = 0;
@@ -1768,11 +1768,13 @@
             localStorage.removeItem("isDisqualified");
             gameID = new Date().toISOString().slice(0, 19).replace('T', ' ');
             gridSize = 3;
+            grid = [];
             score = 0;
             chain = 0;
             bonusMovesAvailable = 0;
             shuffleBonusesAvailable = 0;
-            asteriskEarned = 10;
+            asteriskEarned = 0;
+            lastAsteriskThreshold = 0;
             invalidAttempts = 0;
             totalPenalty = 0;
             totalChainLoss = 0;
@@ -2192,6 +2194,7 @@
             disallowedElement.textContent = [...disallowedWords].reverse().map(w => w + " ").join('');
         }
 
+
         function rollbackGrid() {
             const savedGridState = localStorage.getItem("stringChainState");
             const gridState = JSON.parse(savedGridState);
@@ -2271,6 +2274,9 @@ const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ*?".split("");
 letters.forEach(l => {
   const btn = document.createElement("button");
   btn.textContent = l;
+  if (l === "?") {
+    btn.id = "helpBtn"; // or btn.classList.add("helpBtn");
+  }
   btn.addEventListener("click", () => chooseAsteriskLetter(l));
   alphaGrid.appendChild(btn);
 });
@@ -2287,23 +2293,19 @@ function chooseAsteriskLetter(letter) {
   }
 
 
-
-
-
-
-
-
   if (letter === "?") {
     //show basic instruction
     if ( wildcardOne.classList.contains('opacity-hide') && wildcardThree.classList.contains('opacity-hide') ) {
         wildcardOne.classList.remove('opacity-hide');
         wildcardTwo.classList.remove('opacity-hide');
+        helpBtn.classList.add("selected");   // when showing instructions
         return;
     }
 
         //Show even more info
     if ( wildcardThree.classList.contains('opacity-hide') && !(wildcardOne.classList.contains('opacity-hide')) ) {
         wildcardThree.classList.remove('opacity-hide');
+        helpBtn.classList.add("selected");   // when showing instructions
         return;
     }
 
@@ -2312,6 +2314,7 @@ function chooseAsteriskLetter(letter) {
         wildcardOne.classList.add('opacity-hide');
         wildcardTwo.classList.add('opacity-hide');
         wildcardThree.classList.add('opacity-hide');
+        helpBtn.classList.remove("selected");   // when showing instructions
         return;
     }
 
@@ -2543,6 +2546,7 @@ function chooseAsteriskLetter(letter) {
         }
 
         function renderGrid() {
+            // maybePlaceAsterisk();
             gridElement.innerHTML = '';
             gridElement.style.gridTemplateColumns = `repeat(${gridSize}, 60px)`;
 
@@ -2653,9 +2657,10 @@ function chooseAsteriskLetter(letter) {
         // Track earned bonuses
 
         function checkAsteriskBonus(chain) {
-            if (chain >= 0) {
+            if (chain >= 128) {
                 // Calculate the most recent threshold
                 const threshold = 128 + Math.floor((chain - 128) / 32) * 32;
+                // const threshold = Math.floor((chain) / 5) * 5; //test mode
                 if (threshold > lastAsteriskThreshold) {
                     asteriskEarned++;
                     lastAsteriskThreshold = threshold;
@@ -2835,12 +2840,13 @@ function chooseAsteriskLetter(letter) {
                 return;
             }
 
-            if (starterWords.includes(currentWord.toUpperCase()) || allowList.includes(currentWord.toUpperCase())) {
+            if ( starterWords.includes(currentWord.toUpperCase()) || allowList.includes(currentWord.toUpperCase()) ) {
                 playedWords.add(lower);
                 updateHistory();
                 lastValidWord = currentWord;
                 score += currentWord.length;
                 chain++;
+                checkAsteriskBonus(chain);
                 if ((chain % 5 === 0) && chain > 4) {
                     bonusMovesAvailable++;
                     updateBonusButton();
@@ -2875,6 +2881,7 @@ function chooseAsteriskLetter(letter) {
                     lastValidWord = currentWord;
                     score += currentWord.length;
                     chain++;
+                    checkAsteriskBonus(chain);
                     if ((chain % 5 === 0) && chain > 4) {
                         bonusMovesAvailable++;
                         updateBonusButton();
