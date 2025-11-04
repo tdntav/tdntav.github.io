@@ -1012,24 +1012,30 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  background-image: linear-gradient(to bottom, var(--accent), var(--bg));  
+  /* background-image: linear-gradient(to bottom, var(--accent), var(--bg));   */
 
-  /* background-image: linear-gradient(to top, var(--accent), var(--bg)); */
-  /* opacity:80%; */
+  /* Dimming and blur effect */
+  background-color: rgba(0, 0, 0, 0.5); /* controls dimming */
+  backdrop-filter: blur(2px); /* applies blur to background content */
+  -webkit-backdrop-filter: blur(2px); /* Safari support */
 }
 
 .modal-content {
-    background: var(--bg);
+    /* background: var(--bg); */
+      background-image: linear-gradient(to bottom, var(--accent), var(--bg)); 
+
     padding:22px;
   border-radius: var(--rounding);
-  border:var(--accent) solid 5px;
+  border:var(--text) solid 4px;
   text-align: center;
-  width: 320px;
+  width: 340px;
+  /* z-index: 1; */
   /* opacity: unset; */
 }
 
 .alpha-grid {
   display: grid;
+  line-height: 0; 
   grid-template-columns: repeat(7, 1fr);
   gap: 0;
   margin: 0;
@@ -1044,10 +1050,10 @@
   /* cursor: pointer; */
   border: var(--gridcell-border);
             color: var(--gridcell-text);
-            width: 40px;
-            height: 48px;
+            width: 44px;
+            height: 56px;
             font-size: 18pt;
-            display: flex;
+            display: block;
             align-items: center;
             justify-content: center;
             background-color: var(--gridcell);
@@ -1599,16 +1605,14 @@
     <div id="asteriskModal" class="modal hidden">
         <div class="modal-content">
           <h6>WILDCARD BONUS</h6>
-          <p class="demo-para opacity-hide" style="text-align:left" id="wildcard-1"><br>Pick a letter...</p>
+          <p class="demo-para opacity-hide" style="text-align:left;font-size:13pt;" id="wildcard-1"><br><br>Pick a letter...</p>
           <div class="alpha-grid"></div>
-          <p class="demo-para opacity-hide" style="text-align:right" id="wildcard-2">...or save for later using *</p>
-          <br>
+          <p class="demo-para opacity-hide" style="text-align:right;font-size:13pt;" id="wildcard-2">...or save for later with *</p>
+          
           <p class="demo-para opacity-hide" style="text-align:justify;" id="wildcard-3">
             <!-- First wildcard bonus when chain reaches 128, another for every additional 32 words. They appear when grid rows and columns are cleared.<br><br> -->
-            Wildcard bonuses are secret. There's nothing about it in HOW TO PLAY. 
-            When a player reaches 128 words in a chain, a wildcard bonus will appear the next time a grid row or column refreshes.
-            Every 32 additional words, another wildcard bonus is acquired.
-            You have earned this hitherto unthinkable power. Use it wisely.</p>
+            <br>After 128 words, a wildcard bonus will appear the next time a grid row or column refreshes.
+            For every 32 additional words, another wildcard bonus is acquired.</p>
         </div>
     </div>
 
@@ -1773,7 +1777,7 @@
             chain = 0;
             bonusMovesAvailable = 0;
             shuffleBonusesAvailable = 0;
-            asteriskEarned = 0;
+            asteriskEarned = 10;
             lastAsteriskThreshold = 0;
             invalidAttempts = 0;
             totalPenalty = 0;
