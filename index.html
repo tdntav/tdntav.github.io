@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
         content="Stringchain is a word game. Replace, add, swap, or delete a letter to make a new word. How long can you make your chain of words?">
-    <title>Stringchain Word Game</title>
+    <title>stringchain - word game</title>
     <style>
         :root {
 
@@ -1015,9 +1015,9 @@
   /* background-image: linear-gradient(to bottom, var(--accent), var(--bg));   */
 
   /* Dimming and blur effect */
-  background-color: rgba(0, 0, 0, 0.5); /* controls dimming */
-  backdrop-filter: blur(2px); /* applies blur to background content */
-  -webkit-backdrop-filter: blur(2px); /* Safari support */
+  background-color: rgba(0, 0, 0, 0.75); /* controls dimming */
+  backdrop-filter: blur(3px); /* applies blur to background content */
+  -webkit-backdrop-filter: blur(3px); /* Safari support */
 }
 
 .modal-content {
@@ -1035,10 +1035,10 @@
 
 .alpha-grid {
   display: grid;
-  line-height: 0; 
-  grid-template-columns: repeat(7, 1fr);
-  gap: 0;
-  margin: 0;
+  /* line-height: 0.1;  */
+  grid-template-columns: repeat(7,1fr);
+  gap: 0px;
+  margin: 0px;
 }
 
 
@@ -1053,7 +1053,7 @@
             width: 44px;
             height: 56px;
             font-size: 18pt;
-            display: block;
+            display: flex;
             align-items: center;
             justify-content: center;
             background-color: var(--gridcell);
@@ -1546,24 +1546,28 @@
         <div id="about" style="display: none;">
             <p style="text-align: left;"> <b>ABOUT</b>
                 <br>
-                <br>Big shoutout to <b><i>dictionaryapi.dev</b></i> for providing a free dictionary resource. This is
+                <br>Big shoutout to <b><i>dictionaryapi.dev</i></b> and <b><i>wordgamedictionary.com</i></b> for providing free dictionary resources. This is
                 the spirit of
                 random collaboration that embodies the internet at its best.
                 <br>
-                <br>Without whoever that is, whoever I am couldn't have made this game for whoever you are.
+                <br>Without whoever they are, whoever I am couldn't have made this game for whoever you are.
                 <br>
-                <br>Occasionally you might try to play a real word that
-                is inexplicably
-                missing from the dictionary. It will fail validation. I'm sorry about that. The dictionary is amazing
-                but it's not perfect.
+                <br>The world is full of bitesize puzzles. In running terms, you get lots of 100 meter sprints, the occasional 5K. These are great. I love them.
                 <br>
-                <br>Gameplay is what you make it. You have to start off with short words, but once you bank some
-                bonuses, you can challenge yourself to play longer words. Tap into your rich
+                <br>But Stringchain, well played, can be a marathon. Train, prepare, strategise, pace yourself. Maybe it's a supermarathon.
+                <br>
+                <br>It's best to start off with short words, a new game is an all too delicate thing, it's so easy to back yourself into a corner and wash out early. 
+                This is by design. Anything good has to break your heart a little.
+                <br>
+                <br>But once you bank some bonuses, you have more options. You can challenge yourself to play longer words. Tap into your rich
                 personal lexicon, or just guess at words that are likely to exist.
                 <br>
-                <br>The game displays definitions to help you explore your own ever-expanding vocabulary.
+                <br>As the wordlist grows, you may attempt to play a word you already played. 
+                Scroll down and see this word highlighted in your word list. 
+                Look at the surrounding words to see which nearby words you already used, so you can find you way out of this mess. 
+                A game may be played over several sessions, this highlghting feature allows you to easily pick up where you left off.
                 <br>
-                <br>But the longer it goes, the harder it gets. Once you've used up all the obvious and convenient short
+                <br>Once you pass 128 words, you start to earn wildcard bonuses. But the longer it goes, the harder it gets. After you've used up all the obvious and convenient short
                 words, the game forces you to get creative.
                 <br>
                 <br>Get a high score.<br>Beat that high score. <br>Screenshot that high score and challenge your
@@ -1648,7 +1652,7 @@
         const disqualified = localStorage.getItem("isDisqualified") === "true";
         const alphabet = "EEEEEEEEEAAAARRRRIIIOOONNSSSTTTLLLLCCUUUDDDPPGGHHBBMMYYFFVVWWKKXJQZ".split("");
         const starterWords = ["ACE", "ACT", "ADD", "ADO", "ADS", "AFT", "AGE", "AGO", "AIR", "ALL", "AND", "ANT", "ANY", "APE", "APT", "ARC", "ARE", "ARK", "ARM", "ART", "ASH", "ASK", "AWE", "AWL", "AXE", "BAD", "BAG", "BAN", "BAR", "BAT", "BAY", "BED", "BEE", "BEG", "BET", "BIG", "BIN", "BIT", "BOA", "BOB", "BOG", "BOP", "BOW", "BOY", "BRA", "BRO", "BUD", "BUG", "BUM", "BUS", "BUT", "BUY", "BYE", "CAB", "CAD", "CAM", "CAN", "CAP", "CAR", "CAT", "CAW", "COB", "COD", "COG", "CON", "COO", "COP", "COT", "COW", "COY", "CRY", "CUB", "CUE", "CUP", "CUR", "CUT", "DAB", "DAD", "DAG", "DAM", "DAY", "DEB", "DEN", "DEW", "DID", "DIE", "DIG", "DIN", "DIP", "DOC", "DOE", "DOG", "DON", "DOT", "DRY", "DUB", "DUD", "DUE", "DUG", "EAR", "EAT", "EEL", "EGG", "EGO", "ELF", "ELL", "EMU", "END", "ERA", "EVE", "EWE", "EYE", "FAD", "FAN", "FAR", "FAT", "FAX", "FED", "FEE", "FEW", "FIB", "FIG", "FIN", "FIR", "FIT", "FLY", "FOE", "FOG", "FOR", "FRY", "FUN", "FUR", "GAG", "GAP", "GAS", "GAY", "GEL", "GEM", "GET", "GIG", "GIN", "GOT", "GUM", "GUN", "GUT", "GUY", "GAP", "HAD", "HAM", "HAS", "HAT", "HAW", "HAY", "HEW", "HEY", "HIM", "HIP", "HIS", "HIT", "HOG", "HOP", "HOT", "HOW", "HUB", "HUE", "HUG", "HUM", "HUT", "ICE", "ILL", "INK", "INN", "ION", "JAB", "JAM", "JAR", "JAW", "JAY", "JAW", "JIG", "JOB", "JOE", "JOG", "JOT", "JOY", "JUG", "KEY", "KIT", "LAB", "LAD", "LAG", "LAP", "LAW", "LAY", "LEA", "LED", "LEG", "LET", "LID", "LIE", "LOG", "LOT", "LOW", "MAD", "MAN", "MAP", "MAT", "MAX", "MAY", "MEN", "MET", "MID", "MIX", "MOB", "MOD", "MOM", "MOP", "MOW", "MUD", "MUG", "MUM", "NAB", "NAP", "NOD", "NOT", "NOW", "NUN", "NUT", "OAR", "OAT", "ODD", "OFF", "OIL", "OLD", "ONE", "OPT", "OUR", "OUT", "OVA", "OWE", "OWL", "OWN", "PAD", "PAL", "PAN", "PAR", "PAT", "PAW", "PAY", "PEG", "PEN", "PET", "PEW", "PHI", "PIE", "PIG", "PIN", "PIT", "PLY", "POD", "POP", "POT", "PRO", "PUB", "PUG", "PUP", "PUT", "RAM", "RAN", "RAP", "RAT", "RAW", "RAY", "RED", "REP", "REV", "RIB", "RID", "RIG", "RIM", "RIP", "ROB", "ROD", "ROE", "ROT", "ROW", "RUB", "RUE", "RUG", "RUN", "RUT", "SAC", "SAD", "SAG", "SAP", "SAT", "SAW", "SAX", "SAY", "SEA", "SEE", "SET", "SEW", "SEX", "SHY", "SIB", "SIC", "SIN", "SIP", "SIR", "SIS", "SIT", "SKY", "SOB", "SOD", "SOL", "SON", "SOP", "SOS", "SOW", "SOX", "SPA", "SPY", "SUB", "SUE", "SUM", "SUN", "SUP", "TAB", "TAD", "TAG", "TAP", "TAR", "TEA", "TEE", "TEN", "THE", "TIE", "TIN", "TIP", "TOE", "TOG", "TON", "TOO", "TOP", "TOT", "TOW", "TOY", "TRY", "TUB", "TUG", "TUX", "TWO", "URN", "USE", "VAN", "VAT", "VET", "VIA", "VIE", "WAR", "WAS", "WAY", "WEB", "WED", "WEE", "WET", "WHO", "WHY", "WIN", "WIT", "WOK", "WON", "WOO", "YAK", "YAM", "YAP", "YAW", "YES", "ABLE", "ACID", "ACRE", "BACK", "BALL", "BAND", "CALM", "CAMP", "CARD", "DAWN", "DAYS", "DEAL", "EACH", "EARN", "ELSE", "FACE", "FACT", "FINE", "GAIN", "GATE", "GAVE", "GIRD", "HAIR", "HALF", "HAND", "ICON", "IDEA", "IDLE", "JACK", "JAIL", "KING", "KIND", "LACK", "LAKE", "LIMP", "MADE", "MAIL", "NAME", "NAIL", "ONCE", "ODDS", "PACK", "PAGE", "RACE", "RAIN", "SAFE", "SAIL", "TAKE", "TALE", "TINE", "UNIT", "URGE", "VARY", "VAST", "WAGE", "WAIT", "YARD", "YARN", "ZAPS"];
-        const allowList = [ "DOLLING", "DOLLED", "TOCK", "HELL", "FEWER", "YOUR", "PATTER", "DRAB", "LIVES", "LIVED", "LIVING", "HELLS", "TOW", "TOWS", "TOWED", "TOWING", "DUNK", "DUNKS", "DUNKING", "DUNKED", "TOW", "TOWS", "TOWING", "TOWED", "TIGHT", "SIFT", "DOSE", "DOSES", "DOSED", "DOSING", "KITE", "KITES", "NET", "CUE", "CUES", "CUED", "CUEING", "CUING", "RAPE", "RAPES", "RAPED", "SATES", "SATED", "SATING", "RAPING", "PEND", "PENDS", "PENDED", "PENDING", "BE", "LOOK", "LOOKS", "LOOKED", "LOOKING", "VEINY", "WEAN", "WEANS", "WEANED", "WEANING"];
+        const allowList = [ "FLAP", "FLAPS", "FLAPPING", "FLAPPED", "FLAPPER", "FLAPPERS", "DOLLING", "DOLLED", "TOCK", "HELL", "FEWER", "YOUR", "PATTER", "DRAB", "LIVES", "LIVED", "LIVING", "HELLS", "TOW", "TOWS", "TOWED", "TOWING", "DUNK", "DUNKS", "DUNKING", "DUNKED", "TOW", "TOWS", "TOWING", "TOWED", "TIGHT", "SIFT", "DOSE", "DOSES", "DOSED", "DOSING", "KITE", "KITES", "NET", "CUE", "CUES", "CUED", "CUEING", "CUING", "RAPE", "RAPES", "RAPED", "SATES", "SATED", "SATING", "RAPING", "PEND", "PENDS", "PENDED", "PENDING", "BE", "LOOK", "LOOKS", "LOOKED", "LOOKING", "VEINY", "WEAN", "WEANS", "WEANED", "WEANING"];
         let isActiveGame = true;
         let playedWords = new Set();
         let disallowedWords = new Set();
@@ -1672,6 +1676,18 @@
         let lastSelectedCell = null;
         // let lastUsedGridCell = null; // Track last used cell for invalid move rollback
         let specialModeActive = false; // Track bonus special mode
+        let LOCAL_WORDS = null;
+
+        async function loadLocalWords() {
+            const response = await fetch('assets/merged-wordlists.json');
+            const data = await response.json();
+
+            // Flatten all buckets into one Set
+            LOCAL_WORDS = new Set(
+            Object.values(data).flatMap(list => list)
+            );
+            console.log(LOCAL_WORDS);
+        }
 //END OF DELARATIONS
 
 //BUTTONS
@@ -1806,6 +1822,7 @@
             updateStatus();
             removeAnimation();
             clearSpecialMode();
+            loadLocalWords();
             // localStorage.clear(); // FOR HARD RESET TO SEE NEW USER EXPERIENCE
             if (dropdownDiv.style.display = "block") { dropdownToggle.click(); }
         });
@@ -1998,6 +2015,7 @@
                 updateShuffleButton();
                 showDefinitions(lastValidWord);
                 updateStatus();
+                loadLocalWords();
                 scoreElement.textContent = score;
                 chainElement.textContent = chain;
             } catch (err) {
@@ -2834,6 +2852,7 @@ function chooseAsteriskLetter(letter) {
                 messageElement.textContent = `${currentWord} already used!`;
                 highlightPlayed(currentWord);
                 alreadyUsedAnimation();
+                activateSpecialMode();
                 currentWord = previousWord;
                 renderWord();
                 rollbackGrid();
@@ -2844,7 +2863,11 @@ function chooseAsteriskLetter(letter) {
                 return;
             }
 
-            if ( starterWords.includes(currentWord.toUpperCase()) || allowList.includes(currentWord.toUpperCase()) ) {
+            if ( 
+                starterWords.includes(currentWord.toUpperCase()) || 
+                allowList.includes(currentWord.toUpperCase()) ||
+                LOCAL_WORDS.has(lower)
+            ) {
                 playedWords.add(lower);
                 updateHistory();
                 lastValidWord = currentWord;
@@ -2866,6 +2889,7 @@ function chooseAsteriskLetter(letter) {
                 chainElement.textContent = chain;
                 if (chain != 1) { messageElement.textContent = "Valid word!" }; //FROM LOCAL LIST
                 showTemporaryMessage();
+                clearSpecialMode(); // Nov 4 EDIT
                 greenAnimation();
                 showDefinitions(lower);
                 replenishGrid();
@@ -2875,6 +2899,7 @@ function chooseAsteriskLetter(letter) {
             }
 
             fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${lower}`)
+            // fetch(`https://cors.isomorphic-git.org/https://api.dictionaryapi.dev/api/v2/entries/en/${lower}`)
                 .then(res => {
                     if (!res.ok) throw new Error();
                     return res.json();
@@ -2898,8 +2923,8 @@ function chooseAsteriskLetter(letter) {
                     }
                     scoreElement.textContent = score;
                     chainElement.textContent = chain;
-                    messageElement.textContent = "Valid word!";
-                    // clearSpecialMode(); // SEP 1 EDIT
+                    messageElement.textContent = "Yes, valid word!";
+                    clearSpecialMode(); // SEP 1 EDIT
                     greenAnimation();
                     showDefinitions(lower);
                     replenishGrid();
@@ -2925,6 +2950,7 @@ function chooseAsteriskLetter(letter) {
                     updateBonusButton();
                     updateShuffleButton();
                     redAnimation();
+                    
 
                     if (invalidAttempts >= 5) {
                         messageElement.textContent += " - GAME OVER";
@@ -2953,11 +2979,15 @@ function chooseAsteriskLetter(letter) {
                 return;
             }
             if (validate) validateWord(originalWord);
-            clearSpecialMode();
+            // clearSpecialMode();
             // replenishGrid();
         }
 //END OF CORE GAMEPLAY
         loadGameState();
+        
+
+
+
     </script>
 
 
