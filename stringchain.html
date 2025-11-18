@@ -2894,7 +2894,8 @@ function chooseAsteriskLetter(letter) {
                 return;
             }
 
-            fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${lower}`)
+            // fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${lower}`)
+            fetch(`https://cors.isomorphic-git.org/https://api.dictionaryapi.dev/api/v2/entries/en/${lower}`)
                 .then(res => {
                     if (!res.ok) throw new Error();
                     return res.json();
