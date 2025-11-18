@@ -2887,7 +2887,7 @@ function chooseAsteriskLetter(letter) {
                 }
                 scoreElement.textContent = score;
                 chainElement.textContent = chain;
-                if (chain != 1) { messageElement.textContent = "Valid word (Local)!" }; //FROM LOCAL LIST
+                if (chain != 1) { messageElement.textContent = "Valid word!" }; //FROM LOCAL LIST
                 showTemporaryMessage();
                 clearSpecialMode(); // Nov 4 EDIT
                 greenAnimation();
@@ -2923,7 +2923,7 @@ function chooseAsteriskLetter(letter) {
                     }
                     scoreElement.textContent = score;
                     chainElement.textContent = chain;
-                    messageElement.textContent = "Valid word!";
+                    messageElement.textContent = "Yes, valid word!";
                     clearSpecialMode(); // SEP 1 EDIT
                     greenAnimation();
                     showDefinitions(lower);
