@@ -1012,27 +1012,33 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  background-image: linear-gradient(to bottom, var(--accent), var(--bg));  
+  /* background-image: linear-gradient(to bottom, var(--accent), var(--bg));   */
 
-  /* background-image: linear-gradient(to top, var(--accent), var(--bg)); */
-  /* opacity:80%; */
+  /* Dimming and blur effect */
+  background-color: rgba(0, 0, 0, 0.75); /* controls dimming */
+  backdrop-filter: blur(3px); /* applies blur to background content */
+  -webkit-backdrop-filter: blur(3px); /* Safari support */
 }
 
 .modal-content {
-    background: var(--bg);
+    /* background: var(--bg); */
+      background-image: linear-gradient(to bottom, var(--accent), var(--bg)); 
+
     padding:22px;
   border-radius: var(--rounding);
-  border:var(--accent) solid 5px;
+  border:var(--text) solid 4px;
   text-align: center;
-  width: 320px;
+  width: 340px;
+  /* z-index: 1; */
   /* opacity: unset; */
 }
 
 .alpha-grid {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 0;
-  margin: 0;
+  /* line-height: 0.1;  */
+  grid-template-columns: repeat(7,1fr);
+  gap: 0px;
+  margin: 0px;
 }
 
 
@@ -1044,8 +1050,8 @@
   /* cursor: pointer; */
   border: var(--gridcell-border);
             color: var(--gridcell-text);
-            width: 40px;
-            height: 48px;
+            width: 44px;
+            height: 56px;
             font-size: 18pt;
             display: flex;
             align-items: center;
@@ -1599,16 +1605,14 @@
     <div id="asteriskModal" class="modal hidden">
         <div class="modal-content">
           <h6>WILDCARD BONUS</h6>
-          <p class="demo-para opacity-hide" style="text-align:left" id="wildcard-1"><br>Pick a letter...</p>
+          <p class="demo-para opacity-hide" style="text-align:left;font-size:13pt;" id="wildcard-1"><br><br>Pick a letter...</p>
           <div class="alpha-grid"></div>
-          <p class="demo-para opacity-hide" style="text-align:right" id="wildcard-2">...or save for later using *</p>
-          <br>
+          <p class="demo-para opacity-hide" style="text-align:right;font-size:13pt;" id="wildcard-2">...or save for later with *</p>
+          
           <p class="demo-para opacity-hide" style="text-align:justify;" id="wildcard-3">
             <!-- First wildcard bonus when chain reaches 128, another for every additional 32 words. They appear when grid rows and columns are cleared.<br><br> -->
-            Wildcard bonuses are secret. There's nothing about it in HOW TO PLAY. 
-            When a player reaches 128 words in a chain, a wildcard bonus will appear the next time a grid row or column refreshes.
-            Every 32 additional words, another wildcard bonus is acquired.
-            You have earned this hitherto unthinkable power. Use it wisely.</p>
+            <br>After 128 words, a wildcard bonus will appear the next time a grid row or column refreshes.
+            For every 32 additional words, another wildcard bonus is acquired.</p>
         </div>
     </div>
 
@@ -1644,7 +1648,7 @@
         const disqualified = localStorage.getItem("isDisqualified") === "true";
         const alphabet = "EEEEEEEEEAAAARRRRIIIOOONNSSSTTTLLLLCCUUUDDDPPGGHHBBMMYYFFVVWWKKXJQZ".split("");
         const starterWords = ["ACE", "ACT", "ADD", "ADO", "ADS", "AFT", "AGE", "AGO", "AIR", "ALL", "AND", "ANT", "ANY", "APE", "APT", "ARC", "ARE", "ARK", "ARM", "ART", "ASH", "ASK", "AWE", "AWL", "AXE", "BAD", "BAG", "BAN", "BAR", "BAT", "BAY", "BED", "BEE", "BEG", "BET", "BIG", "BIN", "BIT", "BOA", "BOB", "BOG", "BOP", "BOW", "BOY", "BRA", "BRO", "BUD", "BUG", "BUM", "BUS", "BUT", "BUY", "BYE", "CAB", "CAD", "CAM", "CAN", "CAP", "CAR", "CAT", "CAW", "COB", "COD", "COG", "CON", "COO", "COP", "COT", "COW", "COY", "CRY", "CUB", "CUE", "CUP", "CUR", "CUT", "DAB", "DAD", "DAG", "DAM", "DAY", "DEB", "DEN", "DEW", "DID", "DIE", "DIG", "DIN", "DIP", "DOC", "DOE", "DOG", "DON", "DOT", "DRY", "DUB", "DUD", "DUE", "DUG", "EAR", "EAT", "EEL", "EGG", "EGO", "ELF", "ELL", "EMU", "END", "ERA", "EVE", "EWE", "EYE", "FAD", "FAN", "FAR", "FAT", "FAX", "FED", "FEE", "FEW", "FIB", "FIG", "FIN", "FIR", "FIT", "FLY", "FOE", "FOG", "FOR", "FRY", "FUN", "FUR", "GAG", "GAP", "GAS", "GAY", "GEL", "GEM", "GET", "GIG", "GIN", "GOT", "GUM", "GUN", "GUT", "GUY", "GAP", "HAD", "HAM", "HAS", "HAT", "HAW", "HAY", "HEW", "HEY", "HIM", "HIP", "HIS", "HIT", "HOG", "HOP", "HOT", "HOW", "HUB", "HUE", "HUG", "HUM", "HUT", "ICE", "ILL", "INK", "INN", "ION", "JAB", "JAM", "JAR", "JAW", "JAY", "JAW", "JIG", "JOB", "JOE", "JOG", "JOT", "JOY", "JUG", "KEY", "KIT", "LAB", "LAD", "LAG", "LAP", "LAW", "LAY", "LEA", "LED", "LEG", "LET", "LID", "LIE", "LOG", "LOT", "LOW", "MAD", "MAN", "MAP", "MAT", "MAX", "MAY", "MEN", "MET", "MID", "MIX", "MOB", "MOD", "MOM", "MOP", "MOW", "MUD", "MUG", "MUM", "NAB", "NAP", "NOD", "NOT", "NOW", "NUN", "NUT", "OAR", "OAT", "ODD", "OFF", "OIL", "OLD", "ONE", "OPT", "OUR", "OUT", "OVA", "OWE", "OWL", "OWN", "PAD", "PAL", "PAN", "PAR", "PAT", "PAW", "PAY", "PEG", "PEN", "PET", "PEW", "PHI", "PIE", "PIG", "PIN", "PIT", "PLY", "POD", "POP", "POT", "PRO", "PUB", "PUG", "PUP", "PUT", "RAM", "RAN", "RAP", "RAT", "RAW", "RAY", "RED", "REP", "REV", "RIB", "RID", "RIG", "RIM", "RIP", "ROB", "ROD", "ROE", "ROT", "ROW", "RUB", "RUE", "RUG", "RUN", "RUT", "SAC", "SAD", "SAG", "SAP", "SAT", "SAW", "SAX", "SAY", "SEA", "SEE", "SET", "SEW", "SEX", "SHY", "SIB", "SIC", "SIN", "SIP", "SIR", "SIS", "SIT", "SKY", "SOB", "SOD", "SOL", "SON", "SOP", "SOS", "SOW", "SOX", "SPA", "SPY", "SUB", "SUE", "SUM", "SUN", "SUP", "TAB", "TAD", "TAG", "TAP", "TAR", "TEA", "TEE", "TEN", "THE", "TIE", "TIN", "TIP", "TOE", "TOG", "TON", "TOO", "TOP", "TOT", "TOW", "TOY", "TRY", "TUB", "TUG", "TUX", "TWO", "URN", "USE", "VAN", "VAT", "VET", "VIA", "VIE", "WAR", "WAS", "WAY", "WEB", "WED", "WEE", "WET", "WHO", "WHY", "WIN", "WIT", "WOK", "WON", "WOO", "YAK", "YAM", "YAP", "YAW", "YES", "ABLE", "ACID", "ACRE", "BACK", "BALL", "BAND", "CALM", "CAMP", "CARD", "DAWN", "DAYS", "DEAL", "EACH", "EARN", "ELSE", "FACE", "FACT", "FINE", "GAIN", "GATE", "GAVE", "GIRD", "HAIR", "HALF", "HAND", "ICON", "IDEA", "IDLE", "JACK", "JAIL", "KING", "KIND", "LACK", "LAKE", "LIMP", "MADE", "MAIL", "NAME", "NAIL", "ONCE", "ODDS", "PACK", "PAGE", "RACE", "RAIN", "SAFE", "SAIL", "TAKE", "TALE", "TINE", "UNIT", "URGE", "VARY", "VAST", "WAGE", "WAIT", "YARD", "YARN", "ZAPS"];
-        const allowList = [ "DOLLING", "DOLLED", "TOCK", "HELL", "FEWER", "YOUR", "PATTER", "DRAB", "LIVES", "LIVED", "LIVING", "HELLS", "TOW", "TOWS", "TOWED", "TOWING", "DUNK", "DUNKS", "DUNKING", "DUNKED", "TOW", "TOWS", "TOWING", "TOWED", "TIGHT", "SIFT", "DOSE", "DOSES", "DOSED", "DOSING", "KITE", "KITES", "NET", "CUE", "CUES", "CUED", "CUEING", "CUING", "RAPE", "RAPES", "RAPED", "SATES", "SATED", "SATING", "RAPING", "PEND", "PENDS", "PENDED", "PENDING", "BE", "LOOK", "LOOKS", "LOOKED", "LOOKING", "VEINY", "WEAN", "WEANS", "WEANED", "WEANING"];
+        const allowList = [ "FLAP", "FLAPS", "FLAPPING", "FLAPPED", "FLAPPER", "FLAPPERS", "DOLLING", "DOLLED", "TOCK", "HELL", "FEWER", "YOUR", "PATTER", "DRAB", "LIVES", "LIVED", "LIVING", "HELLS", "TOW", "TOWS", "TOWED", "TOWING", "DUNK", "DUNKS", "DUNKING", "DUNKED", "TOW", "TOWS", "TOWING", "TOWED", "TIGHT", "SIFT", "DOSE", "DOSES", "DOSED", "DOSING", "KITE", "KITES", "NET", "CUE", "CUES", "CUED", "CUEING", "CUING", "RAPE", "RAPES", "RAPED", "SATES", "SATED", "SATING", "RAPING", "PEND", "PENDS", "PENDED", "PENDING", "BE", "LOOK", "LOOKS", "LOOKED", "LOOKING", "VEINY", "WEAN", "WEANS", "WEANED", "WEANING"];
         let isActiveGame = true;
         let playedWords = new Set();
         let disallowedWords = new Set();
@@ -1668,6 +1672,18 @@
         let lastSelectedCell = null;
         // let lastUsedGridCell = null; // Track last used cell for invalid move rollback
         let specialModeActive = false; // Track bonus special mode
+        let LOCAL_WORDS = null;
+
+        async function loadLocalWords() {
+            const response = await fetch('assets/merged-wordlists.json');
+            const data = await response.json();
+
+            // Flatten all buckets into one Set
+            LOCAL_WORDS = new Set(
+            Object.values(data).flatMap(list => list)
+            );
+            console.log(LOCAL_WORDS);
+        }
 //END OF DELARATIONS
 
 //BUTTONS
@@ -1802,6 +1818,7 @@
             updateStatus();
             removeAnimation();
             clearSpecialMode();
+            loadLocalWords();
             // localStorage.clear(); // FOR HARD RESET TO SEE NEW USER EXPERIENCE
             if (dropdownDiv.style.display = "block") { dropdownToggle.click(); }
         });
@@ -1994,6 +2011,7 @@
                 updateShuffleButton();
                 showDefinitions(lastValidWord);
                 updateStatus();
+                loadLocalWords();
                 scoreElement.textContent = score;
                 chainElement.textContent = chain;
             } catch (err) {
@@ -2830,6 +2848,7 @@ function chooseAsteriskLetter(letter) {
                 messageElement.textContent = `${currentWord} already used!`;
                 highlightPlayed(currentWord);
                 alreadyUsedAnimation();
+                activateSpecialMode();
                 currentWord = previousWord;
                 renderWord();
                 rollbackGrid();
@@ -2840,7 +2859,11 @@ function chooseAsteriskLetter(letter) {
                 return;
             }
 
-            if ( starterWords.includes(currentWord.toUpperCase()) || allowList.includes(currentWord.toUpperCase()) ) {
+            if ( 
+                // starterWords.includes(currentWord.toUpperCase()) || 
+                // allowList.includes(currentWord.toUpperCase()) ||
+                LOCAL_WORDS.has(lower)
+            ) {
                 playedWords.add(lower);
                 updateHistory();
                 lastValidWord = currentWord;
@@ -2862,6 +2885,7 @@ function chooseAsteriskLetter(letter) {
                 chainElement.textContent = chain;
                 if (chain != 1) { messageElement.textContent = "Valid word!" }; //FROM LOCAL LIST
                 showTemporaryMessage();
+                clearSpecialMode(); // Nov 4 EDIT
                 greenAnimation();
                 showDefinitions(lower);
                 replenishGrid();
@@ -2895,7 +2919,7 @@ function chooseAsteriskLetter(letter) {
                     scoreElement.textContent = score;
                     chainElement.textContent = chain;
                     messageElement.textContent = "Valid word!";
-                    // clearSpecialMode(); // SEP 1 EDIT
+                    clearSpecialMode(); // SEP 1 EDIT
                     greenAnimation();
                     showDefinitions(lower);
                     replenishGrid();
@@ -2921,6 +2945,7 @@ function chooseAsteriskLetter(letter) {
                     updateBonusButton();
                     updateShuffleButton();
                     redAnimation();
+                    
 
                     if (invalidAttempts >= 5) {
                         messageElement.textContent += " - GAME OVER";
@@ -2949,11 +2974,15 @@ function chooseAsteriskLetter(letter) {
                 return;
             }
             if (validate) validateWord(originalWord);
-            clearSpecialMode();
+            // clearSpecialMode();
             // replenishGrid();
         }
 //END OF CORE GAMEPLAY
         loadGameState();
+        
+
+
+
     </script>
 
 
