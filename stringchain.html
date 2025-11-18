@@ -1546,24 +1546,28 @@
         <div id="about" style="display: none;">
             <p style="text-align: left;"> <b>ABOUT</b>
                 <br>
-                <br>Big shoutout to <b><i>dictionaryapi.dev</b></i> for providing a free dictionary resource. This is
+                <br>Big shoutout to <b><i>dictionaryapi.dev</i></b> and <b><i>wordgamedictionary.com</i></b> for providing free dictionary resources. This is
                 the spirit of
                 random collaboration that embodies the internet at its best.
                 <br>
-                <br>Without whoever that is, whoever I am couldn't have made this game for whoever you are.
+                <br>Without whoever they are, whoever I am couldn't have made this game for whoever you are.
                 <br>
-                <br>Occasionally you might try to play a real word that
-                is inexplicably
-                missing from the dictionary. It will fail validation. I'm sorry about that. The dictionary is amazing
-                but it's not perfect.
+                <br>The world is full of bitesize puzzles. In running terms, you get lots of 100 meter sprints, the occasional 5K. These are great. I love them.
                 <br>
-                <br>Gameplay is what you make it. You have to start off with short words, but once you bank some
-                bonuses, you can challenge yourself to play longer words. Tap into your rich
+                <br>But Stringchain, well played, can be a marathon. Train, prepare, strategise, pace yourself. Maybe it's a supermarathon.
+                <br>
+                <br>It's best to start off with short words, a new game is an all too delicate thing, it's so easy to back yourself into a corner and wash out early. 
+                This is by design. Anything good has to break your heart a little.
+                <br>
+                <br>But once you bank some bonuses, you have more options. You can challenge yourself to play longer words. Tap into your rich
                 personal lexicon, or just guess at words that are likely to exist.
                 <br>
-                <br>The game displays definitions to help you explore your own ever-expanding vocabulary.
+                <br>As the wordlist grows, you may attempt to play a word you already played. 
+                Scroll down and see this word highlighted in your word list. 
+                Look at the surrounding words to see which nearby words you already used, so you can find you way out of this mess. 
+                A game may be played over several sessions, this highlghting feature allows you to easily pick up where you left off.
                 <br>
-                <br>But the longer it goes, the harder it gets. Once you've used up all the obvious and convenient short
+                <br>Once you pass 128 words, you start to earn wildcard bonuses. But the longer it goes, the harder it gets. After you've used up all the obvious and convenient short
                 words, the game forces you to get creative.
                 <br>
                 <br>Get a high score.<br>Beat that high score. <br>Screenshot that high score and challenge your
@@ -2860,8 +2864,8 @@ function chooseAsteriskLetter(letter) {
             }
 
             if ( 
-                // starterWords.includes(currentWord.toUpperCase()) || 
-                // allowList.includes(currentWord.toUpperCase()) ||
+                starterWords.includes(currentWord.toUpperCase()) || 
+                allowList.includes(currentWord.toUpperCase()) ||
                 LOCAL_WORDS.has(lower)
             ) {
                 playedWords.add(lower);
@@ -2894,8 +2898,8 @@ function chooseAsteriskLetter(letter) {
                 return;
             }
 
-            fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${lower}`)
-            // fetch(`https://cors.isomorphic-git.org/https://api.dictionaryapi.dev/api/v2/entries/en/${lower}`)
+            // fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${lower}`)
+            fetch(`https://cors.isomorphic-git.org/https://api.dictionaryapi.dev/api/v2/entries/en/${lower}`)
                 .then(res => {
                     if (!res.ok) throw new Error();
                     return res.json();
