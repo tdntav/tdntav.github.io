@@ -1781,7 +1781,7 @@
             if (shuffleBonusesAvailable > 0) {
                 shuffleBonusesAvailable--;
                 bonusCounter++;
-                bonusTicker = "#"  + bonusCounter;
+                bonusTicker = "#" + bonusCounter;
                 playedWords.add(bonusTicker);
                 updateHistory();
                 bonusTicker = '';
@@ -2121,7 +2121,8 @@
          function getHighlightReel() {
             // let words = Array.from(playedWords);
             let words = Array.from(playedWords)
-            .filter(w => !/\(-\d+\)/.test(w)) // Skip entries with a negative number in parentheses
+            // .filter(w => !/\(-\d+\)/.test(w)) // Skip entries with a negative number in parentheses
+            .filter(w => /^[a-zA-Z]+$/.test(w)) // Exclude entries containing any non-alphabetic character
             .map(w => w.replace(/[|#*]/g, "").trim());
             if (words.length === 0) return "";
 
@@ -2140,8 +2141,8 @@
 
             if (runStart === -1) return words.slice(0, 5).join(" "); // fallback
 
-            let sliceStart = runStart - 3;
-            let sliceEnd = runStart + 4;
+            let sliceStart = runStart - 1;
+            let sliceEnd = runStart + 3;
 
             // if (runLength >= 5) {
             //     // Take 4 centered inside the run
@@ -2402,7 +2403,7 @@ function chooseAsteriskLetter(letter) {
   pendingAsteriskCell = null;
   asteriskModal.classList.add("hidden");
   bonusCounter++;
-  bonusTicker = " *" + bonusCounter;
+  bonusTicker = "*" + bonusCounter;
   playedWords.add(bonusTicker);
   updateHistory();
   bonusTicker = '';
