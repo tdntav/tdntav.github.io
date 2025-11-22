@@ -753,8 +753,9 @@
         }
 
 
-        #history,
-        #disallowed {
+        #history
+        /* ,#disallowed  */
+        {
             display: block;
             white-space: normal;
             word-wrap: break-word;
@@ -769,17 +770,17 @@
             /* margin-top: 10px; */
         }
 
-        #disallowed {
+        /* #disallowed {
             background-color: var(--disabled);
             color: var(--accent-text);
             margin-bottom: 0px;
             border-radius: 0px 0px var(--rounding) var(--rounding);
 
-        }
+        } */
 
         #history {
             margin-top: 0px;
-            border-radius: var(--rounding) var(--rounding) 0px 0px;
+            border-radius: var(--rounding);
             color: var(--accent-text);
             text-align: justify;
         }
@@ -1600,7 +1601,7 @@
 
     <div class="grid" id="letterGrid"></div>
     <div id="history"></div>
-    <div id="disallowed"></div>
+    <!-- <div id="disallowed"></div> -->
 
     <button id="newGameBtn" class="newgame">RESTART</button>
     <div id="definitions"></div>
@@ -1639,7 +1640,7 @@
         const scoreElement = document.getElementById('score');
         const chainElement = document.getElementById('chain');
         const historyElement = document.getElementById('history');
-        const disallowedElement = document.getElementById('disallowed');
+        // const disallowedElement = document.getElementById('disallowed');
         const statusElement = document.getElementById('status');
         const definitionsElement = document.getElementById('definitions');
         const rulesToggle = document.getElementById("toggle-rules");
@@ -1655,8 +1656,10 @@
         const allowList = [ "FLAP", "FLAPS", "FLAPPING", "FLAPPED", "FLAPPER", "FLAPPERS", "DOLLING", "DOLLED", "TOCK", "HELL", "FEWER", "YOUR", "PATTER", "DRAB", "LIVES", "LIVED", "LIVING", "HELLS", "TOW", "TOWS", "TOWED", "TOWING", "DUNK", "DUNKS", "DUNKING", "DUNKED", "TOW", "TOWS", "TOWING", "TOWED", "TIGHT", "SIFT", "DOSE", "DOSES", "DOSED", "DOSING", "KITE", "KITES", "NET", "CUE", "CUES", "CUED", "CUEING", "CUING", "RAPE", "RAPES", "RAPED", "SATES", "SATED", "SATING", "RAPING", "PEND", "PENDS", "PENDED", "PENDING", "BE", "LOOK", "LOOKS", "LOOKED", "LOOKING", "VEINY", "WEAN", "WEANS", "WEANED", "WEANING"];
         let isActiveGame = true;
         let playedWords = new Set();
-        let disallowedWords = new Set();
+        // let disallowedWords = new Set();
         let gameID = "";
+        let bonusTicker = '';
+        let bonusCounter = 0;
         let currentWord = "";
         let lastValidWord = "";
         let gridSize = 3;
@@ -1760,6 +1763,11 @@
             }
             bonusMovesAvailable--;
             updateBonusButton();
+            bonusCounter++;
+            bonusTicker = "||" + bonusCounter;
+            playedWords.add(bonusTicker);
+            updateHistory();
+            bonusTicker = '';
             lastValidWord = currentWord;
             messageElement.innerHTML = `Bonus setup move played.`;
             showTemporaryMessage();
@@ -1772,6 +1780,11 @@
         shuffleBtn.addEventListener('click', () => {
             if (shuffleBonusesAvailable > 0) {
                 shuffleBonusesAvailable--;
+                bonusCounter++;
+                bonusTicker = "#" + bonusCounter;
+                playedWords.add(bonusTicker);
+                updateHistory();
+                bonusTicker = '';
                 initGrid();
                 updateShuffleButton();
                 messageElement.textContent = "Grid refreshed!";
@@ -1799,13 +1812,15 @@
             totalPenalty = 0;
             totalChainLoss = 0;
             playedWords.clear();
-            disallowedWords.clear();
+            bonusTicker = '';
+            bonusCounter = 0;
+            // disallowedWords.clear();
             gridElement.style.pointerEvents = 'auto';
             wordContainer.style.pointerEvents = 'auto';
             scoreElement.textContent = score;
             chainElement.textContent = chain;
             messageElement.textContent = '';
-            disallowedElement.textContent = '';
+            // disallowedElement.textContent = '';
             updateBonusButton();
             updateShuffleButton();
             definitionsElement.textContent = '';
@@ -1986,7 +2001,9 @@
 //SAVING, LOADING, HIGHSCORES
 
         function saveGameState() {
-            const gameState = { isActiveGame, gameID, currentWord, lastValidWord, gridSize, grid, gridFallback, score, chain, bonusMovesAvailable, asteriskEarned, lastAsteriskThreshold, shuffleBonusesAvailable, invalidAttempts, totalPenalty, totalChainLoss, playedWords: Array.from(playedWords), disallowedWords: Array.from(disallowedWords) };
+            const gameState = { isActiveGame, gameID, currentWord, lastValidWord, gridSize, grid, gridFallback, score, chain, bonusMovesAvailable, asteriskEarned, lastAsteriskThreshold, shuffleBonusesAvailable, invalidAttempts, totalPenalty, totalChainLoss, playedWords: Array.from(playedWords)
+                // , disallowedWords: Array.from(disallowedWords) 
+            };
             localStorage.setItem("stringChainState", JSON.stringify(gameState));
         }
 
@@ -2004,13 +2021,15 @@
             }
 
             try {
-                ({ isActiveGame, gameID, currentWord, lastValidWord, gridSize, grid, gridFallback, score, chain, bonusMovesAvailable, asteriskEarned, lastAsteriskThreshold, shuffleBonusesAvailable, invalidAttempts, totalPenalty, totalChainLoss, playedWords, disallowedWords } = JSON.parse(saved));
-                disallowedWords = new Set(disallowedWords);
+                ({ isActiveGame, gameID, currentWord, lastValidWord, gridSize, grid, gridFallback, score, chain, bonusMovesAvailable, asteriskEarned, lastAsteriskThreshold, shuffleBonusesAvailable, invalidAttempts, totalPenalty, totalChainLoss, playedWords
+                    // , disallowedWords 
+                } = JSON.parse(saved));
+                // disallowedWords = new Set(disallowedWords);
                 playedWords = new Set(playedWords);
                 renderWord();
                 renderGrid();
                 updateHistory();
-                updateDisallowedWords();
+                // updateDisallowedWords();
                 updateBonusButton();
                 updateShuffleButton();
                 showDefinitions(lastValidWord);
@@ -2071,10 +2090,10 @@
 
             const byScore = [...stringchainHighScore]
                 .sort((a, b) => b.score - a.score)
-                .slice(0, 5);
+                .slice(0, 9);
             const byChain = [...stringchainHighScore]
                 .sort((a, b) => b.chain - a.chain)
-                .slice(0, 5);
+                .slice(0, 9);
 
             const combined = [...byScore, ...byChain].filter((item, index, self) => index === self.findIndex(g => g.saveTime === item.saveTime));
             combined.sort((a, b) => b.chain - a.chain);
@@ -2099,57 +2118,84 @@
 
 
          // >>> FINAL getHighlightReel
-         function getHighlightReel() {
-            let words = Array.from(playedWords);
-            if (words.length === 0) return "";
+            function getHighlightReel() {
+                let words = Array.from(playedWords)
+                    .filter(w => /^[a-zA-Z]+$/.test(w)) // Exclude entries containing any non-alphabetic character
+                    .map(w => w.replace(/[|#*]/g, "").trim());
+                if (words.length === 0) return "";
 
-            const longestWordLength = Math.max(...words.map(w => w.length));
-            let runStart = -1, runLength = 0;
+                const longestWordLength = Math.max(...words.map(w => w.length));
+                const runs = [];
+                let currentRun = [];
 
-            // find first run of consecutive longest words
-            for (let i = 0; i < words.length; i++) {
-                if (words[i].length === longestWordLength) {
-                    if (runStart === -1) runStart = i;
-                    runLength++;
-                } else if (runStart !== -1) {
-                    break;
+                // Find all runs of longest word length
+                for (let i = 0; i < words.length; i++) {
+                    if (words[i].length === longestWordLength) {
+                        currentRun.push(i); // Store the index of the word in the current run
+                    } else if (currentRun.length > 0) {
+                        runs.push([...currentRun]); // Save the current run
+                        currentRun = []; // Reset for the next run
+                    }
                 }
-            }
+                if (currentRun.length > 0) {
+                    runs.push([...currentRun]); // Add the last run if it exists
+                }
 
-            if (runStart === -1) return words.slice(0, 5).join(" "); // fallback
+                // Find the best run (longest run, or the last one if tied)
+                const bestRun = runs.reduce((best, current) => {
+                    if (current.length > best.length) return current;
+                    if (current.length === best.length) return current; // Use the last run in case of a tie
+                    return best;
+                }, []);
 
-            let sliceStart = runStart - 1;
-            let sliceEnd = runStart + 3;
+                // Determine the number of words to display based on the longest word length
+                let displayCount;
+                if (longestWordLength >= 10) {
+                    displayCount = 4;
+                } else if (longestWordLength >= 7) {
+                    displayCount = 5;
+                } else {
+                    displayCount = 6;
+                }
 
-            // if (runLength >= 5) {
-            //     // Take 4 centered inside the run
-            //     const middleOffset = Math.floor((runLength - 1) / 2); // earlier if even
-            //     const middleIndex = runStart + middleOffset;
-            //     sliceStart = middleIndex - 2;
-            //     sliceEnd = middleIndex + 3;
-            // } else if (runLength === 5) {
-            //     sliceStart = runStart;
-            //     sliceEnd = runStart + 5;
-            // } else if (runLength === 4) {
-            //     sliceStart = Math.max(0, runStart - 1);
-            //     sliceEnd = runStart + 4;
-            // } else if (runLength === 3) {
-            //     sliceStart = Math.max(0, runStart - 1);
-            //     sliceEnd = Math.min(words.length, runStart + 4);
-            // } else {
-            //     // Run length 1 or 2: use middle logic
-            //     const middleOffset = Math.floor((runLength - 1) / 2); // earlier if even
-            //     const middleIndex = runStart + middleOffset;
-            //     sliceStart = middleIndex - 2;
-            //     sliceEnd = middleIndex + 3;
-            // }
+                // Calculate the slice range based on the best run's length
+                let sliceStart, sliceEnd;
+                if (bestRun.length >= displayCount) {
+                    sliceStart = bestRun[0];
+                    sliceEnd = bestRun[0] + displayCount;
+                } else {
+                    const runStart = bestRun[0];
+                    const runEnd = bestRun[bestRun.length - 1];
+                    const runLength = bestRun.length;
 
-            // Clamp to history bounds
-            // sliceStart = Math.max(0, sliceStart);
-            // sliceEnd = Math.min(words.length, sliceEnd);
+                    if (runLength === displayCount - 1) {
+                        sliceStart = runStart - 1;
+                        sliceEnd = runStart + displayCount - 1;
+                    } else if (runLength === displayCount - 2) {
+                        sliceStart = runStart - 1;
+                        sliceEnd = runEnd + 2;
+                    } else if (runLength === 1) {
+                        sliceStart = runStart - (displayCount - 2);
+                        sliceEnd = runStart + 2;
+                    } else {
+                        sliceStart = runStart - (displayCount - runLength);
+                        sliceEnd = runEnd + 1;
+                    }
 
-            return words.slice(sliceStart, sliceEnd).join(" ");
-        }
+                    // Adjust if no word after the run is available
+                    if (sliceEnd > words.length) {
+                        const overflow = sliceEnd - words.length;
+                        sliceStart = Math.max(0, sliceStart - overflow);
+                        sliceEnd = words.length;
+                    }
+                }
+
+                // Ensure sliceStart and sliceEnd are within bounds
+                sliceStart = Math.max(0, sliceStart);
+                sliceEnd = Math.min(words.length, sliceEnd);
+
+                return words.slice(sliceStart, sliceEnd).join(" ");
+            }               
         // <<< END FINAL
 
 
@@ -2209,12 +2255,26 @@
         }
 
         function updateHistory() {
-            historyElement.textContent = [...playedWords].reverse().map(w => w + " ").join('');
+            historyElement.innerHTML = [...playedWords]
+                .reverse()
+                .map(w => {
+                    // Check if the entry is a bonus and strip the number
+                    if (w.startsWith("||")) return "|| ";
+                    if (w.startsWith("#")) return "# ";
+                    if (w.startsWith("*")) return "* ";
+                    
+                    // Check if the entry is an incorrect attempt (contains "(")
+                    if (w.includes("(")) return `<i>${w}</i> `;
+                    
+                    // For regular words, append a space
+                    return w + " ";
+                })
+                .join('');
         }
 
-        function updateDisallowedWords() {
-            disallowedElement.textContent = [...disallowedWords].reverse().map(w => w + " ").join('');
-        }
+        // function updateDisallowedWords() {
+        //     disallowedElement.textContent = [...disallowedWords].reverse().map(w => w + " ").join('');
+        // }
 
 
         function rollbackGrid() {
@@ -2365,6 +2425,11 @@ function chooseAsteriskLetter(letter) {
 
   pendingAsteriskCell = null;
   asteriskModal.classList.add("hidden");
+  bonusCounter++;
+  bonusTicker = "*" + bonusCounter;
+  playedWords.add(bonusTicker);
+  updateHistory();
+  bonusTicker = '';
   saveGameState();
   // Auto-select this cell after replacement
   selectCell(cell);
@@ -2760,6 +2825,9 @@ function chooseAsteriskLetter(letter) {
                 gridSize = 4;
                 grid = newGrid;
 
+                playedWords.add("(4x4)");
+                updateHistory();
+
                 // Place asterisk if earned (again for expansion refresh)
                 maybePlaceAsterisk(refreshedCells);
             }
@@ -2940,7 +3008,9 @@ function chooseAsteriskLetter(letter) {
                     totalChainLoss++;
                     score -= penalty;
                     chain = chain - 1;
-                    disallowedWords.add(lower + `(-${penalty})`);
+                    // disallowedWords.add(lower + `(-${penalty})`);
+                    playedWords.add(lower + `(-${penalty})`);
+                    updateHistory();
                     currentWord = lastValidWord;
                     renderWord();
                     messageElement.textContent = `Invalid word! Penalty: -${penalty}`;
@@ -2962,7 +3032,7 @@ function chooseAsteriskLetter(letter) {
                     chainElement.textContent = chain;
 
                     updateStatus();
-                    updateDisallowedWords();
+                    // updateDisallowedWords();
                     saveGameState();
                     showTemporaryMessage();
                 });
