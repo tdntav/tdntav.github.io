@@ -2043,6 +2043,8 @@
             }
         }
 
+
+        
         function saveHighScore() {
             const stringchainHighScore = JSON.parse(localStorage.getItem("stringchainHighScore")) || [];
             const saveTime = new Intl.DateTimeFormat(undefined, {
@@ -2056,8 +2058,6 @@
             })
                 .format(new Date())
                 .replace(/,/g, ''); // strip commas
-            // const newHighScore = { saveTime, score, chain, gameID };
-            // const highlight = getHighlightReel();
             const highlight = getHighlightReel();
             const newHighScore = { saveTime, score, chain, gameID, highlight };
 
@@ -2074,17 +2074,11 @@
                 return;
             }
 
-            if (!stringchainHighScore) {
-                localStorage.setItem("stringChainHighScore", JSON.stringify(newHighScore));
-                return;
-            }
-            stringchainHighScore.push({
-                saveTime: saveTime,
-                score: score,
-                chain: chain,
-                gameID: gameID,
-                highlight: highlight
-            });
+            stringchainHighScore.push({ newHighScore });
+//LOG HIGHSCORE EVENT
+            sa_event(() => 
+            `highScore_${score}_${chain}_${highlight.replace(/ /g, '_')}`
+            );
 
             stringchainHighScore.sort((a, b) => b.score - a.score);
 
@@ -2104,7 +2098,6 @@
                 const scoreTableParse = JSON.parse(localStorage.getItem('stringchainHighScore')) || [];
                 let scoreTable = scoreTableParse
                 scoreTable = scoreTable.filter(entry => !(entry.score === 0 && entry.chain === 0));
-                // const rows = scoreTable.map(entry => `<tr><td>${entry.score}</td><td>${entry.chain}</td><td>${entry.saveTime}</td></tr>`).join('');
                 const rows = scoreTable.map(entry => {
                     const highlightRow = entry.highlight && entry.highlight.trim()
                         ? `<tr><td colspan="3" class="highlight-reel">${entry.highlight}</td></tr>`
@@ -2115,6 +2108,7 @@
                 if (!rows) { return };
                 highScoresElement.innerHTML = `<h4>YOUR BEST GAMES</h4><table class = "high-score-table"><tr><th>STRING</th><th>CHAIN</th><th>SAVED</th></tr>${rows}</table>`;
             }
+
 
 
          // >>> FINAL getHighlightReel
@@ -3004,6 +2998,7 @@ function chooseAsteriskLetter(letter) {
                 })
                 .catch(() => {
                     invalidAttempts++;
+                    sa_event(() => "invalid_" + currentWord); //LOG INVALID WORDS
                     let penalty = currentWord.length * invalidAttempts;
                     totalPenalty += penalty;
                     totalChainLoss++;
