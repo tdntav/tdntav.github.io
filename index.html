@@ -2074,8 +2074,15 @@
                 return;
             }
 
-            stringchainHighScore.push({ newHighScore });
-//LOG HIGHSCORE EVENT
+            stringchainHighScore.push({
+                saveTime: saveTime,
+                score: score,
+                chain: chain,
+                gameID: gameID,
+                highlight: highlight
+            });
+            
+            //LOG HIGHSCORE EVENT
             let gameTracker = gameID.replace(/- :/g, '');
             sa_event(() => 
             `${gameTracker}_${score}_${chain}_${highlight.replace(/ /g, '_')}`
