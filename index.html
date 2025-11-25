@@ -1794,6 +1794,7 @@
         });
 
         newGameBtn.addEventListener('click', () => {
+            sa_event("new_game");
             saveHighScore();
             getHighScores();
             localStorage.removeItem("stringChainState");
