@@ -2083,7 +2083,7 @@
             });
             
             //LOG HIGHSCORE EVENT
-            let gameTracker = gameID.replace(/- :/g, '');
+            let gameTracker = gameID.replace(/[^\d]/g, '');            
             sa_event(() => 
             `${gameTracker}_${score}_${chain}_${highlight.replace(/ /g, '_')}`
             );
