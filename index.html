@@ -2076,8 +2076,9 @@
 
             stringchainHighScore.push({ newHighScore });
 //LOG HIGHSCORE EVENT
+            let gameTracker = gameID.replace(/- :/g, '');
             sa_event(() => 
-            `highScore_${score}_${chain}_${highlight.replace(/ /g, '_')}`
+            `${gameTracker}_${score}_${chain}_${highlight.replace(/ /g, '_')}`
             );
 
             stringchainHighScore.sort((a, b) => b.score - a.score);
