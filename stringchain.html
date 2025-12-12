@@ -658,7 +658,7 @@
 .rail-btn {
   width: 100%;
   height: 102%;
-  border: 2px solid var(accent);
+  border: 2px solid var(--accent-text);
   /* margin:none;
   padding:none; */
 }
@@ -1855,7 +1855,6 @@
         let lastAsteriskThreshold = 0;
         let invalidAttempts = 0;
         let totalPenalty = 0;
-        let totalChainLoss = 0;
         let lastSelectedType = null;
         let lastSelectedCell = null;
         // let lastUsedGridCell = null; // Track last used cell for invalid move rollback
@@ -2002,7 +2001,6 @@
             lastAsteriskThreshold = 0;
             invalidAttempts = 0;
             totalPenalty = 0;
-            totalChainLoss = 0;
             playedWords.clear();
             bonusTicker = '';
             bonusCounter = 0;
@@ -2193,7 +2191,7 @@
 //SAVING, LOADING, HIGHSCORES
 
         function saveGameState() {
-            const gameState = { isActiveGame, gameID, currentWord, lastValidWord, gridSize, grid, gridFallback, score, chain, bonusMovesAvailable, asteriskEarned, lastAsteriskThreshold, shuffleBonusesAvailable, invalidAttempts, totalPenalty, totalChainLoss, bonusCounter, playedWords: Array.from(playedWords)
+            const gameState = { isActiveGame, gameID, currentWord, lastValidWord, gridSize, grid, gridFallback, score, chain, bonusMovesAvailable, asteriskEarned, lastAsteriskThreshold, shuffleBonusesAvailable, invalidAttempts, totalPenalty, bonusCounter, playedWords: Array.from(playedWords)
                 // , disallowedWords: Array.from(disallowedWords) 
             };
             localStorage.setItem("stringChainState", JSON.stringify(gameState));
@@ -2213,7 +2211,7 @@
             }
 
             try {
-                ({ isActiveGame, gameID, currentWord, lastValidWord, gridSize, grid, gridFallback, score, chain, bonusMovesAvailable, asteriskEarned, lastAsteriskThreshold, shuffleBonusesAvailable, invalidAttempts, totalPenalty, totalChainLoss, bonusCounter, playedWords
+                ({ isActiveGame, gameID, currentWord, lastValidWord, gridSize, grid, gridFallback, score, chain, bonusMovesAvailable, asteriskEarned, lastAsteriskThreshold, shuffleBonusesAvailable, invalidAttempts, totalPenalty, bonusCounter, playedWords
                     // , disallowedWords 
                 } = JSON.parse(saved));
                 // disallowedWords = new Set(disallowedWords);
@@ -3207,13 +3205,12 @@ function chooseAsteriskLetter(letter) {
                     sa_event(() => "test_invalid_" + currentWord); //LOG INVALID WORDS
                     let penalty = currentWord.length * invalidAttempts;
                     totalPenalty += penalty;
-                    totalChainLoss++;
                     score -= penalty;
-                    chain = chain - 1;
+                    // chain = chain - 1;
                     // disallowedWords.add(lower + `(-${penalty})`);
                     playedWords.add(lower + `(-${penalty})`);
                     updateHistory();
-                    messageElement.textContent = currentWord.toLowerCase() + ` is not a word, apparently (-${penalty})`;
+                    messageElement.textContent = `(-${penalty}) ` + currentWord + ` - unknown word.`;
                     currentWord = lastValidWord;
                     renderWord();
                     rollbackGrid();
