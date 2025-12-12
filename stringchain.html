@@ -13,7 +13,7 @@
         :root {
             --grid-size: 3;       /* will be overwritten by JS */
             --cell-size: 48px;
-            --gap: 10px;
+            --gap: 8px;
             /* --rail-width: ((360 - ((var(--grid-size)*(var(--cell-size)+var(--gap))) + var(--gap)))/2)px; */
 
             --rail-width: 59px;
@@ -602,6 +602,18 @@
 
 
 
+        button {
+            background: var(--accent);
+            /* margin: 10px 0px; */
+            /* padding: 10px 10px; */
+            color: var(--accent-text);
+            border-radius: var(--rounding);
+            border: none;
+            font-size: 11pt;
+            /* margin:0px; */
+            /* padding:0px; */
+        } 
+
 
 
 
@@ -616,16 +628,17 @@
 
 
 .game-area {
-  width: 360px;
-  margin: 20px 50px 15px;
-  /* box-sizing: border-box; */
+  min-width: 90%;
+  margin: 20px 0px 15px;
+  /* padding:0px; */
+  box-sizing: border-box;
 }
 
 .play-grid-layout {
   display: grid;
   grid-template-columns:
     var(--rail-width)
-    242px
+    auto
     var(--rail-width);
     /* column-gap: var(--gap); */
     column-gap: 0px;
@@ -642,6 +655,7 @@
   gap: var(--gap);
   justify-content: center;
   align-content:center;
+  width:100%;
 }
 
 /* RAILS (rows match grid) */
@@ -657,10 +671,11 @@
 /* BUTTONS */
 .rail-btn {
   width: 100%;
-  height: 102%;
-  border: 2px solid var(accent);
-  /* margin:none;
-  padding:none; */
+  height: 103%;
+  /* border: 2px solid var(accent); */
+  border: 2px solid var(--selected-cell);
+  margin:none;
+  padding:none;
 }
 
 /*spans all rows*/
@@ -675,7 +690,7 @@
 
 /*spans 3 rows*/
 .rail-btn.span-3 {
-  grid-row: span var(--grid-size);
+  grid-row: span 3;
 }
 
 .rail-btn.span-0 {
@@ -783,17 +798,6 @@
         
 
 
-        button {
-            background: var(--accent);
-            /* margin: 10px 0px; */
-            /* padding: 0px 10px; */
-            color: var(--accent-text);
-            border-radius: var(--rounding);
-            /* border: 2px solid var(--accent); */
-            border: none;
-            font-size: 11pt;
-        } 
-
 
         #scrollBtn {
             display: none;
@@ -883,7 +887,7 @@
             /* align-items: top; */
             /* opacity: 66%; */
             max-height: 6px;
-            width:50%;
+            width:100%;
             text-align:center;
             /* letter-spacing: 0.5em; */
             /* padding-top:-5px; */
@@ -945,7 +949,7 @@
         #definitions {
             font-size: 10pt;
             color: var(--text);
-            margin-bottom: 20px;
+            margin: 0px 0px 20px;
             width: 85%;
             background: var(--gridcell);
             color: var(--gridcell-text);
@@ -1312,7 +1316,11 @@
                 /* background-color: var(--positive-feedback); */
                 transform: scale(85%);
             }
-
+            90% {
+                /* background-color: var(--bg); */
+                transform: scale(110%);
+            }            
+            
             100% {
                 /* background-color: var(--bg); */
                 transform: scale(100%);
@@ -1766,7 +1774,7 @@
         <div class="rail left-rail">
             <button id="dummyBtn1" class="rail-btn" style="opacity:0%;">?</button>
             <button id="bonusBtn" class="rail-btn span-2">||</button>
-            <button id="dummyBtn2" class="rail-btn" style="opacity:50%;">...</button>
+            <!-- <button id="dummyBtn2" class="rail-btn" style="opacity:50%;">...</button> -->
         </div>
         <!-- <div style="width:auto;height:auto;justify-content:center;align-content:center;"> -->
             <div class="grid" id="letterGrid"></div>
