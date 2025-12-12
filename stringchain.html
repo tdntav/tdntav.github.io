@@ -13,7 +13,7 @@
         :root {
             --grid-size: 3;       /* will be overwritten by JS */
             --cell-size: 48px;
-            --gap: 8px;
+            --gap: 10px;
             /* --rail-width: ((360 - ((var(--grid-size)*(var(--cell-size)+var(--gap))) + var(--gap)))/2)px; */
 
             --rail-width: 59px;
@@ -602,18 +602,6 @@
 
 
 
-        button {
-            background: var(--accent);
-            /* margin: 10px 0px; */
-            /* padding: 10px 10px; */
-            color: var(--accent-text);
-            border-radius: var(--rounding);
-            border: none;
-            font-size: 11pt;
-            /* margin:0px; */
-            /* padding:0px; */
-        } 
-
 
 
 
@@ -628,17 +616,16 @@
 
 
 .game-area {
-  min-width: 90%;
-  margin: 20px 0px 15px;
-  /* padding:0px; */
-  box-sizing: border-box;
+  width: 360px;
+  margin: 20px 50px 15px;
+  /* box-sizing: border-box; */
 }
 
 .play-grid-layout {
   display: grid;
   grid-template-columns:
     var(--rail-width)
-    auto
+    242px
     var(--rail-width);
     /* column-gap: var(--gap); */
     column-gap: 0px;
@@ -655,7 +642,6 @@
   gap: var(--gap);
   justify-content: center;
   align-content:center;
-  width:100%;
 }
 
 /* RAILS (rows match grid) */
@@ -671,11 +657,10 @@
 /* BUTTONS */
 .rail-btn {
   width: 100%;
-  height: 103%;
-  /* border: 2px solid var(accent); */
-  border: 2px solid var(--selected-cell);
-  margin:none;
-  padding:none;
+  height: 102%;
+  border: 2px solid var(accent);
+  /* margin:none;
+  padding:none; */
 }
 
 /*spans all rows*/
@@ -690,7 +675,7 @@
 
 /*spans 3 rows*/
 .rail-btn.span-3 {
-  grid-row: span 3;
+  grid-row: span var(--grid-size);
 }
 
 .rail-btn.span-0 {
@@ -798,6 +783,17 @@
         
 
 
+        button {
+            background: var(--accent);
+            /* margin: 10px 0px; */
+            /* padding: 0px 10px; */
+            color: var(--accent-text);
+            border-radius: var(--rounding);
+            /* border: 2px solid var(--accent); */
+            border: none;
+            font-size: 11pt;
+        } 
+
 
         #scrollBtn {
             display: none;
@@ -887,7 +883,7 @@
             /* align-items: top; */
             /* opacity: 66%; */
             max-height: 6px;
-            width:100%;
+            width:50%;
             text-align:center;
             /* letter-spacing: 0.5em; */
             /* padding-top:-5px; */
@@ -909,7 +905,7 @@
             background-color: var(--accent);
             padding-inline: 2.5%;
             padding-block: 10px;
-            /* margin-top: 10px; */
+            margin-top: 0px 0px var(--gap);
         }
 
         /* #disallowed {
@@ -949,7 +945,7 @@
         #definitions {
             font-size: 10pt;
             color: var(--text);
-            margin: 0px 0px 20px;
+            margin-bottom: 20px;
             width: 85%;
             background: var(--gridcell);
             color: var(--gridcell-text);
@@ -1308,19 +1304,15 @@
 
         .anim-refresh {
             animation-name: animate-refresh;
-            animation-duration: 0.5s;
+            animation-duration: 1s;
         }
 
         @keyframes animate-refresh {
             0% {
                 /* background-color: var(--positive-feedback); */
-                transform: scale(85%);
+                transform: scale(75%);
             }
-            90% {
-                /* background-color: var(--bg); */
-                transform: scale(110%);
-            }            
-            
+
             100% {
                 /* background-color: var(--bg); */
                 transform: scale(100%);
@@ -1774,7 +1766,7 @@
         <div class="rail left-rail">
             <button id="dummyBtn1" class="rail-btn" style="opacity:0%;">?</button>
             <button id="bonusBtn" class="rail-btn span-2">||</button>
-            <!-- <button id="dummyBtn2" class="rail-btn" style="opacity:50%;">...</button> -->
+            <button id="dummyBtn2" class="rail-btn" style="opacity:50%;">...</button>
         </div>
         <!-- <div style="width:auto;height:auto;justify-content:center;align-content:center;"> -->
             <div class="grid" id="letterGrid"></div>
@@ -1792,7 +1784,6 @@
     <!-- <div id="disallowed"></div> --> 
 
                 <button id="newGameBtn" class="newgame">RESTART</button>
-                <br><br>
 
                         <div id="definitions"></div>
     <button id="scrollBtn" class="scrollBtn">^</button>
@@ -1842,7 +1833,7 @@
         const dropdownDiv = document.getElementById("dropdown");
         const disqualified = localStorage.getItem("isDisqualified") === "true";
         const alphabet = "EEEEEEEEEAAAARRRRIIIOOONNSSSTTTLLLLCCUUUDDDPPGGHHBBMMYYFFVVWWKKXJQZ".split("");
-        const starterWords = ["ACE", "ACT", "ADD", "ADO", "ADS", "AFT", "AGE", "AGO", "AIR", "ALL", "AND", "ANT", "ANY", "APE", "APT", "ARC", "ARE", "ARK", "ARM", "ART", "ASH", "ASK", "AWE", "AWL", "AXE", "BAD", "BAG", "BAN", "BAR", "BAT", "BAY", "BED", "BEE", "BEG", "BET", "BIG", "BIN", "BIT", "BOA", "BOB", "BOG", "BOP", "BOW", "BOY", "BRA", "BRO", "BUD", "BUG", "BUM", "BUS", "BUT", "BUY", "BYE", "CAB", "CAD", "CAM", "CAN", "CAP", "CAR", "CAT", "CAW", "COB", "COD", "COG", "CON", "COO", "COP", "COT", "COW", "COY", "CRY", "CUB", "CUP", "CUR", "CUT", "DAB", "DAD", "DAG", "DAM", "DAY", "DEB", "DEN", "DEW", "DID", "DIE", "DIG", "DIN", "DIP", "DOC", "DOE", "DOG", "DON", "DOT", "DRY", "DUB", "DUD", "DUE", "DUG", "EAR", "EAT", "EEL", "EGG", "EGO", "ELF", "ELL", "EMU", "END", "ERA", "EVE", "EWE", "EYE", "FAD", "FAN", "FAR", "FAT", "FAX", "FED", "FEE", "FEW", "FIB", "FIG", "FIN", "FIR", "FIT", "FLY", "FOE", "FOG", "FOR", "FRY", "FUN", "FUR", "GAG", "GAP", "GAS", "GEL", "GEM", "GET", "GIG", "GIN", "GOT", "GUM", "GUN", "GUT", "GUY", "GAP", "HAD", "HAM", "HAS", "HAT", "HAW", "HAY", "HEW", "HEY", "HIM", "HIP", "HIS", "HIT", "HOG", "HOP", "HOT", "HOW", "HUB", "HUE", "HUG", "HUM", "HUT", "ICE", "ILL", "INK", "INN", "ION", "JAB", "JAM", "JAR", "JAW", "JAY", "JAW", "JIG", "JOB", "JOE", "JOG", "JOT", "JOY", "JUG", "KEY", "KIT", "LAB", "LAD", "LAG", "LAP", "LAW", "LAY", "LEA", "LED", "LEG", "LET", "LID", "LIE", "LOG", "LOT", "LOW", "MAD", "MAN", "MAP", "MAT", "MAX", "MAY", "MEN", "MET", "MID", "MIX", "MOB", "MOD", "MOM", "MOP", "MOW", "MUD", "MUG", "MUM", "NAB", "NAP", "NOD", "NOT", "NOW", "NUN", "NUT", "OAR", "OAT", "ODD", "OFF", "OIL", "OLD", "ONE", "OPT", "OUR", "OUT", "OVA", "OWE", "OWL", "OWN", "PAD", "PAL", "PAN", "PAR", "PAT", "PAW", "PAY", "PEG", "PEN", "PET", "PEW", "PHI", "PIE", "PIG", "PIN", "PIT", "PLY", "POD", "POP", "POT", "PRO", "PUB", "PUG", "PUP", "PUT", "RAM", "RAN", "RAP", "RAT", "RAW", "RAY", "RED", "REP", "REV", "RIB", "RID", "RIG", "RIM", "RIP", "ROB", "ROD", "ROE", "ROT", "ROW", "RUB", "RUE", "RUG", "RUN", "RUT", "SAC", "SAD", "SAG", "SAP", "SAT", "SAW", "SAX", "SAY", "SEA", "SEE", "SET", "SEW", "SEX", "SHY", "SIB", "SIC", "SIN", "SIP", "SIR", "SIS", "SIT", "SKY", "SOB", "SOD", "SOL", "SON", "SOP", "SOS", "SOW", "SOX", "SPA", "SPY", "SUB", "SUE", "SUM", "SUN", "SUP", "TAB", "TAD", "TAG", "TAP", "TAR", "TEA", "TEE", "TEN", "THE", "TIE", "TIN", "TIP", "TOE", "TOG", "TON", "TOO", "TOP", "TOT", "TOW", "TOY", "TRY", "TUB", "TUG", "TUX", "TWO", "URN", "USE", "VAN", "VAT", "VET", "VIA", "VIE", "WAR", "WAS", "WAY", "WEB", "WED", "WEE", "WET", "WHO", "WHY", "WIN", "WIT", "WOK", "WON", "WOO", "YAK", "YAM", "YAP", "YAW", "YES", "ABLE", "ACID", "ACRE", "BACK", "BALL", "BAND", "CALM", "CAMP", "CARD", "DAWN", "DAYS", "DEAL", "EACH", "EARN", "ELSE", "FACE", "FACT", "FINE", "GAIN", "GATE", "GAVE", "GIRD", "HAIR", "HALF", "HAND", "ICON", "IDEA", "IDLE", "JACK", "JAIL", "KING", "KIND", "LACK", "LAKE", "LIMP", "MADE", "MAIL", "NAME", "NAIL", "ONCE", "ODDS", "PACK", "PAGE", "RACE", "RAIN", "SAFE", "SAIL", "TAKE", "TALE", "TINE", "UNIT", "URGE", "VARY", "VAST", "WAGE", "WAIT", "YARD", "YARN", "ZAPS"];
+        const starterWords = ["ACE", "ACT", "ADD", "ADO", "ADS", "AFT", "AGE", "AGO", "AIR", "ALL", "AND", "ANT", "ANY", "APE", "APT", "ARC", "ARE", "ARK", "ARM", "ART", "ASH", "ASK", "AWE", "AWL", "AXE", "BAD", "BAG", "BAN", "BAR", "BAT", "BAY", "BED", "BEE", "BEG", "BET", "BIG", "BIN", "BIT", "BOA", "BOB", "BOG", "BOP", "BOW", "BOY", "BRA", "BRO", "BUD", "BUG", "BUM", "BUS", "BUT", "BUY", "BYE", "CAB", "CAD", "CAM", "CAN", "CAP", "CAR", "CAT", "CAW", "COB", "COD", "COG", "CON", "COO", "COP", "COT", "COW", "COY", "CRY", "CUB", "CUE", "CUP", "CUR", "CUT", "DAB", "DAD", "DAG", "DAM", "DAY", "DEB", "DEN", "DEW", "DID", "DIE", "DIG", "DIN", "DIP", "DOC", "DOE", "DOG", "DON", "DOT", "DRY", "DUB", "DUD", "DUE", "DUG", "EAR", "EAT", "EEL", "EGG", "EGO", "ELF", "ELL", "EMU", "END", "ERA", "EVE", "EWE", "EYE", "FAD", "FAN", "FAR", "FAT", "FAX", "FED", "FEE", "FEW", "FIB", "FIG", "FIN", "FIR", "FIT", "FLY", "FOE", "FOG", "FOR", "FRY", "FUN", "FUR", "GAG", "GAP", "GAS", "GAY", "GEL", "GEM", "GET", "GIG", "GIN", "GOT", "GUM", "GUN", "GUT", "GUY", "GAP", "HAD", "HAM", "HAS", "HAT", "HAW", "HAY", "HEW", "HEY", "HIM", "HIP", "HIS", "HIT", "HOG", "HOP", "HOT", "HOW", "HUB", "HUE", "HUG", "HUM", "HUT", "ICE", "ILL", "INK", "INN", "ION", "JAB", "JAM", "JAR", "JAW", "JAY", "JAW", "JIG", "JOB", "JOE", "JOG", "JOT", "JOY", "JUG", "KEY", "KIT", "LAB", "LAD", "LAG", "LAP", "LAW", "LAY", "LEA", "LED", "LEG", "LET", "LID", "LIE", "LOG", "LOT", "LOW", "MAD", "MAN", "MAP", "MAT", "MAX", "MAY", "MEN", "MET", "MID", "MIX", "MOB", "MOD", "MOM", "MOP", "MOW", "MUD", "MUG", "MUM", "NAB", "NAP", "NOD", "NOT", "NOW", "NUN", "NUT", "OAR", "OAT", "ODD", "OFF", "OIL", "OLD", "ONE", "OPT", "OUR", "OUT", "OVA", "OWE", "OWL", "OWN", "PAD", "PAL", "PAN", "PAR", "PAT", "PAW", "PAY", "PEG", "PEN", "PET", "PEW", "PHI", "PIE", "PIG", "PIN", "PIT", "PLY", "POD", "POP", "POT", "PRO", "PUB", "PUG", "PUP", "PUT", "RAM", "RAN", "RAP", "RAT", "RAW", "RAY", "RED", "REP", "REV", "RIB", "RID", "RIG", "RIM", "RIP", "ROB", "ROD", "ROE", "ROT", "ROW", "RUB", "RUE", "RUG", "RUN", "RUT", "SAC", "SAD", "SAG", "SAP", "SAT", "SAW", "SAX", "SAY", "SEA", "SEE", "SET", "SEW", "SEX", "SHY", "SIB", "SIC", "SIN", "SIP", "SIR", "SIS", "SIT", "SKY", "SOB", "SOD", "SOL", "SON", "SOP", "SOS", "SOW", "SOX", "SPA", "SPY", "SUB", "SUE", "SUM", "SUN", "SUP", "TAB", "TAD", "TAG", "TAP", "TAR", "TEA", "TEE", "TEN", "THE", "TIE", "TIN", "TIP", "TOE", "TOG", "TON", "TOO", "TOP", "TOT", "TOW", "TOY", "TRY", "TUB", "TUG", "TUX", "TWO", "URN", "USE", "VAN", "VAT", "VET", "VIA", "VIE", "WAR", "WAS", "WAY", "WEB", "WED", "WEE", "WET", "WHO", "WHY", "WIN", "WIT", "WOK", "WON", "WOO", "YAK", "YAM", "YAP", "YAW", "YES", "ABLE", "ACID", "ACRE", "BACK", "BALL", "BAND", "CALM", "CAMP", "CARD", "DAWN", "DAYS", "DEAL", "EACH", "EARN", "ELSE", "FACE", "FACT", "FINE", "GAIN", "GATE", "GAVE", "GIRD", "HAIR", "HALF", "HAND", "ICON", "IDEA", "IDLE", "JACK", "JAIL", "KING", "KIND", "LACK", "LAKE", "LIMP", "MADE", "MAIL", "NAME", "NAIL", "ONCE", "ODDS", "PACK", "PAGE", "RACE", "RAIN", "SAFE", "SAIL", "TAKE", "TALE", "TINE", "UNIT", "URGE", "VARY", "VAST", "WAGE", "WAIT", "YARD", "YARN", "ZAPS"];
         const allowList = [ "FLAP", "FLAPS", "FLAPPING", "FLAPPED", "FLAPPER", "FLAPPERS", "DOLLING", "DOLLED", "TOCK", "HELL", "FEWER", "YOUR", "PATTER", "DRAB", "LIVES", "LIVED", "LIVING", "HELLS", "TOW", "TOWS", "TOWED", "TOWING", "DUNK", "DUNKS", "DUNKING", "DUNKED", "TOW", "TOWS", "TOWING", "TOWED", "TIGHT", "SIFT", "DOSE", "DOSES", "DOSED", "DOSING", "KITE", "KITES", "NET", "CUE", "CUES", "CUED", "CUEING", "CUING", "RAPE", "RAPES", "RAPED", "SATES", "SATED", "SATING", "RAPING", "PEND", "PENDS", "PENDED", "PENDING", "BE", "LOOK", "LOOKS", "LOOKED", "LOOKING", "VEINY", "WEAN", "WEANS", "WEANED", "WEANING"];
         let isActiveGame = true;
         let playedWords = new Set();
@@ -1983,7 +1974,7 @@
                 saveGameState();
                 setTimeout(() => {
                     letterGrid.classList.remove('anim-refresh');
-                }, 550);
+                }, 1000);
             }
         });
 
