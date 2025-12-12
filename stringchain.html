@@ -7,8 +7,19 @@
     <meta name="description"
         content="Stringchain is a word game. Replace, add, swap, or delete a letter to make a new word. How long can you make your chain of words?">
     <title>stringchain - word game</title>
+    <link rel="icon" href="/favicon.ico">
+    <script>window.sa_event=window.sa_event||function(){var a=[].slice.call(arguments);window.sa_event.q?window.sa_event.q.push(a):window.sa_event.q=[a]};</script>
     <style>
         :root {
+            --grid-size: 3;       /* will be overwritten by JS */
+            --cell-size: 48px;
+            --gap: 10px;
+            /* --rail-width: ((360 - ((var(--grid-size)*(var(--cell-size)+var(--gap))) + var(--gap)))/2)px; */
+
+            --rail-width: 59px;
+
+
+
 
             --rounding: 8px;
             --rounding-small: 4px;
@@ -357,20 +368,20 @@
 
             --positive-feedback: #5b8;
 
-            --negative-feedback: #511;
+            --negative-feedback: #c66;
             --disabled: #444;
 
             --wordcell: var(--accent);
             --wordcell-text: var(--text);
-            --wordcell-border: 2px solid var(--wordcell);
+            --wordcell-border: 2px solid var(--accent);
 
-            --gridcell: var(--bg);
+            --gridcell: var(--accent);
             --gridcell-text: var(--wordcell-text);
             --gridcell-border: 2px solid var(--accent);
 
             --selected-cell: var(--bg);
-            --selected-text: #fff;
-            --selected-border: 2px dashed #ff0;
+            --selected-text: var(--text);
+            --selected-border: 2px solid var(--text);
 
 
         }
@@ -493,6 +504,7 @@
         .scores {
             position: relative;
             padding-block: 10px;
+            /* padding-right:22px; */
             font-size: 15pt;
             flex-wrap: wrap;
             text-align: center;
@@ -516,7 +528,7 @@
             height: 66px;
             width: 100%;
             background-image: linear-gradient(to top, var(--bg), var(--accent));
-            padding-block: 10px;
+            padding-block: 15px;
             opacity: 75%;
             z-index: -1;
         }
@@ -587,23 +599,141 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.game-area {
+  width: 360px;
+  margin: 20px 50px 15px;
+  /* box-sizing: border-box; */
+}
+
+.play-grid-layout {
+  display: grid;
+  grid-template-columns:
+    var(--rail-width)
+    242px
+    var(--rail-width);
+    /* column-gap: var(--gap); */
+    column-gap: 0px;
+/*   
+  justify-content: center;
+  align-content:center; */
+}
+
+/* LETTER GRID (auto-adjusts with JS) */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-size), var(--cell-size));
+  grid-template-rows:    repeat(var(--grid-size), var(--cell-size));
+  gap: var(--gap);
+  justify-content: center;
+  align-content:center;
+}
+
+/* RAILS (rows match grid) */
+.rail {
+  display: grid;
+  grid-template-rows: repeat(4, var(--cell-size));
+  gap: var(--gap);
+  width: var(--rail-width);
+  margin:none;
+  padding:none;
+}
+
+/* BUTTONS */
+.rail-btn {
+  width: 100%;
+  height: 102%;
+  border: 2px solid var(accent);
+  /* margin:none;
+  padding:none; */
+}
+
+/*spans all rows*/
+.rail-btn.span {  
+  grid-row: span var(--grid-size);
+}
+
+/*spans 2 rows*/
+.rail-btn.span-2 {
+  grid-row: span 2;
+}
+
+/*spans 3 rows*/
+.rail-btn.span-3 {
+  grid-row: span var(--grid-size);
+}
+
+.rail-btn.span-0 {
+  display: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(12vw, 100vw));
-            margin: 10px auto;
-            margin: none;
+            margin: auto;
             row-gap: 7px;
             column-gap: 10px;
-            padding: 10px;
-        }
+            padding: auto;
+        } */
 
 
         .grid-cell {
             border: var(--gridcell-border);
             color: var(--gridcell-text);
-            width: 60px;
+            width: var(--cell-size);
             /* this also needs to be edited in renderGrid function */
-            height: 60px;
+            height: var(--cell-size);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -650,15 +780,19 @@
 
 
 
+        
+
+
         button {
             background: var(--accent);
-            margin: 10px 0px;
-            padding: 0px 10px;
+            /* margin: 10px 0px; */
+            /* padding: 0px 10px; */
             color: var(--accent-text);
             border-radius: var(--rounding);
+            /* border: 2px solid var(--accent); */
             border: none;
             font-size: 11pt;
-        }
+        } 
 
 
         #scrollBtn {
@@ -681,9 +815,10 @@
         .newgame {
             width: 90%;
             padding: 10px 10px;
+            margin:10px 0px;
             display: block;
             background-image: linear-gradient(to right, var(--text), var(--accent), var(--accent-text));
-
+            height: var(--cell-size);
         }
 
         .help {
@@ -740,14 +875,17 @@
 
 
         #status {
-            font-size: 9pt;
+            font-size: 13pt;
             font-family: 'Courier New', Courier, monospace;
-            margin: 5px 0 3px;
+            margin: -10px 0px 8px 0px;
             color: var(--accent);
             /* text-align:end; */
             /* align-items: top; */
-            opacity: 66%;
-            max-height: 7px;
+            /* opacity: 66%; */
+            max-height: 6px;
+            width:50%;
+            text-align:center;
+            /* letter-spacing: 0.5em; */
             /* padding-top:-5px; */
             /* margin-top: -15px; */
         }
@@ -800,6 +938,8 @@
         mark.highlight.fade {
             color: transparent;
         }
+
+
 
 
         #definitions {
@@ -1169,11 +1309,13 @@
 
         @keyframes animate-refresh {
             0% {
-                background-color: var(--positive-feedback);
+                /* background-color: var(--positive-feedback); */
+                transform: scale(75%);
             }
 
             100% {
-                background-color: var(--bg);
+                /* background-color: var(--bg); */
+                transform: scale(100%);
             }
         }
 
@@ -1256,10 +1398,11 @@
                         <div class="insert-slot demo-cell"></div>
                     </div>
                     <p class="demo-para">Hit the <b><i>PLAY</i></b> button to complete the move.<br><br></p>
-                    <div class="button-row demo demoscale"> <button class="bonusBtn disabled"
-                            style="border:2px solid transparent;">||</button><button class="actionBtn"
-                            style="border:var(--selected-border);">PLAY</button><button class="shuffleBtn disabled"
-                            style="border:2px solid transparent;">#</button></div>
+                    <!-- <div class="button-row demo demoscale"> 
+                        <button class="bonusBtn disabled" style="border:2px solid transparent;">||</button>
+                        <button class="actionBtn" style="border:var(--selected-border);">PLAY</button>
+                        <button class="shuffleBtn disabled" style="border:2px solid transparent;">#</button>
+                        </div> -->
 
                     <div class="word-container demoscale"
                         style="width:75%;background:var(--positive-feedback);margin-top:20px;">
@@ -1292,10 +1435,10 @@
                         <div class="insert-slot demo-cell"></div>
                     </div>
                     <p class="demo-para">Hit <b><i>PLAY</i></b> to complete the move.<br><br></p>
-                    <div class="button-row demo demoscale"> <button class="bonusBtn disabled"
+                    <!-- <div class="button-row demo demoscale"> <button class="bonusBtn disabled"
                             style="border:2px solid transparent;">||</button><button class="actionBtn"
                             style="border:var(--selected-border);">PLAY</button><button class="shuffleBtn disabled"
-                            style="border:2px solid transparent;">#</button></div>
+                            style="border:2px solid transparent;">#</button></div> -->
                     <div class="word-container demoscale" style="background:var(--positive-feedback);margin-top:20px;">
                         <div class="insert-slot demo-cell"></div>
                         <div class="letter demo-cell">T</div>
@@ -1326,10 +1469,10 @@
                         <div class="insert-slot demo-cell"></div>
                     </div>
                     <p class="demo-para">Hit <b><i>PLAY</i></b> to delete it<br>and make a new valid word.<br><br></p>
-                    <div class="button-row demo demoscale"> <button class="bonusBtn disabled"
+                    <!-- <div class="button-row demo demoscale"> <button class="bonusBtn disabled"
                             style="border:2px solid transparent;">||</button><button class="actionBtn"
                             style="border:var(--selected-border);">PLAY</button><button class="shuffleBtn disabled"
-                            style="border:2px solid transparent;">#</button></div>
+                            style="border:2px solid transparent;">#</button></div> -->
 
                     <div class="word-container demoscale" style="background:var(--positive-feedback);margin-top:20px;">
                         <div class="insert-slot demo-cell"></div>
@@ -1373,10 +1516,10 @@
                         <div class="grid-cell-demo">T</div>
                     </div>
                     <p class="demo-para">Hit <b><i>PLAY</i></b> to confirm.<br><br></p>
-                    <div class="button-row demo demoscale"> <button class="bonusBtn disabled"
+                    <!-- <div class="button-row demo demoscale"> <button class="bonusBtn disabled"
                             style="border:2px solid transparent;">||</button><button class="actionBtn"
                             style="border:var(--selected-border);">PLAY</button><button class="shuffleBtn disabled"
-                            style="border:2px solid transparent;">#</button></div>
+                            style="border:2px solid transparent;">#</button></div> -->
                     <div class="word-container demoscale"
                         style="width:75%;background:var(--positive-feedback);margin-top:20px;">
                         <div class="insert-slot demo-cell"></div>
@@ -1422,10 +1565,10 @@
                         <div class="grid-cell-demo selected">T</div>
                     </div>
                     <p class="demo-para">Engage <b><i>PLAY</i></b> to make it so<br><br></p>
-                    <div class="button-row demo demoscale"> <button class="bonusBtn disabled"
+                    <!-- <div class="button-row demo demoscale"> <button class="bonusBtn disabled"
                             style="border:2px solid transparent;">||</button><button class="actionBtn"
                             style="border:var(--selected-border);">PLAY</button><button class="shuffleBtn disabled"
-                            style="border:2px solid transparent;">#</button></div>
+                            style="border:2px solid transparent;">#</button></div> -->
 
                     <div class="word-container demoscale"
                         style="width:75%;background:var(--positive-feedback);margin-top:20px;">
@@ -1490,17 +1633,17 @@
                 <div class="demo-board">
                     <div class="word-container demoscale" style="width:110%;">
                         <div class="insert-slot demo-cell"></div>
+                        <div class="letter demo-cell">B</div>
+                        <div class="insert-slot demo-cell"></div>
+                        <div class="letter demo-cell">A</div>
+                        <div class="insert-slot demo-cell"></div>
+                        <div class="letter demo-cell">L</div>
+                        <div class="insert-slot demo-cell"></div>
+                        <div class="letter demo-cell">L</div>
+                        <div class="insert-slot demo-cell"></div>
                         <div class="letter demo-cell">S</div>
                         <div class="insert-slot demo-cell"></div>
-                        <div class="letter demo-cell">U</div>
-                        <div class="insert-slot demo-cell"></div>
-                        <div class="letter demo-cell">P</div>
-                        <div class="insert-slot demo-cell"></div>
-                        <div class="letter demo-cell">E</div>
-                        <div class="insert-slot demo-cell"></div>
-                        <div class="letter demo-cell">R</div>
-                        <div class="insert-slot demo-cell"></div>
-                        <div class="letter demo-cell">B</div>
+                        <div class="letter demo-cell">Y</div>
                         <div class="insert-slot demo-cell"></div>
                     </div>
                     <p class="demo-para">Reach a six letter word once<br>and the grid expands to 4x4.</p>
@@ -1537,8 +1680,7 @@
                 <br>
                 <br>Words that fail dictionary validation are penalised with increasing severity.
                 <br>
-                <br>The fifth invalid attempt ends the game. You can see your remaining lives under the
-                <b><i>PLAY</i></b> button.
+                <br>The fifth invalid attempt ends the game. You can see your remaining lives under the current word.
                 <br>
                 <br>Enjoy!
                 <br>
@@ -1553,26 +1695,26 @@
                 <br>
                 <br>Without whoever they are, whoever I am couldn't have made this game for whoever you are.
                 <br>
-                <br>The world is full of bitesize puzzles. In running terms, you get lots of 100 meter sprints, the occasional 5K. These are great. I love them.
+                <br>The internet is awash with bitesize daily puzzles. These are great, but Stringchain is more open-ended and user-driven. 
+                Play as much as you want, whenever you want. It's not a subscription, it's not an appointment. You choose when and how much. Take breaks, be healthy.
                 <br>
-                <br>But Stringchain, well played, can be a marathon. Train, prepare, strategise, pace yourself. Maybe it's a supermarathon.
+                <br>If you're new to this, you should know it's probably best to start with short malleable words. A new game is a delicate thing, it's too easy to back yourself into a corner and wash out early. 
+                I will be addressing this in future updates, as well as adding exciting features to keep the gameplay interesting and help you make the chain as long as you can imagine.
                 <br>
-                <br>It's best to start off with short words, a new game is an all too delicate thing, it's so easy to back yourself into a corner and wash out early. 
-                This is by design. Anything good has to break your heart a little.
-                <br>
-                <br>But once you bank some bonuses, you have more options. You can challenge yourself to play longer words. Tap into your rich
-                personal lexicon, or just guess at words that are likely to exist.
+                <br>Once you bank some bonuses, you can challenge yourself to play longer words. Your highscores will include a sample of some consecutive words you played. Make yourself presentable.
                 <br>
                 <br>As the wordlist grows, you may attempt to play a word you already played. 
                 Scroll down and see this word highlighted in your word list. 
-                Look at the surrounding words to see which nearby words you already used, so you can find you way out of this mess. 
-                A game may be played over several sessions, this highlghting feature allows you to easily pick up where you left off.
+                Look at the surrounding words to see which nearby words you already used, so you can find your way out of this mess. 
+                This highlghting feature allows you to easily pick up where you left off if you are playing over several sessions.
                 <br>
-                <br>Once you pass 128 words, you start to earn wildcard bonuses. But the longer it goes, the harder it gets. After you've used up all the obvious and convenient short
-                words, the game forces you to get creative.
+                <br>The longer the game goes, the harder it gets. After you've used up all the obvious and convenient short
+                words, the game forces you to get creative. 
                 <br>
                 <br>Get a high score.<br>Beat that high score. <br>Screenshot that high score and challenge your
                 friends.<br>Show off your word list. You made that. Look at all the words you know.
+                <br>
+                <br>I have ideas for future tweaks to game mechanics to incentivise risk-taking, shooting for longer words, making things more exciting. But the core game is in place. Version 1.0. Have at it.
                 <br>
                 <br>If you enjoy this game, consider buying me a coffee or putting my kids through college.
                 <br>
@@ -1592,19 +1734,59 @@
     <div class="scale-wrapper" id="scaleWrapper">
         <div class="word-container" id="wordContainer"></div>
     </div>
-    <div class="button-row">
+    <div id="status">...</div>
+
+    <!-- <div class="button-row">
         <button id="bonusBtn">||</button>
         <button id="actionBtn">PLAY</button>
         <button id="shuffleBtn">#</button>
+    </div> -->
+    <!-- <div id="message" class="message"></div> -->
+<!-- <table class="no-spaces">
+    <tr class="no-spaces">
+        <td class="button-col">
+            <button id="dummyBtn" style="opacity:0%;">?</button>
+                <button id="bonusBtn">||</button>
+        </td>
+        <td style="border:none;margin-top:0px;">
+            <div class="grid" id="letterGrid"></div>
+        </td>
+        <td class="button-col">
+            <button id="actionBtn">PLAY</button>
+            <button id="shuffleBtn">#</button>
+        </td>
+    </tr>
+</table> -->
+<!-- <div id="status">...</div> -->
+
+<div class="game-area"> <!-- Fixed width matching your history area -->
+
+    <div class="play-grid-layout">
+
+        <div class="rail left-rail">
+            <button id="dummyBtn1" class="rail-btn" style="opacity:0%;">?</button>
+            <button id="bonusBtn" class="rail-btn span-2">||</button>
+            <button id="dummyBtn2" class="rail-btn" style="opacity:50%;">...</button>
+        </div>
+        <!-- <div style="width:auto;height:auto;justify-content:center;align-content:center;"> -->
+            <div class="grid" id="letterGrid"></div>
+        <!-- </div> -->
+
+        <div class="rail right-rail">
+            <button id="actionBtn" class="rail-btn span-2">PLAY</button>
+            <button id="dummyBtn3" class="rail-btn" style="opacity:0%;">?</button>
+            <button id="shuffleBtn" class="rail-btn">#</button>
+        </div>
+
     </div>
-    <div id="status">...</div>
-
-    <div class="grid" id="letterGrid"></div>
+</div>
     <div id="history"></div>
-    <!-- <div id="disallowed"></div> -->
+    <!-- <div id="disallowed"></div> --> 
 
-    <button id="newGameBtn" class="newgame">RESTART</button>
-    <div id="definitions"></div>
+                <button id="newGameBtn" class="newgame">RESTART</button>
+                <br><br>
+
+                        <div id="definitions"></div>
     <button id="scrollBtn" class="scrollBtn">^</button>
     <!-- Asterisk Letter Picker Modal -->
     <div id="asteriskModal" class="modal hidden">
@@ -1788,13 +1970,24 @@
                 initGrid();
                 updateShuffleButton();
                 messageElement.textContent = "Grid refreshed!";
-                showTemporaryMessage();
+                showTemporaryMessage();                
                 letterGrid.classList.add('anim-refresh');
                 saveGameState();
+                setTimeout(() => {
+                    letterGrid.classList.remove('anim-refresh');
+                }, 1000);
             }
         });
 
         newGameBtn.addEventListener('click', () => {
+
+            if (isActiveGame == true && chain >= 5) {
+                let text = "Are you sure you want to restart?";
+                if (confirm(text) == false) {
+                    return;
+                }
+            }
+            sa_event("new_game_test_version");
             saveHighScore();
             getHighScores();
             localStorage.removeItem("stringChainState");
@@ -1804,8 +1997,8 @@
             grid = [];
             score = 0;
             chain = 0;
-            bonusMovesAvailable = 0;
-            shuffleBonusesAvailable = 0;
+            bonusMovesAvailable = 5;
+            shuffleBonusesAvailable = 5;
             asteriskEarned = 0;
             lastAsteriskThreshold = 0;
             invalidAttempts = 0;
@@ -2001,7 +2194,7 @@
 //SAVING, LOADING, HIGHSCORES
 
         function saveGameState() {
-            const gameState = { isActiveGame, gameID, currentWord, lastValidWord, gridSize, grid, gridFallback, score, chain, bonusMovesAvailable, asteriskEarned, lastAsteriskThreshold, shuffleBonusesAvailable, invalidAttempts, totalPenalty, totalChainLoss, playedWords: Array.from(playedWords)
+            const gameState = { isActiveGame, gameID, currentWord, lastValidWord, gridSize, grid, gridFallback, score, chain, bonusMovesAvailable, asteriskEarned, lastAsteriskThreshold, shuffleBonusesAvailable, invalidAttempts, totalPenalty, totalChainLoss, bonusCounter, playedWords: Array.from(playedWords)
                 // , disallowedWords: Array.from(disallowedWords) 
             };
             localStorage.setItem("stringChainState", JSON.stringify(gameState));
@@ -2021,7 +2214,7 @@
             }
 
             try {
-                ({ isActiveGame, gameID, currentWord, lastValidWord, gridSize, grid, gridFallback, score, chain, bonusMovesAvailable, asteriskEarned, lastAsteriskThreshold, shuffleBonusesAvailable, invalidAttempts, totalPenalty, totalChainLoss, playedWords
+                ({ isActiveGame, gameID, currentWord, lastValidWord, gridSize, grid, gridFallback, score, chain, bonusMovesAvailable, asteriskEarned, lastAsteriskThreshold, shuffleBonusesAvailable, invalidAttempts, totalPenalty, totalChainLoss, bonusCounter, playedWords
                     // , disallowedWords 
                 } = JSON.parse(saved));
                 // disallowedWords = new Set(disallowedWords);
@@ -2043,6 +2236,8 @@
             }
         }
 
+
+        
         function saveHighScore() {
             const stringchainHighScore = JSON.parse(localStorage.getItem("stringchainHighScore")) || [];
             const saveTime = new Intl.DateTimeFormat(undefined, {
@@ -2056,8 +2251,6 @@
             })
                 .format(new Date())
                 .replace(/,/g, ''); // strip commas
-            // const newHighScore = { saveTime, score, chain, gameID };
-            // const highlight = getHighlightReel();
             const highlight = getHighlightReel();
             const newHighScore = { saveTime, score, chain, gameID, highlight };
 
@@ -2074,10 +2267,6 @@
                 return;
             }
 
-            if (!stringchainHighScore) {
-                localStorage.setItem("stringChainHighScore", JSON.stringify(newHighScore));
-                return;
-            }
             stringchainHighScore.push({
                 saveTime: saveTime,
                 score: score,
@@ -2085,6 +2274,12 @@
                 gameID: gameID,
                 highlight: highlight
             });
+            
+            //LOG HIGHSCORE EVENT
+            let gameTracker = gameID.replace(/[^\d]/g, '');            
+            sa_event(() => 
+            `${gameTracker}_${score}_${chain}_${highlight.replace(/ /g, '_')}`
+            );
 
             stringchainHighScore.sort((a, b) => b.score - a.score);
 
@@ -2104,7 +2299,6 @@
                 const scoreTableParse = JSON.parse(localStorage.getItem('stringchainHighScore')) || [];
                 let scoreTable = scoreTableParse
                 scoreTable = scoreTable.filter(entry => !(entry.score === 0 && entry.chain === 0));
-                // const rows = scoreTable.map(entry => `<tr><td>${entry.score}</td><td>${entry.chain}</td><td>${entry.saveTime}</td></tr>`).join('');
                 const rows = scoreTable.map(entry => {
                     const highlightRow = entry.highlight && entry.highlight.trim()
                         ? `<tr><td colspan="3" class="highlight-reel">${entry.highlight}</td></tr>`
@@ -2115,6 +2309,7 @@
                 if (!rows) { return };
                 highScoresElement.innerHTML = `<h4>YOUR BEST GAMES</h4><table class = "high-score-table"><tr><th>STRING</th><th>CHAIN</th><th>SAVED</th></tr>${rows}</table>`;
             }
+
 
 
          // >>> FINAL getHighlightReel
@@ -2209,10 +2404,13 @@
 
 //CHANGING STATES MESSAGES TEXT
         function updateStatus() {
-            let left = 5 - invalidAttempts;
-            let baseStr = "■ ■ ■ ■ ■"
-            let xStr = "□ □ □ □ □ "
-            let base = '<big><big><big>' + xStr.slice(2 * left) + baseStr.slice(2 * invalidAttempts) + '</big></big></big>';
+            let livesLeft = 5 - invalidAttempts;
+            // let baseStr = "■ ■ ■ ■ ■"
+            // let xStr = "□ □ □ □ □ "
+            let baseStr = "| | | | |"
+            let xStr = "- - - - - "
+            // let base = '<big><big><big>' + xStr.slice(2 * left) + baseStr.slice((2 * invalidAttempts) - 1) + '</big></big></big>';
+            let base = '<b>' + xStr.slice(2 * livesLeft) + baseStr.slice(2 * invalidAttempts) + '</b>';
             statusElement.innerHTML = base;
         }
 
@@ -2635,7 +2833,8 @@ function chooseAsteriskLetter(letter) {
         function renderGrid() {
             // maybePlaceAsterisk();
             gridElement.innerHTML = '';
-            gridElement.style.gridTemplateColumns = `repeat(${gridSize}, 60px)`;
+            // gridElement.style.gridTemplateColumns = `repeat(${gridSize}, 45px)`;
+            gridElement.style.gridTemplateColumns = `repeat(${gridSize}, var(--cell-size))`;
 
             for (let r = 0; r < gridSize; r++) {
                 for (let c = 0; c < gridSize; c++) {
@@ -2824,6 +3023,8 @@ function chooseAsteriskLetter(letter) {
 
                 gridSize = 4;
                 grid = newGrid;
+                // dummyBtn1.classList.remove("span-0");
+                dummyBtn2.classList.remove("span-0");
 
                 playedWords.add("(4x4)");
                 updateHistory();
@@ -2992,6 +3193,7 @@ function chooseAsteriskLetter(letter) {
                     scoreElement.textContent = score;
                     chainElement.textContent = chain;
                     messageElement.textContent = "Yes, valid word!";
+                    sa_event(() => "api_" + currentWord); //LOG API-VALIDATED WORDS (NOT ON LOCAL LIST)
                     clearSpecialMode(); // SEP 1 EDIT
                     greenAnimation();
                     showDefinitions(lower);
@@ -3003,6 +3205,7 @@ function chooseAsteriskLetter(letter) {
                 })
                 .catch(() => {
                     invalidAttempts++;
+                    sa_event(() => "invalid_" + currentWord); //LOG INVALID WORDS
                     let penalty = currentWord.length * invalidAttempts;
                     totalPenalty += penalty;
                     totalChainLoss++;
@@ -3011,9 +3214,9 @@ function chooseAsteriskLetter(letter) {
                     // disallowedWords.add(lower + `(-${penalty})`);
                     playedWords.add(lower + `(-${penalty})`);
                     updateHistory();
+                    messageElement.textContent = currentWord.toLowerCase() + ` is not a word, apparently (-${penalty})`;
                     currentWord = lastValidWord;
                     renderWord();
-                    messageElement.textContent = `Invalid word! Penalty: -${penalty}`;
                     rollbackGrid();
                     // grid = gridFallback;
                     // renderGrid();
@@ -3023,7 +3226,7 @@ function chooseAsteriskLetter(letter) {
                     
 
                     if (invalidAttempts >= 5) {
-                        messageElement.textContent += " - GAME OVER";
+                        messageElement.textContent += " - and you're out of lives!";
                         saveHighScore();
                         disableGame();
                         saveGameState();
@@ -3044,7 +3247,7 @@ function chooseAsteriskLetter(letter) {
             clearSelection();
             renderWord();
             if (!moved) {
-                messageElement.textContent = "Invalid move. Click + for guidance.";
+                messageElement.textContent = "Not a valid move. Click + for guidance"; //MAX 42 chars
                 showTemporaryMessage();
                 return;
             }
@@ -3061,7 +3264,7 @@ function chooseAsteriskLetter(letter) {
     </script>
 
 
-
+<script async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
 </body>
 
 </html>
