@@ -1987,7 +1987,7 @@
                     return;
                 }
             }
-            sa_event("new_game_test_version");
+            sa_event("test_new_game");
             saveHighScore();
             getHighScores();
             localStorage.removeItem("stringChainState");
@@ -2278,7 +2278,7 @@
             //LOG HIGHSCORE EVENT
             let gameTracker = gameID.replace(/[^\d]/g, '');            
             sa_event(() => 
-            `${gameTracker}_${score}_${chain}_${highlight.replace(/ /g, '_')}`
+            `test_${gameTracker}_${score}_${chain}_${highlight.replace(/ /g, '_')}`
             );
 
             stringchainHighScore.sort((a, b) => b.score - a.score);
@@ -3193,7 +3193,7 @@ function chooseAsteriskLetter(letter) {
                     scoreElement.textContent = score;
                     chainElement.textContent = chain;
                     messageElement.textContent = "Yes, valid word!";
-                    sa_event(() => "api_" + currentWord); //LOG API-VALIDATED WORDS (NOT ON LOCAL LIST)
+                    sa_event(() => "test_api_" + currentWord); //LOG API-VALIDATED WORDS (NOT ON LOCAL LIST)
                     clearSpecialMode(); // SEP 1 EDIT
                     greenAnimation();
                     showDefinitions(lower);
@@ -3205,7 +3205,7 @@ function chooseAsteriskLetter(letter) {
                 })
                 .catch(() => {
                     invalidAttempts++;
-                    sa_event(() => "invalid_" + currentWord); //LOG INVALID WORDS
+                    sa_event(() => "test_invalid_" + currentWord); //LOG INVALID WORDS
                     let penalty = currentWord.length * invalidAttempts;
                     totalPenalty += penalty;
                     totalChainLoss++;
