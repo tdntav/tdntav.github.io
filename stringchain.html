@@ -595,8 +595,11 @@
         .special {
             background: linear-gradient(var(--bg), var(--accent));
         }
-
-
+        .special-sauce {
+            background: none;
+            background-color: none;
+        }
+        
 
 
 
@@ -892,36 +895,23 @@
 
 
         #history
-        /* ,#disallowed  */
         {
             display: block;
             white-space: normal;
             word-wrap: break-word;
+            text-align: justify;
             width: 85%;
-            /* width + 2*padding = 80% */
             min-height: 22px;
             font-size: 12pt;
             font-family: "Courier New", monospace;
-            background-color: var(--accent);
+            color: var(--accent-text);
+            background: var(--accent);
             padding-inline: 2.5%;
             padding-block: 10px;
-            margin-top: 0px 0px var(--gap);
-        }
-
-        /* #disallowed {
-            background-color: var(--disabled);
-            color: var(--accent-text);
-            margin-bottom: 0px;
-            border-radius: 0px 0px var(--rounding) var(--rounding);
-
-        } */
-
-        #history {
-            margin-top: 0px;
+            margin: 0px;
             border-radius: var(--rounding);
-            color: var(--accent-text);
-            text-align: justify;
         }
+
 
         mark.highlight {
             background: var(--wordcell-text);
@@ -2113,11 +2103,13 @@
         function activateSpecialMode() {
             specialModeActive = true;
             wordContainer.classList.add('special');
+            messageElement.classList.add('special-sauce');
             return;
         }
         function clearSpecialMode() {
             specialModeActive = false;
             wordContainer.classList.remove('special');
+            messageElement.classList.remove('special-sauce');
             return;
         }
 
