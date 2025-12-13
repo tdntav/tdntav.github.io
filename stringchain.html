@@ -12,11 +12,11 @@
     <style>
         :root {
             --grid-size: 3;       /* will be overwritten by JS */
-            --cell-size: 45px;
+            --cell-size: 48px;
             --gap: 9px;
             /* --rail-width: ((360 - ((var(--grid-size)*(var(--cell-size)+var(--gap))) + var(--gap)))/2)px; */
 
-            --rail-width: 67.5px;
+            --rail-width: 61.5px;
 
 
 
@@ -628,7 +628,7 @@
   display: grid;
   grid-template-columns:
     var(--rail-width)
-    225px
+    auto
     var(--rail-width);
     /* column-gap: var(--gap); */
     column-gap: 0px;
