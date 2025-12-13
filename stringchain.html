@@ -12,11 +12,11 @@
     <style>
         :root {
             --grid-size: 3;       /* will be overwritten by JS */
-            --cell-size: 48px;
-            --gap: 10px;
+            --cell-size: 45px;
+            --gap: 9px;
             /* --rail-width: ((360 - ((var(--grid-size)*(var(--cell-size)+var(--gap))) + var(--gap)))/2)px; */
 
-            --rail-width: 59px;
+            --rail-width: 67.5px;
 
 
 
@@ -485,7 +485,7 @@
             flex-direction: column;
             align-items: center;
             /* padding: 10px; */
-            font-size: 22pt;
+            font-size: 20pt;
         }
 
         h1,
@@ -628,7 +628,7 @@
   display: grid;
   grid-template-columns:
     var(--rail-width)
-    242px
+    225px
     var(--rail-width);
     /* column-gap: var(--gap); */
     column-gap: 0px;
@@ -650,7 +650,7 @@
 /* RAILS (rows match grid) */
 .rail {
   display: grid;
-  grid-template-rows: repeat(4, var(--cell-size));
+  grid-template-rows: repeat(var(--grid-size), var(--cell-size));
   gap: var(--gap);
   width: var(--rail-width);
   margin:none;
@@ -660,7 +660,7 @@
 /* BUTTONS */
 .rail-btn {
   width: 100%;
-  height: 102%;
+  height: 100%;
   border: 2px solid var(--accent-text);
   /* margin:none;
   padding:none; */
@@ -678,7 +678,7 @@
 
 /*spans 3 rows*/
 .rail-btn.span-3 {
-  grid-row: span var(--grid-size);
+  grid-row: span 3;
 }
 
 .rail-btn.span-0 {
@@ -744,6 +744,7 @@
             border-radius: var(--rounding);
             text-transform: uppercase;
             cursor: pointer;
+            font-size: 16pt;
         }
 
         .grid-cell.used {
@@ -794,7 +795,9 @@
             border-radius: var(--rounding);
             /* border: 2px solid var(--accent); */
             border: none;
+            margin:none;
             font-size: 11pt;
+            align-self:;
         } 
 
 
@@ -1179,7 +1182,7 @@
   /* border: 1px solid #ccc; */
   /* border-radius: var(--rounding-small); */
   /* cursor: pointer; */
-  border: var(--gridcell-border);
+            border: var(--gridcell-border);
             color: var(--gridcell-text);
             width: 44px;
             height: 56px;
@@ -1248,41 +1251,30 @@
 
         .anim-bonus {
             animation-name: animate-bonus;
-            animation-duration: 1s;
+            animation-duration: 0.5s;
         }
 
         @keyframes animate-bonus {
             0% {
                 background-color: var(--positive-feedback);
-                transform: scale(80%);
-            }
-
-            30% {
-                transform: scale(105%);
-            }
-
-            40% {
-                transform: scale(100%);
+                transform: scale(75%);
             }
 
             100% {
                 background-color: var(--accent);
+                transform: scale(100%);
             }
         }
 
 
         .anim-play {
             animation-name: animate-play;
-            animation-duration: 0.2s;
+            animation-duration: 0.25s;
         }
 
         @keyframes animate-play {
             0% {
-                transform: scale(80%);
-            }
-
-            75% {
-                transform: scale(110%);
+                transform: scale(75%);
             }
 
             100% {
@@ -1294,7 +1286,7 @@
 
         .anim-refresh {
             animation-name: animate-refresh;
-            animation-duration: 1s;
+            animation-duration: 0.5s;
         }
 
         @keyframes animate-refresh {
@@ -1754,9 +1746,9 @@
     <div class="play-grid-layout">
 
         <div class="rail left-rail">
-            <button id="dummyBtn1" class="rail-btn" style="opacity:0%;">?</button>
+            <button id="dummyBtn1" class="rail-btn span-0" style="opacity:0%;">?</button>
             <button id="bonusBtn" class="rail-btn span-2">||</button>
-            <button id="dummyBtn2" class="rail-btn" style="opacity:50%;">...</button>
+            <button id="dummyBtn2" class="rail-btn">...</button>
         </div>
         <!-- <div style="width:auto;height:auto;justify-content:center;align-content:center;"> -->
             <div class="grid" id="letterGrid"></div>
@@ -1764,7 +1756,7 @@
 
         <div class="rail right-rail">
             <button id="actionBtn" class="rail-btn span-2">PLAY</button>
-            <button id="dummyBtn3" class="rail-btn" style="opacity:0%;">?</button>
+            <button id="dummyBtn3" class="rail-btn span-0" style="opacity:0%;">?</button>
             <button id="shuffleBtn" class="rail-btn">#</button>
         </div>
 
@@ -2217,6 +2209,8 @@
                 showDefinitions(lastValidWord);
                 updateStatus();
                 loadLocalWords();
+                if (gridSize == 3) { dummyBtn1.classList.add("span-0"); dummyBtn3.classList.add("span-0");}
+                if (gridSize == 4) { dummyBtn1.classList.remove("span-0"); dummyBtn3.classList.remove("span-0");}
                 scoreElement.textContent = score;
                 chainElement.textContent = chain;
             } catch (err) {
@@ -2823,7 +2817,8 @@ function chooseAsteriskLetter(letter) {
             // maybePlaceAsterisk();
             gridElement.innerHTML = '';
             // gridElement.style.gridTemplateColumns = `repeat(${gridSize}, 45px)`;
-            gridElement.style.gridTemplateColumns = `repeat(${gridSize}, var(--cell-size))`;
+            gridElement.style.gridTemplateColumns = `repeat(${gridSize}, 45px)`;
+            // gridElement.style.gridTemplateRows = `repeat(${gridSize}, var(--cell-size)px)`;
 
             for (let r = 0; r < gridSize; r++) {
                 for (let c = 0; c < gridSize; c++) {
@@ -3013,7 +3008,8 @@ function chooseAsteriskLetter(letter) {
                 gridSize = 4;
                 grid = newGrid;
                 // dummyBtn1.classList.remove("span-0");
-                dummyBtn2.classList.remove("span-0");
+                dummyBtn1.classList.remove("span-0");
+                dummyBtn3.classList.remove("span-0");
 
                 playedWords.add("(4x4)");
                 updateHistory();
