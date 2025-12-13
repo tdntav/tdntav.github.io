@@ -11,6 +11,15 @@
     <script>window.sa_event=window.sa_event||function(){var a=[].slice.call(arguments);window.sa_event.q?window.sa_event.q.push(a):window.sa_event.q=[a]};</script>
     <style>
         :root {
+            --grid-size: 3;       /* will be overwritten by JS */
+            --cell-size: 48px;
+            --gap: 9px;
+            /* --rail-width: ((360 - ((var(--grid-size)*(var(--cell-size)+var(--gap))) + var(--gap)))/2)px; */
+
+            --rail-width: 61.5px;
+/* 48, 9, 61.5 */
+
+
 
             --rounding: 8px;
             --rounding-small: 4px;
@@ -359,20 +368,20 @@
 
             --positive-feedback: #5b8;
 
-            --negative-feedback: #511;
+            --negative-feedback: #c66;
             --disabled: #444;
 
             --wordcell: var(--accent);
             --wordcell-text: var(--text);
-            --wordcell-border: 2px solid var(--wordcell);
+            --wordcell-border: 2px solid var(--accent);
 
-            --gridcell: var(--bg);
+            --gridcell: var(--accent);
             --gridcell-text: var(--wordcell-text);
             --gridcell-border: 2px solid var(--accent);
 
             --selected-cell: var(--bg);
-            --selected-text: #fff;
-            --selected-border: 2px dashed #ff0;
+            --selected-text: var(--text);
+            --selected-border: 2px solid var(--text);
 
 
         }
@@ -476,7 +485,7 @@
             flex-direction: column;
             align-items: center;
             /* padding: 10px; */
-            font-size: 22pt;
+            font-size: 20pt;
         }
 
         h1,
@@ -495,6 +504,7 @@
         .scores {
             position: relative;
             padding-block: 10px;
+            /* padding-right:22px; */
             font-size: 15pt;
             flex-wrap: wrap;
             text-align: center;
@@ -518,7 +528,7 @@
             height: 66px;
             width: 100%;
             background-image: linear-gradient(to top, var(--bg), var(--accent));
-            padding-block: 10px;
+            padding-block: 15px;
             opacity: 75%;
             z-index: -1;
         }
@@ -585,27 +595,152 @@
         .special {
             background: linear-gradient(var(--bg), var(--accent));
         }
+        .special-sauce {
+            background: none;
+            background-color: none;
+        }
+        
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.game-area {
+  width: 360px;
+  margin: 20px 50px 15px;
+  box-sizing: border-box;
+}
+
+.play-grid-layout {
+  display: grid;
+  grid-template-columns:
+    var(--rail-width)
+    /* 0px  */
+    auto
+    /* var(--gap)  */
+    var(--rail-width);
+    column-gap: 0px;
+/*   
+  justify-content: center;
+  align-content:center; */
+}
+
+/* LETTER GRID (auto-adjusts with JS) */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-size), var(--cell-size));
+  grid-template-rows:    repeat(var(--grid-size), var(--cell-size));
+  gap: var(--gap);
+  justify-content: center;
+  align-content:center;
+}
+
+/* RAILS (rows match grid) */
+.rail {
+  display: grid;
+  grid-template-rows: repeat(var(--grid-size), var(--cell-size));
+  gap: var(--gap);
+  width: var(--rail-width);
+  margin:none;
+  padding:none;
+}
+
+/* BUTTONS */
+.rail-btn {
+  width: 100%;
+  height: 100%;
+  border: 2px solid var(--accent-text);
+  box-sizing: border-box;
+
+  /* margin:none;
+  padding:none; */
+}
+
+/*spans all rows*/
+.rail-btn.span {  
+  grid-row: span var(--grid-size);
+}
+
+/*spans 2 rows*/
+.rail-btn.span-2 {
+  grid-row: span 2;
+}
+
+/*spans 3 rows*/
+.rail-btn.span-3 {
+  grid-row: span 3;
+}
+
+.rail-btn.span-0 {
+  display: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(12vw, 100vw));
-            margin: 10px auto;
-            margin: none;
+            margin: auto;
             row-gap: 7px;
             column-gap: 10px;
-            padding: 10px;
-        }
+            padding: auto;
+        } */
 
 
         .grid-cell {
+            box-sizing: border-box;
             border: var(--gridcell-border);
             color: var(--gridcell-text);
-            width: 60px;
+            width: var(--cell-size);
             /* this also needs to be edited in renderGrid function */
-            height: 60px;
+            height: var(--cell-size);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -613,6 +748,7 @@
             border-radius: var(--rounding);
             text-transform: uppercase;
             cursor: pointer;
+            font-size: 16pt;
         }
 
         .grid-cell.used {
@@ -652,30 +788,38 @@
 
 
 
+        
+
+
         button {
             background: var(--accent);
-            margin: 10px 0px;
-            padding: 0px 10px;
+            /* margin: 10px 0px; */
+            /* padding: 0px 10px; */
             color: var(--accent-text);
             border-radius: var(--rounding);
+            /* border: 2px solid var(--accent); */
             border: none;
+            margin:none;
             font-size: 11pt;
-        }
+            height: var(--cell-size);
+        } 
 
 
         #scrollBtn {
             display: none;
             position: fixed;
-            bottom: 200px;
-            right: 40px;
-            border-radius: 40px;
-            background: var(--wordcell);
-            color: var(--wordcell-text);
+            top: 300px;
+            align-self: center;
+            justify-self: center;
+            /* transform: translateY(200px); */
+            border-radius: var(--rounding);
+            background: var(--wordcell-text);
+            color: var(--wordcell);
             margin-top: 15px;
-            min-height: 50px;
-            min-width: 50px;
-            border: 4px solid var(--text);
-            opacity: 75%;
+            height: var(--cell-size);
+            width: var(--rail-width);
+            border: 2px solid var(--wordcell);
+            opacity: 50%;
             font-size: 18pt;
             z-index: 99;
         }
@@ -683,9 +827,11 @@
         .newgame {
             width: 90%;
             padding: 10px 10px;
+            margin:10px 0px;
             display: block;
             background-image: linear-gradient(to right, var(--text), var(--accent), var(--accent-text));
-
+            border: 2px solid var(--accent-text);
+            height: var(--cell-size);
         }
 
         .help {
@@ -742,50 +888,42 @@
 
 
         #status {
-            font-size: 9pt;
+            font-size: 13pt;
             font-family: 'Courier New', Courier, monospace;
-            margin: 5px 0 3px;
+            margin: -10px 0px 8px 0px;
             color: var(--accent);
             /* text-align:end; */
             /* align-items: top; */
-            opacity: 66%;
-            max-height: 7px;
+            /* opacity: 66%; */
+            max-height: 6px;
+            width:50%;
+            text-align:center;
+            /* letter-spacing: 0.5em; */
             /* padding-top:-5px; */
             /* margin-top: -15px; */
         }
 
 
         #history
-        /* ,#disallowed  */
         {
             display: block;
             white-space: normal;
             word-wrap: break-word;
+            text-align: justify;
             width: 85%;
-            /* width + 2*padding = 80% */
             min-height: 22px;
             font-size: 12pt;
             font-family: "Courier New", monospace;
-            background-color: var(--accent);
+            color: var(--accent-text);
+            border: 2px solid var(--accent);
+            /* box-sizing: border-box; */
+            background: var(--accent);
             padding-inline: 2.5%;
             padding-block: 10px;
-            /* margin-top: 10px; */
-        }
-
-        /* #disallowed {
-            background-color: var(--disabled);
-            color: var(--accent-text);
-            margin-bottom: 0px;
-            border-radius: 0px 0px var(--rounding) var(--rounding);
-
-        } */
-
-        #history {
-            margin-top: 0px;
+            margin: 0px;
             border-radius: var(--rounding);
-            color: var(--accent-text);
-            text-align: justify;
         }
+
 
         mark.highlight {
             background: var(--wordcell-text);
@@ -802,6 +940,8 @@
         mark.highlight.fade {
             color: transparent;
         }
+
+
 
 
         #definitions {
@@ -1051,7 +1191,7 @@
   /* border: 1px solid #ccc; */
   /* border-radius: var(--rounding-small); */
   /* cursor: pointer; */
-  border: var(--gridcell-border);
+            border: var(--gridcell-border);
             color: var(--gridcell-text);
             width: 44px;
             height: 56px;
@@ -1120,41 +1260,30 @@
 
         .anim-bonus {
             animation-name: animate-bonus;
-            animation-duration: 1s;
+            animation-duration: 0.5s;
         }
 
         @keyframes animate-bonus {
             0% {
                 background-color: var(--positive-feedback);
-                transform: scale(80%);
-            }
-
-            30% {
-                transform: scale(105%);
-            }
-
-            40% {
-                transform: scale(100%);
+                transform: scale(75%);
             }
 
             100% {
                 background-color: var(--accent);
+                transform: scale(100%);
             }
         }
 
 
         .anim-play {
             animation-name: animate-play;
-            animation-duration: 0.2s;
+            animation-duration: 0.25s;
         }
 
         @keyframes animate-play {
             0% {
-                transform: scale(80%);
-            }
-
-            75% {
-                transform: scale(110%);
+                transform: scale(75%);
             }
 
             100% {
@@ -1166,16 +1295,18 @@
 
         .anim-refresh {
             animation-name: animate-refresh;
-            animation-duration: 1s;
+            animation-duration: 0.5s;
         }
 
         @keyframes animate-refresh {
             0% {
-                background-color: var(--positive-feedback);
+                /* background-color: var(--positive-feedback); */
+                transform: scale(75%);
             }
 
             100% {
-                background-color: var(--bg);
+                /* background-color: var(--bg); */
+                transform: scale(100%);
             }
         }
 
@@ -1258,10 +1389,11 @@
                         <div class="insert-slot demo-cell"></div>
                     </div>
                     <p class="demo-para">Hit the <b><i>PLAY</i></b> button to complete the move.<br><br></p>
-                    <div class="button-row demo demoscale"> <button class="bonusBtn disabled"
-                            style="border:2px solid transparent;">||</button><button class="actionBtn"
-                            style="border:var(--selected-border);">PLAY</button><button class="shuffleBtn disabled"
-                            style="border:2px solid transparent;">#</button></div>
+                    <!-- <div class="button-row demo demoscale"> 
+                        <button class="bonusBtn disabled" style="border:2px solid transparent;">||</button>
+                        <button class="actionBtn" style="border:var(--selected-border);">PLAY</button>
+                        <button class="shuffleBtn disabled" style="border:2px solid transparent;">#</button>
+                        </div> -->
 
                     <div class="word-container demoscale"
                         style="width:75%;background:var(--positive-feedback);margin-top:20px;">
@@ -1294,10 +1426,10 @@
                         <div class="insert-slot demo-cell"></div>
                     </div>
                     <p class="demo-para">Hit <b><i>PLAY</i></b> to complete the move.<br><br></p>
-                    <div class="button-row demo demoscale"> <button class="bonusBtn disabled"
+                    <!-- <div class="button-row demo demoscale"> <button class="bonusBtn disabled"
                             style="border:2px solid transparent;">||</button><button class="actionBtn"
                             style="border:var(--selected-border);">PLAY</button><button class="shuffleBtn disabled"
-                            style="border:2px solid transparent;">#</button></div>
+                            style="border:2px solid transparent;">#</button></div> -->
                     <div class="word-container demoscale" style="background:var(--positive-feedback);margin-top:20px;">
                         <div class="insert-slot demo-cell"></div>
                         <div class="letter demo-cell">T</div>
@@ -1328,10 +1460,10 @@
                         <div class="insert-slot demo-cell"></div>
                     </div>
                     <p class="demo-para">Hit <b><i>PLAY</i></b> to delete it<br>and make a new valid word.<br><br></p>
-                    <div class="button-row demo demoscale"> <button class="bonusBtn disabled"
+                    <!-- <div class="button-row demo demoscale"> <button class="bonusBtn disabled"
                             style="border:2px solid transparent;">||</button><button class="actionBtn"
                             style="border:var(--selected-border);">PLAY</button><button class="shuffleBtn disabled"
-                            style="border:2px solid transparent;">#</button></div>
+                            style="border:2px solid transparent;">#</button></div> -->
 
                     <div class="word-container demoscale" style="background:var(--positive-feedback);margin-top:20px;">
                         <div class="insert-slot demo-cell"></div>
@@ -1375,10 +1507,10 @@
                         <div class="grid-cell-demo">T</div>
                     </div>
                     <p class="demo-para">Hit <b><i>PLAY</i></b> to confirm.<br><br></p>
-                    <div class="button-row demo demoscale"> <button class="bonusBtn disabled"
+                    <!-- <div class="button-row demo demoscale"> <button class="bonusBtn disabled"
                             style="border:2px solid transparent;">||</button><button class="actionBtn"
                             style="border:var(--selected-border);">PLAY</button><button class="shuffleBtn disabled"
-                            style="border:2px solid transparent;">#</button></div>
+                            style="border:2px solid transparent;">#</button></div> -->
                     <div class="word-container demoscale"
                         style="width:75%;background:var(--positive-feedback);margin-top:20px;">
                         <div class="insert-slot demo-cell"></div>
@@ -1424,10 +1556,10 @@
                         <div class="grid-cell-demo selected">T</div>
                     </div>
                     <p class="demo-para">Engage <b><i>PLAY</i></b> to make it so<br><br></p>
-                    <div class="button-row demo demoscale"> <button class="bonusBtn disabled"
+                    <!-- <div class="button-row demo demoscale"> <button class="bonusBtn disabled"
                             style="border:2px solid transparent;">||</button><button class="actionBtn"
                             style="border:var(--selected-border);">PLAY</button><button class="shuffleBtn disabled"
-                            style="border:2px solid transparent;">#</button></div>
+                            style="border:2px solid transparent;">#</button></div> -->
 
                     <div class="word-container demoscale"
                         style="width:75%;background:var(--positive-feedback);margin-top:20px;">
@@ -1492,17 +1624,17 @@
                 <div class="demo-board">
                     <div class="word-container demoscale" style="width:110%;">
                         <div class="insert-slot demo-cell"></div>
+                        <div class="letter demo-cell">B</div>
+                        <div class="insert-slot demo-cell"></div>
+                        <div class="letter demo-cell">A</div>
+                        <div class="insert-slot demo-cell"></div>
+                        <div class="letter demo-cell">L</div>
+                        <div class="insert-slot demo-cell"></div>
+                        <div class="letter demo-cell">L</div>
+                        <div class="insert-slot demo-cell"></div>
                         <div class="letter demo-cell">S</div>
                         <div class="insert-slot demo-cell"></div>
-                        <div class="letter demo-cell">U</div>
-                        <div class="insert-slot demo-cell"></div>
-                        <div class="letter demo-cell">P</div>
-                        <div class="insert-slot demo-cell"></div>
-                        <div class="letter demo-cell">E</div>
-                        <div class="insert-slot demo-cell"></div>
-                        <div class="letter demo-cell">R</div>
-                        <div class="insert-slot demo-cell"></div>
-                        <div class="letter demo-cell">B</div>
+                        <div class="letter demo-cell">Y</div>
                         <div class="insert-slot demo-cell"></div>
                     </div>
                     <p class="demo-para">Reach a six letter word once<br>and the grid expands to 4x4.</p>
@@ -1539,8 +1671,7 @@
                 <br>
                 <br>Words that fail dictionary validation are penalised with increasing severity.
                 <br>
-                <br>The fifth invalid attempt ends the game. You can see your remaining lives under the
-                <b><i>PLAY</i></b> button.
+                <br>The fifth invalid attempt ends the game. You can see your remaining lives under the current word.
                 <br>
                 <br>Enjoy!
                 <br>
@@ -1555,10 +1686,10 @@
                 <br>
                 <br>Without whoever they are, whoever I am couldn't have made this game for whoever you are.
                 <br>
-                <br>The internet is awash with bitesize daily puzzles. These are great, I love them. But Stringchain is more open-ended and user-driven. 
+                <br>The internet is awash with bitesize daily puzzles. These are great, but Stringchain is more open-ended and user-driven. 
                 Play as much as you want, whenever you want. It's not a subscription, it's not an appointment. You choose when and how much. Take breaks, be healthy.
                 <br>
-                <br>If you're new to this, you should know it's probably best to start with short malleable words. A new game is an all too delicate thing, it's too easy to back yourself into a corner and wash out early. 
+                <br>If you're new to this, you should know it's probably best to start with short malleable words. A new game is a delicate thing, it's too easy to back yourself into a corner and wash out early. 
                 I will be addressing this in future updates, as well as adding exciting features to keep the gameplay interesting and help you make the chain as long as you can imagine.
                 <br>
                 <br>Once you bank some bonuses, you can challenge yourself to play longer words. Your highscores will include a sample of some consecutive words you played. Make yourself presentable.
@@ -1574,8 +1705,6 @@
                 <br>Get a high score.<br>Beat that high score. <br>Screenshot that high score and challenge your
                 friends.<br>Show off your word list. You made that. Look at all the words you know.
                 <br>
-                <br>Writers, rappers, poets, rhymers, lexicographers, people who talk, watch as your vocabulary reveals itself to you through this weird constructed circumstance. It's fun.
-                <br> 
                 <br>I have ideas for future tweaks to game mechanics to incentivise risk-taking, shooting for longer words, making things more exciting. But the core game is in place. Version 1.0. Have at it.
                 <br>
                 <br>If you enjoy this game, consider buying me a coffee or putting my kids through college.
@@ -1596,20 +1725,59 @@
     <div class="scale-wrapper" id="scaleWrapper">
         <div class="word-container" id="wordContainer"></div>
     </div>
-    <div class="button-row">
+    <div id="status">...</div>
+
+    <!-- <div class="button-row">
         <button id="bonusBtn">||</button>
         <button id="actionBtn">PLAY</button>
         <button id="shuffleBtn">#</button>
+    </div> -->
+    <!-- <div id="message" class="message"></div> -->
+<!-- <table class="no-spaces">
+    <tr class="no-spaces">
+        <td class="button-col">
+            <button id="dummyBtn" style="opacity:0%;">?</button>
+                <button id="bonusBtn">||</button>
+        </td>
+        <td style="border:none;margin-top:0px;">
+            <div class="grid" id="letterGrid"></div>
+        </td>
+        <td class="button-col">
+            <button id="actionBtn">PLAY</button>
+            <button id="shuffleBtn">#</button>
+        </td>
+    </tr>
+</table> -->
+<!-- <div id="status">...</div> -->
+
+<div class="game-area"> <!-- Fixed width matching your history area -->
+
+    <div class="play-grid-layout">
+
+        <div class="rail left-rail">
+            <button id="dummyBtn1" class="rail-btn span-0" style="opacity:0%;">?</button>
+            <button id="bonusBtn" class="rail-btn span-2">||</button>
+            <button id="dummyBtn2" class="rail-btn">...</button>
+        </div>
+<!-- <div></div>             -->
+<div class="grid" id="letterGrid"></div>
+        <!-- <div></div> -->
+        <div class="rail right-rail">
+            <button id="actionBtn" class="rail-btn span-2">PLAY</button>
+            <button id="dummyBtn3" class="rail-btn span-0" style="opacity:0%;">?</button>
+            <button id="shuffleBtn" class="rail-btn">#</button>
+            <button id="scrollBtn" class="scrollBtn">^</button>
+        </div>
+
     </div>
-    <div id="status">...</div>
-
-    <div class="grid" id="letterGrid"></div>
+</div>
     <div id="history"></div>
-    <!-- <div id="disallowed"></div> -->
+    <!-- <div id="disallowed"></div> --> 
 
-    <button id="newGameBtn" class="newgame">RESTART</button>
-    <div id="definitions"></div>
-    <button id="scrollBtn" class="scrollBtn">^</button>
+                <button id="newGameBtn" class="newgame">RESTART</button>
+
+                        <div id="definitions"></div>
+    <!-- <button id="scrollBtn" class="scrollBtn">^</button> -->
     <!-- Asterisk Letter Picker Modal -->
     <div id="asteriskModal" class="modal hidden">
         <div class="modal-content">
@@ -1678,7 +1846,6 @@
         let lastAsteriskThreshold = 0;
         let invalidAttempts = 0;
         let totalPenalty = 0;
-        let totalChainLoss = 0;
         let lastSelectedType = null;
         let lastSelectedCell = null;
         // let lastUsedGridCell = null; // Track last used cell for invalid move rollback
@@ -1792,13 +1959,23 @@
                 initGrid();
                 updateShuffleButton();
                 messageElement.textContent = "Grid refreshed!";
-                showTemporaryMessage();
+                showTemporaryMessage();                
                 letterGrid.classList.add('anim-refresh');
                 saveGameState();
+                setTimeout(() => {
+                    letterGrid.classList.remove('anim-refresh');
+                }, 1000);
             }
         });
 
         newGameBtn.addEventListener('click', () => {
+
+            if (isActiveGame == true && chain >= 5) {
+                let text = "Are you sure you want to restart?";
+                if (confirm(text) == false) {
+                    return;
+                }
+            }
             sa_event("new_game");
             saveHighScore();
             getHighScores();
@@ -1806,6 +1983,8 @@
             localStorage.removeItem("isDisqualified");
             gameID = new Date().toISOString().slice(0, 19).replace('T', ' ');
             gridSize = 3;
+            dummyBtn1.classList.add("span-0");
+            dummyBtn3.classList.add("span-0");
             grid = [];
             score = 0;
             chain = 0;
@@ -1815,7 +1994,6 @@
             lastAsteriskThreshold = 0;
             invalidAttempts = 0;
             totalPenalty = 0;
-            totalChainLoss = 0;
             playedWords.clear();
             bonusTicker = '';
             bonusCounter = 0;
@@ -1928,11 +2106,13 @@
         function activateSpecialMode() {
             specialModeActive = true;
             wordContainer.classList.add('special');
+            messageElement.classList.add('special-sauce');
             return;
         }
         function clearSpecialMode() {
             specialModeActive = false;
             wordContainer.classList.remove('special');
+            messageElement.classList.remove('special-sauce');
             return;
         }
 
@@ -1943,7 +2123,7 @@
         //SCROLLING ETC
         window.onscroll = function () { scrollFunction() };
         function scrollFunction() {
-            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            if (document.body.scrollTop > 40 || document.documentElement.scrollTop > 40) {
                 scrollBtn.style.display = "block";
             } else {
                 scrollBtn.style.display = "none";
@@ -2006,7 +2186,7 @@
 //SAVING, LOADING, HIGHSCORES
 
         function saveGameState() {
-            const gameState = { isActiveGame, gameID, currentWord, lastValidWord, gridSize, grid, gridFallback, score, chain, bonusMovesAvailable, asteriskEarned, lastAsteriskThreshold, shuffleBonusesAvailable, invalidAttempts, totalPenalty, totalChainLoss, bonusCounter, playedWords: Array.from(playedWords)
+            const gameState = { isActiveGame, gameID, currentWord, lastValidWord, gridSize, grid, gridFallback, score, chain, bonusMovesAvailable, asteriskEarned, lastAsteriskThreshold, shuffleBonusesAvailable, invalidAttempts, totalPenalty, bonusCounter, playedWords: Array.from(playedWords)
                 // , disallowedWords: Array.from(disallowedWords) 
             };
             localStorage.setItem("stringChainState", JSON.stringify(gameState));
@@ -2026,7 +2206,7 @@
             }
 
             try {
-                ({ isActiveGame, gameID, currentWord, lastValidWord, gridSize, grid, gridFallback, score, chain, bonusMovesAvailable, asteriskEarned, lastAsteriskThreshold, shuffleBonusesAvailable, invalidAttempts, totalPenalty, totalChainLoss, bonusCounter, playedWords
+                ({ isActiveGame, gameID, currentWord, lastValidWord, gridSize, grid, gridFallback, score, chain, bonusMovesAvailable, asteriskEarned, lastAsteriskThreshold, shuffleBonusesAvailable, invalidAttempts, totalPenalty, bonusCounter, playedWords
                     // , disallowedWords 
                 } = JSON.parse(saved));
                 // disallowedWords = new Set(disallowedWords);
@@ -2040,6 +2220,8 @@
                 showDefinitions(lastValidWord);
                 updateStatus();
                 loadLocalWords();
+                if (gridSize == 3) { dummyBtn1.classList.add("span-0"); dummyBtn3.classList.add("span-0");}
+                if (gridSize == 4) { dummyBtn1.classList.remove("span-0"); dummyBtn3.classList.remove("span-0");}
                 scoreElement.textContent = score;
                 chainElement.textContent = chain;
             } catch (err) {
@@ -2216,10 +2398,13 @@
 
 //CHANGING STATES MESSAGES TEXT
         function updateStatus() {
-            let left = 5 - invalidAttempts;
-            let baseStr = "■ ■ ■ ■ ■"
-            let xStr = "□ □ □ □ □ "
-            let base = '<big><big><big>' + xStr.slice(2 * left) + baseStr.slice(2 * invalidAttempts) + '</big></big></big>';
+            let livesLeft = 5 - invalidAttempts;
+            // let baseStr = "■ ■ ■ ■ ■"
+            // let xStr = "□ □ □ □ □ "
+            let baseStr = "| | | | |"
+            let xStr = "- - - - - "
+            // let base = '<big><big><big>' + xStr.slice(2 * left) + baseStr.slice((2 * invalidAttempts) - 1) + '</big></big></big>';
+            let base = '<b>' + xStr.slice(2 * livesLeft) + baseStr.slice(2 * invalidAttempts) + '</b>';
             statusElement.innerHTML = base;
         }
 
@@ -2642,7 +2827,9 @@ function chooseAsteriskLetter(letter) {
         function renderGrid() {
             // maybePlaceAsterisk();
             gridElement.innerHTML = '';
-            gridElement.style.gridTemplateColumns = `repeat(${gridSize}, 60px)`;
+            // gridElement.style.gridTemplateColumns = `repeat(${gridSize}, 45px)`;
+            gridElement.style.gridTemplateColumns = `repeat(${gridSize}, 45px)`;
+            // gridElement.style.gridTemplateRows = `repeat(${gridSize}, var(--cell-size)px)`;
 
             for (let r = 0; r < gridSize; r++) {
                 for (let c = 0; c < gridSize; c++) {
@@ -2831,6 +3018,9 @@ function chooseAsteriskLetter(letter) {
 
                 gridSize = 4;
                 grid = newGrid;
+                // dummyBtn1.classList.remove("span-0");
+                dummyBtn1.classList.remove("span-0");
+                dummyBtn3.classList.remove("span-0");
 
                 playedWords.add("(4x4)");
                 updateHistory();
@@ -2999,7 +3189,7 @@ function chooseAsteriskLetter(letter) {
                     scoreElement.textContent = score;
                     chainElement.textContent = chain;
                     messageElement.textContent = "Yes, valid word!";
-                    sa_event(() => "api_" + currentWord);
+                    sa_event(() => "api_" + currentWord); //LOG API-VALIDATED WORDS (NOT ON LOCAL LIST)
                     clearSpecialMode(); // SEP 1 EDIT
                     greenAnimation();
                     showDefinitions(lower);
@@ -3014,15 +3204,14 @@ function chooseAsteriskLetter(letter) {
                     sa_event(() => "invalid_" + currentWord); //LOG INVALID WORDS
                     let penalty = currentWord.length * invalidAttempts;
                     totalPenalty += penalty;
-                    totalChainLoss++;
                     score -= penalty;
-                    chain = chain - 1;
+                    // chain = chain - 1;
                     // disallowedWords.add(lower + `(-${penalty})`);
                     playedWords.add(lower + `(-${penalty})`);
                     updateHistory();
+                    messageElement.textContent = `(-${penalty}) ` + currentWord + ` - unknown word.`;
                     currentWord = lastValidWord;
                     renderWord();
-                    messageElement.textContent = `Invalid word! Penalty: -${penalty}`;
                     rollbackGrid();
                     // grid = gridFallback;
                     // renderGrid();
@@ -3032,7 +3221,7 @@ function chooseAsteriskLetter(letter) {
                     
 
                     if (invalidAttempts >= 5) {
-                        messageElement.textContent += " - GAME OVER";
+                        messageElement.textContent += " - and you're out of lives!";
                         saveHighScore();
                         disableGame();
                         saveGameState();
@@ -3053,7 +3242,7 @@ function chooseAsteriskLetter(letter) {
             clearSelection();
             renderWord();
             if (!moved) {
-                messageElement.textContent = "Invalid move. Click + for guidance.";
+                messageElement.textContent = "Not a valid move. Click + for guidance"; //MAX 42 chars
                 showTemporaryMessage();
                 return;
             }
