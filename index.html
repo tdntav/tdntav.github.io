@@ -1167,7 +1167,7 @@
     /* background: var(--bg); */
       background-image: linear-gradient(to bottom, var(--accent), var(--bg)); 
 
-    padding:22px;
+    padding:24px;
   border-radius: var(--rounding);
   border:var(--text) solid 4px;
   text-align: center;
@@ -1180,8 +1180,10 @@
   display: grid;
   /* line-height: 0.1;  */
   grid-template-columns: repeat(7,1fr);
-  gap: 0px;
-  margin: 0px;
+  gap: 5px;
+  margin: 20px 0px;
+  align-items: center;
+            justify-content: center;
 }
 
 
@@ -1193,8 +1195,8 @@
   /* cursor: pointer; */
             border: var(--gridcell-border);
             color: var(--gridcell-text);
-            width: 44px;
-            height: 56px;
+            width: var(--cell-size);
+            height: var(--cell-size);
             font-size: 18pt;
             display: flex;
             align-items: center;
