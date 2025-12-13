@@ -621,16 +621,16 @@
 .game-area {
   width: 360px;
   margin: 20px 50px 15px;
-  /* box-sizing: border-box; */
+  box-sizing: border-box;
 }
 
 .play-grid-layout {
   display: grid;
   grid-template-columns:
     var(--rail-width)
-    0px /* added blank columns to compensate for misalignment */
+    /* 0px  */
     auto
-    var(--gap) /* added blank columns to compensate for misalignment */
+    /* var(--gap)  */
     var(--rail-width);
     column-gap: 0px;
 /*   
@@ -663,6 +663,8 @@
   width: 100%;
   height: 100%;
   border: 2px solid var(--accent-text);
+  box-sizing: border-box;
+
   /* margin:none;
   padding:none; */
 }
@@ -733,6 +735,7 @@
 
 
         .grid-cell {
+            box-sizing: border-box;
             border: var(--gridcell-border);
             color: var(--gridcell-text);
             width: var(--cell-size);
@@ -1751,9 +1754,9 @@
             <button id="bonusBtn" class="rail-btn span-2">||</button>
             <button id="dummyBtn2" class="rail-btn">...</button>
         </div>
-<div></div>            
+<!-- <div></div>             -->
 <div class="grid" id="letterGrid"></div>
-        <div></div>
+        <!-- <div></div> -->
         <div class="rail right-rail">
             <button id="actionBtn" class="rail-btn span-2">PLAY</button>
             <button id="dummyBtn3" class="rail-btn span-0" style="opacity:0%;">?</button>
