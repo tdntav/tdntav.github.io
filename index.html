@@ -3211,7 +3211,7 @@ function chooseAsteriskLetter(letter) {
                     // disallowedWords.add(lower + `(-${penalty})`);
                     playedWords.add(lower + `(-${penalty})`);
                     updateHistory();
-                    messageElement.textContent = `(-${penalty}) ` + currentWord + ` - unknown word.`;
+                    messageElement.textContent = `(-${penalty}) ` + currentWord + `, unknown word`;
                     currentWord = lastValidWord;
                     renderWord();
                     rollbackGrid();
@@ -3223,7 +3223,7 @@ function chooseAsteriskLetter(letter) {
                     
 
                     if (invalidAttempts >= 5) {
-                        messageElement.textContent += " - GAME OVER!";
+                        messageElement.textContent += ", GAME OVER.";
                         saveHighScore();
                         disableGame();
                         saveGameState();
