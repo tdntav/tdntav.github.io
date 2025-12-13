@@ -12,12 +12,12 @@
     <style>
         :root {
             --grid-size: 3;       /* will be overwritten by JS */
-            --cell-size: 48px;
+            --cell-size: 45px;
             --gap: 9px;
             /* --rail-width: ((360 - ((var(--grid-size)*(var(--cell-size)+var(--gap))) + var(--gap)))/2)px; */
 
             --rail-width: 61.5px;
-
+/* 48, 9, 61.5 */
 
 
 
@@ -628,9 +628,10 @@
   display: grid;
   grid-template-columns:
     var(--rail-width)
+    0px /* added blank columns to compensate for misalignment */
     auto
+    var(--gap) /* added blank columns to compensate for misalignment */
     var(--rail-width);
-    /* column-gap: var(--gap); */
     column-gap: 0px;
 /*   
   justify-content: center;
@@ -1750,10 +1751,9 @@
             <button id="bonusBtn" class="rail-btn span-2">||</button>
             <button id="dummyBtn2" class="rail-btn">...</button>
         </div>
-        <!-- <div style="width:auto;height:auto;justify-content:center;align-content:center;"> -->
-            <div class="grid" id="letterGrid"></div>
-        <!-- </div> -->
-
+<div></div>            
+<div class="grid" id="letterGrid"></div>
+        <div></div>
         <div class="rail right-rail">
             <button id="actionBtn" class="rail-btn span-2">PLAY</button>
             <button id="dummyBtn3" class="rail-btn span-0" style="opacity:0%;">?</button>
