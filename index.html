@@ -1164,12 +1164,13 @@
 }
 
 .modal-content {
-    /* background: var(--bg); */
-      background-image: linear-gradient(to bottom, var(--accent), var(--bg)); 
+    background: var(--bg);
+    color:var(--text);
+      /* background-image: linear-gradient(to bottom, var(--accent), var(--bg));  */
 
     padding:24px;
   border-radius: var(--rounding);
-  border:var(--text) solid 4px;
+  border:var(--accent) solid 2px;
   text-align: center;
   width: 340px;
   /* z-index: 1; */
@@ -1195,7 +1196,7 @@
   /* cursor: pointer; */
             border: var(--gridcell-border);
             color: var(--gridcell-text);
-            width: var(--cell-size);
+            width: 42px;
             height: var(--cell-size);
             font-size: 18pt;
             display: flex;
@@ -1788,9 +1789,9 @@
           <div class="alpha-grid"></div>
           <p class="demo-para opacity-hide" style="text-align:right;font-size:13pt;" id="wildcard-2">...or save for later with *</p>
           
-          <p class="demo-para opacity-hide" style="text-align:justify;" id="wildcard-3">
+          <p class="demo-para opacity-hide" style="text-align:justify;font-size:12pt;" id="wildcard-3">
             <!-- First wildcard bonus when chain reaches 128, another for every additional 32 words. They appear when grid rows and columns are cleared.<br><br> -->
-            <br>After 128 words, a wildcard bonus will appear the next time a grid row or column refreshes.
+            <br>After 128 words, a wildcard bonus appears the next time a grid row or column refreshes.
             For every 32 additional words, another wildcard bonus is acquired.</p>
         </div>
     </div>
