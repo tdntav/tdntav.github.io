@@ -2837,6 +2837,7 @@
                 );
 
                 milestonesContent.innerHTML = merged
+                    .reverse()
                     .map(q => renderRewards(q))
                     .join("");
             }
