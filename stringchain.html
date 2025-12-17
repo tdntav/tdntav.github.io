@@ -1930,7 +1930,9 @@
             let wordLengthMilestones = [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28];
             let chainLengthMilestones = [ 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2948, 4096 ];
             let stringLengthMilestones = [ 100,200,300,400,500,600,700,800,900,1000,1100,1200,1300,1400,1500,1600,1700,1800,1900,2000,2100,2200,2300,2400,2500];
+            let streakMilestones = [ 10,20,30,40,50,60,70,80,90,100 ];
             let milestones = [];
+            let noBonusStreak = 0;
             let invalidAttempts = 0;
             let totalLives = 5;
             let totalPenalty = 0;
@@ -2029,6 +2031,7 @@
                 bonusTicker = '';
                 lastValidWord = currentWord;
                 messageElement.innerHTML = `Bonus setup move played.`;
+                noBonusStreak = 0;
                 showTemporaryMessage();
                 activateSpecialMode(); //ADDED FOR BONUS MOVE EFFECT
                 replenishGrid(); //MOVED TO HERE TO STOP GRID EXPAND FOR SETUP MOVE
@@ -2049,6 +2052,7 @@
                     messageElement.textContent = "Grid refreshed!";
                     showTemporaryMessage();
                     letterGrid.classList.add('anim-refresh');
+                    noBonusStreak = 0;
                     saveGameState();
                     setTimeout(() => {
                         letterGrid.classList.remove('anim-refresh');
@@ -2084,7 +2088,9 @@
                 wordLengthMilestones = [ 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28];
                 chainLengthMilestones = [ 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2948, 4096 ];
                 stringLengthMilestones = [ 100,200,300,400,500,600,700,800,900,1000,1100,1200,1300,1400,1500,1600,1700,1800,1900,2000,2100,2200,2300,2400,2500];
+                streakMilestones = [ 10,20,30,40,50,60,70,80,90,100 ];
                 milestones = [];
+                noBonusStreak = 0;
                 // milestonesSummary = "";
                 milestonesBtn.classList.add('hidden');
                 invalidAttempts = 0;
@@ -2307,7 +2313,7 @@
 
             function saveGameState() {
                 const gameState = {
-                    isActiveGame, gameID, currentWord, lastValidWord, gridSize, grid, gridFallback, score, chain, bonusMovesAvailable, asteriskEarned, lastAsteriskThreshold, gridRefreshBonusesAvailable, wordLengthMilestones, chainLengthMilestones, stringLengthMilestones, milestones, totalLives, invalidAttempts, specialModeActive, bonusCounter, playedWords: Array.from(playedWords)
+                    isActiveGame, gameID, currentWord, lastValidWord, gridSize, grid, gridFallback, score, chain, bonusMovesAvailable, asteriskEarned, lastAsteriskThreshold, gridRefreshBonusesAvailable, wordLengthMilestones, chainLengthMilestones, stringLengthMilestones, noBonusStreak, streakMilestones, milestones, totalLives, invalidAttempts, specialModeActive, bonusCounter, playedWords: Array.from(playedWords)
                     // , disallowedWords: Array.from(disallowedWords) 
                 };
                 localStorage.setItem("stringChainState", JSON.stringify(gameState));
@@ -2329,7 +2335,7 @@
 
                 try {
                     ({
-                        isActiveGame, gameID, currentWord, lastValidWord, gridSize, grid, gridFallback, score, chain, bonusMovesAvailable, asteriskEarned, lastAsteriskThreshold, gridRefreshBonusesAvailable, wordLengthMilestones, chainLengthMilestones, stringLengthMilestones, milestones, totalLives, invalidAttempts, specialModeActive, totalPenalty, bonusCounter, playedWords
+                        isActiveGame, gameID, currentWord, lastValidWord, gridSize, grid, gridFallback, score, chain, bonusMovesAvailable, asteriskEarned, lastAsteriskThreshold, gridRefreshBonusesAvailable, wordLengthMilestones, chainLengthMilestones, stringLengthMilestones, noBonusStreak, streakMilestones, milestones, totalLives, invalidAttempts, specialModeActive, totalPenalty, bonusCounter, playedWords
                         // , disallowedWords 
                     } = JSON.parse(saved));
                     // disallowedWords = new Set(disallowedWords);
@@ -2616,7 +2622,7 @@
 
             function updateMilestones() {
                 // Check if milestone exists for latest game state
-                if (!wordLengthMilestones.includes(currentWord.length) && !chainLengthMilestones.includes(chain) && !(stringLengthMilestones[0] <= score)) {
+                if (!wordLengthMilestones.includes(currentWord.length) && !chainLengthMilestones.includes(chain) && !(stringLengthMilestones[0] <= score) && !(streakMilestones.includes(noBonusStreak))) {
                     return;
                 }
                 
@@ -2673,7 +2679,7 @@
                         updateGridRefreshButton();
                     }
                     //Apply extra life for words 9 letters or longer
-                    if (currentWord.length >= 9) {
+                    if (currentWord.length > 9) {
                         milestones.push({
                             word: currentWord,
                             wordQuest: true,
@@ -2708,7 +2714,26 @@
                     gridRefreshBonusesAvailable = gridRefreshBonusesAvailable + chain;
                     updateBonusButton();
                     updateGridRefreshButton();
-                    console.log(milestones);
+                };
+
+                if (streakMilestones.includes(noBonusStreak)) {
+                    const streakQuestIndex = streakMilestones.indexOf(noBonusStreak);
+                    // Remove it so it can't trigger again
+                    streakMilestones.splice(streakQuestIndex, 1);
+                        // Apply reward
+                        milestones.push({
+                            word: currentWord,
+                            streakQuest: true,
+                            length: currentWord.length,
+                            rewards: { setupStreakAdd: noBonusStreak, 
+                                       gridRefreshStreakAdd: noBonusStreak, 
+                                       setupBeforeStreakAdd: bonusMovesAvailable, 
+                                       gridRefreshBeforeStreakAdd: gridRefreshBonusesAvailable }
+                        });
+                    bonusMovesAvailable = bonusMovesAvailable + noBonusStreak;
+                    gridRefreshBonusesAvailable = gridRefreshBonusesAvailable + noBonusStreak;
+                    updateBonusButton();
+                    updateGridRefreshButton();
                 };
 
                 if (stringLengthMilestones[0] <= score) {
@@ -2730,7 +2755,6 @@
                     gridRefreshBonusesAvailable = 2 * gridRefreshBonusesAvailable;
                     updateBonusButton();
                     updateGridRefreshButton();
-                    console.log(milestones);
                 };
                 // console.log(milestones);
                 milestonesBtn.classList.add('anim-bonus');
@@ -2750,6 +2774,7 @@
             
                 if (q.chainQuest) headerParts.push(`chain ${q.chain}`);
                 if (q.wordQuest) headerParts.push(`${q.length} letters`);
+                if (q.streakQuest) headerParts.push(`no-bonus streak of ${q.rewards.setupStreakAdd}`);
                 if (q.stringQuest) headerParts.push(`${q.stringMilestoneAmount}+ string`);
 
                 const headerLine =
@@ -2766,7 +2791,7 @@
                 }
 
                 if (q.rewards?.gridRefreshChainAdd) {
-                    rewardLines.push(`${q.rewards.gridRefreshChainAdd} # added to make ${(q.rewards.gridRefreshBeforeChainAdd + q.rewards.gridRefreshChainAdd)} #`);
+                    rewardLines.push(`# ${q.rewards.gridRefreshChainAdd} added to make # ${(q.rewards.gridRefreshBeforeChainAdd + q.rewards.gridRefreshChainAdd)}`);
                 }
 
                 if (q.rewards?.setupLengthAdd) {
@@ -2774,19 +2799,37 @@
                 }
 
                 if (q.rewards?.gridRefreshLengthAdd) {
-                    rewardLines.push(`${q.rewards.gridRefreshLengthAdd} # added to make ${(q.rewards.gridRefreshBeforeLengthAdd + q.rewards.gridRefreshLengthAdd)} #`);
+                    rewardLines.push(`# ${q.rewards.gridRefreshLengthAdd} added to make # ${(q.rewards.gridRefreshBeforeLengthAdd + q.rewards.gridRefreshLengthAdd)}`);
                 }
 
                 if (q.rewards?.lives) {
                     rewardLines.push(`extra life claimed for ${q.length} letters`);
                 }
 
+
+
+                if (q.rewards?.setupStreakAdd) {
+                    rewardLines.push(`${q.rewards.setupStreakAdd} || added to make ${(q.rewards.setupStreakAdd + q.rewards.setupBeforeStreakAdd)} ||`);
+                }
+
+
+                if (q.rewards?.setupStreakAdd) {
+                    rewardLines.push(`# ${q.rewards.gridRefreshStreakAdd} added to make # ${(q.rewards.gridRefreshStreakAdd + q.rewards.gridRefreshBeforeStreakAdd)}`);
+                
+                }
+
+
+
+
+
+
+
                 if (q.rewards?.setupDoubler) {
                     rewardLines.push(`${q.rewards.setupDoubler} || doubled to make ${(2 * q.rewards.setupDoubler)} ||`);
                 }
 
                 if (q.rewards?.gridRefreshDoubler) {
-                    rewardLines.push(`${q.rewards.gridRefreshDoubler} # doubled to make ${(2 * q.rewards.gridRefreshDoubler)} #`);
+                    rewardLines.push(`# ${q.rewards.gridRefreshDoubler} doubled to make # ${(2 * q.rewards.gridRefreshDoubler)}`);
                 }
 
 
@@ -2817,6 +2860,7 @@
                             map[key].wordQuest ||= quest.wordQuest;
                             map[key].chainQuest ||= quest.chainQuest;
                             map[key].stringQuest ||= quest.stringQuest;
+                            map[key].streakQuest ||= quest.streakQuest;
 
                             // preserve max / meaningful values
                             map[key].length = Math.max(map[key].length ?? 0, quest.length ?? 0);
@@ -3570,6 +3614,7 @@
                     showDefinitions(lower);
                     replenishGrid();
                     gridFallback = grid;
+                    noBonusStreak++;
                     updateMilestones();
                     saveGameState();
                     return;
@@ -3607,6 +3652,7 @@
                         showDefinitions(lower);
                         replenishGrid();
                         gridFallback = grid;
+                        noBonusStreak++;
                         updateMilestones();
                         saveGameState();
                         showTemporaryMessage();
