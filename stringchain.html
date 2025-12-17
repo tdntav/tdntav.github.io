@@ -2634,36 +2634,13 @@
                     // Remove it so it can't trigger again
                     wordLengthMilestones.splice(wordQuestIndex, 1);
 
-                    // Apply reward
-
-                    // if (currentWord.length == 6) {
-                    //     milestones.push({
-                    //         word: currentWord,
-                    //         wordQuest: true,
-                    //         chain: chain,
-                    //         length: currentWord.length,
-                    //         rewards: { gridExpanded: true }
-                    //     })
-                    // };
-                        
-                    // if (currentWord.length > 6 && !(milestones.rewards.includes('gridExpanded'))) {
-                    //     milestones.push({
-                    //         word: currentWord,
-                    //         wordQuest: true,
-                    //         chain: chain,
-                    //         length: currentWord.length,
-                    //         rewards: { gridExpanded: true }
-                    //     })
-                    // };
-                    
-                    
                     if (currentWord.length % 2 === 0 && currentWord.length > 6) {
                         milestones.push({
                             word: currentWord,
                             wordQuest: true,
                             chain: chain,
                             length: currentWord.length,
-                            rewards: { setupLengthAdd: currentWord.length, setupBeforeLengthAdd: bonusMovesAvailable  }
+                            rewards: { setupWordQuest: currentWord.length, setupBeforeWordQuest: bonusMovesAvailable  }
                         });
                         bonusMovesAvailable = bonusMovesAvailable + currentWord.length;
                         updateBonusButton();
@@ -2673,12 +2650,12 @@
                             wordQuest: true,
                             chain: chain,
                             length: currentWord.length,
-                            rewards: { gridRefreshLengthAdd: currentWord.length, gridRefreshBeforeLengthAdd: gridRefreshBonusesAvailable }
+                            rewards: { gridRefreshWordQuest: currentWord.length, gridRefreshBeforeWordQuest: gridRefreshBonusesAvailable }
                         });
                         gridRefreshBonusesAvailable = gridRefreshBonusesAvailable + currentWord.length;
                         updateGridRefreshButton();
                     }
-                    //Apply extra life for words 9 letters or longer
+                    //Apply extra life for words 10 letters or longer
                     if (currentWord.length > 9) {
                         milestones.push({
                             word: currentWord,
@@ -2694,7 +2671,7 @@
                 console.log(milestones);
 
 
-
+                // Applies bonus and shuffle for chain milestones
                 if (chainLengthMilestones.includes(chain)) {
                     const chainQuestIndex = chainLengthMilestones.indexOf(chain);
                     // Remove it so it can't trigger again
@@ -2705,17 +2682,18 @@
                             chainQuest: true,
                             chain: chain,
                             length: currentWord.length,
-                            rewards: { setupChainAdd: chain, 
-                                       gridRefreshChainAdd: chain, 
-                                       setupBeforeChainAdd: bonusMovesAvailable, 
-                                       gridRefreshBeforeChainAdd: gridRefreshBonusesAvailable }
+                            rewards: { setupChainQuest: (0.5 * chain), 
+                                       gridRefreshChainQuest: (0.5 * chain), 
+                                       setupBeforeChainQuest: bonusMovesAvailable, 
+                                       gridRefreshBeforeChainQuest: gridRefreshBonusesAvailable }
                         });
-                    bonusMovesAvailable = bonusMovesAvailable + chain;
-                    gridRefreshBonusesAvailable = gridRefreshBonusesAvailable + chain;
+                    bonusMovesAvailable = bonusMovesAvailable + (0.5 * chain);
+                    gridRefreshBonusesAvailable = gridRefreshBonusesAvailable + (0.5 * chain);
                     updateBonusButton();
                     updateGridRefreshButton();
                 };
 
+                //Applies bonus or shuffle for no-bonus streak milestones
                 if (streakMilestones.includes(noBonusStreak)) {
                     const streakQuestIndex = streakMilestones.indexOf(noBonusStreak);
                     // Remove it so it can't trigger again
@@ -2725,10 +2703,10 @@
                             word: currentWord,
                             streakQuest: true,
                             length: currentWord.length,
-                            rewards: { setupStreakAdd: noBonusStreak, 
-                                       gridRefreshStreakAdd: noBonusStreak, 
-                                       setupBeforeStreakAdd: bonusMovesAvailable, 
-                                       gridRefreshBeforeStreakAdd: gridRefreshBonusesAvailable }
+                            rewards: { setupStreakQuest: noBonusStreak, 
+                                       gridRefreshStreakQuest: noBonusStreak, 
+                                       setupBeforeStreakQuest: bonusMovesAvailable, 
+                                       gridRefreshBeforeStreakQuest: gridRefreshBonusesAvailable }
                         });
                     bonusMovesAvailable = bonusMovesAvailable + noBonusStreak;
                     gridRefreshBonusesAvailable = gridRefreshBonusesAvailable + noBonusStreak;
@@ -2742,6 +2720,7 @@
                     const stringMilestoneAmount = stringLengthMilestones[0];
                     stringLengthMilestones.splice(0, 1);
                         // Apply reward
+                    if (stringMilestoneAmount % 200 === 0) {
                         milestones.push({
                             word: currentWord,
                             stringQuest: true,
@@ -2749,10 +2728,21 @@
                             string: score,
                             stringMilestoneAmount: stringMilestoneAmount,
                             length: currentWord.length,
-                            rewards: { setupDoubler: bonusMovesAvailable, gridRefreshDoubler: gridRefreshBonusesAvailable }
+                            rewards: { setupStringQuest: 10, setupBeforeStringQuest: bonusMovesAvailable  }
                         });
-                    bonusMovesAvailable = 2 * bonusMovesAvailable;
-                    gridRefreshBonusesAvailable = 2 * gridRefreshBonusesAvailable;
+                        bonusMovesAvailable = 10 + bonusMovesAvailable;
+                    } else if (stringMilestoneAmount % 200 !== 0) {
+                        milestones.push({
+                            word: currentWord,
+                            stringQuest: true,
+                            chain: chain,
+                            string: score,
+                            stringMilestoneAmount: stringMilestoneAmount,
+                            length: currentWord.length,
+                            rewards: { gridRefreshStringQuest: 10, gridRefreshBeforeStringQuest: gridRefreshBonusesAvailable  }
+                        });
+                        gridRefreshBonusesAvailable = 10 + gridRefreshBonusesAvailable;
+                    }
                     updateBonusButton();
                     updateGridRefreshButton();
                 };
@@ -2774,7 +2764,7 @@
             
                 if (q.chainQuest) headerParts.push(`chain ${q.chain}`);
                 if (q.wordQuest) headerParts.push(`${q.length} letters`);
-                if (q.streakQuest) headerParts.push(`no-bonus streak of ${q.rewards.setupStreakAdd}`);
+                if (q.streakQuest) headerParts.push(`no-bonus streak of ${q.rewards.setupStreakQuest}`);
                 if (q.stringQuest) headerParts.push(`${q.stringMilestoneAmount}+ string`);
 
                 const headerLine =
@@ -2786,20 +2776,20 @@
                     rewardLines.push(`milestones unlocked`);
                 }
 
-                if (q.rewards?.setupChainAdd) {
-                    rewardLines.push(`${q.rewards.setupChainAdd} || added to make ${(q.rewards.setupBeforeChainAdd + q.rewards.setupChainAdd)} ||`);
+                if (q.rewards?.setupChainQuest) {
+                    rewardLines.push(`${q.rewards.setupChainQuest} || added to make ${(q.rewards.setupBeforeChainQuest + q.rewards.setupChainQuest)} ||`);
                 }
 
-                if (q.rewards?.gridRefreshChainAdd) {
-                    rewardLines.push(`# ${q.rewards.gridRefreshChainAdd} added to make # ${(q.rewards.gridRefreshBeforeChainAdd + q.rewards.gridRefreshChainAdd)}`);
+                if (q.rewards?.gridRefreshChainQuest) {
+                    rewardLines.push(`# ${q.rewards.gridRefreshChainQuest} added to make # ${(q.rewards.gridRefreshBeforeChainQuest + q.rewards.gridRefreshChainQuest)}`);
                 }
 
-                if (q.rewards?.setupLengthAdd) {
-                    rewardLines.push(`${q.rewards.setupLengthAdd} || added to make ${(q.rewards.setupBeforeLengthAdd + q.rewards.setupLengthAdd)} ||`);
+                if (q.rewards?.setupWordQuest) {
+                    rewardLines.push(`${q.rewards.setupWordQuest} || added to make ${(q.rewards.setupBeforeWordQuest + q.rewards.setupWordQuest)} ||`);
                 }
 
-                if (q.rewards?.gridRefreshLengthAdd) {
-                    rewardLines.push(`# ${q.rewards.gridRefreshLengthAdd} added to make # ${(q.rewards.gridRefreshBeforeLengthAdd + q.rewards.gridRefreshLengthAdd)}`);
+                if (q.rewards?.gridRefreshWordQuest) {
+                    rewardLines.push(`# ${q.rewards.gridRefreshWordQuest} added to make # ${(q.rewards.gridRefreshBeforeWordQuest + q.rewards.gridRefreshWordQuest)}`);
                 }
 
                 if (q.rewards?.lives) {
@@ -2808,13 +2798,13 @@
 
 
 
-                if (q.rewards?.setupStreakAdd) {
-                    rewardLines.push(`${q.rewards.setupStreakAdd} || added to make ${(q.rewards.setupStreakAdd + q.rewards.setupBeforeStreakAdd)} ||`);
+                if (q.rewards?.setupStreakQuest) {
+                    rewardLines.push(`${q.rewards.setupStreakQuest} || added to make ${(q.rewards.setupStreakQuest + q.rewards.setupBeforeStreakQuest)} ||`);
                 }
 
 
-                if (q.rewards?.setupStreakAdd) {
-                    rewardLines.push(`# ${q.rewards.gridRefreshStreakAdd} added to make # ${(q.rewards.gridRefreshStreakAdd + q.rewards.gridRefreshBeforeStreakAdd)}`);
+                if (q.rewards?.setupStreakQuest) {
+                    rewardLines.push(`# ${q.rewards.gridRefreshStreakQuest} added to make # ${(q.rewards.gridRefreshStreakQuest + q.rewards.gridRefreshBeforeStreakQuest)}`);
                 
                 }
 
@@ -2824,12 +2814,12 @@
 
 
 
-                if (q.rewards?.setupDoubler) {
-                    rewardLines.push(`${q.rewards.setupDoubler} || doubled to make ${(2 * q.rewards.setupDoubler)} ||`);
+                if (q.rewards?.setupStringQuest) {
+                    rewardLines.push(`${q.rewards.setupStringQuest} || doubled to make ${(2 * q.rewards.setupStringQuest)} ||`);
                 }
 
-                if (q.rewards?.gridRefreshDoubler) {
-                    rewardLines.push(`# ${q.rewards.gridRefreshDoubler} doubled to make # ${(2 * q.rewards.gridRefreshDoubler)}`);
+                if (q.rewards?.gridRefreshStringQuest) {
+                    rewardLines.push(`# ${q.rewards.gridRefreshStringQuest} doubled to make # ${(2 * q.rewards.gridRefreshStringQuest)}`);
                 }
 
 
