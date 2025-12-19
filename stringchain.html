@@ -1714,12 +1714,12 @@
                 <br>You can see your remaining lives under the current word.
             </p>
             <h2>DEEP KNOWLEDGE</h2>    
-            <p style="text-align:left;"><b>Milestone</b> rewards are active from the start of the game, but only become visible to you when the 4x4 grid is unlocked at 6 words.<br>
+            <p style="text-align:left;"><b>Milestone</b> rewards are active from the start of the game, but only become visible when the 4x4 grid is unlocked for 6+ letters.<br>
                 <br>Players get one-time rewards for these milestones:
-                <br> String: 100, 200, 300, 400, 500, 600, 700... 
-                <br> Chain: 2, 4, 8, 16, 32, 64, 128, 256, 512...
-                <br> Word length: 6, 7, 8, 9, 10, 11, 12, 13, 14...
-                <br> No-bonus streak: 10, 20, 30, 40, 50, 60, 70...<br>
+                <br> String: 100, 200, 300, 400, 500, 600, 700, 800... 
+                <br> Chain: 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024...
+                <br> Word length: 6, 7, 8, 9, 10, 11, 12, 13, 14, 15...
+                <br> No-bonus streak: 10, 20, 30, 40, 50, 60, 70, 80...<br>
                 <br>Rewards include bonus setup moves, grid refresh bonuses, extra lives for words 9+ letters, and a few surprises.
                 <br>
                 <br>As the wordlist grows, you may attempt to play a word you already played.
@@ -1727,7 +1727,7 @@
                 Look at the surrounding words to see which nearby words you already used, so you can find your way out
                 of this mess.
                 This highlghting feature allows you to easily pick up where you left off if you are playing over several
-                sessions.                <br>
+                sessions, as well you might!                <br>
                 <br>Enjoy!
             </p>
         </div>
@@ -1746,8 +1746,7 @@
                 Play as much as you want, whenever you want. It's not a subscription, it's not an appointment. You
                 choose when and how much. Take breaks, be healthy.
                 <br>
-                <br>Once you collect some bonuses, you can challenge yourself to play longer words. Your highscores will
-                include a sample of some consecutive words you played. Make yourself presentable.
+                <br>Your highscores will include a sample of some consecutive words you played. Make yourself presentable.
                 <br>
                 <br>The longer the game goes, the harder it gets. After you've used up all the obvious and convenient
                 short
@@ -1860,7 +1859,7 @@
     <!-- Milestones Modal -->
     <div id="milestonesModal" class="modal hidden">
         <div class="modal-content">
-            <h6 style="position: 50% fixed;">MILESTONES + REWARDS</h6>
+            <h6>MILESTONES + REWARDS</h6>
             <div id="milestones-1">
 
             </div>
@@ -1872,7 +1871,7 @@
                 <br>No-bonus streak: 10, 20, 30, 40, 50, 60, 70...
             </p> -->
         </div>
-
+    </div>
 
         <script>
 
@@ -2308,7 +2307,9 @@
             //WORD CONTAINER
             function fitWordContainer() {
                 let letterCount = wordContainer.querySelectorAll('.letter').length;
-                let scaleCalc = 11 / (6 + letterCount);
+
+                // let scaleCalc = 11 / (6 + letterCount);
+                let scaleCalc = 1200 / (200 * letterCount);
                 scaleCalc = Math.min(scaleCalc, 1.15);
 
                 document.documentElement.style.setProperty('--scale-var', scaleCalc);
@@ -2697,9 +2698,9 @@
                                 string: score,
                                 stringMilestoneAmount: stringMilestoneAmount,
                                 length: currentWord.length,
-                                rewards: { setupStringQuest: (0.1 * stringMilestoneAmount), setupBeforeStringQuest: bonusMovesAvailable }
+                                rewards: { setupStringQuest: 10, setupBeforeStringQuest: bonusMovesAvailable }
                             });
-                            bonusMovesAvailable = (0.1 * stringMilestoneAmount) + bonusMovesAvailable;
+                            bonusMovesAvailable = 10 + bonusMovesAvailable;
                         } else if (stringMilestoneAmount % 200 !== 0) {
                             milestones.push({
                                 word: currentWord,
@@ -2708,9 +2709,9 @@
                                 string: score,
                                 stringMilestoneAmount: stringMilestoneAmount,
                                 length: currentWord.length,
-                                rewards: { gridRefreshStringQuest: (0.1 * stringMilestoneAmount), gridRefreshBeforeStringQuest: gridRefreshBonusesAvailable }
+                                rewards: { gridRefreshStringQuest: 10, gridRefreshBeforeStringQuest: gridRefreshBonusesAvailable }
                             });
-                            gridRefreshBonusesAvailable = (0.1 * stringMilestoneAmount) + gridRefreshBonusesAvailable;
+                            gridRefreshBonusesAvailable = 10 + gridRefreshBonusesAvailable;
                         }
                         updateBonusButton();
                         updateGridRefreshButton();
@@ -2904,7 +2905,7 @@
 
 
                 if (q.rewards?.setupStringQuest) {
-                    rewardLines.push(`${q.rewards.setupStringQuest} makes ${(q.rewards.setupStringQuest + q.rewards.setupBeforeStringQuest)} ||`);
+                    rewardLines.push(`+${q.rewards.setupStringQuest} makes ${(q.rewards.setupStringQuest + q.rewards.setupBeforeStringQuest)} ||`);
                 }
 
                 if (q.rewards?.gridRefreshStringQuest) {
