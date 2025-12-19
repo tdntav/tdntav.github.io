@@ -1942,6 +1942,7 @@
             let streakMilestones = [ 10,20,30,40,50,60,70,80,90,100 ];
             let milestones = [];
             let noBonusStreak = 0;
+            let consecutiveBonuses = 0;
             let invalidAttempts = 0;
             let totalLives = 5;
             let totalPenalty = 0;
@@ -2040,6 +2041,8 @@
                 bonusTicker = '';
                 lastValidWord = currentWord;
                 messageElement.innerHTML = `Bonus setup move played.`;
+                consecutiveBonuses++;
+                penaliseConsecutiveBonuses();
                 noBonusStreak = 0;
                 showTemporaryMessage();
                 activateSpecialMode(); //ADDED FOR BONUS MOVE EFFECT
@@ -2060,6 +2063,8 @@
                     updateGridRefreshButton();
                     messageElement.textContent = "Grid refreshed!";
                     showTemporaryMessage();
+                    consecutiveBonuses++;
+                    penaliseConsecutiveBonuses();
                     letterGrid.classList.add('anim-refresh');
                     noBonusStreak = 0;
                     saveGameState();
@@ -2100,6 +2105,7 @@
                 streakMilestones = [ 10,20,30,40,50,60,70,80,90,100 ];
                 milestones = [];
                 noBonusStreak = 0;
+                consecutiveBonuses = 0;
                 // milestonesSummary = "";
                 milestonesBtn.classList.add('hidden');
                 invalidAttempts = 0;
@@ -2340,7 +2346,8 @@
                     wordLengthMilestones, 
                     chainMilestones, 
                     stringMilestones, 
-                    noBonusStreak, 
+                    noBonusStreak,
+                    consecutiveBonuses,
                     streakMilestones, 
                     milestones, 
                     totalLives, 
@@ -2384,7 +2391,8 @@
                         wordLengthMilestones, 
                         chainMilestones, 
                         stringMilestones, 
-                        noBonusStreak, 
+                        noBonusStreak,
+                        consecutiveBonuses,
                         streakMilestones, 
                         milestones, 
                         totalLives, 
@@ -2614,6 +2622,20 @@
                 statusElement.innerHTML = `<b>${output.trim()}</b>`;
             }
 
+            function penaliseConsecutiveBonuses() {
+                if (consecutiveBonuses < 10) { return; }
+                invalidAttempts++;
+                consecutiveBonuses = 0;
+                messageElement.textContent = `-1 life for bonus overkill`;
+                if (invalidAttempts >= totalLives) {
+                            messageElement.textContent += ", GAME OVER.";
+                            saveHighScore();
+                            disableGame();
+                            saveGameState();
+                        }
+                showTemporaryMessage();
+                updateStatus();
+                }
 
 
             function updateBonusButton() {
@@ -2771,7 +2793,31 @@
 
 
                         //Applies bonus or shuffle for word length milestones
-                        if (currentWord.length % 2 === 0 && currentWord.length > 6) {
+                        if (currentWord.length % 2 === 0 && currentWord.length > 6 && currentWord.length >= 9) {
+                            milestones.push({
+                                word: currentWord,
+                                wordQuest: true,
+                                chain: chain,
+                                length: currentWord.length,
+                                rewards: { setupWordQuest: currentWord.length, setupBeforeWordQuest: bonusMovesAvailable, lives: 1 }
+                            });
+                            bonusMovesAvailable = bonusMovesAvailable + currentWord.length;
+                            updateBonusButton();
+                            totalLives++;
+                            updateStatus();
+                        } else if (currentWord.length % 2 !== 0 && currentWord.length > 6 && currentWord.length >= 9) {
+                            milestones.push({
+                                word: currentWord,
+                                wordQuest: true,
+                                chain: chain,
+                                length: currentWord.length,
+                                rewards: { gridRefreshWordQuest: currentWord.length, gridRefreshBeforeWordQuest: gridRefreshBonusesAvailable, lives: 1 }
+                            });
+                            gridRefreshBonusesAvailable = gridRefreshBonusesAvailable + currentWord.length;
+                            updateGridRefreshButton();
+                            totalLives++;
+                            updateStatus();
+                        } else if (currentWord.length % 2 === 0 && currentWord.length > 6) {
                             milestones.push({
                                 word: currentWord,
                                 wordQuest: true,
@@ -2791,18 +2837,6 @@
                             });
                             gridRefreshBonusesAvailable = gridRefreshBonusesAvailable + currentWord.length;
                             updateGridRefreshButton();
-                        }
-                        //Apply extra life for words 9 letters or longer
-                        if (currentWord.length >= 9) {
-                            milestones.push({
-                                word: currentWord,
-                                wordQuest: true,
-                                chain: chain,
-                                length: currentWord.length,
-                                rewards: { lives: 1 }
-                            });
-                            totalLives++;
-                            updateStatus();
                         }
                     };
                 } catch (e) {
@@ -3696,6 +3730,7 @@
                     replenishGrid();
                     gridFallback = grid;
                     noBonusStreak++;
+                    consecutiveBonuses = 0;
                     updateMilestones();
                     saveGameState();
                     return;
@@ -3734,6 +3769,7 @@
                         replenishGrid();
                         gridFallback = grid;
                         noBonusStreak++;
+                        consecutiveBonuses = 0;
                         updateMilestones();
                         saveGameState();
                         showTemporaryMessage();
