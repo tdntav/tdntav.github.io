@@ -538,8 +538,9 @@
 
         .scale-wrapper {
             transform: scale(var(--scale-var));
+            object-fit: contain;
             display: flex;
-            /* width:100%; */
+            width:100%;
             justify-content: center;
             /* overflow: hidden; */
             background: transparent;
@@ -551,7 +552,7 @@
         }
 
         .word-container {
-            transform: scale(var(--scale-var));
+            /* transform: scale(var(--scale-var)); */
             background: transparent;
             display: flex;
             align-items: center;
@@ -2309,8 +2310,8 @@
                 let letterCount = wordContainer.querySelectorAll('.letter').length;
 
                 // let scaleCalc = 11 / (6 + letterCount);
-                let scaleCalc = 1200 / (200 * letterCount);
-                scaleCalc = Math.min(scaleCalc, 1.15);
+                let scaleCalc = 330 / ((33 * letterCount) + (17 * (letterCount + 1)) + (10 * letterCount));
+                scaleCalc = Math.min(scaleCalc, 1.2);
 
                 document.documentElement.style.setProperty('--scale-var', scaleCalc);
                 return;
