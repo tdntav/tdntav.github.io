@@ -1931,7 +1931,7 @@
             let score = 0;
             let chain = 0;
             let selected = [];
-            let bonusMovesAvailable = 0;
+            let setupMovesAvailable = 0;
             let gridRefreshBonusesAvailable = 0;
             let asteriskEarned = 0;
             let lastAsteriskThreshold = 0;
@@ -2011,7 +2011,7 @@
             });
 
             bonusBtn.addEventListener('click', () => {
-                if (bonusMovesAvailable <= 0) {
+                if (setupMovesAvailable <= 0) {
                     messageElement.textContent = "You get a bonus after every 5 words. Click + for guidance.";
                     showTemporaryMessage();
                     return;
@@ -2032,7 +2032,7 @@
                     showTemporaryMessage();
                     return;
                 }
-                bonusMovesAvailable--;
+                setupMovesAvailable--;
                 updateBonusButton();
                 bonusCounter++;
                 bonusTicker = "||" + bonusCounter;
@@ -2097,7 +2097,7 @@
                 grid = [];
                 score = 0;
                 chain = 0;
-                bonusMovesAvailable = 5;
+                setupMovesAvailable = 5;
                 gridRefreshBonusesAvailable = 5;
                 asteriskEarned = 0;
                 lastAsteriskThreshold = 0;
@@ -2340,7 +2340,7 @@
                     gridFallback, 
                     score, 
                     chain, 
-                    bonusMovesAvailable, 
+                    setupMovesAvailable, 
                     asteriskEarned, 
                     lastAsteriskThreshold, 
                     gridRefreshBonusesAvailable, 
@@ -2386,7 +2386,7 @@
                         gridFallback, 
                         score, 
                         chain, 
-                        bonusMovesAvailable, 
+                        setupMovesAvailable, 
                         asteriskEarned, 
                         lastAsteriskThreshold, 
                         gridRefreshBonusesAvailable, 
@@ -2641,8 +2641,8 @@
 
 
             function updateBonusButton() {
-                if (bonusMovesAvailable > 0) {
-                    bonusBtn.textContent = `${bonusMovesAvailable} ||`;
+                if (setupMovesAvailable > 0) {
+                    bonusBtn.textContent = `${setupMovesAvailable} ||`;
                     bonusBtn.classList.remove('disabled');
                     bonusBtn.disabled = false;
                 } else {
@@ -2723,9 +2723,9 @@
                                 string: score,
                                 stringMilestoneAmount: stringMilestoneAmount,
                                 length: currentWord.length,
-                                rewards: { setupStringQuest: 10, setupBeforeStringQuest: bonusMovesAvailable }
+                                rewards: { setupStringQuest: 10, setupBeforeStringQuest: setupMovesAvailable }
                             });
-                            bonusMovesAvailable = 10 + bonusMovesAvailable;
+                            setupMovesAvailable = 10 + setupMovesAvailable;
                         } else if (stringMilestoneAmount % 200 !== 0) {
                             milestones.push({
                                 word: currentWord,
@@ -2760,9 +2760,9 @@
                                 length: currentWord.length, 
                                 rewards: { setupChainQuest: (0.5 * chain), 
                                     gridRefreshChainQuest: (0.5 * chain), 
-                                    setupBeforeChainQuest: bonusMovesAvailable, 
+                                    setupBeforeChainQuest: setupMovesAvailable, 
                                     gridRefreshBeforeChainQuest: gridRefreshBonusesAvailable } }); 
-                            bonusMovesAvailable = bonusMovesAvailable + (0.5 * chain);
+                            setupMovesAvailable = setupMovesAvailable + (0.5 * chain);
                             gridRefreshBonusesAvailable = gridRefreshBonusesAvailable + (0.5 * chain);
                         }
                         if (chain == 128) { 
@@ -2773,10 +2773,10 @@
                                 length: currentWord.length, 
                                 rewards: { setupChainQuest: (0.5 * chain), 
                                     gridRefreshChainQuest: (0.5 * chain), 
-                                    setupBeforeChainQuest: bonusMovesAvailable, 
+                                    setupBeforeChainQuest: setupMovesAvailable, 
                                     gridRefreshBeforeChainQuest: gridRefreshBonusesAvailable,
                                     wildcardBonusesUnlocked: true } });
-                            bonusMovesAvailable = bonusMovesAvailable + (0.5 * chain);
+                            setupMovesAvailable = setupMovesAvailable + (0.5 * chain);
                             gridRefreshBonusesAvailable = gridRefreshBonusesAvailable + (0.5 * chain);
                         } 
                         updateBonusButton(); 
@@ -2803,11 +2803,11 @@
                                 length: currentWord.length,
                                 rewards: { 
                                     setupWordQuest: currentWord.length, 
-                                    setupBeforeWordQuest: bonusMovesAvailable,
+                                    setupBeforeWordQuest: setupMovesAvailable,
                                     lives: 1 
                                 }
                             });
-                            bonusMovesAvailable = bonusMovesAvailable + currentWord.length;
+                            setupMovesAvailable = setupMovesAvailable + currentWord.length;
                             updateBonusButton();
                             totalLives++;
                             updateStatus();
@@ -2835,10 +2835,10 @@
                                 length: currentWord.length,
                                 rewards: { 
                                     setupWordQuest: currentWord.length, 
-                                    setupBeforeWordQuest: bonusMovesAvailable 
+                                    setupBeforeWordQuest: setupMovesAvailable 
                                 }
                             });
-                            bonusMovesAvailable = bonusMovesAvailable + currentWord.length;
+                            setupMovesAvailable = setupMovesAvailable + currentWord.length;
                             updateBonusButton();
                         } else if (currentWord.length % 2 !== 0 && currentWord.length > 6) {
                             milestones.push({
@@ -2873,11 +2873,11 @@
                             rewards: {
                                 setupStreakQuest: noBonusStreak,
                                 gridRefreshStreakQuest: noBonusStreak,
-                                setupBeforeStreakQuest: bonusMovesAvailable,
+                                setupBeforeStreakQuest: setupMovesAvailable,
                                 gridRefreshBeforeStreakQuest: gridRefreshBonusesAvailable
                             }
                         });
-                        bonusMovesAvailable = bonusMovesAvailable + noBonusStreak;
+                        setupMovesAvailable = setupMovesAvailable + noBonusStreak;
                         gridRefreshBonusesAvailable = gridRefreshBonusesAvailable + noBonusStreak;
                         updateBonusButton();
                         updateGridRefreshButton();
@@ -3741,7 +3741,7 @@
                     chain++;
                     checkAsteriskBonus(chain);
                     if ((chain % 5 === 0) && chain > 4) {
-                        bonusMovesAvailable++;
+                        setupMovesAvailable++;
                         updateBonusButton();
                         bonusAnimation();
 
@@ -3781,7 +3781,7 @@
                         chain++;
                         checkAsteriskBonus(chain);
                         if ((chain % 5 === 0) && chain > 4) {
-                            bonusMovesAvailable++;
+                            setupMovesAvailable++;
                             updateBonusButton();
                             bonusAnimation();
                         }
@@ -3817,15 +3817,15 @@
                                 chain: chain,
                                 length: currentWord.length,
                                 rewards: { 
-                                    setupPenalty: Math.min((currentWord.length * invalidAttempts), Math.round((0.5 * bonusMovesAvailable))),
-                                    setupBeforePenalty: bonusMovesAvailable,
+                                    setupPenalty: Math.min((currentWord.length * invalidAttempts), Math.round((0.5 * setupMovesAvailable))),
+                                    setupBeforePenalty: setupMovesAvailable,
                                     gridRefreshPenalty: Math.min((currentWord.length * invalidAttempts), Math.round((0.5 * gridRefreshBonusesAvailable))),
                                     gridRefreshBeforePenalty: gridRefreshBonusesAvailable,
                                     livesLost: 1
                                 }
                             });
-                        bonusMovesAvailable -= penalty;
-                        gridRefreshBonusesAvailable -= penalty;
+                        setupMovesAvailable -= setupPenalty;
+                        gridRefreshBonusesAvailable -= gridRefreshPenalty;
                         // chain = chain - 1;
                         // disallowedWords.add(lower + `(-${penalty})`);
                         playedWords.add(lower + `(-)`);
