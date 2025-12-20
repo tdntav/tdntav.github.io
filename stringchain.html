@@ -2902,11 +2902,11 @@
             function renderRewards(q) {
                 const headerParts = [];
                 const rewardLines = [];
-            
+                
+                if (q.stringQuest) headerParts.push(`${q.stringMilestoneAmount}+ string`);
                 if (q.chainQuest) headerParts.push(`chain ${q.chain}`);
                 if (q.wordQuest) headerParts.push(`${q.length} letters`);
                 if (q.streakQuest) headerParts.push(`no-bonus streak of ${q.rewards.setupStreakQuest}`);
-                if (q.stringQuest) headerParts.push(`${q.stringMilestoneAmount}+ string`);
                 if (q.penalty) {
                     const ordinalPenalty = getOrdinal(q.penaltyNumber);
                     headerParts.push(`${ordinalPenalty} penalty`);
