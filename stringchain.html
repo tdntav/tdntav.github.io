@@ -3850,6 +3850,8 @@
                         // chain = chain - 1;
                         // disallowedWords.add(lower + `(-${penalty})`);
                         playedWords.add(lower + `(-)`);
+                        bestNoBonusStreak = Math.max(bestNoBonusStreak, noBonusStreak);
+                        noBonusStreak = 0;
                         updateHistory();
                         messageElement.textContent = currentWord + `, unknown word`;
                         currentWord = lastValidWord;
