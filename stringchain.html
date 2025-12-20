@@ -2921,6 +2921,9 @@
                     // rewardLines.push(`milestones unlocked`);
                 }
 
+
+
+                //CHAIN QUEST REWARDS
                 if (q.rewards?.setupChainQuest) {
                     rewardLines.push(`+${q.rewards.setupChainQuest} makes ${(q.rewards.setupBeforeChainQuest + q.rewards.setupChainQuest)} ||`);
                 }
@@ -2933,28 +2936,9 @@
                     rewardLines.push(`wildcard (*) bonuses unlocked`);
                 }
 
-                if (q.rewards?.setupWordQuest) {
-                    rewardLines.push(`+${q.rewards.setupWordQuest} makes ${(q.rewards.setupBeforeWordQuest + q.rewards.setupWordQuest)} ||`);
-                }
-
-                if (q.rewards?.gridRefreshWordQuest) {
-                    rewardLines.push(`+${q.rewards.gridRefreshWordQuest} makes # ${(q.rewards.gridRefreshBeforeWordQuest + q.rewards.gridRefreshWordQuest)}`);
-                }
-
-                if (q.rewards?.lives) {
-                    rewardLines.push(`+1 life claimed for ${q.length} letters`);
-                }
-
-                if (q.rewards?.setupStreakQuest) {
-                    rewardLines.push(`+${q.rewards.setupStreakQuest} makes ${(q.rewards.setupStreakQuest + q.rewards.setupBeforeStreakQuest)} ||`);
-                }
 
 
-                if (q.rewards?.setupStreakQuest) {
-                    rewardLines.push(`+${q.rewards.gridRefreshStreakQuest} makes # ${(q.rewards.gridRefreshStreakQuest + q.rewards.gridRefreshBeforeStreakQuest)}`);
-                }
-
-
+                //STRING QUEST REWARDS
                 if (q.rewards?.setupStringQuest) {
                     rewardLines.push(`+${q.rewards.setupStringQuest} makes ${(q.rewards.setupStringQuest + q.rewards.setupBeforeStringQuest)} ||`);
                 }
@@ -2964,6 +2948,32 @@
                 }
 
 
+                //WORD QUEST REWARDS
+                if (q.rewards?.lives) {
+                    rewardLines.push(`+1 life claimed for ${q.length} letters`);
+                }
+
+                if (q.rewards?.setupWordQuest) {
+                    rewardLines.push(`+${q.rewards.setupWordQuest} makes ${(q.rewards.setupBeforeWordQuest + q.rewards.setupWordQuest)} ||`);
+                }
+
+                if (q.rewards?.gridRefreshWordQuest) {
+                    rewardLines.push(`+${q.rewards.gridRefreshWordQuest} makes # ${(q.rewards.gridRefreshBeforeWordQuest + q.rewards.gridRefreshWordQuest)}`);
+                }
+
+
+
+                //STREAK QUEST REWARDS
+                if (q.rewards?.setupStreakQuest) {
+                    rewardLines.push(`+${q.rewards.setupStreakQuest} makes ${(q.rewards.setupStreakQuest + q.rewards.setupBeforeStreakQuest)} ||`);
+                }
+
+
+                if (q.rewards?.setupStreakQuest) {
+                    rewardLines.push(`+${q.rewards.gridRefreshStreakQuest} makes # ${(q.rewards.gridRefreshStreakQuest + q.rewards.gridRefreshBeforeStreakQuest)}`);
+                }
+
+                //PENALTIES
                 if (q.rewards?.setupPenalty) {
                     rewardLines.push(`-${q.rewards.setupPenalty} makes ${(q.rewards.setupBeforePenalty - q.rewards.setupPenalty)} ||`);
                 }
