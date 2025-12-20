@@ -1860,7 +1860,7 @@
     <!-- Milestones Modal -->
     <div id="milestonesModal" class="modal hidden">
         <div class="modal-content">
-            <h6>MILESTONES + REWARDS</h6>
+            <h6>MILESTONES, REWARDS, PENALTIES</h6>
             <div id="milestones-1">
 
             </div>
@@ -1942,10 +1942,10 @@
             let streakMilestones = [ 10,20,30,40,50,60,70,80,90,100 ];
             let milestones = [];
             let noBonusStreak = 0;
+            let bestNoBonusStreak = 0;
             let consecutiveBonuses = 0;
             let invalidAttempts = 0;
             let totalLives = 3;
-            let totalPenalty = 0;
             let lastSelectedType = null;
             let lastSelectedCell = null;
             // let lastUsedGridCell = null; // Track last used cell for invalid move rollback
@@ -2041,9 +2041,10 @@
                 bonusTicker = '';
                 lastValidWord = currentWord;
                 messageElement.innerHTML = `Bonus setup move played.`;
+                bestNoBonusStreak = Math.max(bestNoBonusStreak, noBonusStreak);
+                noBonusStreak = 0;
                 consecutiveBonuses++;
                 penaliseConsecutiveBonuses();
-                noBonusStreak = 0;
                 showTemporaryMessage();
                 activateSpecialMode(); //ADDED FOR BONUS MOVE EFFECT
                 replenishGrid(); //MOVED TO HERE TO STOP GRID EXPAND FOR SETUP MOVE
@@ -2063,10 +2064,11 @@
                     updateGridRefreshButton();
                     messageElement.textContent = "Grid refreshed!";
                     showTemporaryMessage();
+                    bestNoBonusStreak = Math.max(bestNoBonusStreak, noBonusStreak);
+                    noBonusStreak = 0;
                     consecutiveBonuses++;
                     penaliseConsecutiveBonuses();
                     letterGrid.classList.add('anim-refresh');
-                    noBonusStreak = 0;
                     saveGameState();
                     setTimeout(() => {
                         letterGrid.classList.remove('anim-refresh');
@@ -2110,7 +2112,6 @@
                 milestonesBtn.classList.add('hidden');
                 invalidAttempts = 0;
                 totalLives = 3;
-                totalPenalty = 0;
                 playedWords.clear();
                 bonusTicker = '';
                 bonusCounter = 0;
@@ -2347,6 +2348,7 @@
                     chainMilestones, 
                     stringMilestones, 
                     noBonusStreak,
+                    bestNoBonusStreak,
                     consecutiveBonuses,
                     streakMilestones, 
                     milestones, 
@@ -2392,13 +2394,13 @@
                         chainMilestones, 
                         stringMilestones, 
                         noBonusStreak,
+                        bestNoBonusStreak,
                         consecutiveBonuses,
                         streakMilestones, 
                         milestones, 
                         totalLives, 
                         invalidAttempts, 
                         specialModeActive, 
-                        totalPenalty, 
                         bonusCounter, 
                         playedWords
                     } = JSON.parse(saved));
@@ -2890,7 +2892,11 @@
                 saveGameState();
             }
 
-
+            function getOrdinal(n) {
+                const s = ["th", "st", "nd", "rd"];
+                const v = n % 100;
+                return n + (s[(v - 20) % 10] || s[v] || s[0]);
+            }
 
 
             function renderRewards(q) {
@@ -2901,6 +2907,10 @@
                 if (q.wordQuest) headerParts.push(`${q.length} letters`);
                 if (q.streakQuest) headerParts.push(`no-bonus streak of ${q.rewards.setupStreakQuest}`);
                 if (q.stringQuest) headerParts.push(`${q.stringMilestoneAmount}+ string`);
+                if (q.penalty) {
+                    const ordinalPenalty = getOrdinal(q.penaltyNumber);
+                    headerParts.push(`${ordinalPenalty} penalty`);
+                }
 
                 const headerLine =
                         `${headerParts.join(", ")}<br><span class="sq-word">${q.word.toLowerCase()}</span>`
@@ -2935,8 +2945,6 @@
                     rewardLines.push(`+1 life claimed for ${q.length} letters`);
                 }
 
-
-
                 if (q.rewards?.setupStreakQuest) {
                     rewardLines.push(`+${q.rewards.setupStreakQuest} makes ${(q.rewards.setupStreakQuest + q.rewards.setupBeforeStreakQuest)} ||`);
                 }
@@ -2944,13 +2952,7 @@
 
                 if (q.rewards?.setupStreakQuest) {
                     rewardLines.push(`+${q.rewards.gridRefreshStreakQuest} makes # ${(q.rewards.gridRefreshStreakQuest + q.rewards.gridRefreshBeforeStreakQuest)}`);
-                
                 }
-
-
-
-
-
 
 
                 if (q.rewards?.setupStringQuest) {
@@ -2960,6 +2962,20 @@
                 if (q.rewards?.gridRefreshStringQuest) {
                     rewardLines.push(`+${q.rewards.gridRefreshStringQuest} makes # ${(q.rewards.gridRefreshStringQuest + q.rewards.gridRefreshBeforeStringQuest)}`);
                 }
+
+
+                if (q.rewards?.setupPenalty) {
+                    rewardLines.push(`-${q.rewards.setupPenalty} makes ${(q.rewards.setupBeforePenalty - q.rewards.setupPenalty)} ||`);
+                }
+
+                if (q.rewards?.gridRefreshPenalty) {
+                    rewardLines.push(`-${q.rewards.gridRefreshPenalty} makes # ${(q.rewards.gridRefreshBeforePenalty - q.rewards.gridRefreshPenalty)}`);
+                }
+
+                if (q.rewards?.livesLost) {
+                    rewardLines.push(`-${q.rewards.livesLost} life for invalid word`);
+                }
+
 
 
                 // --- Assemble ---
@@ -2990,6 +3006,7 @@
                             map[key].chainQuest ||= quest.chainQuest;
                             map[key].stringQuest ||= quest.stringQuest;
                             map[key].streakQuest ||= quest.streakQuest;
+                            map[key].penalty ||= quest.penalty;
 
                             // preserve max / meaningful values
                             map[key].length = Math.max(map[key].length ?? 0, quest.length ?? 0);
@@ -3793,11 +3810,25 @@
                         invalidAttempts++;
                         sa_event(() => "invalid_" + currentWord); //LOG INVALID WORDS
                         let penalty = currentWord.length * invalidAttempts;
-                        totalPenalty += penalty;
-                        score -= penalty;
+                        milestones.push({
+                                word: currentWord,
+                                penalty: true,
+                                penaltyNumber: invalidAttempts,
+                                chain: chain,
+                                length: currentWord.length,
+                                rewards: { 
+                                    setupPenalty: Math.min((currentWord.length * invalidAttempts), Math.round((0.5 * bonusMovesAvailable))),
+                                    setupBeforePenalty: bonusMovesAvailable,
+                                    gridRefreshPenalty: Math.min((currentWord.length * invalidAttempts), Math.round((0.5 * gridRefreshBonusesAvailable))),
+                                    gridRefreshBeforePenalty: gridRefreshBonusesAvailable,
+                                    livesLost: 1
+                                }
+                            });
+                        bonusMovesAvailable -= penalty;
+                        gridRefreshBonusesAvailable -= penalty;
                         // chain = chain - 1;
                         // disallowedWords.add(lower + `(-${penalty})`);
-                        playedWords.add(lower + `(-${penalty})`);
+                        playedWords.add(lower + `(-)`);
                         updateHistory();
                         messageElement.textContent = `(-${penalty}) ` + currentWord + `, unknown word`;
                         currentWord = lastValidWord;
