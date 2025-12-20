@@ -1860,7 +1860,7 @@
     <!-- Milestones Modal -->
     <div id="milestonesModal" class="modal hidden">
         <div class="modal-content">
-            <h6>MILESTONES, REWARDS, PENALTIES</h6>
+            <h6>MILESTONES</h6>
             <div id="milestones-1">
 
             </div>
@@ -2629,6 +2629,17 @@
                 invalidAttempts++;
                 consecutiveBonuses = 0;
                 messageElement.textContent = `-1 life for bonus overkill`;
+                milestones.push({
+                                word: `(${currentWord})`,
+                                penalty: true,
+                                penaltyNumber: invalidAttempts,
+                                penaltyReason: 'using 10 consecutive bonuses',
+                                chain: chain,
+                                length: currentWord.length,
+                                rewards: { 
+                                    livesLost: 1
+                                }
+                            });
                 if (invalidAttempts >= totalLives) {
                             messageElement.textContent += ", GAME OVER.";
                             saveHighScore();
@@ -2902,7 +2913,7 @@
             function renderRewards(q) {
                 const headerParts = [];
                 const rewardLines = [];
-                
+
                 if (q.stringQuest) headerParts.push(`${q.stringMilestoneAmount}+ string`);
                 if (q.chainQuest) headerParts.push(`chain ${q.chain}`);
                 if (q.wordQuest) headerParts.push(`${q.length} letters`);
@@ -2950,7 +2961,7 @@
 
                 //WORD QUEST REWARDS
                 if (q.rewards?.lives) {
-                    rewardLines.push(`+1 life claimed for ${q.length} letters`);
+                    rewardLines.push(`+1 life for ${q.length} letters`);
                 }
 
                 if (q.rewards?.setupWordQuest) {
@@ -2983,7 +2994,7 @@
                 }
 
                 if (q.rewards?.livesLost) {
-                    rewardLines.push(`-${q.rewards.livesLost} life for invalid word`);
+                    rewardLines.push(`-${q.rewards.livesLost} life for ${q.penaltyReason}`);
                 }
 
 
@@ -3819,23 +3830,24 @@
                     .catch(() => {
                         invalidAttempts++;
                         sa_event(() => "invalid_" + currentWord); //LOG INVALID WORDS
-                        let penalty = currentWord.length * invalidAttempts;
+                        // let penalty = currentWord.length * invalidAttempts;
                         milestones.push({
                                 word: currentWord,
                                 penalty: true,
                                 penaltyNumber: invalidAttempts,
+                                penaltyReason: 'invalid word',
                                 chain: chain,
                                 length: currentWord.length,
                                 rewards: { 
-                                    setupPenalty: Math.round(0.5 * setupMovesAvailable),
+                                    setupPenalty: Math.floor(0.5 * setupMovesAvailable),
                                     setupBeforePenalty: setupMovesAvailable,
-                                    gridRefreshPenalty: Math.round(0.5 * gridRefreshBonusesAvailable),
+                                    gridRefreshPenalty: Math.floor(0.5 * gridRefreshBonusesAvailable),
                                     gridRefreshBeforePenalty: gridRefreshBonusesAvailable,
                                     livesLost: 1
                                 }
                             });
-                        setupMovesAvailable -= Math.round(0.5 * setupMovesAvailable);
-                        gridRefreshBonusesAvailable -= Math.round(0.5 * gridRefreshBonusesAvailable);
+                        setupMovesAvailable -= Math.floor(0.5 * setupMovesAvailable);
+                        gridRefreshBonusesAvailable -= Math.floor(0.5 * gridRefreshBonusesAvailable);
                         // chain = chain - 1;
                         // disallowedWords.add(lower + `(-${penalty})`);
                         playedWords.add(lower + `(-)`);
