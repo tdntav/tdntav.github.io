@@ -3817,15 +3817,15 @@
                                 chain: chain,
                                 length: currentWord.length,
                                 rewards: { 
-                                    setupPenalty: Math.min((currentWord.length * invalidAttempts), Math.round((0.5 * setupMovesAvailable))),
+                                    setupPenalty: Math.round(0.5 * setupMovesAvailable),
                                     setupBeforePenalty: setupMovesAvailable,
-                                    gridRefreshPenalty: Math.min((currentWord.length * invalidAttempts), Math.round((0.5 * gridRefreshBonusesAvailable))),
+                                    gridRefreshPenalty: Math.round(0.5 * gridRefreshBonusesAvailable),
                                     gridRefreshBeforePenalty: gridRefreshBonusesAvailable,
                                     livesLost: 1
                                 }
                             });
-                        setupMovesAvailable -= setupPenalty;
-                        gridRefreshBonusesAvailable -= gridRefreshPenalty;
+                        setupMovesAvailable -= Math.round(0.5 * setupMovesAvailable);
+                        gridRefreshBonusesAvailable -= Math.round(0.5 * gridRefreshBonusesAvailable);
                         // chain = chain - 1;
                         // disallowedWords.add(lower + `(-${penalty})`);
                         playedWords.add(lower + `(-)`);
