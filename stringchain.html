@@ -1217,6 +1217,12 @@
             font-size: 12pt;
         }
 
+        /* #streakinfo {
+            margin-top:10px;
+            font-size: 9pt;
+        } */
+
+
         .alpha-grid {
             display: grid;
             /* line-height: 0.1;  */
@@ -1874,6 +1880,7 @@
             <div id="milestones-1">
                 <!-- Milestone content will be dynamically inserted here -->
             </div>
+            <!-- <span id="streakinfo"></span> -->
         </div>
         <!-- <p class ="sq-para"> </p> -->
     </div>
@@ -1902,6 +1909,7 @@
             const milestonesBtn = document.getElementById('milestonesBtn');
             const milestonesModal = document.getElementById('milestonesModal');
             const milestonesContent = document.getElementById('milestones-1');
+            // const streakinfo = document.getElementById('streakinfo');
             const wildcardOne = document.getElementById('wildcard-1');
             const wildcardTwo = document.getElementById('wildcard-2');
             const wildcardThree = document.getElementById('wildcard-3');
@@ -2933,59 +2941,44 @@
                         `${headerParts.join(", ")}<br><span class="sq-word">${q.word.toLowerCase()}</span>`
                 ;
 
+
+                //CHAIN QUEST REWARDS
                 if (q.rewards?.gridExpanded) {
                     rewardLines.push(`4x4 grid unlocked`);
                     // rewardLines.push(`milestones unlocked`);
                 }
-
-
-
-                //CHAIN QUEST REWARDS
                 if (q.rewards?.setupChainQuest) {
                     rewardLines.push(`+${q.rewards.setupChainQuest} makes ${(q.rewards.setupBeforeChainQuest + q.rewards.setupChainQuest)} ||`);
                 }
-
                 if (q.rewards?.gridRefreshChainQuest) {
                     rewardLines.push(`+${q.rewards.gridRefreshChainQuest} makes # ${(q.rewards.gridRefreshBeforeChainQuest + q.rewards.gridRefreshChainQuest)}`);
                 }
-
                 if (q.rewards?.wildcardBonusesUnlocked) {
                     rewardLines.push(`wildcard unlocked`);
                 }
-
-
-
                 //STRING QUEST REWARDS
                 if (q.rewards?.setupStringQuest) {
                     rewardLines.push(`+${q.rewards.setupStringQuest} makes ${(q.rewards.setupStringQuest + q.rewards.setupBeforeStringQuest)} ||`);
                 }
-
                 if (q.rewards?.gridRefreshStringQuest) {
                     rewardLines.push(`+${q.rewards.gridRefreshStringQuest} makes # ${(q.rewards.gridRefreshStringQuest + q.rewards.gridRefreshBeforeStringQuest)}`);
                 }
-
 
                 //WORD QUEST REWARDS
                 if (q.rewards?.lives) {
                     rewardLines.push(`+1 life for ${q.length} letters`);
                 }
-
                 if (q.rewards?.setupWordQuest) {
                     rewardLines.push(`+${q.rewards.setupWordQuest} makes ${(q.rewards.setupBeforeWordQuest + q.rewards.setupWordQuest)} ||`);
                 }
-
                 if (q.rewards?.gridRefreshWordQuest) {
                     rewardLines.push(`+${q.rewards.gridRefreshWordQuest} makes # ${(q.rewards.gridRefreshBeforeWordQuest + q.rewards.gridRefreshWordQuest)}`);
                 }
-
-
 
                 //STREAK QUEST REWARDS
                 if (q.rewards?.setupStreakQuest) {
                     rewardLines.push(`+${q.rewards.setupStreakQuest} makes ${(q.rewards.setupStreakQuest + q.rewards.setupBeforeStreakQuest)} ||`);
                 }
-
-
                 if (q.rewards?.setupStreakQuest) {
                     rewardLines.push(`+${q.rewards.gridRefreshStreakQuest} makes # ${(q.rewards.gridRefreshStreakQuest + q.rewards.gridRefreshBeforeStreakQuest)}`);
                 }
@@ -2994,11 +2987,9 @@
                 if (q.rewards?.setupPenalty) {
                     rewardLines.push(`-${q.rewards.setupPenalty} makes ${(q.rewards.setupBeforePenalty - q.rewards.setupPenalty)} ||`);
                 }
-
                 if (q.rewards?.gridRefreshPenalty) {
                     rewardLines.push(`-${q.rewards.gridRefreshPenalty} makes # ${(q.rewards.gridRefreshBeforePenalty - q.rewards.gridRefreshPenalty)}`);
                 }
-
                 if (q.rewards?.livesLost) {
                     rewardLines.push(`-${q.rewards.livesLost} life for ${q.penaltyReason}`);
                 }
@@ -3057,6 +3048,8 @@
                     .reverse()
                     .map(q => renderRewards(q))
                     .join("");
+
+                // streakinfo.innerHTML = `best no-bonus streak is ${bestNoBonusStreak} words`;
             }
 
 
@@ -3838,7 +3831,7 @@
                         sa_event(() => "invalid_" + currentWord); //LOG INVALID WORDS
                         // let penalty = currentWord.length * invalidAttempts;
                         milestones.push({
-                                word: currentWord,
+                                word: `(${currentWord})`,
                                 penalty: true,
                                 penaltyNumber: invalidAttempts,
                                 penaltyReason: 'invalid word',
