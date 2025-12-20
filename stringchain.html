@@ -1178,24 +1178,36 @@
             color: var(--text);
             /* background-image: linear-gradient(to bottom, var(--accent), var(--bg));  */
 
-            padding: 24px;
+            padding-block: 24px;
+            padding-inline:0px;
             border-radius: var(--rounding);
             border: var(--accent) solid 2px;
             text-align: center;
-            overflow-y:scroll;
+            /* overflow-y:scroll; */
+
+            /* CHANGE 1: Remove scrolling from here */
+            overflow-y: hidden; 
+            
+            /* CHANGE 2: Use flexbox to organize the header and scroll area */
+            display: flex;
+            flex-direction: column;
             max-height: 80vh;
-            width: 340px;
+            width: 400px;
             /* z-index: 1; */
             /* opacity: unset; */
         }
 
 
 
-        #milestone-1 {
+        #milestones-1 {
             /* margin-top: 10px; */
             font-size: 12pt;
-            color: var(--accent);
+            color: var(--text);
+            overflow-y: auto; 
+            padding-inline: 10px;
 
+            /* Optional: Add a margin to separate from the static header */
+            /* margin-top: 15px; */
         }
 
         .sq-word {
@@ -1862,17 +1874,12 @@
         <div class="modal-content">
             <h6>MILESTONES</h6>
             <div id="milestones-1">
-
+                <!-- Milestone content will be dynamically inserted here -->
             </div>
-            <!-- <p class="sq-para" style="font-size: 8pt;">
-                <b>Players get one-time rewards for:</b>
-                <br>String: 100, 200, 300, 400, 500, 600, 700... 
-                <br>Chain: 2, 4, 8, 16, 32, 64, 128, 256, 512...
-                <br>Word length: 6, 7, 8, 9, 10, 11, 12, 13, 14...
-                <br>No-bonus streak: 10, 20, 30, 40, 50, 60, 70...
-            </p> -->
         </div>
     </div>
+
+
 
         <script>
 
@@ -2633,7 +2640,7 @@
                                 word: `(${currentWord})`,
                                 penalty: true,
                                 penaltyNumber: invalidAttempts,
-                                penaltyReason: 'using 10 consecutive bonuses',
+                                penaltyReason: '10x bonuses',
                                 chain: chain,
                                 length: currentWord.length,
                                 rewards: { 
