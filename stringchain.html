@@ -1944,7 +1944,7 @@
             let noBonusStreak = 0;
             let consecutiveBonuses = 0;
             let invalidAttempts = 0;
-            let totalLives = 5;
+            let totalLives = 3;
             let totalPenalty = 0;
             let lastSelectedType = null;
             let lastSelectedCell = null;
@@ -2109,7 +2109,7 @@
                 // milestonesSummary = "";
                 milestonesBtn.classList.add('hidden');
                 invalidAttempts = 0;
-                totalLives = 5;
+                totalLives = 3;
                 totalPenalty = 0;
                 playedWords.clear();
                 bonusTicker = '';
@@ -2793,25 +2793,33 @@
 
 
                         //Applies bonus or shuffle for word length milestones
-                        if (currentWord.length % 2 === 0 && currentWord.length > 6 && currentWord.length >= 9) {
+                        if (currentWord.length % 2 === 0 && currentWord.length >= 9) {
                             milestones.push({
                                 word: currentWord,
                                 wordQuest: true,
                                 chain: chain,
                                 length: currentWord.length,
-                                rewards: { setupWordQuest: currentWord.length, setupBeforeWordQuest: bonusMovesAvailable, lives: 1 }
+                                rewards: { 
+                                    setupWordQuest: currentWord.length, 
+                                    setupBeforeWordQuest: bonusMovesAvailable,
+                                    lives: 1 
+                                }
                             });
                             bonusMovesAvailable = bonusMovesAvailable + currentWord.length;
                             updateBonusButton();
                             totalLives++;
                             updateStatus();
-                        } else if (currentWord.length % 2 !== 0 && currentWord.length > 6 && currentWord.length >= 9) {
+                        } else if (currentWord.length % 2 !== 0 && currentWord.length >= 9) {
                             milestones.push({
                                 word: currentWord,
                                 wordQuest: true,
                                 chain: chain,
                                 length: currentWord.length,
-                                rewards: { gridRefreshWordQuest: currentWord.length, gridRefreshBeforeWordQuest: gridRefreshBonusesAvailable, lives: 1 }
+                                rewards: { 
+                                    gridRefreshWordQuest: currentWord.length,
+                                    gridRefreshBeforeWordQuest: gridRefreshBonusesAvailable,
+                                    lives: 1 
+                                }
                             });
                             gridRefreshBonusesAvailable = gridRefreshBonusesAvailable + currentWord.length;
                             updateGridRefreshButton();
@@ -2823,7 +2831,10 @@
                                 wordQuest: true,
                                 chain: chain,
                                 length: currentWord.length,
-                                rewards: { setupWordQuest: currentWord.length, setupBeforeWordQuest: bonusMovesAvailable }
+                                rewards: { 
+                                    setupWordQuest: currentWord.length, 
+                                    setupBeforeWordQuest: bonusMovesAvailable 
+                                }
                             });
                             bonusMovesAvailable = bonusMovesAvailable + currentWord.length;
                             updateBonusButton();
@@ -2833,7 +2844,10 @@
                                 wordQuest: true,
                                 chain: chain,
                                 length: currentWord.length,
-                                rewards: { gridRefreshWordQuest: currentWord.length, gridRefreshBeforeWordQuest: gridRefreshBonusesAvailable }
+                                rewards: { 
+                                    gridRefreshWordQuest: currentWord.length, 
+                                    gridRefreshBeforeWordQuest: gridRefreshBonusesAvailable 
+                                }
                             });
                             gridRefreshBonusesAvailable = gridRefreshBonusesAvailable + currentWord.length;
                             updateGridRefreshButton();
@@ -3584,7 +3598,7 @@
                     playedWords.add("(4x4)");
                     updateHistory();
                     milestonesBtn.classList.remove("hidden");
-                    wordLengthMilestones.splice(6, 1);
+                    wordLengthMilestones.splice(0, 1);
                     milestones.push({
                             word: currentWord,
                             wordQuest: true,
