@@ -1843,7 +1843,7 @@
     <!-- Asterisk Letter Picker Modal -->
     <div id="asteriskModal" class="modal hidden">
         <div class="modal-content">
-            <h6>WILDCARD BONUS</h6>
+            <h6>WILDCARD</h6>
             <p class="demo-para opacity-hide" style="text-align:left;font-size:13pt;" id="wildcard-1"><br><br>Pick a
                 letter...</p>
             <div class="alpha-grid"></div>
@@ -2633,7 +2633,7 @@
                 if (consecutiveBonuses < 10) { return; }
                 invalidAttempts++;
                 consecutiveBonuses = 0;
-                messageElement.textContent = `-1 life for bonus overkill`;
+                messageElement.textContent = `-1 life for using consecutive bonuses`;
                 milestones.push({
                                 word: `(${currentWord})`,
                                 penalty: true,
@@ -2949,7 +2949,7 @@
                 }
 
                 if (q.rewards?.wildcardBonusesUnlocked) {
-                    rewardLines.push(`wildcard (*) bonuses unlocked`);
+                    rewardLines.push(`wildcard unlocked`);
                 }
 
 
@@ -3851,6 +3851,7 @@
                                     livesLost: 1
                                 }
                             });
+                        updateStatus();
                         setupMovesAvailable -= Math.floor(0.5 * setupMovesAvailable);
                         gridRefreshBonusesAvailable -= Math.floor(0.5 * gridRefreshBonusesAvailable);
                         // chain = chain - 1;
