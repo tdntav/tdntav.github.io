@@ -1724,9 +1724,10 @@
             <p style="text-align:left;">If no grid refresh bonus is used, grid letters refresh when a row or column is
                 completed.
                 <br>
-                <br>Attempting to play a previously played word does not incur a penalty.
+                <br>Attempting to play a previously played word does not incur a penalty. This word will be highlighted in your wordlist to help you plan your next moves.
                 <br>
-                <br>Words that fail dictionary validation are penalised with increasing severity.
+                <br>Words that fail dictionary validation are penalised severely. 
+                Using 10 consecutive bonuses without playing a valid word also costs you a life. 
                 <br>
                 <br>You can see your remaining lives under the current word.
             </p>
@@ -1737,10 +1738,11 @@
                 <br> Chain: 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024...
                 <br> Word length: 6, 7, 8, 9, 10, 11, 12, 13, 14, 15...
                 <br> No-bonus streak: 10, 20, 30, 40, 50, 60, 70, 80...<br>
-                <br>Rewards include bonus setup moves, grid refresh bonuses, extra lives for words 9+ letters, and a few surprises.
+                <br>Rewards include bonus setup moves, grid refresh bonuses, extra lives for words 9+ letters, and a few surprises. 
+                The penalty for invalid words, apart from losing a life, is losing half of all accrued setup moves and grid refresh bonuses.
                 <br>
                 <br>As the wordlist grows, you may attempt to play a word you already played.
-                Scroll down and see this word highlighted in your word list.
+                Scroll down and see this word highlighted in your wordlist.
                 Look at the surrounding words to see which nearby words you already used, so you can find your way out
                 of this mess.
                 This highlghting feature allows you to easily pick up where you left off if you are playing over several
@@ -1770,7 +1772,7 @@
                 words, the game forces you to get creative.
                 <br>
                 <br>Get a high score.<br>Beat that high score. <br>Screenshot that high score and challenge your
-                friends.<br>Show off your word list. You made that. Look at all the words you know.
+                friends.<br>Show off your wordlist. You made that. Look at all the words you know.
                 <br>
                 <br>Future tweaks and updates are planned, including drag/drop UI. But the core game is in place, have at it.
                 <br>
@@ -2716,7 +2718,7 @@
                         //strip numeric characters
                             return `<i>${w.replace(/\d+/g, '')}</i> `;
                         }                        
-                        
+
                         // For regular words, append a space
                         return w + " ";
                     })
