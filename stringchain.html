@@ -1853,9 +1853,9 @@
                 later with *</p>
 
             <p class="demo-para opacity-hide" style="text-align:justify;font-size:12pt;" id="wildcard-3">
-                <!-- First wildcard bonus when chain reaches 128, another for every additional 32 words. They appear when grid rows and columns are cleared.<br><br> -->
-                <br>After 128 words, a wildcard bonus appears the next time a grid row or column refreshes.
-                For every 32 additional words, another wildcard bonus is acquired.
+                <!-- First wildcard when chain reaches 128, another for every additional 32 words. They appear when grid rows and columns are cleared.<br><br> -->
+                <br>After 128 words, a wildcard is awarded. It appears the next time a grid row or column refreshes.
+                Another wildcard is earned for every 32 additional words.
             </p>
         </div>
     </div>
@@ -2799,7 +2799,7 @@
                                     gridRefreshChainQuest: (0.5 * chain), 
                                     setupBeforeChainQuest: setupMovesAvailable, 
                                     gridRefreshBeforeChainQuest: gridRefreshBonusesAvailable,
-                                    wildcardBonusesUnlocked: true } });
+                                    wildcardUnlocked: true } });
                             setupMovesAvailable = setupMovesAvailable + (0.5 * chain);
                             gridRefreshBonusesAvailable = gridRefreshBonusesAvailable + (0.5 * chain);
                         } 
@@ -2952,7 +2952,7 @@
                 if (q.rewards?.gridRefreshChainQuest) {
                     rewardLines.push(`+${q.rewards.gridRefreshChainQuest} makes # ${(q.rewards.gridRefreshBeforeChainQuest + q.rewards.gridRefreshChainQuest)}`);
                 }
-                if (q.rewards?.wildcardBonusesUnlocked) {
+                if (q.rewards?.wildcardUnlocked) {
                     rewardLines.push(`wildcard unlocked`);
                 }
                 //STRING QUEST REWARDS
