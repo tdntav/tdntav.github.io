@@ -1919,8 +1919,9 @@
                 <!-- Milestone content will be dynamically inserted here -->
             </div>
             <!-- <span id="streakinfo"></span> -->
+            <div id="nextMilestoneInfo" style="padding-left:20px;"></div>
+
         </div>
-        <!-- <p class ="sq-para"> </p> -->
     </div>
 
 
@@ -1947,6 +1948,7 @@
             const milestonesBtn = document.getElementById('milestonesBtn');
             const milestonesModal = document.getElementById('milestonesModal');
             const milestonesContent = document.getElementById('milestones-1');
+            const nextMilestoneInfo = document.getElementById('nextMilestoneInfo');
             // const streakinfo = document.getElementById('streakinfo');
             const wildcardOne = document.getElementById('wildcard-1');
             const wildcardTwo = document.getElementById('wildcard-2');
@@ -2958,6 +2960,24 @@
                 saveGameState();
             }
 
+            function nextMileStones() {
+                const nextString = stringMilestones[0];
+                const nextChain = chainMilestones[0];
+                const nextWordLength = `${wordLengthMilestones[0]}, ${wordLengthMilestones[1]}, ${wordLengthMilestones[2]}`; // show next 3 word lengths
+                const nextStreak = streakMilestones[0];
+
+                let milestoneSummary = `<p class="sq-para" style="font-size:8pt; text-align:left;">Shooting for
+                    ${nextString}+ string  //  chain ${nextChain}<br>${nextWordLength} letter words // no-bonus streak of ${nextStreak}</p>`;
+                document.getElementById("nextMilestoneInfo").innerHTML = milestoneSummary;
+                // return milestoneSummary;
+            }
+
+
+
+
+
+
+
             function getOrdinal(n) {
                 const s = ["th", "st", "nd", "rd"];
                 const v = n % 100;
@@ -2966,6 +2986,7 @@
 
 
             function renderRewards(q) {
+                nextMileStones();
                 const headerParts = [];
                 const rewardLines = [];
 
