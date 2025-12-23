@@ -475,7 +475,7 @@
 
         /* END OF THEMES*/
         html, body { overflow-x: hidden;}
-        
+
         body {
             font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
             background: var(--bg);
@@ -3778,11 +3778,11 @@
                 if (playedWords.has(lower)) {
                     messageElement.textContent = `${currentWord} already used!`;
                     highlightPlayed(currentWord);
+                    rollbackGrid();
                     alreadyUsedAnimation();
                     activateSpecialMode();
                     currentWord = previousWord;
                     renderWord();
-                    rollbackGrid();
                     // grid = gridFallback;
                     // renderGrid();
                     showTemporaryMessage();
