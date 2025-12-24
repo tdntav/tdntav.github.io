@@ -2962,12 +2962,17 @@
 
             function nextMileStones() {
                 const nextString = stringMilestones[0];
+                const nextStringToGo = nextString - score;
                 const nextChain = chainMilestones[0];
+                const nextChainToGo = nextChain - chain;
                 const nextWordLength = `${wordLengthMilestones[0]}, ${wordLengthMilestones[1]}, ${wordLengthMilestones[2]}`; // show next 3 word lengths
                 const nextStreak = streakMilestones[0];
 
-                let milestoneSummary = `<p class="sq-para" style="font-size:8pt; text-align:left;">Shooting for
-                    ${nextString}+ string  //  chain ${nextChain}<br>${nextWordLength} letter words // no-bonus streak of ${nextStreak}</p>`;
+                let milestoneSummary = `<p class="sq-para" style="font-size:8pt; text-align:left;">Shooting for:
+                    <br>${nextString}+ string (${nextStringToGo} to go)
+                    <br>chain ${nextChain} (${nextChainToGo} to go)
+                    <br>${nextWordLength} letter words
+                    <br>no-bonus streak of ${nextStreak} (currently at ${noBonusStreak})</p>`;
                 document.getElementById("nextMilestoneInfo").innerHTML = milestoneSummary;
                 // return milestoneSummary;
             }
