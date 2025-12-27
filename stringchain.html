@@ -475,7 +475,7 @@
 
         /* END OF THEMES*/
         html, body { overflow-x: hidden;}
-        
+
         body {
             font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
             background: var(--bg);
@@ -595,7 +595,20 @@
             color: var(--selected-text);
             background: var(--selected-cell);
             filter: none;
-            /* height: 54px; */
+            animation-name: animate-selected;
+            animation-duration: 0.5s;
+        }
+
+        @keyframes animate-selected {
+            0% {
+                transform: scale(80%);
+            }
+            /* 20% {
+                transform: scale(80%);
+            } */
+            100% {
+                transform: scale(100%);
+            }
         }
 
         .special {
@@ -1322,12 +1335,27 @@
                 background-color: var(--positive-feedback);
                 border-color: var(--positive-feedback);
                 color: var(--bg);
+                transform: scaleY(100%);
+                /* transform: scaleX(-200%); */
+                /* filter: blur(0%) */
+
+            }
+          
+            50% {
+                transform: scaleY(50%);
+                /* transform: scaleX(100%); */
+                /* filter: blur(50%) */
+
             }
 
             100% {
                 background-color: var(--wordcell);
                 border: var(--wordcell-border);
                 color: var(--wordcell-text);
+                transform: scaleY(100%);
+                /* transform: scaleX(100%); */
+                /* filter: blur(0%) */
+
             }
         }
 
@@ -1418,24 +1446,24 @@
 
 
         .shake {
-            animation: shake 0.3s ease;
+            animation: shake 0.2s ease;
         }
 
         @keyframes shake {
             0% {
-                transform: translateX(0);
+                transform: translateX(0px);
             }
 
             25% {
-                transform: translateX(-5px);
+                transform: translateX(-10px);
             }
 
             50% {
-                transform: translateX(5px);
+                transform: translateX(10px);
             }
 
             75% {
-                transform: translateX(-5px);
+                transform: translateX(-10px);
             }
 
             100% {
@@ -1767,7 +1795,7 @@
                 <br>Attempting to play a previously played word does not incur a penalty. This word will be highlighted in your wordlist to help you plan your next moves.
                 <br>
                 <br>Words that fail dictionary validation are penalised severely. 
-                Using 10 consecutive bonuses without playing a valid word also costs you a life. 
+                Using consecutive bonuses without playing a valid word also costs you a life. At the beginning, up to 9 consecutive bonuses are allowed. 
                 <br>
                 <br>You can see your remaining lives under the current word.
             </p>
@@ -1919,8 +1947,9 @@
                 <!-- Milestone content will be dynamically inserted here -->
             </div>
             <!-- <span id="streakinfo"></span> -->
+            <div id="nextMilestoneInfo" style="padding-left:20px;"></div>
+
         </div>
-        <!-- <p class ="sq-para"> </p> -->
     </div>
 
 
@@ -1947,6 +1976,7 @@
             const milestonesBtn = document.getElementById('milestonesBtn');
             const milestonesModal = document.getElementById('milestonesModal');
             const milestonesContent = document.getElementById('milestones-1');
+            const nextMilestoneInfo = document.getElementById('nextMilestoneInfo');
             // const streakinfo = document.getElementById('streakinfo');
             const wildcardOne = document.getElementById('wildcard-1');
             const wildcardTwo = document.getElementById('wildcard-2');
@@ -1987,16 +2017,16 @@
             let gridRefreshBonusesAvailable = 0;
             let asteriskEarned = 0;
             let lastAsteriskThreshold = 0;
-
-            let wordLengthMilestones = [ 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28 ];
-            let chainMilestones = [ 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096 ];
-            let stringMilestones = [ 100,200,300,400,500,600,700,800,900,1000,1100,1200,1300,1400,1500,1600,1700,1800,1900,2000,2100,2200,2300,2400,2500,2600,2700,2800,2900,3000,3100,3200,3300,3400,3500,3600,3700,3800,3900,4000,4100,4200,4300,4400,4500,4600,4700,4800,4900,5000 ];
-            let streakMilestones = [ 10,20,30,40,50,60,70,80,90,100,110,120,130 ];
+            let wordLengthMilestones = [ 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50 ];
+            let chainMilestones = [ 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072, 262144, 524288, 1048576 ];
+            let stringMilestones = [ 100,200,300,400,500,600,700,800,900,1000,1100,1200,1300,1400,1500,1600,1700,1800,1900,2000,2100,2200,2300,2400,2500,2600,2700,2800,2900,3000,3100,3200,3300,3400,3500,3600,3700,3800,3900,4000,4100,4200,4300,4400,4500,4600,4700,4800,4900,5000,5100,5200,5300,5400,5500,5600,5700,5800,5900,6000,6100,6200,6300,6400,6500,6600,6700,6800,6900,7000,7100,7200,7300,7400,7500,7600,7700,7800,7900,8000,8100,8200,8300,8400,8500,8600,8700,8800,8900,9000,9100,9200,9300,9400,9500,9600,9700,9800,9900,10000 ];
+            let streakMilestones = [ 10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600 ];
             let milestones = [];
             let noBonusStreak = 0;
             let bestNoBonusStreak = 0;
             let consecutiveBonuses = 0;
-            let invalidAttempts = 0;
+            let consecutiveBonusPenalty = 9;
+            let livesLost = 0;
             let totalLives = 3;
             let lastSelectedType = null;
             let lastSelectedCell = null;
@@ -2153,16 +2183,18 @@
                 gridRefreshBonusesAvailable = 5;
                 asteriskEarned = 0;
                 lastAsteriskThreshold = 0;
-                wordLengthMilestones = [ 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28 ];
-                chainMilestones = [ 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096 ];
-                stringMilestones = [ 100,200,300,400,500,600,700,800,900,1000,1100,1200,1300,1400,1500,1600,1700,1800,1900,2000,2100,2200,2300,2400,2500,2600,2700,2800,2900,3000,3100,3200,3300,3400,3500,3600,3700,3800,3900,4000,4100,4200,4300,4400,4500,4600,4700,4800,4900,5000 ];
-                streakMilestones = [ 10,20,30,40,50,60,70,80,90,100,110,120,130 ];
+                wordLengthMilestones = [ 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50 ];
+                chainMilestones = [ 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072, 262144, 524288, 1048576 ];
+                stringMilestones = [ 100,200,300,400,500,600,700,800,900,1000,1100,1200,1300,1400,1500,1600,1700,1800,1900,2000,2100,2200,2300,2400,2500,2600,2700,2800,2900,3000,3100,3200,3300,3400,3500,3600,3700,3800,3900,4000,4100,4200,4300,4400,4500,4600,4700,4800,4900,5000,5100,5200,5300,5400,5500,5600,5700,5800,5900,6000,6100,6200,6300,6400,6500,6600,6700,6800,6900,7000,7100,7200,7300,7400,7500,7600,7700,7800,7900,8000,8100,8200,8300,8400,8500,8600,8700,8800,8900,9000,9100,9200,9300,9400,9500,9600,9700,9800,9900,10000 ];
+                streakMilestones = [ 10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600 ];
                 milestones = [];
                 noBonusStreak = 0;
+                bestNoBonusStreak = 0;
                 consecutiveBonuses = 0;
+                consecutiveBonusPenalty = 9;
                 // milestonesSummary = "";
                 milestonesBtn.classList.add('hidden');
-                invalidAttempts = 0;
+                livesLost = 0;
                 totalLives = 3;
                 playedWords.clear();
                 bonusTicker = '';
@@ -2402,10 +2434,11 @@
                     noBonusStreak,
                     bestNoBonusStreak,
                     consecutiveBonuses,
+                    consecutiveBonusPenalty,
                     streakMilestones, 
                     milestones, 
                     totalLives, 
-                    invalidAttempts, 
+                    livesLost, 
                     specialModeActive, 
                     bonusCounter, 
                     playedWords: Array.from(playedWords)
@@ -2448,10 +2481,11 @@
                         noBonusStreak,
                         bestNoBonusStreak,
                         consecutiveBonuses,
+                        consecutiveBonusPenalty,
                         streakMilestones, 
                         milestones, 
                         totalLives, 
-                        invalidAttempts, 
+                        livesLost, 
                         specialModeActive, 
                         bonusCounter, 
                         playedWords
@@ -2648,23 +2682,23 @@
 
             //CHANGING STATES MESSAGES TEXT
             // function updateStatus() {
-            //     let livesLeft = totalLives - invalidAttempts;
+            //     let livesLeft = totalLives - livesLost;
             //     // let baseStr = "■ ■ ■ ■ ■"
             //     // let xStr = "□ □ □ □ □ "
             //     let baseStr = "| | | | |"
             //     let xStr = "- - - - - "
-            //     // let base = '<big><big><big>' + xStr.slice(2 * left) + baseStr.slice((2 * invalidAttempts) - 1) + '</big></big></big>';
-            //     let base = '<b>' + xStr.slice(2 * livesLeft) + baseStr.slice(2 * invalidAttempts) + '</b>';
+            //     // let base = '<big><big><big>' + xStr.slice(2 * left) + baseStr.slice((2 * livesLost) - 1) + '</big></big></big>';
+            //     let base = '<b>' + xStr.slice(2 * livesLeft) + baseStr.slice(2 * livesLost) + '</b>';
             //     statusElement.innerHTML = base;
             // }
 
             function updateStatus() {
-                const livesLeft = totalLives - invalidAttempts;
+                const livesLeft = totalLives - livesLost;
 
                 let output = "";
 
                 // Lost lives
-                for (let i = 0; i < invalidAttempts; i++) {
+                for (let i = 0; i < livesLost; i++) {
                     output += "- ";
                 }
 
@@ -2677,22 +2711,27 @@
             }
 
             function penaliseConsecutiveBonuses() {
-                if (consecutiveBonuses < 10) { return; }
-                invalidAttempts++;
+                if ((consecutiveBonuses < consecutiveBonusPenalty) && (consecutiveBonusPenalty > 3)) { return; }
+                livesLost++;
                 consecutiveBonuses = 0;
+                let consecValue = null;
+                if (consecutiveBonusPenalty > 3) {
+                            consecutiveBonusPenalty--;
+                            consecValue = consecutiveBonusPenalty;
+                }
                 messageElement.textContent = `-1 life for using consecutive bonuses`;
                 milestones.push({
                                 word: `(${currentWord})`,
                                 penalty: true,
-                                penaltyNumber: invalidAttempts,
-                                penaltyReason: '10x bonuses',
+                                penaltyNumber: livesLost,
+                                penaltyReason: 'consecutive bonuses',
                                 chain: chain,
                                 length: currentWord.length,
                                 rewards: { 
-                                    livesLost: 1
+                                    livesPenalty: 1, consecThreshold: consecValue
                                 }
                             });
-                if (invalidAttempts >= totalLives) {
+                if (livesLost >= totalLives) {
                             messageElement.textContent += ", GAME OVER.";
                             saveHighScore();
                             disableGame();
@@ -2958,6 +2997,36 @@
                 saveGameState();
             }
 
+            function nextMileStones() {
+                const nextString = stringMilestones[0];
+                const nextStringToGo = nextString - score;
+                const nextChain = chainMilestones[0];
+                const nextChainToGo = nextChain - chain;
+                const nextWordLength = `${wordLengthMilestones[0]}, ${wordLengthMilestones[1]}, ${wordLengthMilestones[2]}, ${wordLengthMilestones[3]}`; // show next 4 word lengths
+                const nextStreak = streakMilestones[0];
+
+                let milestoneSummary = `<p class="sq-para" style="font-size:8pt; text-align:left;">Shooting for:
+                    <br>${nextString}+ string // ${nextStringToGo} to go
+                    <br>chain ${nextChain} // ${nextChainToGo} to go
+                    <br>${nextWordLength} letter words
+                    <br>no-bonus streak of ${nextStreak} // currently at ${noBonusStreak}, best ${bestNoBonusStreak}</p>`;
+
+                if (isActiveGame == false) { 
+                    milestoneSummary = `<p class="sq-para" style="font-size:8pt; text-align:left;">GAME OVER! 
+                    <br>${score} string chain ${chain}
+                    <br>best no-bonus streak of ${bestNoBonusStreak}</p>`;
+                }
+                
+                document.getElementById("nextMilestoneInfo").innerHTML = milestoneSummary;
+                // return milestoneSummary;
+            }
+
+
+
+
+
+
+
             function getOrdinal(n) {
                 const s = ["th", "st", "nd", "rd"];
                 const v = n % 100;
@@ -2966,6 +3035,7 @@
 
 
             function renderRewards(q) {
+                nextMileStones();
                 const headerParts = [];
                 const rewardLines = [];
 
@@ -2982,6 +3052,13 @@
                         `${headerParts.join(", ")}<br><span class="sq-word">${q.word.toLowerCase()}</span>`
                 ;
 
+                //STRING QUEST REWARDS
+                if (q.rewards?.setupStringQuest) {
+                    rewardLines.push(`+${q.rewards.setupStringQuest} makes ${(q.rewards.setupStringQuest + q.rewards.setupBeforeStringQuest)} ||`);
+                }
+                if (q.rewards?.gridRefreshStringQuest) {
+                    rewardLines.push(`+${q.rewards.gridRefreshStringQuest} makes # ${(q.rewards.gridRefreshStringQuest + q.rewards.gridRefreshBeforeStringQuest)}`);
+                }
 
                 //CHAIN QUEST REWARDS
                 if (q.rewards?.gridExpanded) {
@@ -2996,13 +3073,6 @@
                 }
                 if (q.rewards?.wildcardUnlocked) {
                     rewardLines.push(`wildcard unlocked`);
-                }
-                //STRING QUEST REWARDS
-                if (q.rewards?.setupStringQuest) {
-                    rewardLines.push(`+${q.rewards.setupStringQuest} makes ${(q.rewards.setupStringQuest + q.rewards.setupBeforeStringQuest)} ||`);
-                }
-                if (q.rewards?.gridRefreshStringQuest) {
-                    rewardLines.push(`+${q.rewards.gridRefreshStringQuest} makes # ${(q.rewards.gridRefreshStringQuest + q.rewards.gridRefreshBeforeStringQuest)}`);
                 }
 
                 //WORD QUEST REWARDS
@@ -3031,8 +3101,11 @@
                 if (q.rewards?.gridRefreshPenalty) {
                     rewardLines.push(`-${q.rewards.gridRefreshPenalty} makes # ${(q.rewards.gridRefreshBeforePenalty - q.rewards.gridRefreshPenalty)}`);
                 }
-                if (q.rewards?.livesLost) {
-                    rewardLines.push(`-${q.rewards.livesLost} life for ${q.penaltyReason}`);
+                if (q.rewards?.livesPenalty) {
+                    rewardLines.push(`-${q.rewards.livesPenalty} life for ${q.penaltyReason}`);
+                }
+                if (q.rewards?.consecThreshold) {
+                    rewardLines.push(`next bonus overuse penalty at ${q.rewards.consecThreshold} in a row`);
                 }
 
 
@@ -3778,11 +3851,11 @@
                 if (playedWords.has(lower)) {
                     messageElement.textContent = `${currentWord} already used!`;
                     highlightPlayed(currentWord);
+                    rollbackGrid();
                     alreadyUsedAnimation();
                     activateSpecialMode();
                     currentWord = previousWord;
                     renderWord();
-                    rollbackGrid();
                     // grid = gridFallback;
                     // renderGrid();
                     showTemporaryMessage();
@@ -3818,10 +3891,12 @@
                     showTemporaryMessage();
                     clearSpecialMode(); // Nov 4 EDIT
                     greenAnimation();
+                    // playAnimation();
                     showDefinitions(lower);
                     replenishGrid();
                     gridFallback = grid;
                     noBonusStreak++;
+                    bestNoBonusStreak = Math.max(bestNoBonusStreak, noBonusStreak);
                     consecutiveBonuses = 0;
                     updateMilestones();
                     saveGameState();
@@ -3857,10 +3932,12 @@
                         sa_event(() => "api_" + currentWord); //LOG API-VALIDATED WORDS (NOT ON LOCAL LIST)
                         clearSpecialMode(); // SEP 1 EDIT
                         greenAnimation();
+                        // playAnimation();
                         showDefinitions(lower);
                         replenishGrid();
                         gridFallback = grid;
                         noBonusStreak++;
+                        bestNoBonusStreak = Math.max(bestNoBonusStreak, noBonusStreak);
                         consecutiveBonuses = 0;
                         updateMilestones();
                         saveGameState();
@@ -3868,13 +3945,19 @@
                         return;
                     })
                     .catch(() => {
-                        invalidAttempts++;
+                        livesLost++;
+                        // let consecValue = null;
+                        // if (consecutiveBonusPenalty > 3) {
+                        //     consecutiveBonusPenalty--;
+                        //     consecValue = consecutiveBonusPenalty;
+                        // }
+                        noBonusStreak = 0;
                         sa_event(() => "invalid_" + currentWord); //LOG INVALID WORDS
-                        // let penalty = currentWord.length * invalidAttempts;
+                        // let penalty = currentWord.length * livesLost;
                         milestones.push({
                                 word: `(${currentWord})`,
                                 penalty: true,
-                                penaltyNumber: invalidAttempts,
+                                penaltyNumber: livesLost,
                                 penaltyReason: 'invalid word',
                                 chain: chain,
                                 length: currentWord.length,
@@ -3883,14 +3966,15 @@
                                     setupBeforePenalty: setupMovesAvailable,
                                     gridRefreshPenalty: Math.floor(0.5 * gridRefreshBonusesAvailable),
                                     gridRefreshBeforePenalty: gridRefreshBonusesAvailable,
-                                    livesLost: 1
+                                    // consecThreshold: consecValue,
+                                    livesPenalty: 1
                                 }
                             });
                         updateStatus();
                         setupMovesAvailable -= Math.floor(0.5 * setupMovesAvailable);
                         gridRefreshBonusesAvailable -= Math.floor(0.5 * gridRefreshBonusesAvailable);
 
-                        playedWords.add(lower + `(-` + invalidAttempts + `)`);
+                        playedWords.add(lower + `(-` + livesLost + `)`);
 
                         // bestNoBonusStreak = Math.max(bestNoBonusStreak, noBonusStreak);
                         // noBonusStreak = 0;
@@ -3906,7 +3990,7 @@
                         redAnimation();
 
 
-                        if (invalidAttempts >= totalLives) {
+                        if (livesLost >= totalLives) {
                             messageElement.textContent += ", GAME OVER.";
                             saveHighScore();
                             disableGame();
