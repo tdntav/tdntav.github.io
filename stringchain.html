@@ -17,7 +17,7 @@
             --gap: 9px;
             /* --rail-width: ((360 - ((var(--grid-size)*(var(--cell-size)+var(--gap))) + var(--gap)))/2)px; */
 
-            --rail-width: 61.5px;
+            --rail-width: 67.5px;
             /* 48, 9, 61.5 */
 
 
@@ -591,23 +591,22 @@
         }
 
         .selected {
+            animation-name: animate-selected;
+            animation-duration: 0.2s;
+            /* animation-timing-function: ease-out; */
             border: var(--selected-border);
             color: var(--selected-text);
             background: var(--selected-cell);
             filter: none;
-            animation-name: animate-selected;
-            animation-duration: 0.5s;
         }
 
         @keyframes animate-selected {
             0% {
-                transform: scale(80%);
+                transform: scaleY(0%);
             }
-            /* 20% {
-                transform: scale(80%);
-            } */
+
             100% {
-                transform: scale(100%);
+                transform: scaleY(100%);
             }
         }
 
@@ -647,7 +646,7 @@
         .play-grid-layout {
             display: grid;
             grid-template-columns:
-                var(--rail-width)
+                63.5px /* rail-width minus 4px*/
                 /* 0px  */
                 auto
                 /* var(--gap)  */
@@ -661,6 +660,7 @@
         /* LETTER GRID (auto-adjusts with JS) */
         .grid {
             display: grid;
+            /* box-sizing: border-box; */
             grid-template-columns: repeat(var(--grid-size), var(--cell-size));
             grid-template-rows: repeat(var(--grid-size), var(--cell-size));
             gap: var(--gap);
@@ -682,8 +682,12 @@
         .rail-btn {
             width: 100%;
             height: 100%;
-            border: 2px solid var(--accent-text);
+            border: none;
+            margin: none;
+            /* border: var(--gridcell-border); */
+            color: var(--accent-text);
             box-sizing: border-box;
+            background: var(--accent);
 
             /* margin:none;
   padding:none; */
@@ -1335,27 +1339,23 @@
                 background-color: var(--positive-feedback);
                 border-color: var(--positive-feedback);
                 color: var(--bg);
-                transform: scaleY(100%);
-                /* transform: scaleX(-200%); */
-                /* filter: blur(0%) */
 
+                transform: scaleY(100%);
+                transform: scaleX(-100%);
             }
           
             50% {
                 transform: scaleY(50%);
-                /* transform: scaleX(100%); */
-                /* filter: blur(50%) */
-
+                transform: scaleX(100%);
             }
 
             100% {
                 background-color: var(--wordcell);
                 border: var(--wordcell-border);
                 color: var(--wordcell-text);
-                transform: scaleY(100%);
-                /* transform: scaleX(100%); */
-                /* filter: blur(0%) */
 
+                transform: scaleY(100%);
+                transform: scaleX(100%);
             }
         }
 
@@ -1396,20 +1396,37 @@
 
         .anim-play {
             animation-name: animate-play;
-            animation-duration: 0.25s;
+            animation-duration: 0.3s;
         }
 
         @keyframes animate-play {
             0% {
-                transform: scale(75%);
+                background-color: var(--positive-feedback);
+                border-color: var(--positive-feedback);
+                color: var(--bg);
+                transform: scale(100%);
+                /* transform: scaleX(-200%); */
+                /* filter: blur(0%) */
+
+            }
+          
+            50% {
+                transform: scale(50%);
+                /* transform: scaleX(100%); */
+                /* filter: blur(50%) */
+
             }
 
             100% {
+                background-color: var(--wordcell);
+                border: var(--wordcell-border);
+                color: var(--wordcell-text);
                 transform: scale(100%);
+                /* transform: scaleX(100%); */
+                /* filter: blur(0%) */
+
             }
-
         }
-
 
         .anim-refresh {
             animation-name: animate-refresh;
@@ -1794,8 +1811,8 @@
                 <br>
                 <br>Attempting to play a previously played word does not incur a penalty. This word will be highlighted in your wordlist to help you plan your next moves.
                 <br>
-                <br>Words that fail dictionary validation are penalised severely. 
-                Using consecutive bonuses without playing a valid word also costs you a life. At the beginning, up to 9 consecutive bonuses are allowed. 
+                <br>Words that fail dictionary validation are penalised. Using consecutive bonuses without playing a valid word also costs you a life. 
+                You may use as many consecutive bonuses as your total number of lives (lost lives still count) before incurring a penalty.
                 <br>
                 <br>You can see your remaining lives under the current word.
             </p>
@@ -1806,7 +1823,7 @@
                 <br> Chain: 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024...
                 <br> Word length: 6+, 7, 8, 9, 10, 11, 12, 13, 14, 15...
                 <br> No-bonus streak: 10, 20, 30, 40, 50, 60, 70, 80...<br>
-                <br>Rewards include bonus setup moves, grid refresh bonuses, extra lives for words 9+ letters, and a few surprises. 
+                <br>Rewards include bonus setup moves, grid refresh bonuses, extra lives for words 7+ letters, and a few surprises. 
                 The penalty for invalid words, apart from losing a life, is losing half of all accrued setup moves and grid refresh bonuses. 
                 Seems harsh, but the stakes keep it interesting.
                 <br>
@@ -1830,9 +1847,12 @@
                 <br>
                 <br>Your highscores will include a sample of some consecutive words you played. Make yourself presentable.
                 <br>
-                <br>The longer the game goes, the harder it gets. After you've used up all the obvious and convenient
-                short
-                words, the game forces you to get creative.
+                <br>I've been tweaking the rewards and penalties to incentivise exciting gameplay.
+                Your total lives (including lost lives) plus one is the penalty threshold for consecutive bonus use - that's any combination of grid refresh and setup moves without playing a valid word. 
+                In early gameplay, it is important to use bonuses strategically. Word choice is crucial to creep up on longer words without running out of rope.
+                You can unlock extra lives (and raise the consecutive bonus use penalty threshold) by playing 7+ letter words.
+                You can rack up string and chain by finding new more efficient paths through all the obvious and convenient short words.
+                Or you can revel in the long word space, stripmining rich veins of vocab, looking for opportunities in the grid to take your word to the next milestone.
                 <br>
                 <br>Get a high score.<br>Beat that high score. <br>Screenshot that high score and challenge your
                 friends.<br>Show off your wordlist. You made that. Look at all the words you know.
@@ -2025,7 +2045,6 @@
             let noBonusStreak = 0;
             let bestNoBonusStreak = 0;
             let consecutiveBonuses = 0;
-            let consecutiveBonusPenalty = 9;
             let livesLost = 0;
             let totalLives = 3;
             let lastSelectedType = null;
@@ -2049,9 +2068,8 @@
             //BUTTONS
 
             actionBtn.addEventListener('click', () => {
-                playAnimation();
+                // playAnimation();
                 completeMove(true);
-
             });
 
             dropdownToggle.addEventListener("click", () => {
@@ -2191,7 +2209,6 @@
                 noBonusStreak = 0;
                 bestNoBonusStreak = 0;
                 consecutiveBonuses = 0;
-                consecutiveBonusPenalty = 9;
                 // milestonesSummary = "";
                 milestonesBtn.classList.add('hidden');
                 livesLost = 0;
@@ -2283,7 +2300,13 @@
                     setTimeout(() => mark.outerHTML = mark.innerText, 60000);
                 });
             }
-            function playAnimation() { actionBtn.classList.add('anim-play'); }
+
+            function playAnimation() { 
+                actionBtn.classList.remove('anim-play');
+                void actionBtn.offsetWidth; // reflow to restart animation
+                actionBtn.classList.add('anim-play');
+            }
+
             function redAnimation() { wordContainer.classList.add('anim-neg'); }
             function bonusAnimation() { bonusBtn.classList.add('anim-bonus'); }
             function gridRefreshAnimation() { gridRefreshBtn.classList.add('anim-bonus'); }
@@ -2434,7 +2457,6 @@
                     noBonusStreak,
                     bestNoBonusStreak,
                     consecutiveBonuses,
-                    consecutiveBonusPenalty,
                     streakMilestones, 
                     milestones, 
                     totalLives, 
@@ -2481,7 +2503,6 @@
                         noBonusStreak,
                         bestNoBonusStreak,
                         consecutiveBonuses,
-                        consecutiveBonusPenalty,
                         streakMilestones, 
                         milestones, 
                         totalLives, 
@@ -2711,24 +2732,19 @@
             }
 
             function penaliseConsecutiveBonuses() {
-                if ((consecutiveBonuses < consecutiveBonusPenalty) && (consecutiveBonusPenalty > 3)) { return; }
+                if ((consecutiveBonuses < (totalLives + 1))) { return; }
                 livesLost++;
                 consecutiveBonuses = 0;
-                let consecValue = null;
-                if (consecutiveBonusPenalty > 3) {
-                            consecutiveBonusPenalty--;
-                            consecValue = consecutiveBonusPenalty;
-                }
-                messageElement.textContent = `-1 life for using consecutive bonuses`;
+                messageElement.textContent = `-1 life for bonus overuse`;
                 milestones.push({
                                 word: `(${currentWord})`,
                                 penalty: true,
                                 penaltyNumber: livesLost,
-                                penaltyReason: 'consecutive bonuses',
+                                penaltyReason: `${totalLives + 1} consecutive bonuses`,
                                 chain: chain,
                                 length: currentWord.length,
                                 rewards: { 
-                                    livesPenalty: 1, consecThreshold: consecValue
+                                    livesPenalty: 1
                                 }
                             });
                 if (livesLost >= totalLives) {
@@ -2900,7 +2916,7 @@
 
 
                         //Applies bonus or shuffle for word length milestones
-                        if (currentWord.length % 2 === 0 && currentWord.length >= 9) {
+                        if (currentWord.length % 2 === 0 && currentWord.length >= 7) {
                             milestones.push({
                                 word: currentWord,
                                 wordQuest: true,
@@ -2916,7 +2932,7 @@
                             updateBonusButton();
                             totalLives++;
                             updateStatus();
-                        } else if (currentWord.length % 2 !== 0 && currentWord.length >= 9) {
+                        } else if (currentWord.length % 2 !== 0 && currentWord.length >= 7) {
                             milestones.push({
                                 word: currentWord,
                                 wordQuest: true,
@@ -3104,9 +3120,9 @@
                 if (q.rewards?.livesPenalty) {
                     rewardLines.push(`-${q.rewards.livesPenalty} life for ${q.penaltyReason}`);
                 }
-                if (q.rewards?.consecThreshold) {
-                    rewardLines.push(`next bonus overuse penalty at ${q.rewards.consecThreshold} in a row`);
-                }
+                // if (q.rewards?.consecThreshold) {
+                //     rewardLines.push(`next bonus overuse penalty at ${q.rewards.consecThreshold} in a row`);
+                // }
 
 
 
@@ -3363,7 +3379,7 @@
 
 
             function selectCell(cell) {
-                removeAnimation();
+                // cell.classList.remove('selected');
                 if (!specialModeActive) { messageElement.textContent = "" };
 
 
@@ -3891,7 +3907,7 @@
                     showTemporaryMessage();
                     clearSpecialMode(); // Nov 4 EDIT
                     greenAnimation();
-                    // playAnimation();
+                    playAnimation();
                     showDefinitions(lower);
                     replenishGrid();
                     gridFallback = grid;
@@ -3932,7 +3948,7 @@
                         sa_event(() => "api_" + currentWord); //LOG API-VALIDATED WORDS (NOT ON LOCAL LIST)
                         clearSpecialMode(); // SEP 1 EDIT
                         greenAnimation();
-                        // playAnimation();
+                        playAnimation();
                         showDefinitions(lower);
                         replenishGrid();
                         gridFallback = grid;
@@ -3946,11 +3962,7 @@
                     })
                     .catch(() => {
                         livesLost++;
-                        // let consecValue = null;
-                        // if (consecutiveBonusPenalty > 3) {
-                        //     consecutiveBonusPenalty--;
-                        //     consecValue = consecutiveBonusPenalty;
-                        // }
+
                         noBonusStreak = 0;
                         sa_event(() => "invalid_" + currentWord); //LOG INVALID WORDS
                         // let penalty = currentWord.length * livesLost;
@@ -3966,7 +3978,6 @@
                                     setupBeforePenalty: setupMovesAvailable,
                                     gridRefreshPenalty: Math.floor(0.5 * gridRefreshBonusesAvailable),
                                     gridRefreshBeforePenalty: gridRefreshBonusesAvailable,
-                                    // consecThreshold: consecValue,
                                     livesPenalty: 1
                                 }
                             });
