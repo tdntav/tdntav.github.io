@@ -2146,6 +2146,7 @@
                 bestNoBonusStreak = Math.max(bestNoBonusStreak, noBonusStreak);
                 noBonusStreak = 0;
                 consecutiveBonuses++;
+                updateStatus();
                 penaliseConsecutiveBonuses();
                 showTemporaryMessage();
                 activateSpecialMode(); //ADDED FOR BONUS MOVE EFFECT
@@ -2169,6 +2170,7 @@
                     bestNoBonusStreak = Math.max(bestNoBonusStreak, noBonusStreak);
                     noBonusStreak = 0;
                     consecutiveBonuses++;
+                    updateStatus();
                     penaliseConsecutiveBonuses();
                     letterGrid.classList.add('anim-refresh');
                     saveGameState();
@@ -2715,23 +2717,60 @@
             //     statusElement.innerHTML = base;
             // }
 
+
+
+
+
+
+
+            // function updateStatus() {
+            //     const livesLeft = totalLives - livesLost;
+
+            //     let output = "";
+
+            //     // Lost lives
+            //     for (let i = 0; i < livesLost; i++) {
+            //         output += "- ";
+            //     }
+
+            //     // Remaining lives
+            //     for (let i = 0; i < livesLeft; i++) {
+            //         output += "| ";
+            //     }
+
+            //     statusElement.innerHTML = `<b>${output.trim()}</b>`;
+            // }
+
+
+            // Enhanced updateStatus with bonus highlighting WORK IN PROGRESS
+
             function updateStatus() {
                 const livesLeft = totalLives - livesLost;
-
                 let output = "";
 
-                // Lost lives
-                for (let i = 0; i < livesLost; i++) {
-                    output += "- ";
-                }
+                // We loop through the total number of lives/slots
+                for (let i = 0; i < totalLives; i++) {
+                    // 1. Determine the character (- for lost, | for remaining)
+                    const char = (i < livesLost) ? "-" : "|";
+                    
+                    // 2. Check if this specific slot should be highlighted by a bonus
+                    // i < consecutiveBonuses means this slot is "active" or "used"
+                    const isHighlighted = i < consecutiveBonuses;
+                    const color = isHighlighted ? "var(--text)" : "var(--accent)";
 
-                // Remaining lives
-                for (let i = 0; i < livesLeft; i++) {
-                    output += "| ";
+                    // 3. Wrap in a span with the color
+                    output += `<span style="color: ${color}">${char}</span> `;
                 }
 
                 statusElement.innerHTML = `<b>${output.trim()}</b>`;
+                if (consecutiveBonuses == totalLives - 1) {
+                messageElement.textContent = `One more bonus can be used without penalty`;
+                }
+                if (consecutiveBonuses == totalLives) {
+                messageElement.textContent = `Play a valid word!`;
+                }
             }
+
 
             function penaliseConsecutiveBonuses() {
                 if ((consecutiveBonuses < (totalLives + 1))) { return; }
@@ -3917,6 +3956,7 @@
                     bestNoBonusStreak = Math.max(bestNoBonusStreak, noBonusStreak);
                     consecutiveBonuses = 0;
                     updateMilestones();
+                    updateStatus();
                     saveGameState();
                     return;
                 }
@@ -3958,6 +3998,7 @@
                         bestNoBonusStreak = Math.max(bestNoBonusStreak, noBonusStreak);
                         consecutiveBonuses = 0;
                         updateMilestones();
+                        updateStatus();
                         saveGameState();
                         showTemporaryMessage();
                         return;
