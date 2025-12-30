@@ -940,7 +940,7 @@
             font-size: 12pt;
             font-family: "Courier New", monospace;
             color: var(--accent-text);
-            border: 2px solid var(--accent);
+            /* border: 2px solid var(--accent); */
             /* box-sizing: border-box; */
             background: var(--accent);
             padding-inline: 2.5%;
@@ -3152,68 +3152,68 @@
                 ;
 
                 //STRING QUEST REWARDS
-                if (q.rewards?.setupStringQuest || q.rewards?.gridRefreshStringQuest) {
-                rewardLines.push(`<span class="rewards">`);
-                }
+                // if (q.rewards?.setupStringQuest || q.rewards?.gridRefreshStringQuest) {
+                // rewardLines.push(`<span class="rewards">`);
+                // }
                 if (q.rewards?.setupStringQuest) {
                     // rewardLines.push(`+${q.rewards.setupStringQuest} makes ${(q.rewards.setupStringQuest + q.rewards.setupBeforeStringQuest)} ||`);
-                    rewardLines.push(`+${q.rewards.setupStringQuest} ||`);
+                    rewardLines.push(`<span class="rewards">+${q.rewards.setupStringQuest} ||</span>`);
                 }
                 if (q.rewards?.gridRefreshStringQuest) {
                     // rewardLines.push(`+${q.rewards.gridRefreshStringQuest} makes # ${(q.rewards.gridRefreshStringQuest + q.rewards.gridRefreshBeforeStringQuest)}`);
-                    rewardLines.push(`#+${q.rewards.gridRefreshStringQuest}`);
+                    rewardLines.push(`<span class="rewards"># +${q.rewards.gridRefreshStringQuest}</span>`);
                 }                
                 
-                if (q.rewards?.setupStringQuest || q.rewards?.gridRefreshStringQuest) {
-                rewardLines.push(`</span>`);
-                }
+                // if (q.rewards?.setupStringQuest || q.rewards?.gridRefreshStringQuest) {
+                // rewardLines.push(`</span>`);
+                // }
 
                 //CHAIN QUEST REWARDS
-                if (q.rewards?.wildcardUnlocked || q.rewards?.setupChainQuest || q.rewards?.gridRefreshChainQuest) {
-                    rewardLines.push(`<span class="rewards">`);
-                }
 
                 if (q.rewards?.wildcardUnlocked) {
-                    rewardLines.push(`wildcard unlocked `);
+                    rewardLines.push(`<span class="rewards">wildcard unlocked</span>`);
                 }
 
+                if (q.rewards?.setupChainQuest || q.rewards?.gridRefreshChainQuest) {
+                    rewardLines.push(`<span class="rewards">`);
+                }
                 if (q.rewards?.setupChainQuest) {
                     // rewardLines.push(`+${q.rewards.setupChainQuest} makes ${(q.rewards.setupBeforeChainQuest + q.rewards.setupChainQuest)} ||`);
                     rewardLines.push(`+${q.rewards.setupChainQuest} ||`);
                 }
                 if (q.rewards?.gridRefreshChainQuest) {
                     // rewardLines.push(`+${q.rewards.gridRefreshChainQuest} makes # ${(q.rewards.gridRefreshBeforeChainQuest + q.rewards.gridRefreshChainQuest)}`);
-                    rewardLines.push(`#+${q.rewards.gridRefreshChainQuest}`);
+                    rewardLines.push(`# +${q.rewards.gridRefreshChainQuest}`);
                 }
-                if (q.rewards?.wildcardUnlocked || q.rewards?.setupChainQuest || q.rewards?.gridRefreshChainQuest) {
+                if (q.rewards?.setupChainQuest || q.rewards?.gridRefreshChainQuest) {
                 rewardLines.push(`</span>`);
                 }
 
                 //WORD QUEST REWARDS
                 
-                if (q.rewards?.gridExpanded || q.rewards?.lives || q.rewards?.setupWordQuest || q.rewards?.gridRefreshWordQuest) {
-                    rewardLines.push(`<span class="rewards">`);
-                }
+                // if (q.rewards?.gridExpanded || q.rewards?.lives || q.rewards?.setupWordQuest || q.rewards?.gridRefreshWordQuest) {
+                //     rewardLines.push(`<span class="rewards">`);
+                // }
                 if (q.rewards?.gridExpanded) {
-                    rewardLines.push(`4x4 unlocked`);
+                    rewardLines.push(`<span class="rewards">4x4 unlocked</span>`);
                     // rewardLines.push(`milestones unlocked`);
                 }
 
                 if (q.rewards?.setupWordQuest) {
                     // rewardLines.push(`+${q.rewards.setupWordQuest} makes ${(q.rewards.setupBeforeWordQuest + q.rewards.setupWordQuest)} ||`);
-                    rewardLines.push(`+${q.rewards.setupWordQuest} ||`);
+                    rewardLines.push(`<span class="rewards">+${q.rewards.setupWordQuest} ||</span>`);
                 }
                 if (q.rewards?.gridRefreshWordQuest) {
                     // rewardLines.push(`+${q.rewards.gridRefreshWordQuest} makes # ${(q.rewards.gridRefreshBeforeWordQuest + q.rewards.gridRefreshWordQuest)}`);
-                    rewardLines.push(`#+${q.rewards.gridRefreshWordQuest}`);
+                    rewardLines.push(`<span class="rewards"># +${q.rewards.gridRefreshWordQuest}</span>`);
                 }
                 if (q.rewards?.lives) {
                     // rewardLines.push(`+1 life for ${q.length} letters`);
-                    rewardLines.push(`+1 life`);
+                    rewardLines.push(`<span class="rewards">+1 life</span>`);
                 }
-                if (q.rewards?.gridExpanded || q.rewards?.lives || q.rewards?.setupWordQuest || q.rewards?.gridRefreshWordQuest) {
-                rewardLines.push(`</span>`);
-                }
+                // if (q.rewards?.gridExpanded || q.rewards?.lives || q.rewards?.setupWordQuest || q.rewards?.gridRefreshWordQuest) {
+                // rewardLines.push(`</span>`);
+                // }
 
 
                 //STREAK QUEST REWARDS
@@ -3227,11 +3227,8 @@
                 }
                 if (q.rewards?.gridRefreshStreakQuest) {
                     // rewardLines.push(`+${q.rewards.gridRefreshStreakQuest} makes # ${(q.rewards.gridRefreshStreakQuest + q.rewards.gridRefreshBeforeStreakQuest)}`);
-                    rewardLines.push(`#+${q.rewards.gridRefreshStreakQuest}`);
+                    rewardLines.push(`# +${q.rewards.gridRefreshStreakQuest}`);
                 }
-
-
-
 
                 if (q.rewards?.setupStreakQuest || q.rewards?.gridRefreshStreakQuest) {
                     rewardLines.push(`</span>`);
@@ -3239,7 +3236,7 @@
 
 
                 //PENALTIES
-                if (q.rewards?.setupPenalty || q.rewards?.gridRefreshPenalty || q.rewards?.livesPenalty) {
+                if (q.rewards?.setupPenalty || q.rewards?.gridRefreshPenalty) {
                     rewardLines.push(`<span class="penalties">`);
                 }
 
@@ -3249,18 +3246,16 @@
                 }
                 if (q.rewards?.gridRefreshPenalty) {
                     // rewardLines.push(`-${q.rewards.gridRefreshPenalty} makes # ${(q.rewards.gridRefreshBeforePenalty - q.rewards.gridRefreshPenalty)}`);
-                    rewardLines.push(`#-${q.rewards.gridRefreshPenalty}`);
+                    rewardLines.push(`# -${q.rewards.gridRefreshPenalty}`);
                 }
-                if (q.rewards?.livesPenalty) {
-                    rewardLines.push(`-${q.rewards.livesPenalty} life`);
-                }
-                if (q.rewards?.setupPenalty || q.rewards?.gridRefreshPenalty || q.rewards?.livesPenalty) {
+                if (q.rewards?.setupPenalty || q.rewards?.gridRefreshPenalty) {
                     rewardLines.push(`</span>`);
                 }
+                if (q.rewards?.livesPenalty) {
+                    rewardLines.push(`<span class="penalties">-${q.rewards.livesPenalty} life</span>`);
+                }
 
-                // if (q.rewards?.consecThreshold) {
-                //     rewardLines.push(`next bonus overuse penalty at ${q.rewards.consecThreshold} in a row`);
-                // }
+
 
 
 
