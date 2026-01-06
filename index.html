@@ -928,7 +928,16 @@
             /* padding-top:-5px; */
             /* margin-top: -15px; */
         }
-
+        /*
+        .milestones-1 {
+            background: var(--bg);
+            color: var(--text);
+            font-size: 12pt;
+            overflow-y: auto; 
+            padding-inline: auto;
+            border-radius: var(--rounding);
+        }
+        */
 
         #history {
             display: block;
@@ -936,7 +945,8 @@
             word-wrap: break-word;
             text-align: justify;
             width: 85%;
-            min-height: 22px;
+            overflow-y: auto; 
+            max-height: 96px;
             font-size: 12pt;
             font-family: "Courier New", monospace;
             color: var(--accent-text);
@@ -2017,12 +2027,13 @@
     <div id="milestonesModal" class="modal hidden">
         <div class="modal-content-1">
             <h6>MILESTONES</h6>
+            <div id="nextMilestoneInfo" style="padding-left:20px;"></div>
+            <!-- <div id="nextMilestoneInfo"></div> -->
+
             <div id="milestones-1" class="milestones-1">
                 <!-- Milestone content will be dynamically inserted here -->
             </div>
             <!-- <span id="streakinfo"></span> -->
-            <div id="nextMilestoneInfo" style="padding-left:20px;"></div>
-
         </div>
     </div>
 
@@ -2324,22 +2335,23 @@
 
             //ANIMATIONS AND HIGHLIGHTS
 
-            function highlightPlayed(currentWord) {
-                historyElement.innerHTML = historyElement.innerHTML.replace(
-                    new RegExp(currentWord, 'gi'),
-                    '<mark class="highlight">$&</mark>'
-                );
+            // function highlightPlayed(currentWord) {
+            //     historyElement.innerHTML = historyElement.innerHTML.replace(
+            //         new RegExp(currentWord, 'gi'),
+            //         '<mark class="highlight">$&</mark>'
+            //     );
 
-                const newMarks = historyElement.querySelectorAll('mark.highlight:not(.fade)');
-                newMarks.forEach(mark => {
-                    // setTimeout(() => mark.classList.add('fade'), 18000);  // start fade
-                    setTimeout(() => mark.outerHTML = mark.innerText, 60000); // remove
-                });
-            }
+            //     const newMarks = historyElement.querySelectorAll('mark.highlight:not(.fade)');
+            //     newMarks.forEach(mark => {
+            //         // setTimeout(() => mark.classList.add('fade'), 18000);  // start fade
+            //         setTimeout(() => mark.outerHTML = mark.innerText, 60000); // remove
+            //     });
+            // }
 
             function highlightPlayed(currentWord) {
                 // Escape any special regex characters in the word
                 const safeWord = currentWord.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                // const characterCount = 
 
                 // Match whole word only
                 const regex = new RegExp(`\\b${safeWord}\\b`, 'gi');
@@ -2347,8 +2359,17 @@
                 // Highlight the word
                 historyElement.innerHTML = historyElement.innerHTML.replace(
                     regex,
-                    '<mark class="highlight">$&</mark>'
+                    '<mark id="target" class="highlight">$&</mark>'
                 );
+
+                const lineHeight = target.offsetHeight;
+                // const destination = target.offsetTop + (lineHeight * 20);
+                const destination = target.offsetTop - (lineHeight * 21);
+
+                historyElement.scrollTo({
+                    top: destination,
+                    behavior: 'smooth'
+                });
 
                 // Keep highlight for 60s
                 const newMarks = historyElement.querySelectorAll('mark.highlight:not(.fade)');
@@ -2356,6 +2377,44 @@
                     setTimeout(() => mark.outerHTML = mark.innerText, 60000);
                 });
             }
+
+            // function highlightPlayed(currentWord) {
+            //     // 1. Find the existing element instead of regex-replacing the whole container
+            //     // This assumes each word in your history is wrapped in a tag (like <span> or <li>)
+            //     const historyItems = historyElement.querySelectorAll('.history-item'); // Adjust selector as needed
+            //     let target = null;
+
+            //     historyItems.forEach(item => {
+            //         if (item.textContent.trim().toLowerCase() === currentWord.toLowerCase()) {
+            //             target = item;
+            //     }
+            //     });
+
+            //     if (target) {
+            //     // 2. Clear old highlights if necessary, then add new one
+            //     target.classList.add('highlight');
+            //     target.id = 'highlighted'; // Temporary ID for scrolling
+
+            //     // 3. The Math for the 3rd line (45px is a good estimate, but lineHeight is safer)
+            //     const lineHeight = target.offsetHeight;
+            //     const destination = target.offsetTop - (lineHeight * 2);
+
+            //     historyElement.scrollTo({
+            //         top: destination,
+            //         behavior: 'smooth'
+            //     });
+
+            //     // 4. Cleanup: Remove the highlight class and ID after 60s
+            //     setTimeout(() => {
+            //         target.classList.remove('highlight');
+            //         target.removeAttribute('id');
+            //     }, 60000);
+            //     }
+            //     }
+
+
+
+
 
             function playAnimation() { 
                 actionBtn.classList.remove('anim-play');
@@ -3116,19 +3175,19 @@
                 const avgWordLength = Math.round(100 * score / chain) / 100;
                 // <p class="sq-para2">Shooting for:</p>
 
-                let milestoneSummary = `<p class="sq-para2"><br></p>
+                let milestoneSummary = `
                 <table style="border:none;width:360px;">
                     <tr style="border:none;padding:none;">
                         <td style="border:none;width:50%;padding:2px;margin:0px;">
                             <p class="sq-para2"><span class="rewards2">${nextString}+ string</span><br>${nextStringToGo} to go</p>
                         </td>
                         <td style="border:none;width:50%;padding:2px;margin:0px;">
-                            <p class="sq-para2"><span class="rewards2">no-bonus streak of ${nextStreak}</span><br>currently ${noBonusStreak}, best ${bestNoBonusStreak}</p>
+                            <p class="sq-para2"><span class="rewards2">chain ${nextChain}</span><br>${nextChainToGo} to go</p>
                         </td>
                     </tr>
                     <tr style="border:none;padding:none;">
                         <td style="border:none;width:50%;padding:2px;margin:0px;">
-                            <p class="sq-para2"><span class="rewards2">chain ${nextChain}</span><br>${nextChainToGo} to go</p>
+                            <p class="sq-para2"><span class="rewards2">no-bonus streak of ${nextStreak}</span><br>currently ${noBonusStreak}, best ${bestNoBonusStreak}</p>
                         </td>
                         <td style="border:none;width:50%;padding:2px;margin:0px;">
                             <p class="sq-para2"><span class="rewards2">${nextWordLength} letter words</span><br>currently ${currentWord.length}, avg ${avgWordLength} letters</p>
