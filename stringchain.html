@@ -1169,8 +1169,24 @@
             border: var(--bg);
         }
 
-
         .modal {
+            position: fixed;
+            inset: 0;
+            height: 100dvh;
+            width: 100vw;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            z-index: 1000;
+
+            background-color: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
+        }
+        
+        /* .modal {
             position: fixed;
             top: 0px;
             left: 0;
@@ -1185,7 +1201,7 @@
             background-color: rgba(0, 0, 0, 0.75);
             backdrop-filter: blur(3px);
             -webkit-backdrop-filter: blur(3px);
-        }
+        } */
 
 /* 
         .modal {
@@ -3103,12 +3119,13 @@
                 const nextChainToGo = nextChain - chain;
                 const nextWordLength = `${wordLengthMilestones[0]}, ${wordLengthMilestones[1]}, ${wordLengthMilestones[2]}, ${wordLengthMilestones[3]}`; // show next 4 word lengths
                 const nextStreak = streakMilestones[0];
+                const avgWordLength = .001 * Math.round(1000 * score / chain);
 
                 let milestoneSummary = `<p class="sq-para" style="font-size:8pt; text-align:left;">Shooting for:
                     <br>${nextString}+ string // ${nextStringToGo} to go
                     <br>chain ${nextChain} // ${nextChainToGo} to go
-                    <br>${nextWordLength} letter words
-                    <br>no-bonus streak of ${nextStreak} // currently at ${noBonusStreak}, best ${bestNoBonusStreak}</p>`;
+                    <br>${nextWordLength} letter words // avg length currently ${avgWordLength}
+                    <br>no-bonus streak of ${nextStreak} // currently ${noBonusStreak}, best ${bestNoBonusStreak}</p>`;
 
                 if (isActiveGame == false) { 
                     milestoneSummary = `<p class="sq-para" style="font-size:8pt; text-align:left;">GAME OVER! 
