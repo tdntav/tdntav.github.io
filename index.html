@@ -3106,9 +3106,8 @@
                 const avgWordLength = Math.round(1000 * score / chain) / 1000;
 
                 let milestoneSummary = `<p class="sq-para" style="font-size:8pt; text-align:left;">Shooting for:
-                    <br>${nextString}+ string // ${nextStringToGo} to go
-                    <br>chain ${nextChain} // ${nextChainToGo} to go
-                    <br>${nextWordLength} letter words // avg length currently at ${avgWordLength}
+                    <br>${nextString}+ string // ${nextStringToGo} to go  . . . . .  chain ${nextChain} // ${nextChainToGo} to go
+                    <br>${nextWordLength} letter words // currently ${currentWord.length} // avg length ${avgWordLength}
                     <br>no-bonus streak of ${nextStreak} // currently ${noBonusStreak}, best ${bestNoBonusStreak}</p>`;
 
                 if (isActiveGame == false) { 
@@ -3181,7 +3180,7 @@
                 }
                 if (q.rewards?.setupChainQuest) {
                     // rewardLines.push(`+${q.rewards.setupChainQuest} makes ${(q.rewards.setupBeforeChainQuest + q.rewards.setupChainQuest)} ||`);
-                    rewardLines.push(`+${q.rewards.setupChainQuest} ||`);
+                    rewardLines.push(`+${q.rewards.setupChainQuest} || `);
                 }
                 if (q.rewards?.gridRefreshChainQuest) {
                     // rewardLines.push(`+${q.rewards.gridRefreshChainQuest} makes # ${(q.rewards.gridRefreshBeforeChainQuest + q.rewards.gridRefreshChainQuest)}`);
@@ -3225,7 +3224,7 @@
                 
                 if (q.rewards?.setupStreakQuest) {
                     // rewardLines.push(`+${q.rewards.setupStreakQuest} makes ${(q.rewards.setupStreakQuest + q.rewards.setupBeforeStreakQuest)} ||`);
-                    rewardLines.push(`+${q.rewards.setupStreakQuest} ||`);
+                    rewardLines.push(`+${q.rewards.setupStreakQuest} || `);
                 }
                 if (q.rewards?.gridRefreshStreakQuest) {
                     // rewardLines.push(`+${q.rewards.gridRefreshStreakQuest} makes # ${(q.rewards.gridRefreshStreakQuest + q.rewards.gridRefreshBeforeStreakQuest)}`);
@@ -3244,7 +3243,7 @@
 
                 if (q.rewards?.setupPenalty) {
                     // rewardLines.push(`-${q.rewards.setupPenalty} makes ${(q.rewards.setupBeforePenalty - q.rewards.setupPenalty)} ||`);
-                    rewardLines.push(`-${q.rewards.setupPenalty} ||`);
+                    rewardLines.push(`-${q.rewards.setupPenalty} || `);
                 }
                 if (q.rewards?.gridRefreshPenalty) {
                     // rewardLines.push(`-${q.rewards.gridRefreshPenalty} makes # ${(q.rewards.gridRefreshBeforePenalty - q.rewards.gridRefreshPenalty)}`);
@@ -3265,7 +3264,7 @@
                 return `
                     <p class="sq-para">
                     ${headerLine}<br>
-                    ${rewardLines.length ? ` <small>${rewardLines.join("  ")}</small>` : ""}
+                    ${rewardLines.length ? ` <small>${rewardLines.join("")}</small>` : ""}
                     <br><span class="sq-word">${q.word.toLowerCase()}</span>
                     </p>
                 `;
