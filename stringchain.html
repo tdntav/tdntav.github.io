@@ -475,7 +475,7 @@
 
         /* END OF THEMES*/
         html, body { overflow-x: hidden;
-            height: 100dvh;
+            /* height: 100%; */
         }
 
         body {
@@ -1169,29 +1169,13 @@
             border: var(--bg);
         }
 
+
         .modal {
-            position: fixed;
-            inset: 0;
-            height: 100dvh;
-            width: 100vw;
-
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            z-index: 1000;
-
-            background-color: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(3px);
-            -webkit-backdrop-filter: blur(3px);
-        }
-        
-        /* .modal {
-            position: fixed;
+            position: auto;
             top: 0px;
             left: 0;
             width: 100vw;
-            height: 100%; 
+            height: 100dvh; 
             
             display: flex;
             justify-content: center;
@@ -1201,7 +1185,7 @@
             background-color: rgba(0, 0, 0, 0.75);
             backdrop-filter: blur(3px);
             -webkit-backdrop-filter: blur(3px);
-        } */
+        }
 
 /* 
         .modal {
@@ -1288,6 +1272,15 @@
         .sq-para {
             font-size: 12pt;
         }
+
+        .sq-para2 {
+            font-size:8pt; 
+            text-align:center;
+            display: block;
+            margin: 0;
+            padding:0;
+        }
+
 
         /* #streakinfo {
             margin-top:10px;
@@ -1533,7 +1526,7 @@
             /* margin-top: 10px; */
             border-radius: var(--rounding);
             /* border: 1px solid var(--accent); */
-            padding-block: 2px;
+            padding-block: 1px;
             padding-inline: 8px;
             margin-inline: 2px;
             background: var(--accent);
@@ -1547,7 +1540,7 @@
             /* margin-top: 10px; */
             border-radius: var(--rounding);
             /* border: 1px solid var(--disabled); */
-            padding-block: 2px;
+            padding-block: 1px;
             padding-inline: 8px;
             margin-inline: 2px;
             background: var(--text);
@@ -1780,14 +1773,13 @@
             <div class="demo-div">
                 <!-- EXAMPLE 6: BONUS -->
                 <div class="demo-board">
-                    <p class="demo-para">A bonus no-penalty setup move is earned<br>for every 5 words
-                        added to the chain.<br><br></p>
+                    <p class="demo-para">Bonus no-penalty setup moves are earned<br>for passing milestones.<br><br></p>
                     <div class="button-row demo demoscale"> <button class="bonusBtn"
                             style="border:var(--selected-border);">1
                             ||</button><button class="actionBtn disabled"
                             style="border:2px solid transparent;">PLAY</button><button class="gridRefreshBtn disabled"
                             style="border:2px solid transparent;">#</button></div>
-                    <p class="demo-para"><br>To use it, select a move as normal but<br>hit the <b>BONUS ||</b> button
+                    <p class="demo-para"><br>To use one, select a move as normal but<br>hit the <b>BONUS ||</b> button
                         instead of <b><i>PLAY</i></b>.
                     </p>
                 </div>
@@ -1796,8 +1788,8 @@
             <div class="demo-div">
                 <!-- EXAMPLE 6: REFRESH BUTTON -->
                 <div class="demo-board">
-                    <p class="demo-para">A free grid refresh bonus is earned<br>for every 30 points (AKA
-                        string).<br><br>Play the grid refresh bonus<br>by pressing the # button.<br><br></p>
+                    <p class="demo-para">Grid refresh bonuses are earned<br>for passing milestones.<br>
+                        <br>Play a grid refresh bonus<br>by pressing the # button.<br><br></p>
                     <div class="button-row demo demoscale"> <button class="bonusBtn disabled"
                             style="border:2px solid transparent;">||</button><button class="actionBtn disabled"
                             style="border:2px solid transparent;">PLAY</button><button class="gridRefreshBtn"
@@ -1874,7 +1866,7 @@
                 <br>
                 <br>You can see your remaining lives under the current word.
             </p>
-            <h2>DEEP KNOWLEDGE</h2>    
+            <h2>MILESTONES</h2>    
             <p style="text-align:left;"><b>Milestone</b> rewards are active from the start of the game, but only become visible when the 4x4 grid is unlocked for 6+ letters.<br>
                 <br>Players get one-time rewards for these milestones:
                 <br> String: 100, 200, 300, 400, 500, 600, 700, 800... 
@@ -2093,8 +2085,8 @@
             let score = 0;
             let chain = 0;
             let selected = [];
-            let setupMovesAvailable = 0;
-            let gridRefreshBonusesAvailable = 0;
+            let setupMovesAvailable = 5;
+            let gridRefreshBonusesAvailable = 5;
             let asteriskEarned = 0;
             let lastAsteriskThreshold = 0;
             let wordLengthMilestones = [ 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50 ];
@@ -2172,7 +2164,7 @@
 
             bonusBtn.addEventListener('click', () => {
                 if (setupMovesAvailable <= 0) {
-                    messageElement.textContent = "You get a bonus after every 5 words. Click + for guidance.";
+                    messageElement.textContent = "Click + for guidance.";
                     showTemporaryMessage();
                     return;
                 }
@@ -2807,7 +2799,7 @@
                 let output = "";
 
                 // We loop through the total number of lives/slots
-                for (let i = 0; i < totalLives; i++) {
+                for (let i = 0; i < Math.min(totalLives,18); i++) {
                     // 1. Determine the character (- for lost, | for remaining)
                     const char = (i < livesLost) ? "-" : "|";
                     
@@ -3119,16 +3111,31 @@
                 const nextChainToGo = nextChain - chain;
                 const nextWordLength = `${wordLengthMilestones[0]}, ${wordLengthMilestones[1]}, ${wordLengthMilestones[2]}, ${wordLengthMilestones[3]}`; // show next 4 word lengths
                 const nextStreak = streakMilestones[0];
-                const avgWordLength = .001 * Math.round(1000 * score / chain);
+                const avgWordLength = Math.round(1000 * score / chain) / 1000;
+                // <p class="sq-para2">Shooting for:</p>
 
-                let milestoneSummary = `<p class="sq-para" style="font-size:8pt; text-align:left;">Shooting for:
-                    <br>${nextString}+ string // ${nextStringToGo} to go
-                    <br>chain ${nextChain} // ${nextChainToGo} to go
-                    <br>${nextWordLength} letter words // avg length currently ${avgWordLength}
-                    <br>no-bonus streak of ${nextStreak} // currently ${noBonusStreak}, best ${bestNoBonusStreak}</p>`;
+                let milestoneSummary = `<p class="sq-para2"><br></p>
+                <table style="border:none;width:360px;">
+                    <tr style="border:none;padding:none;">
+                        <td style="border:none;width:50%;padding:2px;margin:0px;">
+                            <p class="sq-para2"><span class="penalties">${nextString}+ string</span><br>${nextStringToGo} to go</p>
+                        </td>
+                        <td style="border:none;width:50%;padding:2px;margin:0px;">
+                            <p class="sq-para2"><span class="penalties">chain ${nextChain}</span><br>${nextChainToGo} to go</p>
+                        </td>
+                    </tr>
+                    <tr style="border:none;padding:none;">
+                        <td style="border:none;width:50%;padding:2px;margin:0px;">
+                            <p class="sq-para2"><span class="penalties">no-bonus streak of ${nextStreak}</span><br>currently ${noBonusStreak}, best ${bestNoBonusStreak}</p>
+                        </td>
+                        <td style="border:none;width:50%;padding:2px;margin:0px;">
+                            <p class="sq-para2"><span class="penalties">${nextWordLength} letter words</span><br>currently ${currentWord.length}, avg ${avgWordLength} letters</p>
+                        </td>
+                    </tr>
+                </table>`;
 
                 if (isActiveGame == false) { 
-                    milestoneSummary = `<p class="sq-para" style="font-size:8pt; text-align:left;">GAME OVER! 
+                    milestoneSummary = `<p class="sq-para2">GAME OVER! 
                     <br>${score} string chain ${chain}
                     <br>best no-bonus streak of ${bestNoBonusStreak}</p>`;
                 }
@@ -3196,7 +3203,7 @@
                 }
                 if (q.rewards?.setupChainQuest) {
                     // rewardLines.push(`+${q.rewards.setupChainQuest} makes ${(q.rewards.setupBeforeChainQuest + q.rewards.setupChainQuest)} ||`);
-                    rewardLines.push(`+${q.rewards.setupChainQuest} ||`);
+                    rewardLines.push(`+${q.rewards.setupChainQuest} || `);
                 }
                 if (q.rewards?.gridRefreshChainQuest) {
                     // rewardLines.push(`+${q.rewards.gridRefreshChainQuest} makes # ${(q.rewards.gridRefreshBeforeChainQuest + q.rewards.gridRefreshChainQuest)}`);
@@ -3240,7 +3247,7 @@
                 
                 if (q.rewards?.setupStreakQuest) {
                     // rewardLines.push(`+${q.rewards.setupStreakQuest} makes ${(q.rewards.setupStreakQuest + q.rewards.setupBeforeStreakQuest)} ||`);
-                    rewardLines.push(`+${q.rewards.setupStreakQuest} ||`);
+                    rewardLines.push(`+${q.rewards.setupStreakQuest} || `);
                 }
                 if (q.rewards?.gridRefreshStreakQuest) {
                     // rewardLines.push(`+${q.rewards.gridRefreshStreakQuest} makes # ${(q.rewards.gridRefreshStreakQuest + q.rewards.gridRefreshBeforeStreakQuest)}`);
@@ -3259,7 +3266,7 @@
 
                 if (q.rewards?.setupPenalty) {
                     // rewardLines.push(`-${q.rewards.setupPenalty} makes ${(q.rewards.setupBeforePenalty - q.rewards.setupPenalty)} ||`);
-                    rewardLines.push(`-${q.rewards.setupPenalty} ||`);
+                    rewardLines.push(`-${q.rewards.setupPenalty} || `);
                 }
                 if (q.rewards?.gridRefreshPenalty) {
                     // rewardLines.push(`-${q.rewards.gridRefreshPenalty} makes # ${(q.rewards.gridRefreshBeforePenalty - q.rewards.gridRefreshPenalty)}`);
@@ -3280,7 +3287,7 @@
                 return `
                     <p class="sq-para">
                     ${headerLine}<br>
-                    ${rewardLines.length ? ` <small>${rewardLines.join("  ")}</small>` : ""}
+                    ${rewardLines.length ? ` <small>${rewardLines.join("")}</small>` : ""}
                     <br><span class="sq-word">${q.word.toLowerCase()}</span>
                     </p>
                 `;
@@ -4041,16 +4048,19 @@
                     score += currentWord.length;
                     chain++;
                     checkAsteriskBonus(chain);
-                    if ((chain % 5 === 0) && chain > 4) {
-                        setupMovesAvailable++;
-                        updateBonusButton();
-                        bonusAnimation();
-                    }
-                    if (Math.floor(score / 30) > Math.floor((score - currentWord.length) / 30) && score > 29) {
-                        gridRefreshBonusesAvailable++;
-                        updateGridRefreshButton();
-                        gridRefreshAnimation();
-                    }
+
+                    //THIS LOGIC DISABLED FOR NOW. ADDITIONAL BONUSES FOR MILESTONES ONLY
+                    // if ((chain % 5 === 0) && chain > 4) {
+                    //     setupMovesAvailable++;
+                    //     updateBonusButton();
+                    //     bonusAnimation();
+                    // }
+                    // if (Math.floor(score / 30) > Math.floor((score - currentWord.length) / 30) && score > 29) {
+                    //     gridRefreshBonusesAvailable++;
+                    //     updateGridRefreshButton();
+                    //     gridRefreshAnimation();
+                    // }
+
                     scoreElement.textContent = score;
                     chainElement.textContent = chain;
                     if (chain != 1) { messageElement.textContent = "Valid word!" }; //FROM LOCAL LIST
@@ -4083,16 +4093,17 @@
                         score += currentWord.length;
                         chain++;
                         checkAsteriskBonus(chain);
-                        if ((chain % 5 === 0) && chain > 4) {
-                            setupMovesAvailable++;
-                            updateBonusButton();
-                            bonusAnimation();
-                        }
-                        if (Math.floor(score / 30) > Math.floor((score - currentWord.length) / 30) && score > 29) {
-                            gridRefreshBonusesAvailable++;
-                            updateGridRefreshButton();
-                            gridRefreshAnimation();
-                        }
+                        //THIS LOGIC DISABLED FOR NOW. ADDITIONAL BONUSES FOR MILESTONES ONLY
+                        // if ((chain % 5 === 0) && chain > 4) {
+                        //     setupMovesAvailable++;
+                        //     updateBonusButton();
+                        //     bonusAnimation();
+                        // }
+                        // if (Math.floor(score / 30) > Math.floor((score - currentWord.length) / 30) && score > 29) {
+                        //     gridRefreshBonusesAvailable++;
+                        //     updateGridRefreshButton();
+                        //     gridRefreshAnimation();
+                        // }
                         scoreElement.textContent = score;
                         chainElement.textContent = chain;
                         messageElement.textContent = "Yes, valid word!";
