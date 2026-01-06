@@ -1172,10 +1172,12 @@
 
         .modal {
             position: fixed;
-            top: 0px;
-            left: 0;
-            width: 100vw;
-            height: 100dvh; 
+            top: 0;
+            left: 0;            
+            bottom: 0;
+            right: 0;
+            /* width: 100vw; */
+            /* height: 100dvh;  */
             
             display: flex;
             justify-content: center;
@@ -1274,7 +1276,7 @@
         }
 
         .sq-para2 {
-            font-size:8pt; 
+            font-size:9pt; 
             text-align:center;
             display: block;
             margin: 0;
@@ -1534,7 +1536,7 @@
         }
 
 
-        .penalties {
+        .rewards2 {
             /* font-size: 12pt; */
             /* color: var(--text); */
             /* margin-top: 10px; */
@@ -3111,25 +3113,25 @@
                 const nextChainToGo = nextChain - chain;
                 const nextWordLength = `${wordLengthMilestones[0]}, ${wordLengthMilestones[1]}, ${wordLengthMilestones[2]}, ${wordLengthMilestones[3]}`; // show next 4 word lengths
                 const nextStreak = streakMilestones[0];
-                const avgWordLength = Math.round(1000 * score / chain) / 1000;
+                const avgWordLength = Math.round(100 * score / chain) / 100;
                 // <p class="sq-para2">Shooting for:</p>
 
                 let milestoneSummary = `<p class="sq-para2"><br></p>
                 <table style="border:none;width:360px;">
                     <tr style="border:none;padding:none;">
                         <td style="border:none;width:50%;padding:2px;margin:0px;">
-                            <p class="sq-para2"><span class="penalties">${nextString}+ string</span><br>${nextStringToGo} to go</p>
+                            <p class="sq-para2"><span class="rewards2">${nextString}+ string</span><br>${nextStringToGo} to go</p>
                         </td>
                         <td style="border:none;width:50%;padding:2px;margin:0px;">
-                            <p class="sq-para2"><span class="penalties">chain ${nextChain}</span><br>${nextChainToGo} to go</p>
+                            <p class="sq-para2"><span class="rewards2">chain ${nextChain}</span><br>${nextChainToGo} to go</p>
                         </td>
                     </tr>
                     <tr style="border:none;padding:none;">
                         <td style="border:none;width:50%;padding:2px;margin:0px;">
-                            <p class="sq-para2"><span class="penalties">no-bonus streak of ${nextStreak}</span><br>currently ${noBonusStreak}, best ${bestNoBonusStreak}</p>
+                            <p class="sq-para2"><span class="rewards2">no-bonus streak of ${nextStreak}</span><br>currently ${noBonusStreak}, best ${bestNoBonusStreak}</p>
                         </td>
                         <td style="border:none;width:50%;padding:2px;margin:0px;">
-                            <p class="sq-para2"><span class="penalties">${nextWordLength} letter words</span><br>currently ${currentWord.length}, avg ${avgWordLength} letters</p>
+                            <p class="sq-para2"><span class="rewards2">${nextWordLength} letter words</span><br>currently ${currentWord.length}, avg ${avgWordLength} letters</p>
                         </td>
                     </tr>
                 </table>`;
@@ -3261,7 +3263,7 @@
 
                 //PENALTIES
                 if (q.rewards?.setupPenalty || q.rewards?.gridRefreshPenalty) {
-                    rewardLines.push(`<span class="penalties">`);
+                    rewardLines.push(`<span class="rewards2">`);
                 }
 
                 if (q.rewards?.setupPenalty) {
@@ -3276,7 +3278,7 @@
                     rewardLines.push(`</span>`);
                 }
                 if (q.rewards?.livesPenalty) {
-                    rewardLines.push(`<span class="penalties">-${q.rewards.livesPenalty} life</span>`);
+                    rewardLines.push(`<span class="rewards2">-${q.rewards.livesPenalty} life</span>`);
                 }
 
 
