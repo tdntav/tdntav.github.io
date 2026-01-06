@@ -1277,8 +1277,8 @@
             font-size:8pt; 
             text-align:center;
             display: block;
-            margin: 2px 0;
-            padding:2px 24px 2px 5px;
+            margin: 0;
+            padding:0;
         }
 
 
@@ -1526,7 +1526,7 @@
             /* margin-top: 10px; */
             border-radius: var(--rounding);
             /* border: 1px solid var(--accent); */
-            padding-block: 2px;
+            padding-block: 1px;
             padding-inline: 8px;
             margin-inline: 2px;
             background: var(--accent);
@@ -1540,7 +1540,7 @@
             /* margin-top: 10px; */
             border-radius: var(--rounding);
             /* border: 1px solid var(--disabled); */
-            padding-block: 2px;
+            padding-block: 1px;
             padding-inline: 8px;
             margin-inline: 2px;
             background: var(--text);
@@ -3115,11 +3115,25 @@
                 const avgWordLength = Math.round(1000 * score / chain) / 1000;
                 // <p class="sq-para2">Shooting for:</p>
 
-                let milestoneSummary = `
-                    <p class="sq-para2"><br><span class="penalties">${nextString}+ string</span><br>${nextStringToGo} to go</p>
-                    <p class="sq-para2"><span class="penalties">chain ${nextChain}</span><br>${nextChainToGo} to go</p>
-                    <p class="sq-para2"><span class="penalties">${nextWordLength} letter words</span><br>currently ${currentWord.length}, avg ${avgWordLength} letters</p>
-                    <p class="sq-para2"><span class="penalties">no-bonus streak of ${nextStreak}</span><br>currently ${noBonusStreak}, best ${bestNoBonusStreak}</p>`;
+                let milestoneSummary = `<p class="sq-para2"><br></p>
+                <table style="border:none;width:360px;">
+                    <tr style="border:none;padding:none;">
+                        <td style="border:none;width:50%;padding:2px;margin:0px;">
+                            <p class="sq-para2"><span class="penalties">${nextString}+ string</span><br>${nextStringToGo} to go</p>
+                        </td>
+                        <td style="border:none;width:50%;padding:2px;margin:0px;">
+                            <p class="sq-para2"><span class="penalties">chain ${nextChain}</span><br>${nextChainToGo} to go</p>
+                        </td>
+                    </tr>
+                    <tr style="border:none;padding:none;">
+                        <td style="border:none;width:50%;padding:2px;margin:0px;">
+                            <p class="sq-para2"><span class="penalties">no-bonus streak of ${nextStreak}</span><br>currently ${noBonusStreak}, best ${bestNoBonusStreak}</p>
+                        </td>
+                        <td style="border:none;width:50%;padding:2px;margin:0px;">
+                            <p class="sq-para2"><span class="penalties">${nextWordLength} letter words</span><br>currently ${currentWord.length}, avg ${avgWordLength} letters</p>
+                        </td>
+                    </tr>
+                </table>`;
 
                 if (isActiveGame == false) { 
                     milestoneSummary = `<p class="sq-para2">GAME OVER! 
@@ -3130,7 +3144,6 @@
                 document.getElementById("nextMilestoneInfo").innerHTML = milestoneSummary;
                 // return milestoneSummary;
             }
-
 
 
 
