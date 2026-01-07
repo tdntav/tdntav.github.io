@@ -2118,7 +2118,6 @@
             // let lastUsedGridCell = null; // Track last used cell for invalid move rollback
             let specialModeActive = false; // Track bonus special mode
             let LOCAL_WORDS = null;
-            let highlightIndex = 1;
 
             async function loadLocalWords() {
                 const response = await fetch('assets/merged-wordlists.json');
@@ -2285,7 +2284,6 @@
                 playedWords.clear();
                 bonusTicker = '';
                 bonusCounter = 0;
-                highlightIndex = 1;
                 // disallowedWords.clear();
                 gridElement.style.pointerEvents = 'auto';
                 wordContainer.style.pointerEvents = 'auto';
