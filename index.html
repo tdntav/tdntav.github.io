@@ -946,7 +946,8 @@
             text-align: justify;
             width: 85%;
             overflow-y: auto; 
-            max-height: 96px;
+            overscroll-behavior: contain;
+            max-height: 132px;
             font-size: 12pt;
             font-family: "Courier New", monospace;
             color: var(--accent-text);
@@ -965,7 +966,7 @@
             /* text-decoration: underline 3px solid var(--wordcell); */
             color: var(--wordcell);
             /* padding: 4px; */
-            border: 2px solid var(--bg);
+            /* border: 2px solid var(--bg); */
             border-radius: var(--rounding);
             /* font-weight: bold; */
             /* opacity:75%; */
@@ -2117,6 +2118,7 @@
             // let lastUsedGridCell = null; // Track last used cell for invalid move rollback
             let specialModeActive = false; // Track bonus special mode
             let LOCAL_WORDS = null;
+            let highlightIndex = 1;
 
             async function loadLocalWords() {
                 const response = await fetch('assets/merged-wordlists.json');
@@ -2283,6 +2285,7 @@
                 playedWords.clear();
                 bonusTicker = '';
                 bonusCounter = 0;
+                highlightIndex = 1;
                 // disallowedWords.clear();
                 gridElement.style.pointerEvents = 'auto';
                 wordContainer.style.pointerEvents = 'auto';
@@ -2349,69 +2352,160 @@
             // }
 
             function highlightPlayed(currentWord) {
-                // Escape any special regex characters in the word
-                const safeWord = currentWord.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-                // const characterCount = 
+    const safeWord = currentWord.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`\\b${safeWord}\\b`, 'gi');
 
-                // Match whole word only
-                const regex = new RegExp(`\\b${safeWord}\\b`, 'gi');
+    // Replace and mark
+    historyElement.innerHTML = historyElement.innerHTML.replace(
+        regex,
+        '<mark class="highlight">$&</mark>'
+    );
 
-                // Highlight the word
-                historyElement.innerHTML = historyElement.innerHTML.replace(
-                    regex,
-                    '<mark id="target" class="highlight">$&</mark>'
-                );
+    const marks = historyElement.querySelectorAll('mark.highlight');
+    if (!marks.length) return;
 
-                const lineHeight = target.offsetHeight;
-                // const destination = target.offsetTop + (lineHeight * 20);
-                const destination = target.offsetTop - (lineHeight * 21);
+    // Always target the most recent occurrence
+    const target = marks[marks.length - 1];
 
-                historyElement.scrollTo({
-                    top: destination,
-                    behavior: 'smooth'
-                });
+    const containerRect = historyElement.getBoundingClientRect();
+    const targetRect = target.getBoundingClientRect();
 
-                // Keep highlight for 60s
-                const newMarks = historyElement.querySelectorAll('mark.highlight:not(.fade)');
-                newMarks.forEach(mark => {
-                    setTimeout(() => mark.outerHTML = mark.innerText, 60000);
-                });
+    // const offset =
+    //     targetRect.top
+    //     - containerRect.top
+    //     - historyElement.clientHeight / 2
+    //     + target.offsetHeight / 2;
+
+    // historyElement.scrollTo({
+    //     top: historyElement.scrollTop + offset,
+    //     behavior: 'smooth'
+    // });
+
+        const destination =
+            historyElement.scrollTop +
+            (targetRect.top - containerRect.top) -
+            (containerRect.height / 2) +
+            (targetRect.height / 2);
+
+    historyElement.scrollTo({
+        top: Math.max(0, destination),
+        behavior: 'smooth'
+    });
+
+    // Remove highlight after 2s
+    marks.forEach(mark => {
+        setTimeout(() => {
+            if (mark.isConnected) {
+                mark.replaceWith(mark.textContent);
             }
+        }, 2000);
+    });
+}
 
+
+
+            
+// //this version works (mostly)
+// function highlightPlayed(currentWord) {
+//                 // Escape any special regex characters in the word
+//                 const safeWord = currentWord.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+//                 // const characterCount = 
+
+//                 // Match whole word only
+//                 const regex = new RegExp(`\\b${safeWord}\\b`, 'gi');
+
+//                 // Highlight the word
+//                 historyElement.innerHTML = historyElement.innerHTML.replace(
+//                     regex,
+//                     '<mark class="highlight">$&</mark>'
+//                 );
+//                 const marks = historyElement.querySelectorAll('mark.highlight');
+//                 const target = marks[marks.length - 1];
+
+//                 const lineHeight = target.offsetHeight;
+//                 const destination = target.offsetTop - (lineHeight * 21);
+
+//                 historyElement.scrollTo({
+//                     top: destination,
+//                     behavior: 'smooth'
+//                 });
+
+//                 // Keep highlight for 60s
+//                 const newMarks = historyElement.querySelectorAll('mark.highlight:not(.fade)');
+//                 newMarks.forEach(mark => {
+//                     setTimeout(() => mark.outerHTML = mark.innerText, 60000);
+//                 });
+//             }
+
+
+            // //this version works
             // function highlightPlayed(currentWord) {
-            //     // 1. Find the existing element instead of regex-replacing the whole container
-            //     // This assumes each word in your history is wrapped in a tag (like <span> or <li>)
-            //     const historyItems = historyElement.querySelectorAll('.history-item'); // Adjust selector as needed
-            //     let target = null;
+            //     // Escape any special regex characters in the word
+            //     const safeWord = currentWord.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            //     // const characterCount = 
 
-            //     historyItems.forEach(item => {
-            //         if (item.textContent.trim().toLowerCase() === currentWord.toLowerCase()) {
-            //             target = item;
-            //     }
-            //     });
+            //     // Match whole word only
+            //     const regex = new RegExp(`\\b${safeWord}\\b`, 'gi');
 
-            //     if (target) {
-            //     // 2. Clear old highlights if necessary, then add new one
-            //     target.classList.add('highlight');
-            //     target.id = 'highlighted'; // Temporary ID for scrolling
+            //     // Highlight the word
+            //     historyElement.innerHTML = historyElement.innerHTML.replace(
+            //         regex,
+            //         '<mark id="target" class="highlight">$&</mark>'
+            //     );
 
-            //     // 3. The Math for the 3rd line (45px is a good estimate, but lineHeight is safer)
             //     const lineHeight = target.offsetHeight;
-            //     const destination = target.offsetTop - (lineHeight * 2);
+            //     // const destination = target.offsetTop + (lineHeight * 20);
+            //     const destination = target.offsetTop - (lineHeight * 21);
 
             //     historyElement.scrollTo({
             //         top: destination,
             //         behavior: 'smooth'
             //     });
 
-            //     // 4. Cleanup: Remove the highlight class and ID after 60s
-            //     setTimeout(() => {
-            //         target.classList.remove('highlight');
-            //         target.removeAttribute('id');
-            //     }, 60000);
-            //     }
-            //     }
+            //     // Keep highlight for 60s
+            //     const newMarks = historyElement.querySelectorAll('mark.highlight:not(.fade)');
+            //     newMarks.forEach(mark => {
+            //         setTimeout(() => mark.outerHTML = mark.innerText, 60000);
+            //     });
+            // }
 
+
+
+            // function highlightPlayed(currentWord) {
+            //     const safeWord = currentWord.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            //     const regex = new RegExp(`\\b${safeWord}\\b`, 'gi');
+
+            //     historyElement.innerHTML = historyElement.innerHTML.replace(
+            //         regex,
+            //         '<mark class="highlight">$&</mark>'
+            //     );
+
+            //     // Get the most recent highlight
+            //     const marks = historyElement.querySelectorAll('mark.highlight');
+            //     const target = marks[marks.length - 1];
+
+            //     if (!target) return;
+
+            //     const containerRect = historyElement.getBoundingClientRect();
+            //     const targetRect = target.getBoundingClientRect();
+
+            //     const destination =
+            //         historyElement.scrollTop +
+            //         (targetRect.top - containerRect.top) -
+            //         (containerRect.height / 2) +
+            //         (targetRect.height / 2);
+
+            //     historyElement.scrollTo({
+            //         top: destination,
+            //         behavior: 'smooth'
+            //     });
+
+            //     // Fade after 60s
+            //     setTimeout(() => {
+            //         target.classList.add('fade');
+            //         setTimeout(() => target.outerHTML = target.innerText, 1000);
+            //     }, 60000);
+            // }
 
 
 
