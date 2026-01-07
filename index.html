@@ -1903,26 +1903,28 @@
                 <br>
                 <br>Without whoever they are, whoever I am couldn't have made this game for whoever you are.
                 <br>
-                <br>The internet is awash with bitesize daily puzzles. These are great, but Stringchain is more
+                <br>The internet has lots of bitesize daily puzzles. These are great, but Stringchain is more
                 open-ended and user-driven.
-                Play as much as you want, whenever you want. It's not a subscription, it's not an appointment. You
+                You can play as much as you want, whenever you want. It's not a subscription, it's not an appointment. You
                 choose when and how much. Take breaks, be healthy.
                 <br>
                 <br>Your highscores will include a sample of some consecutive words you played. Make yourself presentable.
                 <br>
                 <br>I've been tweaking the rewards and penalties to incentivise exciting gameplay.
-                Your total lives (including lost lives) plus one is the penalty threshold for consecutive bonus use - that's any combination of grid refresh and setup moves without playing a valid word. 
+                There are lots of strategies you might employ. You must break the 6-letter barrier to see your milestones and avail of the 4x4 letter grid.
+                <br><br>You could then retreat to short words, rack up string bonuses, chain bonuses, and no-bonus streaks finding new more efficient paths through all the obvious and convenient short words.
+                The no-bonus streak rewards caution. 
+                <br><br>Sustaining yourself in the long word realm will require burning through some of those bonuses. 
+                Bonuses help you to bridge gaps between longer words that can't be chained in a single move.
+                And you must reach long words to gain extra lives. You unlock extra lives by playing 7+ letter words. 
+                <br><br>Every extra life you gain adds another consecutive bonus to your allowance. Even lost lives still count towards this allowance.
+                This incentivises shooting for longer words to increase the consecutive bonus penalty threshold.
+                <br><br>Cautious or reckless, methodical or impulsive, you'll find your style, find your pace, find your flow. And you probably know more words than you thought you did.
                 <br>
-                <br>In early gameplay, it is important to use bonuses strategically. Word choice is crucial to creep up on longer words without running out of rope.
-                You can unlock extra lives (and raise the consecutive bonus use penalty threshold) by playing 7+ letter words.
+                <br>Get a high score. Beat that high score. Screenshot that high score and challenge your
+                friends. Look at your wordlist, you made that! Look at all the words you know, all these rhymes and connections! Writers, rappers, poets, word enthusiasts, this is your groove.
                 <br>
-                <br>You can rack up string and chain by finding new more efficient paths through all the obvious and convenient short words.
-                Or you can revel in the long word space, stripmining rich veins of vocab, looking for opportunities in the grid to take your word to the next milestone.
-                <br>
-                <br>Get a high score.<br>Beat that high score. <br>Screenshot that high score and challenge your
-                friends.<br>Show off your wordlist. You made that. Look at all the words you know.
-                <br>
-                <br>Future tweaks and updates are planned, including drag/drop UI. But the core game is in place, have at it.
+                <br>Future tweaks and updates are planned, but the core game is in place, have at it.
                 <br>
                 <br>If you enjoy this game, consider buying me a coffee or putting my kids through college.
                 <br>
@@ -3279,10 +3281,10 @@
                     </tr>
                     <tr style="border:none;padding:none;">
                         <td style="border:none;width:50%;padding:2px;margin:0px;">
-                            <p class="sq-para2"><span class="rewards2">no-bonus streak of ${nextStreak}</span><br>currently ${noBonusStreak}, best ${bestNoBonusStreak} words</p>
+                            <p class="sq-para2"><span class="rewards2">${nextWordLength} letter words</span><br>currently ${currentWord.length}, avg ${avgWordLength} letters</p>
                         </td>
                         <td style="border:none;width:50%;padding:2px;margin:0px;">
-                            <p class="sq-para2"><span class="rewards2">${nextWordLength} letter words</span><br>currently ${currentWord.length}, avg ${avgWordLength} letters</p>
+                            <p class="sq-para2"><span class="rewards2">no-bonus streak of ${nextStreak}</span><br>currently ${noBonusStreak}, best ${bestNoBonusStreak} words</p>
                         </td>
                     </tr>
                 </table>`;
@@ -3348,12 +3350,11 @@
                 //CHAIN QUEST REWARDS
 
                 if (q.rewards?.wildcardUnlocked) {
-                    rewardLines.push(`<span class="rewards">wildcard unlocked</span>`);
-                }
-
-                if (q.rewards?.setupChainQuest || q.rewards?.gridRefreshChainQuest) {
+                    rewardLines.push(`<span class="rewards">wildcard unlocked`);
+                } else if (q.rewards?.setupChainQuest || q.rewards?.gridRefreshChainQuest) {
                     rewardLines.push(`<span class="rewards">`);
                 }
+                
                 if (q.rewards?.setupChainQuest) {
                     // rewardLines.push(`+${q.rewards.setupChainQuest} makes ${(q.rewards.setupBeforeChainQuest + q.rewards.setupChainQuest)} ||`);
                     rewardLines.push(`+${q.rewards.setupChainQuest} || `);
@@ -3378,15 +3379,15 @@
 
                 if (q.rewards?.setupWordQuest) {
                     // rewardLines.push(`+${q.rewards.setupWordQuest} makes ${(q.rewards.setupBeforeWordQuest + q.rewards.setupWordQuest)} ||`);
-                    rewardLines.push(`<span class="rewards">+${q.rewards.setupWordQuest} ||</span>`);
+                    rewardLines.push(`<span class="rewards">+${q.rewards.setupWordQuest} ||`);
                 }
                 if (q.rewards?.gridRefreshWordQuest) {
                     // rewardLines.push(`+${q.rewards.gridRefreshWordQuest} makes # ${(q.rewards.gridRefreshBeforeWordQuest + q.rewards.gridRefreshWordQuest)}`);
-                    rewardLines.push(`<span class="rewards"># +${q.rewards.gridRefreshWordQuest}</span>`);
+                    rewardLines.push(`<span class="rewards"># +${q.rewards.gridRefreshWordQuest}`);
                 }
                 if (q.rewards?.lives) {
                     // rewardLines.push(`+1 life for ${q.length} letters`);
-                    rewardLines.push(`<span class="rewards">+1 life</span>`);
+                    rewardLines.push(`  +1 life</span>`);
                 }
                 // if (q.rewards?.gridExpanded || q.rewards?.lives || q.rewards?.setupWordQuest || q.rewards?.gridRefreshWordQuest) {
                 // rewardLines.push(`</span>`);
