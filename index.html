@@ -496,7 +496,7 @@
         h1,
         h3 {
             font-family: "Courier New", monospace;
-            margin: 0 0 5px 0;
+            margin: 20px 0 5px 0;
             text-align: center;
         }
 
@@ -939,6 +939,10 @@
         }
         */
 
+        #highScores {
+            padding-block: 20px;
+        }
+
         #history {
             display: block;
             white-space: normal;
@@ -954,8 +958,8 @@
             /* border: 2px solid var(--accent); */
             /* box-sizing: border-box; */
             background: var(--accent);
-            padding-inline: 2.5%;
-            padding-block: 10px;
+            padding-inline: 1.8%;
+            padding-block: 10px 0px;
             margin: 0px;
             border-radius: var(--rounding);
         }
@@ -1188,11 +1192,31 @@
             bottom: 0;
             right: 0;
             /* width: 100vw; */
-            /* height: 100dvh;  */
+            height: 100dvh; 
             
             display: flex;
             justify-content: center;
             align-items: center;
+            z-index: 1000;
+
+            background-color: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
+        }
+
+
+        .modal-1 {
+            position: fixed;
+            top: 0;
+            left: 0;            
+            bottom: 0;
+            right: 0;
+            /* width: 100vw; */
+            height: 100dvh; 
+            
+            display: flex;
+            justify-content: center;
+            align-items:center;
             z-index: 1000;
 
             background-color: rgba(0, 0, 0, 0.75);
@@ -1217,6 +1241,8 @@
         } */
 
         .modal-content-1 {
+            position: fixed;
+            bottom: 20px;
             background: var(--accent);
             color: var(--accent-text);
             /* background-image: linear-gradient(to bottom, var(--accent), var(--bg));  */
@@ -1278,14 +1304,21 @@
 
 
         .sq-word {
-            font-size: 15pt;
+            font-size: 12pt;
             font-family: "Courier New", monospace;
         }
 
         .sq-para {
-            font-size: 12pt;
+            font-size: 10pt;
         }
 
+        .sq-para1 {
+            font-size:10pt; 
+            text-align:center;
+            display: block;
+            margin: 0;
+            padding:0;
+        }
         .sq-para2 {
             font-size:9pt; 
             text-align:center;
@@ -1534,12 +1567,12 @@
         }
 
         .rewards {
-            /* font-size: 12pt; */
+            font-size: 10pt;
             /* color: var(--text); */
             /* margin-top: 10px; */
             border-radius: var(--rounding);
             /* border: 1px solid var(--accent); */
-            padding-block: 1px;
+            padding-block: 0px;
             padding-inline: 8px;
             margin-inline: 2px;
             background: var(--accent);
@@ -1548,12 +1581,12 @@
 
 
         .rewards2 {
-            /* font-size: 12pt; */
+            font-size: 10pt;
             /* color: var(--text); */
             /* margin-top: 10px; */
             border-radius: var(--rounding);
             /* border: 1px solid var(--disabled); */
-            padding-block: 1px;
+            padding-block: 0px;
             padding-inline: 8px;
             margin-inline: 2px;
             background: var(--text);
@@ -1571,12 +1604,11 @@
     <!-- <div style="height:60px;"><br></div> -->
     <div id="dropdown" style="display:none;">
         <h1>stringchain</h1>
-
-        <div id="highScores"></div>
         <button id="themeToggle" class="help-dark">change</button> <button id="toggle-rules" class="help-dark">HOW TO
             PLAY</button> <button id="aboutBtn" class="help-dark">about</button>
+
         <div id="rules" style="display: none;">
-            <h1>how to play stringchain</h1>
+            <!-- <h1>how to play</h1> -->
             <h2>PLAYABLE MOVES</h2>
 
             <div class="demo-div">
@@ -1782,6 +1814,36 @@
                 </div>
             </div>
             <br>
+            <div class="demo-div">
+                <!-- EXAMPLE 5: INSERT -->
+                <div class="demo-board">
+                    <p class="demo-para">That last move<br>completed a <b><i>grid</i></b> column.<br></p>
+                    <div class="grid-demo">
+                        <div class="grid-cell-demo used"></div>
+                        <div class="grid-cell-demo">U</div>
+                        <div class="grid-cell-demo" style="border:4px solid var(--positive-feedback)">N</div>
+
+                        <div class="grid-cell-demo">R</div>
+                        <div class="grid-cell-demo">I</div>
+                        <div class="grid-cell-demo" style="border:4px solid var(--positive-feedback)">E</div>
+
+                        <div class="grid-cell-demo used"></div>
+                        <div class="grid-cell-demo">H</div>
+                        <div class="grid-cell-demo" style="border:4px solid var(--positive-feedback)">W</div>
+                    </div>
+                    <p class="demo-para">New letters appear<br>in completed rows or columns.<br></p>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+            <br>
             <h2>BONUSES</h2>
             <div class="demo-div">
                 <!-- EXAMPLE 6: BONUS -->
@@ -1829,17 +1891,17 @@
                 <div class="demo-board">
                     <div class="word-container demoscale" style="width:110%;">
                         <div class="insert-slot demo-cell"></div>
-                        <div class="letter demo-cell">B</div>
-                        <div class="insert-slot demo-cell"></div>
-                        <div class="letter demo-cell">A</div>
-                        <div class="insert-slot demo-cell"></div>
-                        <div class="letter demo-cell">L</div>
-                        <div class="insert-slot demo-cell"></div>
-                        <div class="letter demo-cell">L</div>
-                        <div class="insert-slot demo-cell"></div>
                         <div class="letter demo-cell">S</div>
                         <div class="insert-slot demo-cell"></div>
-                        <div class="letter demo-cell">Y</div>
+                        <div class="letter demo-cell">I</div>
+                        <div class="insert-slot demo-cell"></div>
+                        <div class="letter demo-cell">X</div>
+                        <div class="insert-slot demo-cell"></div>
+                        <div class="letter demo-cell">T</div>
+                        <div class="insert-slot demo-cell"></div>
+                        <div class="letter demo-cell">H</div>
+                        <div class="insert-slot demo-cell"></div>
+                        <div class="letter demo-cell">S</div>
                         <div class="insert-slot demo-cell"></div>
                     </div>
                     <p class="demo-para">Reach a six letter word once<br>and the grid expands to 4x4.</p>
@@ -1869,28 +1931,23 @@
             </div>
             <br>
             <h2>GOOD TO KNOW</h2>
-            <p style="text-align:left;">If no grid refresh bonus is used, grid letters refresh when a row or column is
-                completed.
+            <p style="text-align:left;">Attempting to play a previously played word does not incur a penalty. 
+                This word will be highlighted in your wordlist to help you plan your next moves.
                 <br>
-                <br>Attempting to play a previously played word does not incur a penalty. This word will be highlighted in your wordlist to help you plan your next moves.
+                <br>When a word fails dictionary validation, it costs a life. 
+                <br>It also costs half your setup moves and grid refresh bonuses.<br>
+                <br>Using consecutive refresh and/or setup bonuses without playing a valid word also costs a life. 
+                Consecutive bonuses up to the total number of lives may be played before incurring a penalty. 
+                <br>Lost lives still count.
                 <br>
-                <br>Words that fail dictionary validation are penalised. Using consecutive bonuses without playing a valid word also costs you a life. 
-                You may use as many consecutive bonuses as your total number of lives (lost lives still count) before incurring a penalty.
-                <br>
-                <br>You can see your remaining lives under the current word.
+                <br>You can see your remaining lives and track your bonus allowance under the current word.
             </p>
             <h2>MILESTONES</h2>    
             <p style="text-align:left;"><b>Milestone</b> rewards are active from the start of the game, but only become visible when the 4x4 grid is unlocked for 6+ letters.<br>
-                <br>Players get one-time rewards for these milestones:
-                <br> String: 100, 200, 300, 400, 500, 600, 700, 800... 
-                <br> Chain: 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024...
-                <br> Word length: 6+, 7, 8, 9, 10, 11, 12, 13, 14, 15...
-                <br> No-bonus streak: 10, 20, 30, 40, 50, 60, 70, 80...<br>
-                <br>Rewards include bonus setup moves, grid refresh bonuses, extra lives for words 7+ letters, and a few surprises. 
-                The penalty for invalid words, apart from losing a life, is losing half of all accrued setup moves and grid refresh bonuses. 
-                Seems harsh, but the stakes keep it interesting.
-                <br>
-                <br>Enjoy!
+                <br>Players get one-time rewards for passing game milestones and achieving no-bonus streaks.
+                <br><br><b><i>Wildcards</i></b> are not bonuses. You can use them anytime if you have them.
+                <br><br><b><i>What's a wildcard?</i></b> Don't worry, The game reveals itself as you play. 
+                <br><br>Enjoy!
             </p>
         </div>
         <div id="about" style="display: none;">
@@ -1931,10 +1988,8 @@
                 <br>Word nerd,<br>Dave
             </p>
         </div>
-
-
-
-
+        <br>
+        <div id="highScores"></div>
     </div>
     <div class="scores"><span id="score">0</span>&nbsp; <b>string</b><button id="toggle-dropdown"
             class="help toggle-dropdown">+</button><b>chain</b> &nbsp;<span id="chain">0</span></div>
@@ -2027,12 +2082,11 @@
 
 
     <!-- Milestones Modal -->
-    <div id="milestonesModal" class="modal hidden">
+    <div id="milestonesModal" class="modal-1 hidden">
         <div class="modal-content-1">
-            <h6>MILESTONES</h6>
             <div id="nextMilestoneInfo" style="padding-left:20px;"></div>
             <!-- <div id="nextMilestoneInfo"></div> -->
-
+            <h6>MILESTONES</h6>
             <div id="milestones-1" class="milestones-1">
                 <!-- Milestone content will be dynamically inserted here -->
             </div>
@@ -2392,13 +2446,13 @@
         behavior: 'smooth'
     });
 
-    // Remove highlight after 2s
+    // Remove highlight after 20s
     marks.forEach(mark => {
         setTimeout(() => {
             if (mark.isConnected) {
                 mark.replaceWith(mark.textContent);
             }
-        }, 2000);
+        }, 20000);
     });
 }
 
@@ -3273,18 +3327,18 @@
                 <table style="border:none;width:360px;">
                     <tr style="border:none;padding:none;">
                         <td style="border:none;width:50%;padding:2px;margin:0px;">
-                            <p class="sq-para2"><span class="rewards2">${nextString}+ string</span><br>${nextStringToGo} letters to go</p>
+                            <p class="sq-para1"><span class="rewards2">${nextString}+ string</span><br>${nextStringToGo} letters to go</p>
                         </td>
                         <td style="border:none;width:50%;padding:2px;margin:0px;">
-                            <p class="sq-para2"><span class="rewards2">chain ${nextChain}</span><br>${nextChainToGo} words to go</p>
+                            <p class="sq-para1"><span class="rewards2">chain ${nextChain}</span><br>${nextChainToGo} words to go</p>
                         </td>
                     </tr>
                     <tr style="border:none;padding:none;">
                         <td style="border:none;width:50%;padding:2px;margin:0px;">
-                            <p class="sq-para2"><span class="rewards2">${nextWordLength} letter words</span><br>currently ${currentWord.length}, avg ${avgWordLength} letters</p>
+                            <p class="sq-para1"><span class="rewards2">${nextWordLength} letters</span><br>currently ${currentWord.length}, avg ${avgWordLength} letters</p>
                         </td>
                         <td style="border:none;width:50%;padding:2px;margin:0px;">
-                            <p class="sq-para2"><span class="rewards2">no-bonus streak of ${nextStreak}</span><br>currently ${noBonusStreak}, best ${bestNoBonusStreak} words</p>
+                            <p class="sq-para1"><span class="rewards2">no-bonus streak of ${nextStreak}</span><br>currently ${noBonusStreak}, best ${bestNoBonusStreak} words</p>
                         </td>
                     </tr>
                 </table>`;
@@ -3350,8 +3404,10 @@
                 //CHAIN QUEST REWARDS
 
                 if (q.rewards?.wildcardUnlocked) {
-                    rewardLines.push(`<span class="rewards">wildcard unlocked`);
-                } else if (q.rewards?.setupChainQuest || q.rewards?.gridRefreshChainQuest) {
+                    rewardLines.push(`<span class="rewards">wildcard unlocked</span>`);
+                } 
+                
+                if (q.rewards?.setupChainQuest || q.rewards?.gridRefreshChainQuest) {
                     rewardLines.push(`<span class="rewards">`);
                 }
                 
@@ -4224,6 +4280,7 @@
                     playAnimation();
                     showDefinitions(lower);
                     replenishGrid();
+                    historyElement.scrollTo({ top: 0, behavior: 'smooth' });
                     gridFallback = grid;
                     noBonusStreak++;
                     bestNoBonusStreak = Math.max(bestNoBonusStreak, noBonusStreak);
@@ -4267,6 +4324,7 @@
                         playAnimation();
                         showDefinitions(lower);
                         replenishGrid();
+                        historyElement.scrollTo({ top: 0, behavior: 'smooth' });
                         gridFallback = grid;
                         noBonusStreak++;
                         bestNoBonusStreak = Math.max(bestNoBonusStreak, noBonusStreak);
