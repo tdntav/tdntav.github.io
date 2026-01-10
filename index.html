@@ -831,10 +831,37 @@
         }
 
 
-        #scrollBtn {
+        .collapseModal {
+            display: none;
+            position: fixed;
+            top: 6px;
+            /* left:300px; */
+            /* right:0px; */
+
+            align-self: center;
+            justify-self: center;
+            align-items: center;
+            text-align: center;
+            margin-block: 0px;
+            margin-inline: 4px;
+            border-radius: var(--rounding);
+            border: 2px solid var(--wordcell);
+            background: var(--wordcell-text);
+            color: var(--wordcell);
+            font-size: 18pt;
+            height: var(--cell-size);
+            width: var(--rail-width);
+            opacity: 50%;
+            z-index: 1001;
+
+        }
+
+        .scrollBtn {
             display: none;
             position: fixed;
             top: 300px;
+            /* left:0; */
+            /* right:-24px; */
             align-self: center;
             justify-self: center;
             /* transform: translateY(200px); */
@@ -847,8 +874,13 @@
             border: 2px solid var(--wordcell);
             opacity: 50%;
             font-size: 18pt;
-            z-index: 99;
+            z-index: 999;
+            /* border-radius: 23px; */
+            /* margin: 0.5px; */
+            /* border: 2px solid var(--selected-cell); */
         }
+
+
 
         .newgame {
             width: 90%;
@@ -951,6 +983,7 @@
             width: 85%;
             overflow-y: auto; 
             overscroll-behavior: contain;
+            min-height:70px;
             max-height: 132px;
             font-size: 12pt;
             font-family: "Courier New", monospace;
@@ -1242,7 +1275,7 @@
 
         .modal-content-1 {
             position: fixed;
-            bottom: 20px;
+            top: 43px;
             background: var(--accent);
             color: var(--accent-text);
             /* background-image: linear-gradient(to bottom, var(--accent), var(--bg));  */
@@ -1261,12 +1294,15 @@
             display: flex;
             flex-direction: column;
             max-height: 80vh;
+            min-height: 60vh;
             width: 400px;
             /* z-index: 1; */
             /* opacity: unset; */
         }
 
         .modal-content-2 {
+            position: fixed;
+            top: 43px;
             background: var(--accent);
             color: var(--accent-text);
             /* background-image: linear-gradient(to bottom, var(--accent), var(--bg));  */
@@ -1274,7 +1310,7 @@
             padding-block: 12px;
             padding-inline:30px;
             border-radius: var(--rounding);
-            border: var(--bg) solid 2px;
+            border: var(--accent) solid 2px;
             text-align: center;
             /* overflow-y:scroll; */
 
@@ -1291,7 +1327,6 @@
         }
 
 
-
         .milestones-1 {
             background: var(--bg);
             color: var(--text);
@@ -1299,6 +1334,7 @@
             overflow-y: auto; 
             padding-inline: auto;
             border-radius: var(--rounding);
+            min-height: 60vh;
         }
 
 
@@ -1891,17 +1927,17 @@
                 <div class="demo-board">
                     <div class="word-container demoscale" style="width:110%;">
                         <div class="insert-slot demo-cell"></div>
-                        <div class="letter demo-cell">S</div>
+                        <div class="letter demo-cell">D</div>
                         <div class="insert-slot demo-cell"></div>
-                        <div class="letter demo-cell">I</div>
+                        <div class="letter demo-cell">E</div>
                         <div class="insert-slot demo-cell"></div>
-                        <div class="letter demo-cell">X</div>
+                        <div class="letter demo-cell">A</div>
                         <div class="insert-slot demo-cell"></div>
-                        <div class="letter demo-cell">T</div>
+                        <div class="letter demo-cell">D</div>
                         <div class="insert-slot demo-cell"></div>
-                        <div class="letter demo-cell">H</div>
+                        <div class="letter demo-cell">L</div>
                         <div class="insert-slot demo-cell"></div>
-                        <div class="letter demo-cell">S</div>
+                        <div class="letter demo-cell">Y</div>
                         <div class="insert-slot demo-cell"></div>
                     </div>
                     <p class="demo-para">Reach a six letter word once<br>and the grid expands to 4x4.</p>
@@ -2041,6 +2077,7 @@
                 <!-- <button id="dummyBtn3" class="rail-btn span-0 opacity-hide">?</button> -->
                 <button id="gridRefreshBtn" class="rail-btn">#</button>
                 <button id="scrollBtn" class="scrollBtn">^</button>
+                <button id="collapseModal" class="collapseModal">^</button>
             </div>
 
         </div>
@@ -2062,13 +2099,11 @@
                 <div class="alpha-grid"></div>
                 <p class="demo-para opacity-hide" style="text-align:right;font-size:13pt;" id="wildcard-2">...or save for
                     later with *</p>
-            </div>
-                <!-- First wildcard when chain reaches 128, another for every additional 32 words. They appear when grid rows and columns are cleared.<br><br> -->
-                <p class="demo-para opacity-hide" style="text-align:justify;font-size:12pt;" id="wildcard-3">
+                </div>
+            <!-- First wildcard when chain reaches 128, another for every additional 32 words. They appear when grid rows and columns are cleared.<br><br> -->
+            <p class="demo-para hidden" style="text-align:justify;font-size:12pt;" id="wildcard-3">
                 <br>After 128 words, a wildcard is awarded. It appears the next time a grid row or column refreshes.
-                Another wildcard is earned for every 32 additional words.<br>
-                <br>
-            </p>
+                Another wildcard is earned for every 32 additional words.<br><br></p>
         </div>
     </div>
 
@@ -2133,6 +2168,7 @@
             const rulesToggle = document.getElementById("toggle-rules");
             const dropdownToggle = document.getElementById("toggle-dropdown");
             const scrollBtn = document.getElementById("scrollBtn");
+            const collapseModal = document.getElementById("collapseModal");
             const aboutBtn = document.getElementById("aboutBtn");
             const aboutDiv = document.getElementById("about");
             const rulesDiv = document.getElementById("rules");
@@ -2370,6 +2406,7 @@
 
             milestonesBtn.addEventListener('click', () => {
                 milestonesModal.classList.remove('hidden');
+                collapseModal.style.display = "block";
                 renderMilestones();
             });
 
@@ -2377,6 +2414,8 @@
             milestonesModal.addEventListener("click", (e) => {
                 if (e.target === milestonesModal) {
                     milestonesModal.classList.add("hidden");
+                    collapseModal.style.display = "none";
+                    topFunction();
                 }
             });
 
@@ -2649,7 +2688,14 @@
 
             scrollBtn.addEventListener("click", () => {
                 topFunction();
+            });
+
+            collapseModal.addEventListener("click", () => {
+                topFunction();
                 if (dropdownDiv.style.display = "block") { dropdownToggle.click() };
+                if (asteriskModal.classList.contains("hidden") == false) { asteriskModal.classList.add("hidden") };
+                collapseModal.style.display = "none";
+                milestonesModal.classList.add("hidden");
             });
             //END OF SCROLLING ETC
 
@@ -3642,6 +3688,7 @@
                 if (e.target === asteriskModal) {
                     pendingAsteriskCell = null;
                     asteriskModal.classList.add("hidden");
+                    collapseModal.style.display = "none";
                 }
             });
 
@@ -3670,13 +3717,14 @@
                     // Exit: keep the bonus intact
                     pendingAsteriskCell = null;
                     asteriskModal.classList.add("hidden");
+                    collapseModal.style.display = "none";
                     return;
                 }
 
 
                 if (letter === "?") {
                     //show basic instruction
-                    if (wildcardOne.classList.contains('opacity-hide') && wildcardThree.classList.contains('opacity-hide')) {
+                    if (wildcardOne.classList.contains('opacity-hide') && wildcardThree.classList.contains('hidden')) {
                         wildcardOne.classList.remove('opacity-hide');
                         wildcardTwo.classList.remove('opacity-hide');
                         helpBtn.classList.add("selected");   // when showing instructions
@@ -3684,17 +3732,17 @@
                     }
 
                     //Show even more info
-                    if (wildcardThree.classList.contains('opacity-hide') && !(wildcardOne.classList.contains('opacity-hide'))) {
-                        wildcardThree.classList.remove('opacity-hide');
+                    if (wildcardThree.classList.contains('hidden') && !(wildcardOne.classList.contains('opacity-hide'))) {
+                        wildcardThree.classList.remove('hidden');
                         helpBtn.classList.add("selected");   // when showing instructions
                         return;
                     }
 
                     // Hide all info if already shown
-                    if (!wildcardOne.classList.contains('opacity-hide') && !wildcardThree.classList.contains('opacity-hide')) {
+                    if (!wildcardOne.classList.contains('opacity-hide') && !wildcardThree.classList.contains('hidden')) {
                         wildcardOne.classList.add('opacity-hide');
                         wildcardTwo.classList.add('opacity-hide');
-                        wildcardThree.classList.add('opacity-hide');
+                        wildcardThree.classList.add('hidden');
                         helpBtn.classList.remove("selected");   // when showing instructions
                         return;
                     }
@@ -3724,6 +3772,7 @@
 
                 pendingAsteriskCell = null;
                 asteriskModal.classList.add("hidden");
+                collapseModal.style.display = "none";
                 bonusCounter++;
                 bonusTicker = "*" + bonusCounter;
                 playedWords.add(bonusTicker);
@@ -3739,8 +3788,10 @@
 
             // Expose this function for selectCell
             function openAsteriskModal(cell) {
+                topFunction();
                 pendingAsteriskCell = cell;
                 asteriskModal.classList.remove("hidden");
+                collapseModal.style.display = "block";
             }
 
 
