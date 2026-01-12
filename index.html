@@ -834,7 +834,7 @@
         .collapseModal {
             display: none;
             position: fixed;
-            top: 400px;
+            top: 377px;
             /* left:300px; */
             /* right:0px; */
 
@@ -859,7 +859,7 @@
         .scrollBtn {
             display: none;
             position: fixed;
-            top: 300px;
+            top: 364px;
             /* left:0; */
             /* right:-24px; */
             align-self: center;
@@ -1750,7 +1750,9 @@
                 </div>
             </div>
 
-            <p><br>A move can also use a letter from the grid.<br><br></p>
+            <p>A move can also use a letter from the grid.
+            
+            </p>
 
 
             <div class="demo-div"><!-- EXAMPLE 4: REPLACE -->
@@ -1933,7 +1935,7 @@
                         ||</button><button class="actionBtn disabled"
                         style="border:2px solid transparent;">PLAY</button><button class="gridRefreshBtn disabled"
                         style="border:2px solid transparent;">#</button></div>
-                    <div class="word-container demoscale" style="width:75%;margin-top:15px;border:4px solid var(--negative-feedback);">
+                    <div class="word-container demoscale" style="width:75%;margin-top:15px;border:5px solid var(--negative-feedback);">
                         <div class="insert-slot demo-cell"></div>
                         <div class="letter demo-cell">T</div>
                         <div class="insert-slot demo-cell"></div>
@@ -1946,8 +1948,8 @@
                         <div class="letter demo-cell">T</div>
                         <div class="insert-slot demo-cell"></div>
                     </div>
-                    <p class="demo-para"><br>This allows you to play an invalid word
-                        <br>to bridge the gap to your next valid word.
+                    <p class="demo-para"><br>This allows you to use an invalid word
+                        <br>to bridge the gap to your next word.
                     </p>
                 </div>
             </div>
@@ -2028,18 +2030,20 @@
             </p>
            </div>
            <br>
-           <h2>PENALTIES</h2>
+           <h2>PENALTIES</h2> 
            <div class="demo-div" style="padding:20px;width:320px;">
-            <p class="demo-para">Players can lose a life
-                <br>for attempting to play an invalid word
-                <br>or for consecutive bonus use. 
+            <p class="demo-para">
+                <span class="sq-word">invalid word</span>
+                <br><span class="rewards">-1 life</span> <span class="rewards">-half ||  # -half</span>
+                <br><br>That's right, you lose half your bonuses<br>for attempting to play an invalid word.<br><br>
+                <span class="sq-word">consecutive bonus use</span>
+                <br><span class="rewards">-1 life</span>
                 <br><br>You can use consecutive bonuses 
-                <br>up to your total number of lives.
-                <br><br>Invalid attempts carry further penalties,
-                <br>players lose half their bonuses.
-                <br><br><b><i>Wildcards</i></b> are not bonuses.<br>You can use them anytime if you have them.
-                <br><br><b><i>What's a wildcard?</i></b> Don't worry. 
-                <br>The game reveals itself as you play. 
+                <br>up to your total number of lives
+                <br>before you are penalised.
+                <br><br><b><i>Wildcards</i></b> are not bonuses.<br>You can use them anytime<br>if you have them.
+                <br><br><b><i>What's a wildcard?</i></b>
+                <br>Get past chain 128 to find out.  
             </p>
            </div>
             <br>
@@ -2134,6 +2138,7 @@
                 <button id="bonusBtn" class="rail-btn span-2">||</button>
                 <button id="milestonesBtn" class="rail-btn hidden">...</button>
                 <button id="collapseModal" class="collapseModal">^</button>
+                <button id="scrollBtn" class="scrollBtn">^</button>
             </div>
             <!-- <div></div>             -->
             <div class="grid" id="letterGrid"></div>
@@ -2142,7 +2147,6 @@
                 <button id="actionBtn" class="rail-btn span-2">PLAY</button>
                 <!-- <button id="dummyBtn3" class="rail-btn span-0 opacity-hide">?</button> -->
                 <button id="gridRefreshBtn" class="rail-btn">#</button>
-                <button id="scrollBtn" class="scrollBtn">^</button>
             </div>
 
         </div>
@@ -2159,8 +2163,9 @@
         <div class="modal-content-2">
             <h6>WILDCARD</h6>
                 <div class="alphagrid-1">
-                <p class="demo-para opacity-hide" style="text-align:left;font-size:13pt;" id="wildcard-1"><br><br>Pick a
-                    letter...</p>
+                <p class="demo-para opacity-hide" style="text-align:left;font-size:13pt;" id="wildcard-1">
+                    <br>Pick a letter...
+                </p>
                 <div class="alpha-grid"></div>
                 <p class="demo-para opacity-hide" style="text-align:right;font-size:13pt;" id="wildcard-2">...or save for
                     later with *</p>
