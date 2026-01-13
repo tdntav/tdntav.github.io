@@ -29,7 +29,7 @@
             --text: #cde;
 
             --accent: #456;
-            --accent-text: #9ab;
+            --accent-text: #cde;
 
             --positive-feedback: #7da;
             --pos-fb-text: var(--bg);
@@ -50,6 +50,67 @@
             --selected-border: 2px solid var(--selected-cell);
 
 
+        }
+
+
+        .first-green {
+
+            --rounding: 4px;
+            --rounding-small: 2px;
+
+            --bg: #021;
+            --text: #6ea;
+
+            --accent: #165;
+            --accent-text: #6ea;
+
+            --positive-feedback: #0f8;
+            --pos-fb-text: var(--bg);
+
+            --negative-feedback: #a7c;
+            --disabled: #243;
+
+            --wordcell: var(--accent);
+            --wordcell-text: var(--accent-text);
+            --wordcell-border: 2px solid var(--wordcell);
+
+            --gridcell: var(--bg);
+            --gridcell-text: var(--text);
+            --gridcell-border: 2px solid var(--wordcell);
+
+            --selected-cell: var(--positive-feedback);
+            --selected-text: var(--pos-fb-text);
+            --selected-border: 2px solid var(--selected-cell);
+        }
+
+        .first-red {
+
+            --rounding: 22px;
+            --rounding-small: 11px;
+
+            --bg: #310;
+            --text: #f84;
+
+            --accent: #621;
+            --accent-text: #f84;
+
+            --positive-feedback: #d7a;
+            --pos-fb-text: var(--bg);
+
+            --negative-feedback: #a77;
+            --disabled: #410;
+
+            --wordcell: var(--accent);
+            --wordcell-text: var(--accent-text);
+            --wordcell-border: 2px solid var(--wordcell);
+
+            --gridcell: var(--bg);
+            --gridcell-text: var(--text);
+            --gridcell-border: 2px solid var(--text);
+
+            --selected-cell: var(--positive-feedback);
+            --selected-text: var(--pos-fb-text);
+            --selected-border: 2px solid var(--selected-cell);
         }
 
         .not-too-light {
@@ -887,7 +948,8 @@
 
 
         .newgame {
-            width: 360px;
+            box-sizing: border-box;
+            width: 360px;     
             padding: var(--gap);
             margin: var(--gap) 0px;
             display: block;
@@ -897,7 +959,7 @@
         }
 
         .help {
-            border-radius: 23px;
+            border-radius: 22px;
             /* margin: 0.5px; */
             /* border: 2px solid var(--selected-cell); */
             height: 44px;
@@ -984,7 +1046,8 @@
             white-space: normal;
             word-wrap: break-word;
             text-align: justify;
-            width: 320px;
+            box-sizing: border-box;
+            width: 360px;            
             overflow-y: auto; 
             overscroll-behavior: contain;
             min-height:10px;
@@ -2784,7 +2847,7 @@
 
             //THEMES
             const themeToggle = document.getElementById("themeToggle");
-            const themes = ["default", "fruit-salad", "hi-contrast", "green-pops", "tannery", "dark-grey", "not-too-light", "winery", "minimal-liminal", "blue-pops", "pinko", "greenery", "minimal-animal", "yello-pops", "too-light"];
+            const themes = ["default", "first-green", "first-red", "fruit-salad", "hi-contrast", "green-pops", "tannery", "dark-grey", "not-too-light", "winery", "minimal-liminal", "blue-pops", "pinko", "greenery", "minimal-animal", "yello-pops", "too-light"];
             let currentTheme = localStorage.getItem("theme") || "default";
             if (currentTheme !== "default") {
                 document.documentElement.classList.add(currentTheme);
