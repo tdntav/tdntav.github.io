@@ -655,8 +655,8 @@
         }
 
         .selected {
-            animation-name: animate-selected;
-            animation-duration: 0.3s;
+            /* animation-name: animate-selected; */
+            /* animation-duration: 0.3s; */
             /* animation-timing-function: ease-out; */
             border: var(--selected-border);
             color: var(--selected-text);
@@ -669,7 +669,7 @@
 
         @keyframes animate-selected {
             0% {
-                transform: scaleY(75%);
+                transform: scaleY(90%);
             }
 
             100% {
@@ -1170,7 +1170,7 @@
             padding-block: 20px;
             padding-inline:20px;
             /* background-image: linear-gradient(to top, var(--bg), var(--accent)); */
-            border: 6px solid var(--accent);
+            /* border: 6px solid var(--accent); */
             /* align-items: center; */
             /* justify-content: center; */
             /* gap: 0rem; */
@@ -1198,6 +1198,8 @@
             padding: 0;
             box-sizing: border-box;
             height: fit-content;
+            background-image: linear-gradient(to bottom, var(--bg), var(--accent));
+            border-radius:var(--rounding);
         }
 
         .demo-para {
@@ -1286,7 +1288,8 @@
         }
 
         .grid-cell-demo.used {
-            background: var(--bg);
+            /* background: var(--bg); */
+            background:none;
             border: var(--bg);
         }
 
@@ -1413,7 +1416,7 @@
 
 
         .sq-word {
-            font-size: 12pt;
+            font-size: 13pt;
             font-family: "Courier New", monospace;
         }
 
@@ -1676,7 +1679,7 @@
         }
 
         .rewards {
-            font-size: 10pt;
+            font-size: 11pt;
             /* color: var(--text); */
             /* margin-top: 10px; */
             border-radius: var(--rounding);
@@ -1690,7 +1693,7 @@
 
 
         .rewards2 {
-            font-size: 10pt;
+            font-size: 11pt;
             /* color: var(--text); */
             /* margin-top: 10px; */
             border-radius: var(--rounding);
@@ -1916,7 +1919,7 @@
 
             <div class="demo-div">
                 <!-- EXAMPLE: GRID COLUMN REFRESH -->
-                <div class="demo-board">
+                <div class="demo-board" style="background:none;">
                     <p class="demo-para">That last move<br>completed a <b><i>grid</i></b> column.<br></p>
                     <div class="grid-demo">
                         <div class="grid-cell-demo used"></div>
@@ -1948,7 +1951,7 @@
             <p>Bonuses are earned for passing milestones.</p>
             <div class="demo-div">
                 <!-- EXAMPLE 6: REFRESH BUTTON -->
-                <div class="demo-board">
+                <div class="demo-board" style="background:none;">
                     <p class="demo-para">
                         Play a grid refresh bonus<br>by pressing the <b>#</b> button.<br><br></p>
                     <div class="button-row demo demoscale"> <button class="bonusBtn disabled"
@@ -1974,7 +1977,7 @@
             <br>
             <div class="demo-div">
                 <!-- EXAMPLE 6: SETUP BONUS -->
-                <div class="demo-board">
+                <div class="demo-board" style="background:none;">
                     <div class="word-container demoscale" style="width:75%;margin-top:5px;">
                         <div class="insert-slot demo-cell"></div>
                         <div class="letter demo-cell">T</div>
@@ -2009,6 +2012,9 @@
                         style="border:2px solid transparent;">PLAY</button><button class="gridRefreshBtn disabled"
                         style="border:2px solid transparent;">#</button></div>
                     <!-- <div class="word-container demoscale" style="width:75%;margin-top:15px;border:5px solid var(--negative-feedback);background:var(--accent);"> -->
+                        <p class="demo-para"><br>This allows you to use an invalid word
+                            <br>to bridge the gap to your next word.<br>
+                        </p>
                     <div class="word-container demoscale" style="width:75%;margin-top:15px;background:var(--selected-text);border:4px solid var(--selected-cell);">
                         <div class="insert-slot demo-cell"></div>
                         <div class="letter demo-cell">T</div>
@@ -2022,9 +2028,6 @@
                         <div class="letter demo-cell">T</div>
                         <div class="insert-slot demo-cell"></div>
                     </div>
-                    <p class="demo-para"><br>This allows you to use an invalid word
-                        <br>to bridge the gap to your next word.
-                    </p>
                 </div>
             </div>
             <br>
