@@ -361,7 +361,7 @@
             --rounding: 2px;
             --rounding-small: 2px;
 
-            --bg: #000;
+            --bg: #111;
             --text: #ccc;
 
             --accent: #777;
@@ -380,8 +380,8 @@
             --gridcell-text: var(--wordcell-text);
             --gridcell-border: 2px solid var(--accent);
 
-            --selected-cell: var(--bg);
-            --selected-text: var(--text);
+            --selected-cell: var(--text);
+            --selected-text: var(--bg);
             --selected-border: 2px solid var(--text);
 
 
@@ -438,8 +438,8 @@
             --gridcell-text: var(--bg);
             --gridcell-border: 2px solid var(--text);
 
-            --selected-cell: var(--bg);
-            --selected-text: var(--positive-feedback);
+            --selected-cell: var(--accent);
+            --selected-text: var(--bg);
             --selected-border: 2px solid var(--positive-feedback);
         }
 
@@ -590,17 +590,21 @@
         .insert-slot {
             width: 12px;
             height: 30px;
+            opacity:50%;
         }
 
         .selected {
             animation-name: animate-selected;
-            animation-duration: 0.1s;
+            animation-duration: 0.3s;
             /* animation-timing-function: ease-out; */
             border: var(--selected-border);
             color: var(--selected-text);
             background: var(--selected-cell);
             filter: none;
+            opacity:100%;
         }
+
+        
 
         @keyframes animate-selected {
             0% {
@@ -641,7 +645,7 @@
 
         .game-area {
             width: 360px;
-            margin: 20px 50px 15px;
+            margin: 20px 50px var(--gap);
             box-sizing: border-box;
         }
 
@@ -883,9 +887,9 @@
 
 
         .newgame {
-            width: 90%;
-            padding: 10px 10px;
-            margin: 10px 0px;
+            width: 360px;
+            padding: var(--gap);
+            margin: var(--gap) 0px;
             display: block;
             background-image: linear-gradient(to right, var(--text), var(--accent), var(--accent-text));
             border: 2px solid var(--accent-text);
@@ -980,10 +984,10 @@
             white-space: normal;
             word-wrap: break-word;
             text-align: justify;
-            width: 85%;
+            width: 320px;
             overflow-y: auto; 
             overscroll-behavior: contain;
-            min-height:70px;
+            min-height:10px;
             max-height: 132px;
             font-size: 12pt;
             font-family: "Courier New", monospace;
@@ -991,9 +995,10 @@
             /* border: 2px solid var(--accent); */
             /* box-sizing: border-box; */
             background: var(--accent);
-            padding-inline: 1.8%;
-            padding-block: 10px 0px;
-            margin: 0px;
+            padding-inline: 20px;
+            padding-block: var(--gap);
+            /* margin-inline: 20px; */
+            margin-block:0px;
             border-radius: var(--rounding);
         }
 
@@ -1092,13 +1097,15 @@
         }
 
         .demo-div {
-            width: 100%;
+            width: 348px;
             background: var(--bg);
             font-size: 22pt;
             border-radius: var(--rounding);
             display: flex;
             flex-direction: column;
             padding-block: 20px;
+            /* background-image: linear-gradient(to top, var(--bg), var(--accent)); */
+            border: 6px solid var(--accent);
             /* align-items: center; */
             /* justify-content: center; */
             /* gap: 0rem; */
@@ -1108,6 +1115,7 @@
             /* height:min-content; */
             /* overflow:unset; */
         }
+
 
         .demo-board {
             width: 100%;
@@ -1935,7 +1943,8 @@
                         ||</button><button class="actionBtn disabled"
                         style="border:2px solid transparent;">PLAY</button><button class="gridRefreshBtn disabled"
                         style="border:2px solid transparent;">#</button></div>
-                    <div class="word-container demoscale" style="width:75%;margin-top:15px;border:5px solid var(--negative-feedback);">
+                    <!-- <div class="word-container demoscale" style="width:75%;margin-top:15px;border:5px solid var(--negative-feedback);background:var(--accent);"> -->
+                    <div class="word-container demoscale" style="width:75%;margin-top:15px;background:var(--selected-text);border:4px solid var(--selected-cell);">
                         <div class="insert-slot demo-cell"></div>
                         <div class="letter demo-cell">T</div>
                         <div class="insert-slot demo-cell"></div>
@@ -1966,7 +1975,7 @@
             <div class="demo-div">
                 <!-- EXAMPLE 8: GRID EXPAND -->
                 <div class="demo-board">
-                    <div class="word-container demoscale" style="width:110%;">
+                    <div class="word-container demoscale" style="width:110%;border:4px solid var(--positive-feedback);">
                         <div class="insert-slot demo-cell selected"></div>
                         <div class="letter demo-cell selected">T</div>
                         <div class="insert-slot demo-cell selected"></div>
@@ -2023,15 +2032,14 @@
                 <br>Players get one-time rewards
                 <br>for passing game milestones
                 <br>and achieving no-bonus streaks.
-                <br><br>Words 7+ letters are worth an extra life.
-                <br><br>Every life counts towards
-                <br>the consecutive bonus allowance.
+                <br><br>Words 7+ letters are worth an extra life
+                <br>until you reach the maximum of 12 lives.
                 <br>
             </p>
            </div>
            <br>
            <h2>PENALTIES</h2> 
-           <div class="demo-div" style="padding:20px;width:320px;">
+           <div class="demo-div">
             <p class="demo-para">
                 <span class="sq-word">invalid word</span>
                 <br><span class="rewards">-1 life</span> <span class="rewards">-half ||  # -half</span>
@@ -2041,6 +2049,8 @@
                 <br><span class="rewards">-1 life</span>
                 <br><br>You can use consecutive bonuses up to
                 <br>your total number of lives without penalty.
+                <br><br>Even lost lives count towards
+                <br>the consecutive bonus allowance.
                 <br><br><b><i>Wildcards</i></b> are not bonuses.<br>Use them anytime if you have them.
                 <br><br><b><i>What's a wildcard?</i></b>
                 <br>Get past chain 128 to find out.  
@@ -2051,7 +2061,7 @@
             <p style="text-align:left;">Attempting to play a previously played word does not incur a penalty. 
                 This word will be highlighted in your wordlist to help you plan your next moves.
                 <br>
-                <br>You can see your remaining lives and track your bonus allowance under the current word.
+                <br>You can see your remaining lives and track your consecutive bonus use under the current word.
                 <br><br>Enjoy!
             </p>
         </div>
@@ -2830,7 +2840,11 @@
                     setupMovesAvailable, 
                     asteriskEarned, 
                     lastAsteriskThreshold, 
-                    gridRefreshBonusesAvailable, 
+                    gridRefreshBonusesAvailable,
+                    totalLives, 
+                    livesLost, 
+                    specialModeActive, 
+                    bonusCounter,
                     wordLengthMilestones, 
                     chainMilestones, 
                     stringMilestones, 
@@ -2839,10 +2853,6 @@
                     consecutiveBonuses,
                     streakMilestones, 
                     milestones, 
-                    totalLives, 
-                    livesLost, 
-                    specialModeActive, 
-                    bonusCounter, 
                     playedWords: Array.from(playedWords)
                 };
                 localStorage.setItem("stringChainState", JSON.stringify(gameState));
@@ -2876,7 +2886,11 @@
                         setupMovesAvailable, 
                         asteriskEarned, 
                         lastAsteriskThreshold, 
-                        gridRefreshBonusesAvailable, 
+                        gridRefreshBonusesAvailable,
+                        totalLives, 
+                        livesLost, 
+                        specialModeActive, 
+                        bonusCounter,
                         wordLengthMilestones, 
                         chainMilestones, 
                         stringMilestones, 
@@ -2884,11 +2898,7 @@
                         bestNoBonusStreak,
                         consecutiveBonuses,
                         streakMilestones, 
-                        milestones, 
-                        totalLives, 
-                        livesLost, 
-                        specialModeActive, 
-                        bonusCounter, 
+                        milestones,
                         playedWords
                     } = JSON.parse(saved));
                     // disallowedWords = new Set(disallowedWords);
@@ -3121,11 +3131,11 @@
             // Enhanced updateStatus with bonus highlighting WORK IN PROGRESS
 
             function updateStatus() {
-                const livesLeft = totalLives - livesLost;
+                const livesLeft = Math.min(totalLives,12) - livesLost;
                 let output = "";
 
                 // We loop through the total number of lives/slots
-                for (let i = 0; i < Math.min(totalLives,18); i++) {
+                for (let i = 0; i < Math.min(totalLives,12); i++) {
                     // 1. Determine the character (- for lost, | for remaining)
                     const char = (i < livesLost) ? "-" : "|";
                     
@@ -3333,7 +3343,24 @@
 
 
                         //Applies bonus or shuffle for word length milestones
-                        if (currentWord.length % 2 === 0 && currentWord.length >= 7) {
+                        if (currentWord.length % 2 === 0 && currentWord.length >= 7 && totalLives == 11) {
+                            milestones.push({
+                                word: currentWord,
+                                wordQuest: true,
+                                chain: chain,
+                                length: currentWord.length,
+                                rewards: { 
+                                    setupWordQuest: currentWord.length, 
+                                    setupBeforeWordQuest: setupMovesAvailable,
+                                    livesMaxed: true,
+                                    lives: 1 
+                                }
+                            });
+                            setupMovesAvailable = setupMovesAvailable + currentWord.length;
+                            updateBonusButton();
+                            totalLives++;
+                            updateStatus();
+                        } else if (currentWord.length % 2 === 0 && currentWord.length >= 7 && totalLives < 12) {
                             milestones.push({
                                 word: currentWord,
                                 wordQuest: true,
@@ -3349,7 +3376,38 @@
                             updateBonusButton();
                             totalLives++;
                             updateStatus();
-                        } else if (currentWord.length % 2 !== 0 && currentWord.length >= 7) {
+                        } else if (currentWord.length % 2 === 0 && currentWord.length >= 7 && totalLives == 12) {
+                            milestones.push({
+                                word: currentWord,
+                                wordQuest: true,
+                                chain: chain,
+                                length: currentWord.length,
+                                rewards: { 
+                                    setupWordQuest: currentWord.length, 
+                                    setupBeforeWordQuest: setupMovesAvailable,
+                                }
+                            });
+                            setupMovesAvailable = setupMovesAvailable + currentWord.length;
+                            updateBonusButton();
+                            updateStatus();
+                        } else if (currentWord.length % 2 !== 0 && currentWord.length >= 7 && totalLives == 11) {
+                            milestones.push({
+                                word: currentWord,
+                                wordQuest: true,
+                                chain: chain,
+                                length: currentWord.length,
+                                rewards: { 
+                                    gridRefreshWordQuest: currentWord.length,
+                                    gridRefreshBeforeWordQuest: gridRefreshBonusesAvailable,
+                                    livesMaxed: true,
+                                    lives: 1
+                                }
+                            });
+                            gridRefreshBonusesAvailable = gridRefreshBonusesAvailable + currentWord.length;
+                            updateGridRefreshButton();
+                            totalLives++;
+                            updateStatus();
+                        } else if (currentWord.length % 2 !== 0 && currentWord.length >= 7 && totalLives < 12) {
                             milestones.push({
                                 word: currentWord,
                                 wordQuest: true,
@@ -3364,6 +3422,20 @@
                             gridRefreshBonusesAvailable = gridRefreshBonusesAvailable + currentWord.length;
                             updateGridRefreshButton();
                             totalLives++;
+                            updateStatus();
+                        } else if (currentWord.length % 2 !== 0 && currentWord.length >= 7 && totalLives == 12) {
+                            milestones.push({
+                                word: currentWord,
+                                wordQuest: true,
+                                chain: chain,
+                                length: currentWord.length,
+                                rewards: { 
+                                    gridRefreshWordQuest: currentWord.length,
+                                    gridRefreshBeforeWordQuest: gridRefreshBonusesAvailable,
+                                }
+                            });
+                            gridRefreshBonusesAvailable = gridRefreshBonusesAvailable + currentWord.length;
+                            updateGridRefreshButton();
                             updateStatus();
                         } else if (currentWord.length % 2 === 0 && currentWord.length > 6) {
                             milestones.push({
@@ -3558,7 +3630,11 @@
                     // rewardLines.push(`+${q.rewards.gridRefreshWordQuest} makes # ${(q.rewards.gridRefreshBeforeWordQuest + q.rewards.gridRefreshWordQuest)}`);
                     rewardLines.push(`<span class="rewards"># +${q.rewards.gridRefreshWordQuest}`);
                 }
-                if (q.rewards?.lives) {
+                if (q.rewards?.lives && q.rewards?.livesMaxed) {
+                    // rewardLines.push(`+1 life for ${q.length} letters`);
+                    rewardLines.push(`  +1 life</span><span class="rewards">max lives reached</span>`);
+                }
+                if (q.rewards?.lives && !(q.rewards?.livesMaxed)) {
                     // rewardLines.push(`+1 life for ${q.length} letters`);
                     rewardLines.push(`  +1 life</span>`);
                 }
