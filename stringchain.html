@@ -1421,7 +1421,8 @@
             /* CHANGE 2: Use flexbox to organize the header and scroll area */
             display: flex;
             flex-direction: column;
-            height: 360px;
+            max-height: 50vh;
+            min-height:360px;
             width: 400px;
             /* z-index: 1; */
             /* opacity: unset; */
@@ -1447,7 +1448,7 @@
             overflow-y: auto; 
             padding-inline: auto;
             border-radius: var(--rounding);
-            min-height: 325px;
+            min-height:320px;
             /* height:auto; */
         }
 
@@ -2404,10 +2405,10 @@
     <div class="modal-missions">
         
         <h6>MISSIONS</h6><p class="demo-para" style="text-align:center;font-size:9pt;margin-top:-8px;">ALL TIME<br><br></p>
-        <p class="demo-para hidden" style="text-align:center;font-size:10pt;" id="missions-help">
-            Make one of two words to unlock the next level.<br><br></p>
+    
         <div id="missions-1" class="missions-1"></div>
-
+        <p class="demo-para hidden" style="text-align:center;font-size:10pt;" id="missions-help">
+            <br>Make one of two words to unlock the next level.<br></p>
     </div>
 </div>
 
@@ -4061,27 +4062,26 @@
 
             }
 
-                function renderMissions() {
-                    computeOpenMissions();
-                    missionsContent.innerHTML = "<br>";
+            function renderMissions() {
+                computeOpenMissions();
+                missionsContent.innerHTML = "<br>";
 
-                    for (let len = 4; len <= unlockedMissionTier; len++) {
-                        if (!missions[len]) continue;
+                for (let len = unlockedMissionTier; len >= 4; len--) {
+                    if (!missions[len]) continue;
 
-                        const items = missions[len]
+                    const items = missions[len]
                         .map(word => {
-                            const selected = completedMissions.has(word);
-                            missionsContent.innerHTML += `<span class="${selected ? "missions-display completed" : "missions-display"}">${word.toLowerCase()}</span>`;
+                            const completed = completedMissions.has(word);
+                            return `<span class="missions-display${completed ? " completed" : ""}">${word.toLowerCase()}</span>`;
                         })
                         .join(" ");
 
-                        missionsContent.innerHTML += `
-                            <br>
-                            ${items}
-                            <br>
-                        `;
-                    }
+                    missionsContent.innerHTML += `
+                        ${items}
+                        <br><br>
+                    `;
                 }
+            }
 
 
 
