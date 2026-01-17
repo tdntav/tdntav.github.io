@@ -1422,7 +1422,7 @@
             display: flex;
             flex-direction: column;
             max-height:80vh;
-            min-height:360px;
+            max-height:300px;
             width: 400px;
             /* z-index: 1; */
             /* opacity: unset; */
@@ -1448,7 +1448,7 @@
             overflow-y: auto; 
             padding-inline: auto;
             border-radius: var(--rounding);
-            min-height:220px;
+            /* height:200px; */
             /* height:auto; */
         }
 
@@ -2405,11 +2405,10 @@
     <div class="modal-missions">
         
         <h6>MISSIONS</h6><p class="demo-para" style="text-align:center;font-size:9pt;margin-top:-8px;">ALL TIME<br><br></p>
-        <p class="demo-para hidden" style="text-align:center;font-size:10pt;" id="missions-help">Complete half of the open missions<br>to unlock the next level.<br><br>Complete a mission by making the word.
+        <div id="missions-1" class="missions-1"></div>
+        <p class="demo-para hidden" style="text-align:center;font-size:10pt;" id="missions-help"><br>Complete half of the open missions<br>to unlock the next level.<br><br>Complete a mission by making the word.
             <br><br>
         </p>
-        <div id="missions-1" class="missions-1"></div>
-        
     </div>
 </div>
 
