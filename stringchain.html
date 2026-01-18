@@ -1448,7 +1448,7 @@
             overflow-y: auto; 
             padding-inline: auto;
             border-radius: var(--rounding);
-            min-height:160px; */
+            max-height:250px; 
             /* height:auto; */
         }
 
@@ -2328,7 +2328,7 @@
         <div class="play-grid-layout">
 
             <div class="rail left-rail">
-                <button id="missionsBtn" class="rail-btn span-0 opacity-hide">&</button>
+                <button id="missionsBtn" class="rail-btn span-0 hidden">:::</button>
                 <button id="bonusBtn" class="rail-btn span-2">||</button>
                 <button id="milestonesBtn" class="rail-btn hidden">...</button>
                 <button id="collapseModal" class="collapseModal">^</button>
@@ -2405,10 +2405,8 @@
     <div class="modal-missions">
         
         <h6>MISSIONS</h6><p class="demo-para" style="text-align:center;font-size:9pt;margin-top:-8px;">ALL TIME<br><br></p>
+        <p class="demo-para hidden" style="text-align:center;font-size:10pt;" id="missions-help"></p>
         <div id="missions-1" class="missions-1"></div>
-        <p class="demo-para hidden" style="text-align:center;font-size:10pt;" id="missions-help"><br>Complete half of the open missions<br>to unlock the next level.<br><br>Complete a mission by making the word.
-            <br><br>
-        </p>
     </div>
 </div>
 
@@ -2486,7 +2484,11 @@
                 "15": ["UNDISPASSIONATE", "PICTURESQUENESS"],
                 "16": ["INCOMPREHENSIBLE", "ELECTROMAGNETISM"],
                 "17": ["NONRESURRECTIONAL", "INDESTRUCTIBILITY"],
-                "18": ["EXTRATHERMODYNAMIC", "SUPERINDIVIDUALISM"]
+                "18": ["EXTRATHERMODYNAMIC", "SUPERINDIVIDUALISM"],
+                "19": ["COUNTERCONDITIONING", "UNSELFCONSCIOUSNESS"],
+                "20": ["ANTIAUTHORITARIANISM"],
+                "21": ["INDISTINGUISHABLENESS"],
+                "22": ["HYPERCONSCIENTIOUSNESS"]
                 };
             let isActiveGame = true;
             let playedWords = new Set();
@@ -2518,7 +2520,7 @@
             let unlockedMissionTier = 4;          // highest word length revealed
             let completedMissions = new Set();    // words already completed
             let openMissions = [];                // derived, not persisted // missions currently open
-
+            let clickNumber = 0;                 // track clicks for missions help
             let livesLost = 0;
             let totalLives = 3;
             let lastSelectedType = null;
@@ -2687,11 +2689,13 @@
                 consecutiveBonuses = 0;
                 // milestonesSummary = "";
                 milestonesBtn.classList.add('hidden');
+                missionsBtn.classList.add('hidden');
                 livesLost = 0;
                 totalLives = 3;
                 playedWords.clear();
                 bonusTicker = '';
                 bonusCounter = 0;
+                clickNumber = 0;
                 // disallowedWords.clear();
                 gridElement.style.pointerEvents = 'auto';
                 wordContainer.style.pointerEvents = 'auto';
@@ -2753,11 +2757,21 @@
 
             missionsHelpBtn.addEventListener('click', () => {
                 if (!missionsHelpBtn.classList.contains('selected')) {
+                    clickNumber = 1;
                     missionsHelpBtn.classList.add('selected');
                     missionsHelp.classList.remove('hidden');
-                } else {
+                    missionsHelp.innerHTML = `Complete half of the open missions <br>to unlock the next level.<br><br>`;
+                } else if (clickNumber == 1) {
+                    clickNumber = 2;
+                    missionsHelp.innerHTML = `Just make the word<br>to complete the mission.<br><br>`;
+                } else if (clickNumber == 2) {
+                    clickNumber = 3;
+                    missionsHelp.innerHTML = `Missions persist between games.<br>You can undertake them at your leisure.<br><br>`;
+                } else if (clickNumber == 3) {
+                    clickNumber = 0;
                     missionsHelpBtn.classList.remove('selected');
                     missionsHelp.classList.add('hidden');
+                    missionsHelp.innerHTML = ``;
                 }
             });
 
@@ -3191,8 +3205,8 @@
                     showDefinitions(lastValidWord);
                     updateStatus();
                     loadLocalWords();
-                    if (gridSize == 3) { missionsBtn.classList.add("span-0"); gridRefreshBtn.classList.remove("span-2"); milestonesBtn.classList.add("hidden"); }
-                    if (gridSize == 4) { missionsBtn.classList.remove("span-0"); gridRefreshBtn.classList.add("span-2"); milestonesBtn.classList.remove("hidden"); }
+                    if (gridSize == 3) { missionsBtn.classList.add("span-0"); gridRefreshBtn.classList.remove("span-2"); milestonesBtn.classList.add("hidden"); missionsBtn.classList.add("hidden"); }
+                    if (gridSize == 4) { missionsBtn.classList.remove("span-0"); gridRefreshBtn.classList.add("span-2"); milestonesBtn.classList.remove("hidden"); missionsBtn.classList.remove("hidden"); }
                     scoreElement.textContent = score;
                     chainElement.textContent = chain;
                     if (specialModeActive == true) {
@@ -4694,6 +4708,9 @@
                     playedWords.add("(4x4)");
                     updateHistory();
                     milestonesBtn.classList.remove("hidden");
+                    missionsBtn.classList.remove("hidden");
+                    missionsBtn.classList.remove("span-0");
+
                     wordLengthMilestones.splice(0, 1);
                     milestones.push({
                             word: currentWord,
