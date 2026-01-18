@@ -2328,7 +2328,7 @@
         <div class="play-grid-layout">
 
             <div class="rail left-rail">
-                <button id="missionsBtn" class="rail-btn span-0 hidden">:::</button>
+                <button id="missionsBtn" class="rail-btn span-0 hidden">&</button>
                 <button id="bonusBtn" class="rail-btn span-2">||</button>
                 <button id="milestonesBtn" class="rail-btn hidden">...</button>
                 <button id="collapseModal" class="collapseModal">^</button>
@@ -2364,7 +2364,7 @@
                 </p>
                 <div class="alpha-grid"></div>
                 <p class="demo-para opacity-hide" style="text-align:right;font-size:13pt;" id="wildcard-2">...or save for
-                    later with *</p>
+                    later</p>
                 </div>
             <!-- First wildcard when chain reaches 128, another for every additional 32 words. They appear when grid rows and columns are cleared.<br><br> -->
             <p class="demo-para hidden" style="text-align:justify;font-size:12pt;" id="wildcard-3">
@@ -2760,7 +2760,7 @@
                     clickNumber = 1;
                     missionsHelpBtn.classList.add('selected');
                     missionsHelp.classList.remove('hidden');
-                    missionsHelp.innerHTML = `Complete half of the open missions <br>to unlock the next level.<br><br>`;
+                    missionsHelp.innerHTML = `Complete half of the current level<br>to unlock the next level.<br><br>`;
                 } else if (clickNumber == 1) {
                     clickNumber = 2;
                     missionsHelp.innerHTML = `Just make the word<br>to complete the mission.<br><br>`;
@@ -4068,26 +4068,20 @@
                 // Complete it
                 completedMissions.add(upper);
                 console.log(`Mission completed: ${upper}`);
+                messageElement.textContent = `Mission completed: ${upper}`;
 
 
-                // Recalculate unlock condition
-                const totalUnlocked = Object.entries(missions)
-                    .filter(([len]) => Number(len) <= unlockedMissionTier)
-                    .reduce((sum, [, words]) => sum + words.length, 0);
+                // Recalculate unlock condition based on highest open tier only
+                const currentTierWords = missions[unlockedMissionTier];
+                if (!currentTierWords) return;
 
-                const completedUnlocked = [...completedMissions].filter(
-                    word => word.length <= unlockedMissionTier
+                const completedInTier = currentTierWords.filter(
+                    word => completedMissions.has(word)
                 ).length;
 
-                if (completedUnlocked / totalUnlocked >= 0.5) {
+                if (completedInTier / currentTierWords.length >= 0.5) {
                     unlockedMissionTier++;
                 }
-
-
-                // // Unlock next tier if this was the frontier
-                // if (len === unlockedMissionTier) {
-                //     unlockedMissionTier++;
-                // }
 
             }
 
