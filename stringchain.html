@@ -2329,7 +2329,11 @@
         <div class="play-grid-layout">
 
             <div class="rail left-rail">
-                <button id="missionsBtn" class="rail-btn span-0 hidden">&</button>
+                <!-- <button id="missionsBtn" class="rail-btn span-0 hidden">&</button> -->
+                <button id="missionsBtn" class="rail-btn span-0 hidden">✧✧</button>
+
+                
+
                 <button id="bonusBtn" class="rail-btn span-2">||</button>
                 <button id="milestonesBtn" class="rail-btn hidden">...</button>
                 <button id="collapseModal" class="collapseModal">^</button>
@@ -2388,7 +2392,7 @@
         <div class="modal-milestones">
             <div id="nextMilestoneInfo" style="padding-left:20px;"></div>
             <!-- <div id="nextMilestoneInfo"></div> -->
-            <h6>MILESTONES</h6>
+            <h6>… MILESTONES …</h6>
             <p class="demo-para" style="text-align:center;font-size:9pt;margin-top:-8px;">THIS GAME
                 <br><br></p>
             <div id="milestones-1" class="milestones-1">
@@ -2405,7 +2409,7 @@
 <div id="missionsModal" class="modal hidden">
     <div class="modal-missions">
         
-        <h6>MISSIONS</h6><p class="demo-para" style="text-align:center;font-size:9pt;margin-top:-8px;">ALL TIME<br><br></p>
+        <h6>✧ MISSIONS ✧</h6><p class="demo-para" style="text-align:center;font-size:9pt;margin-top:-8px;">ALL TIME<br><br></p>
         <p class="demo-para hidden" style="text-align:center;font-size:10pt;" id="missions-help"></p>
         <div id="missions-1" class="missions-1"></div>
     </div>
@@ -2472,7 +2476,7 @@
             const allowList = ["FLAP", "FLAPS", "FLAPPING", "FLAPPED", "FLAPPER", "FLAPPERS", "DOLLING", "DOLLED", "TOCK", "HELL", "FEWER", "YOUR", "PATTER", "DRAB", "LIVES", "LIVED", "LIVING", "HELLS", "TOW", "TOWS", "TOWED", "TOWING", "DUNK", "DUNKS", "DUNKING", "DUNKED", "TOW", "TOWS", "TOWING", "TOWED", "TIGHT", "SIFT", "DOSE", "DOSES", "DOSED", "DOSING", "KITE", "KITES", "NET", "CUE", "CUES", "CUED", "CUEING", "CUING", "RAPE", "RAPES", "RAPED", "SATES", "SATED", "SATING", "RAPING", "PEND", "PENDS", "PENDED", "PENDING", "BE", "LOOK", "LOOKS", "LOOKED", "LOOKING", "VEINY", "WEAN", "WEANS", "WEANED", "WEANING"];
             const missions = {
                 "4": ["WAXY", "MEGA", "YUTZ", "PLOY", "JUNK", "FOWL", "ZINC"],
-                "5": ["OUIJA", "DISCO", "NYMPH", "IRONY", "KUDOS", "WHARF"],
+                "5": ["AUDIO", "DISCO", "NYMPH", "IRONY", "KUDOS", "WHARF"],
                 "6": ["QUAINT", "JANGLY", "TERROR", "JOCKEY", "CRANKS"],
                 "7": ["ROBOTIC", "NARWHAL", "FOXSKIN", "YODELER"],
                 "8": ["ECLECTIC", "JUMPABLE", "VENEERED", "ICEBOXES"],
@@ -2489,7 +2493,9 @@
                 "19": ["COUNTERCONDITIONING", "UNSELFCONSCIOUSNESS"],
                 "20": ["ANTIAUTHORITARIANISM"],
                 "21": ["INDISTINGUISHABLENESS"],
-                "22": ["HYPERCONSCIENTIOUSNESS"]
+                "22": ["HYPERCONSCIENTIOUSNESS"],
+                "23": ["ANTHROPOMORPHOLOGICALLY"],
+                "24": ["DISESTABLISHMENTARIANISM"],
                 };
             let isActiveGame = true;
             let playedWords = new Set();
@@ -3862,6 +3868,7 @@
                     const ordinalPenalty = getOrdinal(q.penaltyNumber);
                     headerParts.push(`${ordinalPenalty} penalty - ${q.penaltyReason}`);
                 }
+                if (q.missionQuest) headerParts.push(`mission achieved`);
 
                 const headerLine =
                         `${headerParts.join(", ")}`
@@ -3977,6 +3984,23 @@
                 }
 
 
+                //MISSION QUEST REWARDS
+                if (q.rewards?.setupMissionQuest || q.rewards?.gridRefreshMissionQuest) {
+                    rewardLines.push(`<span class="rewards">`);
+                }
+                
+                if (q.rewards?.setupMissionQuest) {
+                    // rewardLines.push(`+${q.rewards.setupStreakQuest} makes ${(q.rewards.setupStreakQuest + q.rewards.setupBeforeStreakQuest)} ||`);
+                    rewardLines.push(`+${q.rewards.setupMissionQuest} || `);
+                }
+                if (q.rewards?.gridRefreshMissionQuest) {
+                    // rewardLines.push(`+${q.rewards.gridRefreshStreakQuest} makes # ${(q.rewards.gridRefreshStreakQuest + q.rewards.gridRefreshBeforeStreakQuest)}`);
+                    rewardLines.push(`# +${q.rewards.gridRefreshMissionQuest}`);
+                }
+
+                if (q.rewards?.setupMissionQuest || q.rewards?.gridRefreshMissionQuest) {
+                    rewardLines.push(`</span>`);
+                }
 
 
 
@@ -4070,8 +4094,19 @@
                 completedMissions.add(upper);
                 console.log(`Mission completed: ${upper}`);
                 messageElement.textContent = `Mission completed: ${upper}`;
-
-
+                milestones.push({
+                                word: currentWord,
+                                missionQuest: true,
+                                chain: chain,
+                                string: score,
+                                length: currentWord.length,
+                                rewards: { setupMissionQuest: currentWord.length, 
+                                    setupBeforeMissionQuest: setupMovesAvailable,
+                                    gridRefreshMissionQuest: currentWord.length, 
+                                    gridRefreshBeforeMissionQuest: gridRefreshBonusesAvailable }
+                            });
+                setupMovesAvailable = currentWord.length + setupMovesAvailable;
+                gridRefreshBonusesAvailable = currentWord.length + gridRefreshBonusesAvailable;
                 // Recalculate unlock condition based on highest open tier only
                 const currentTierWords = missions[unlockedMissionTier];
                 if (!currentTierWords) return;
