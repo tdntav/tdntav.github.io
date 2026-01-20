@@ -2265,23 +2265,13 @@
                 You can play as much as you want, whenever you want. It's not a subscription, it's not an appointment. You
                 choose when and how much. Take breaks, be healthy.
                 <br>
-                <br>Your highscores will include a sample of some consecutive words you played. Make yourself presentable.
-                <br>
-                <br>The rewards and penalties incentivise exciting gameplay.
-                There are lots of strategies you might employ. You must break the 6-letter barrier to see your milestones and avail of the 4x4 letter grid.
-                <br><br>You could then retreat to short words, rack up string bonuses, chain bonuses, and no-bonus streaks finding new more efficient paths through all the obvious and convenient short words.
-                The no-bonus streak rewards caution. 
-                <br><br>Sustaining yourself in the long word realm will require burning through some of those bonuses. 
-                Bonuses help you to bridge gaps between longer words that can't be chained in a single move.
-                And you must reach long words to gain extra lives. You unlock extra lives by playing 7+ letter words. 
-                <br><br>Every extra life you gain adds another consecutive bonus to your allowance. Even lost lives still count towards this allowance.
-                This incentivises shooting for longer words to increase the consecutive bonus penalty threshold.
-                <br><br>Cautious or reckless, methodical or impulsive, you'll find your style, find your pace, find your flow. You choose your own adventure (or 'misadventure' to grab the 12 letter reward).
+                <br>The core game, switching letters around, making moves, it's really basic and simple. 
+                <br>The incentives and mechanics around that incentivise exciting gameplay.
                 <br>
                 <br>Get a high score. Beat that high score. Screenshot that high score and challenge your
                 friends. Look at your wordlist, you made that! Look at all the words you know, all these rhymes and connections! Writers, rappers, poets, word enthusiasts, this is your groove.
                 <br>
-                <br>Future tweaks and updates are planned, but the core game is in place, have at it.
+                <br>Future tweaks and updates may happen, but the core game is in place, have at it.
                 <br>
                 <br>If you enjoy this game, consider buying me a coffee or putting my kids through college.
                 <br>
@@ -3213,7 +3203,8 @@
                     updateStatus();
                     loadLocalWords();
                     if (gridSize == 3) { missionsBtn.classList.add("span-0"); gridRefreshBtn.classList.remove("span-2"); milestonesBtn.classList.add("hidden"); missionsBtn.classList.add("hidden"); }
-                    if (gridSize == 4) { missionsBtn.classList.remove("span-0"); gridRefreshBtn.classList.add("span-2"); milestonesBtn.classList.remove("hidden"); missionsBtn.classList.remove("hidden"); }
+                    if (gridSize == 4 && chain > 31) { missionsBtn.classList.remove("span-0"); gridRefreshBtn.classList.add("span-2"); milestonesBtn.classList.remove("hidden"); missionsBtn.classList.remove("hidden");missionsBtn.classList.remove("opacity-hide"); }
+                    if (gridSize == 4) { missionsBtn.classList.remove("span-0"); gridRefreshBtn.classList.add("span-2"); milestonesBtn.classList.remove("hidden"); missionsBtn.classList.remove("hidden");missionsBtn.classList.add("opacity-hide"); }    
                     scoreElement.textContent = score;
                     chainElement.textContent = chain;
                     if (specialModeActive == true) {
@@ -3600,6 +3591,7 @@
                         // Remove it so it can't trigger again
                         chainMilestones.splice(chainQuestIndex, 1); 
                         // Apply reward 
+                        if (chain == 32) {missionsBtn.classList.remove("hidden"); }
                         if (chain != 128) {
                             milestones.push({ 
                                 word: currentWord, 
@@ -3868,7 +3860,7 @@
                     const ordinalPenalty = getOrdinal(q.penaltyNumber);
                     headerParts.push(`${ordinalPenalty} penalty - ${q.penaltyReason}`);
                 }
-                if (q.missionQuest) headerParts.push(`mission achieved`);
+                if (q.missionQuest) headerParts.push(`mission✧✧`);
 
                 const headerLine =
                         `${headerParts.join(", ")}`
@@ -4034,6 +4026,7 @@
                             map[key].stringQuest ||= quest.stringQuest;
                             map[key].streakQuest ||= quest.streakQuest;
                             map[key].penalty ||= quest.penalty;
+                            map[key].missionQuest ||= quest.missionQuest;
 
                             // preserve max / meaningful values
                             map[key].length = Math.max(map[key].length ?? 0, quest.length ?? 0);
@@ -4731,14 +4724,14 @@
                     gridSize = 4;
                     grid = newGrid;
                     // missionsBtn.classList.remove("span-0");
-                    missionsBtn.classList.remove("span-0");
+                    if (chain < 32) { missionsBtn.classList.add("opacity-hide"); missionsBtn.classList.remove("hidden");}
                     // dummyBtn3.classList.remove("span-0");
                     gridRefreshBtn.classList.add("span-2");
 
                     playedWords.add("(4x4)");
                     updateHistory();
                     milestonesBtn.classList.remove("hidden");
-                    missionsBtn.classList.remove("hidden");
+                    // missionsBtn.classList.remove("hidden");
                     missionsBtn.classList.remove("span-0");
 
                     wordLengthMilestones.splice(0, 1);
