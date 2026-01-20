@@ -3202,9 +3202,27 @@
                     showDefinitions(lastValidWord);
                     updateStatus();
                     loadLocalWords();
-                    if (gridSize == 3) { missionsBtn.classList.add("span-0"); gridRefreshBtn.classList.remove("span-2"); milestonesBtn.classList.add("hidden"); missionsBtn.classList.add("hidden"); }
-                    if (gridSize == 4 && chain > 31) { missionsBtn.classList.remove("span-0"); gridRefreshBtn.classList.add("span-2"); milestonesBtn.classList.remove("hidden"); missionsBtn.classList.remove("hidden"); missionsBtn.classList.remove("opacity-hide"); }
-                    if (gridSize == 4) { missionsBtn.classList.remove("span-0"); gridRefreshBtn.classList.add("span-2"); milestonesBtn.classList.remove("hidden"); missionsBtn.classList.remove("hidden");missionsBtn.classList.add("opacity-hide"); }    
+                    if (gridSize == 3) { 
+                        missionsBtn.classList.add("span-0"); 
+                        gridRefreshBtn.classList.remove("span-2"); 
+                        milestonesBtn.classList.add("hidden"); 
+                        missionsBtn.classList.add("hidden");
+                    }
+
+                    if ((gridSize == 4) && (chain >= 32)) {
+                        gridRefreshBtn.classList.add("span-2"); 
+                        milestonesBtn.classList.remove("hidden");
+                        missionsBtn.classList.remove("span-0"); 
+                        missionsBtn.classList.remove("hidden"); 
+                        missionsBtn.classList.remove("opacity-hide"); 
+                    } else if (gridSize == 4) { 
+                        missionsBtn.classList.remove("span-0"); 
+                        gridRefreshBtn.classList.add("span-2"); 
+                        milestonesBtn.classList.remove("hidden"); 
+                        missionsBtn.classList.remove("hidden");
+                        missionsBtn.classList.add("opacity-hide"); 
+                    }    
+                    
                     scoreElement.textContent = score;
                     chainElement.textContent = chain;
                     if (specialModeActive == true) {
