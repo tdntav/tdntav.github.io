@@ -493,9 +493,9 @@
             --negative-feedback: #b43;
             --disabled: #645;
 
-            --wordcell: var(--text);
-            --wordcell-text: var(--bg);
-            --wordcell-border: 2px solid var(--text);
+            --wordcell: #fff;
+            --wordcell-text: #000;
+            --wordcell-border: 2px solid #fff;
 
             --gridcell: var(--text);
             --gridcell-text: var(--bg);
@@ -1038,7 +1038,16 @@
         */
 
         #highScores {
-            padding-block: 10px;
+            box-sizing: border-box;
+            margin-block: 15px 0px;
+            padding-block: 0px 10px;
+            margin-inline:auto;
+            width:90%;
+            background:var(--wordcell);
+            color: var(--wordcell-text);
+            border-radius: var(--rounding);
+            /* border: 6px solid var(--positive-feedback); */
+            /* opacity:50%; */
         }
 
         #allTimeBestDisplay {
@@ -2290,7 +2299,6 @@
                 <br>Word nerd,<br>Dave
             </p>
         </div>
-        <br>        
         <div id="highScores"></div>
     </div>
     <div class="scores"><span id="score">0</span>&nbsp; <b>string</b><button id="toggle-dropdown"
@@ -2814,8 +2822,8 @@
                     allTimeWordLength = currentWord.length;
                     allTimeWord = currentWord;
                 }
-                let allTimeSummary = `<h6>ALL TIME BEST</h6>
-                <table style="border:none;justify:center;align-content:center;margin-left:auto;margin-right:auto;">
+
+                let allTimeSummary = `<table style="border:none;justify:center;align-content:center;margin-left:auto;margin-right:auto;">
                     <tr>
                         <td style="width:50%;border:none;">
                             <p class="sq-para1"><span class="rewards2">${allTimeString} string</span><br>currently at ${score}</p>
@@ -2833,7 +2841,10 @@
                         </td>
                     </tr>
                 </table>`;
-                allTimeBestElement.innerHTML = `${allTimeSummary}`;
+                allTimeBestElement.innerHTML = `<h6>ALL TIME BEST</h6>
+                    ${allTimeSummary}`;
+                highScoresElement.innerHTML = `<h2>ALL TIME BEST</h2>
+                    ${allTimeSummary}`;
             }
 
             //END OF BUTTONS
@@ -3340,20 +3351,20 @@
                 localStorage.setItem('stringchainHighScore', JSON.stringify(combined));
             }
 
-            function getHighScores() {
-                const scoreTableParse = JSON.parse(localStorage.getItem('stringchainHighScore')) || [];
-                let scoreTable = scoreTableParse
-                scoreTable = scoreTable.filter(entry => !(entry.score === 0 && entry.chain === 0));
-                const rows = scoreTable.map(entry => {
-                    const highlightRow = entry.highlight && entry.highlight.trim()
-                        ? `<tr><td colspan="3" class="highlight-reel">${entry.highlight}</td></tr>`
-                        : "";
-                    return `<tr><td>${entry.score}</td><td>${entry.chain}</td><td>${entry.saveTime}</td></tr>${highlightRow}`;
-                }).join('');
+            // function getHighScores() {
+            //     const scoreTableParse = JSON.parse(localStorage.getItem('stringchainHighScore')) || [];
+            //     let scoreTable = scoreTableParse
+            //     scoreTable = scoreTable.filter(entry => !(entry.score === 0 && entry.chain === 0));
+            //     const rows = scoreTable.map(entry => {
+            //         const highlightRow = entry.highlight && entry.highlight.trim()
+            //             ? `<tr><td colspan="3" class="highlight-reel">${entry.highlight}</td></tr>`
+            //             : "";
+            //         return `<tr><td>${entry.score}</td><td>${entry.chain}</td><td>${entry.saveTime}</td></tr>${highlightRow}`;
+            //     }).join('');
 
-                if (!rows) { return };
-                highScoresElement.innerHTML = `<h4>BEST GAMES</h4><table class = "high-score-table"><tr><th>STRING</th><th>CHAIN</th><th>SAVED</th></tr>${rows}</table>`;
-            }
+            //     if (!rows) { return };
+            //     highScoresElement.innerHTML = `<h4>BEST GAMES</h4><table class = "high-score-table"><tr><th>STRING</th><th>CHAIN</th><th>SAVED</th></tr>${rows}</table>`;
+            // }
 
 
 
