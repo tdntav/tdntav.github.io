@@ -2320,7 +2320,7 @@
 
             <div class="rail left-rail">
                 <!-- <button id="missionsBtn" class="rail-btn span-0 hidden">&</button> -->
-                <button id="missionsBtn" class="rail-btn span-0 hidden">✧✧</button>
+                <button id="missionsBtn" class="rail-btn span-0 hidden">⇡⇡</button>
 
                 
 
@@ -2347,7 +2347,7 @@
 
     <button id="newGameBtn" class="newgame">RESTART</button>
 
-    <div id="definitions"></div>
+    <div id="definitions" class="hidden"></div>
     <!-- <button id="scrollBtn" class="scrollBtn">^</button> -->
     <!-- Asterisk Letter Picker Modal -->
     <div id="asteriskModal" class="modal hidden">
@@ -2400,7 +2400,7 @@
 <div id="missionsModal" class="modal hidden">
     <div class="modal-missions">
         <p class="demo-para hidden" style="text-align:center;font-size:10pt;" id="missions-help"></p>
-        <h6>✧✧ MISSIONS ✧✧</h6><p class="demo-para" style="text-align:center;font-size:9pt;margin-top:-8px;">ALL TIME<br><br></p>
+        <h6>⇡⇡ MISSIONS ⇡⇡</h6><p class="demo-para" style="text-align:center;font-size:9pt;margin-top:-8px;">ALL TIME<br><br></p>
         <div id="missions-1" class="missions-1"></div>
     </div>
 </div>
@@ -2525,6 +2525,13 @@
             // let lastUsedGridCell = null; // Track last used cell for invalid move rollback
             let specialModeActive = false; // Track bonus special mode
             let LOCAL_WORDS = null;
+            
+            let allTimeString = 0;
+            let allTimeChain = 0;
+            let allTimeStreak = 0;
+            let allTimeWordLength = 0;
+            let allTimeWord = "";
+            let allTimeSummary = "";
 
             async function loadLocalWords() {
                 const response = await fetch('assets/merged-wordlists.json');
@@ -2788,7 +2795,35 @@
                 // }, 4000); // Hide after 8 seconds
             }
 
-
+            function UpdateAllTimeStats() {
+                allTimeString = Math.max(allTimeString, score);
+                allTimeChain = Math.max(allTimeChain, chain);
+                allTimeStreak = Math.max(allTimeStreak, bestNoBonusStreak);
+                if (allTimeWordLength < currentWord.length) {
+                    allTimeWordLength = currentWord.length;
+                    allTimeWord = currentWord;
+                }
+                allTimeSummary = `<h4>ALL TIME BESTS</h4>
+                <table style="border:none;width:100%;">
+                    <tr style="border:none;padding:none;">
+                        <td style="border:none;width:50%;padding:2px;margin:0px;">
+                            <p class="sq-para1"><span class="rewards2">${allTimeString} string</span><br>currently at ${score}</p>
+                        </td>
+                        <td style="border:none;width:50%;padding:2px;margin:0px;">
+                            <p class="sq-para1"><span class="rewards2">chain ${allTimeChain}</span><br>currently at ${chain}</p>
+                        </td>
+                    </tr>
+                    <tr style="border:none;padding:none;">
+                        <td style="border:none;width:50%;padding:2px;margin:0px;">
+                            <p class="sq-para1"><span class="rewards2">${allTimeWordLength} letters</span><br><span class="sq-word">${allTimeWord.toLowerCase()}</span></p>
+                        </td>
+                        <td style="border:none;width:50%;padding:2px;margin:0px;">
+                            <p class="sq-para1"><span class="rewards2">no-bonus streak of ${allTimeStreak}</span><br>game best ${bestNoBonusStreak}, currently ${noBonusStreak}</p>
+                        </td>
+                    </tr>
+                </table>`;
+                highScoresElement.innerHTML += allTimeSummary;
+            }
 
             //END OF BUTTONS
 
@@ -3140,7 +3175,8 @@
                     milestones,
                     unlockedMissionTier,
                     completedMissions: Array.from(completedMissions),
-                    playedWords: Array.from(playedWords)
+                    playedWords: Array.from(playedWords),
+                    allTimeString, allTimeChain, allTimeStreak, allTimeWord, allTimeWordLength
                 };
                 localStorage.setItem("stringChainState", JSON.stringify(gameState));
             }
@@ -3188,7 +3224,8 @@
                         milestones,
                         unlockedMissionTier,
                         completedMissions,
-                        playedWords
+                        playedWords,
+                        allTimeString, allTimeChain, allTimeStreak, allTimeWord, allTimeWordLength
                     } = JSON.parse(saved));
                     // disallowedWords = new Set(disallowedWords);
                     playedWords = new Set(playedWords);
@@ -3199,7 +3236,8 @@
                     // updateDisallowedWords();
                     updateBonusButton();
                     updateGridRefreshButton();
-                    showDefinitions(lastValidWord);
+                    UpdateAllTimeStats();
+                    // showDefinitions(lastValidWord);
                     updateStatus();
                     loadLocalWords();
                     if (gridSize == 3) { 
@@ -3281,10 +3319,10 @@
 
                 const byScore = [...stringchainHighScore]
                     .sort((a, b) => b.score - a.score)
-                    .slice(0, 9);
+                    .slice(0, 3);
                 const byChain = [...stringchainHighScore]
                     .sort((a, b) => b.chain - a.chain)
-                    .slice(0, 9);
+                    .slice(0, 3);
 
                 const combined = [...byScore, ...byChain].filter((item, index, self) => index === self.findIndex(g => g.saveTime === item.saveTime));
                 combined.sort((a, b) => b.chain - a.chain);
@@ -4196,28 +4234,28 @@
                 // renderGrid();
             }
 
-            function showDefinitions(word) {
-                // Fetch up to first 3 definitions and show them
-                fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
-                    .then(res => res.json())
-                    .then(data => {
-                        if (!Array.isArray(data)) throw new Error();
-                        let defs = [];
-                        data.forEach(entry => {
-                            entry.meanings?.forEach(meaning => {
-                                meaning.definitions?.forEach(defObj => {
-                                    if (defs.length < 3) defs.push(defObj.definition);
-                                });
-                            });
-                        });
-                        definitionsElement.innerHTML = defs.length
-                            ? `<strong>${word}</strong>:<br>${defs.map(d => `- ${d}`).join('<br>')}`
-                            : `No definitions found for "${word}".`;
-                    })
-                    .catch(() => {
-                        definitionsElement.textContent = `No definitions found for "${word}".`;
-                    });
-            }
+            // function showDefinitions(word) {
+            //     // Fetch up to first 3 definitions and show them
+            //     fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
+            //         .then(res => res.json())
+            //         .then(data => {
+            //             if (!Array.isArray(data)) throw new Error();
+            //             let defs = [];
+            //             data.forEach(entry => {
+            //                 entry.meanings?.forEach(meaning => {
+            //                     meaning.definitions?.forEach(defObj => {
+            //                         if (defs.length < 3) defs.push(defObj.definition);
+            //                     });
+            //                 });
+            //             });
+            //             definitionsElement.innerHTML = defs.length
+            //                 ? `<strong>${word}</strong>:<br>${defs.map(d => `- ${d}`).join('<br>')}`
+            //                 : `No definitions found for "${word}".`;
+            //         })
+            //         .catch(() => {
+            //             definitionsElement.textContent = `No definitions found for "${word}".`;
+            //         });
+            // }
             //END OF CHANGING STATES
 
 
@@ -4895,7 +4933,7 @@
                     clearSpecialMode(); // Nov 4 EDIT
                     greenAnimation();
                     playAnimation();
-                    showDefinitions(lower);
+                    // showDefinitions(lower);
                     replenishGrid();
                     historyElement.scrollTo({ top: 0, behavior: 'smooth' });
                     gridFallback = grid;
@@ -4903,13 +4941,16 @@
                     bestNoBonusStreak = Math.max(bestNoBonusStreak, noBonusStreak);
                     consecutiveBonuses = 0;
                     updateMilestones();
+                    UpdateAllTimeStats();
                     updateStatus();
                     checkMission(currentWord);
                     saveGameState();
                     return;
                 }
 
-                fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${lower}`)
+                // fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${lower}`)
+
+                fetch(`https://en.wiktionary.org/w/api.php?action=parse&page=${lower}&prop=wikitext&format=json&origin=*`)
                     // fetch(`https://cors.isomorphic-git.org/https://api.dictionaryapi.dev/api/v2/entries/en/${lower}`)
                     .then(res => {
                         if (!res.ok) throw new Error();
@@ -4940,7 +4981,7 @@
                         clearSpecialMode(); // SEP 1 EDIT
                         greenAnimation();
                         playAnimation();
-                        showDefinitions(lower);
+                        // showDefinitions(lower);
                         replenishGrid();
                         historyElement.scrollTo({ top: 0, behavior: 'smooth' });
                         gridFallback = grid;
@@ -4948,6 +4989,7 @@
                         bestNoBonusStreak = Math.max(bestNoBonusStreak, noBonusStreak);
                         consecutiveBonuses = 0;
                         updateMilestones();
+                        UpdateAllTimeStats();
                         updateStatus();
                         checkMission(currentWord);
                         saveGameState();
