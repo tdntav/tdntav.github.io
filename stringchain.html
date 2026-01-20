@@ -1047,8 +1047,8 @@
             padding-block: 5px 0px;
             margin-inline:auto;
             width:100%;
-            background:var(--bg);
-            color: var(--text);
+            background:var(--accent);
+            color: var(--accent-text);
             border-radius: var(--rounding);
             /* opacity:50%; */
         }
@@ -2392,13 +2392,13 @@
     <!-- Milestones Modal -->
     <div id="milestonesModal" class="modal-1 hidden">
         <div class="modal-milestones">
+            
+
             <h6>… MILESTONES …</h6>
             <p class="demo-para" style="text-align:center;font-size:11pt;margin-top:-8px;">THIS GAME</p>
             <div id="nextMilestoneInfo"></div>
-            <p class="demo-para" style="text-align:center;font-size:5pt;"><br></p>
-            <div id="milestones-1" class="milestones-1">
-            </div>
-            <div id="allTimeBestDisplay" class="allTimeBestDisplay"></div>
+            <div id="milestones-1" class="milestones-1"></div>
+            <div id="allTimeBestDisplay"></div>
 
         </div>
     </div>
@@ -2814,7 +2814,7 @@
                     allTimeWordLength = currentWord.length;
                     allTimeWord = currentWord;
                 }
-                let allTimeSummary = `<h6>ALL TIME BESTS</h6>
+                let allTimeSummary = `<h6>ALL TIME BEST</h6>
                 <table style="border:none;justify:center;align-content:center;margin-left:auto;margin-right:auto;">
                     <tr>
                         <td style="width:50%;border:none;">
