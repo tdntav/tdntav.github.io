@@ -3207,15 +3207,13 @@
                         gridRefreshBtn.classList.remove("span-2"); 
                         milestonesBtn.classList.add("hidden"); 
                         missionsBtn.classList.add("hidden");
-                    }
-
-                    if ((gridSize == 4) && (chain >= 32)) {
+                    } else if ((gridSize == 4) && (chain >= 32)) {
                         gridRefreshBtn.classList.add("span-2"); 
                         milestonesBtn.classList.remove("hidden");
                         missionsBtn.classList.remove("span-0"); 
                         missionsBtn.classList.remove("hidden"); 
                         missionsBtn.classList.remove("opacity-hide"); 
-                    } else if (gridSize == 4) { 
+                    } else if ((gridSize == 4) && (chain < 32)) { 
                         missionsBtn.classList.remove("span-0"); 
                         gridRefreshBtn.classList.add("span-2"); 
                         milestonesBtn.classList.remove("hidden"); 
@@ -3609,7 +3607,7 @@
                         // Remove it so it can't trigger again
                         chainMilestones.splice(chainQuestIndex, 1); 
                         // Apply reward 
-                        if (chain == 32) {missionsBtn.classList.remove("hidden"); }
+                        if (chain == 32) {missionsBtn.classList.remove("hidden"); missionsBtn.classList.remove("opacity-hide"); }
                         if (chain != 128) {
                             milestones.push({ 
                                 word: currentWord, 
