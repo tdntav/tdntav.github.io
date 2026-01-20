@@ -1043,13 +1043,14 @@
 
         #allTimeBestDisplay {
             box-sizing: border-box;
-            margin-block: 20px 0px;
-            padding-block: 20px 0px;
+            margin-block: 10px 0px;
+            padding-block: 5px 0px;
             margin-inline:auto;
-            width:94%;
+            width:100%;
             background:var(--bg);
             color: var(--text);
             border-radius: var(--rounding);
+            /* opacity:50%; */
         }
 
         #history {
@@ -1097,7 +1098,7 @@
 
 
         #definitions {
-            font-size: 10pt;
+            font-size: 11pt;
             color: var(--text);
             margin-bottom: 20px;
             width: 85%;
@@ -1216,7 +1217,7 @@
         .demo-para {
             margin-block: 0px;
             /* remove top margin */
-            font-size: 10pt;
+            font-size: 11pt;
             color: var(--text);
             text-align: center;
             /* line-height: 1.4; */
@@ -1448,7 +1449,7 @@
             overflow-y: auto; 
             padding-inline: auto;
             border-radius: var(--rounding);
-            min-height: 60vh;
+            /* min-height: 60vh; */
         }
 
 
@@ -1532,18 +1533,18 @@
         }
 
         .sq-para {
-            font-size: 10pt;
+            font-size: 11pt;
         }
 
         .sq-para1 {
-            font-size:10pt; 
+            font-size:11pt; 
             text-align:center;
             display: block;
             margin: 0;
             padding:0;
         }
         .sq-para2 {
-            font-size:9pt; 
+            font-size:11pt; 
             text-align:center;
             display: block;
             margin: 0;
@@ -2291,7 +2292,6 @@
         </div>
         <br>        
         <div id="highScores"></div>
-        <div id="allTimeBestDisplay" class="allTimeBestDisplay"></div>
     </div>
     <div class="scores"><span id="score">0</span>&nbsp; <b>string</b><button id="toggle-dropdown"
             class="help toggle-dropdown">+</button><b>chain</b> &nbsp;<span id="chain">0</span></div>
@@ -2392,13 +2392,14 @@
     <!-- Milestones Modal -->
     <div id="milestonesModal" class="modal-1 hidden">
         <div class="modal-milestones">
-            <div id="nextMilestoneInfo" style="padding-left:20px;"></div>
-            <p class="demo-para" style="text-align:center;font-size:5pt;"><br></p> 
             <h6>… MILESTONES …</h6>
-            <p class="demo-para" style="text-align:center;font-size:9pt;margin-top:-8px;">THIS GAME
-                <br><br></p>
+            <p class="demo-para" style="text-align:center;font-size:11pt;margin-top:-8px;">THIS GAME</p>
+            <div id="nextMilestoneInfo"></div>
+            <p class="demo-para" style="text-align:center;font-size:5pt;"><br></p>
             <div id="milestones-1" class="milestones-1">
             </div>
+            <div id="allTimeBestDisplay" class="allTimeBestDisplay"></div>
+
         </div>
     </div>
 
@@ -2408,8 +2409,8 @@
 
 <div id="missionsModal" class="modal hidden">
     <div class="modal-missions">
-        <p class="demo-para hidden" style="text-align:center;font-size:10pt;" id="missions-help"></p>
-        <h6>⇡⇡ MISSIONS ⇡⇡</h6><p class="demo-para" style="text-align:center;font-size:9pt;margin-top:-8px;">ALL TIME<br><br></p>
+        <p class="demo-para hidden" style="text-align:center;font-size:11pt;" id="missions-help"></p>
+        <h6>⇡⇡ MISSIONS ⇡⇡</h6><p class="demo-para" style="text-align:center;font-size:11pt;margin-top:-8px;">ALL TIME<br><br></p>
         <div id="missions-1" class="missions-1"></div>
     </div>
 </div>
@@ -2541,7 +2542,7 @@
             let allTimeStreak = 0;
             let allTimeWordLength = 0;
             let allTimeWord = "";
-            let allTimeSummary = "";
+            // let allTimeSummary = "";
 
             async function loadLocalWords() {
                 const response = await fetch('assets/merged-wordlists.json');
@@ -2813,7 +2814,7 @@
                     allTimeWordLength = currentWord.length;
                     allTimeWord = currentWord;
                 }
-                let allTimeSummary = `<h4>ALL TIME BESTS</h4>
+                let allTimeSummary = `<h6>ALL TIME BESTS</h6>
                 <table style="border:none;justify:center;align-content:center;margin-left:auto;margin-right:auto;">
                     <tr>
                         <td style="width:50%;border:none;">
@@ -3869,20 +3870,20 @@
                 // <p class="sq-para2">Shooting for:</p>
 
                 let milestoneSummary = `
-                <table style="border:none;width:360px;">
-                    <tr style="border:none;padding:none;">
-                        <td style="border:none;width:50%;padding:2px;margin:0px;">
+                <table style="border:none;justify:center;align-content:center;margin:auto;">
+                    <tr style="width:40%;">
+                        <td style="border:none">
                             <p class="sq-para1"><span class="rewards2">${nextString}+ string</span><br>${nextStringToGo} letters to go</p>
                         </td>
-                        <td style="border:none;width:50%;padding:2px;margin:0px;">
+                        <td style="border:none;">
                             <p class="sq-para1"><span class="rewards2">chain ${nextChain}</span><br>${nextChainToGo} words to go</p>
                         </td>
                     </tr>
-                    <tr style="border:none;padding:none;">
-                        <td style="border:none;width:50%;padding:2px;margin:0px;">
+                    <tr style="width:40%;">
+                        <td style="border:none">
                             <p class="sq-para1"><span class="rewards2">${nextWordLength} letters</span><br>currently ${currentWord.length}, avg ${avgWordLength} letters</p>
                         </td>
-                        <td style="border:none;width:50%;padding:2px;margin:0px;">
+                        <td style="border:none">
                             <p class="sq-para1"><span class="rewards2">no-bonus streak of ${nextStreak}</span><br>currently ${noBonusStreak}, best ${bestNoBonusStreak} words</p>
                         </td>
                     </tr>
