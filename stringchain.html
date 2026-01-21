@@ -13,11 +13,11 @@
         :root {
             --grid-size: 3;
             /* will be overwritten by JS */
-            --cell-size: 48px;
-            --gap: 9px;
+            --cell-size: 49px;
+            --gap: 8px;
             /* --rail-width: ((360 - ((var(--grid-size)*(var(--cell-size)+var(--gap))) + var(--gap)))/2)px; */
 
-            --rail-width: 66px;
+            --rail-width: 62px;
             /* 48, 9, 61.5 */
 
 
@@ -52,6 +52,20 @@
 
         }
 
+/* #REGION OUTLINE TESTING - REMOVE LATER */    
+        /*
+        * { outline: 2px dotted red }
+        * * { outline: 2px dotted green }
+        * * * { outline: 2px dotted orange }
+        * * * * { outline: 2px dotted blue }
+        * * * * * { outline: 1px solid red }
+        * * * * * * { outline: 1px solid green }
+        * * * * * * * { outline: 1px solid orange }
+        * * * * * * * * { outline: 1px solid blue } 
+        */
+/* #ENDREGION OUTLINE TESTING - */        
+
+/* * {box-sizing: border-box;} */
 
         .first-green {
 
@@ -716,12 +730,13 @@
         .play-grid-layout {
             display: grid;
             grid-template-columns:
-                63px /* rail-width minus 4px*/
-                /* 0px  */
-                auto
-                /* var(--gap)  */
+            var(--rail-width)
+            /* 0px  */
+                /* auto */
+                236px
                 var(--rail-width);
             column-gap: 0px;
+
             /*   
   justify-content: center;
   align-content:center; */
@@ -730,12 +745,17 @@
         /* LETTER GRID (auto-adjusts with JS) */
         .grid {
             display: grid;
-            /* box-sizing: border-box; */
+            box-sizing: border-box;
             grid-template-columns: repeat(var(--grid-size), var(--cell-size));
             grid-template-rows: repeat(var(--grid-size), var(--cell-size));
-            gap: var(--gap);
-            justify-content: center;
+            row-gap: var(--gap);
+            column-gap:12px;
+            justify-content: left;
             align-content: center;
+            margin:none;
+            margin-left:var(--gap);
+            /* border: 5px dashed #000; */
+
         }
 
         /* RAILS (rows match grid) */
@@ -754,6 +774,7 @@
             height: 100%;
             border: none;
             margin: none;
+            padding:none;
             /* border: var(--gridcell-border); */
             color: var(--accent-text);
             box-sizing: border-box;
@@ -1039,10 +1060,10 @@
 
         #highScores {
             box-sizing: border-box;
-            margin-block: 15px 0px;
+            margin-block: 10px 0px;
             padding-block: 0px 10px;
             margin-inline:auto;
-            width:90%;
+            width:100%;
             background:var(--wordcell);
             color: var(--wordcell-text);
             border-radius: var(--rounding);
@@ -2826,10 +2847,10 @@
                 let allTimeSummary = `<table style="border:none;justify:center;align-content:center;margin-left:auto;margin-right:auto;">
                     <tr>
                         <td style="width:50%;border:none;">
-                            <p class="sq-para1"><span class="rewards2">${allTimeString} string</span><br>currently at ${score}</p>
+                            <p class="sq-para1"><span class="rewards2">${allTimeString} string</span></p>
                         </td>
                         <td style="border:none;">
-                            <p class="sq-para1"><span class="rewards2">chain ${allTimeChain}</span><br>currently at ${chain}</p>
+                            <p class="sq-para1"><span class="rewards2">chain ${allTimeChain}</span></p>
                         </td>
                     </tr>
                     <tr style="border:none;">
@@ -2837,7 +2858,7 @@
                             <p class="sq-para1"><span class="rewards2">${allTimeWordLength} letters</span><br><span class="sq-word">${allTimeWord.toLowerCase()}</span></p>
                         </td>
                         <td style="border:none;">
-                            <p class="sq-para1"><span class="rewards2">no-bonus streak of ${allTimeStreak}</span><br>game best ${bestNoBonusStreak}</p>
+                            <p class="sq-para1"><span class="rewards2">no-bonus streak of ${allTimeStreak}</span></p>
                         </td>
                     </tr>
                 </table>`;
