@@ -13,17 +13,19 @@
         :root {
             --grid-size: 3;
             /* will be overwritten by JS */
-            --cell-size: 49px;
+            --cell-size: 68px;
+
             --gap: 8px;
-            /* --rail-width: ((360 - ((var(--grid-size)*(var(--cell-size)+var(--gap))) + var(--gap)))/2)px; */
-
             --rail-width: 62px;
-            /* 48, 9, 61.5 */
-
-
+            --grid-width: 236px;
 
             --rounding: 8px;
             --rounding-small: 4px;
+
+
+            /* document.documentElement.style.setProperty("--cell-size", "green"); */
+
+
 
             --bg: #123;
             --text: #cde;
@@ -48,8 +50,6 @@
             --selected-cell: var(--positive-feedback);
             --selected-text: var(--pos-fb-text);
             --selected-border: 2px solid var(--selected-cell);
-
-
         }
 
 /* #REGION OUTLINE TESTING - REMOVE LATER */    
@@ -729,44 +729,42 @@
 
         .play-grid-layout {
             display: grid;
-            grid-template-columns:
-            var(--rail-width)
-            /* 0px  */
-                /* auto */
-                236px
-                var(--rail-width);
-            column-gap: 0px;
-
-            /*   
-  justify-content: center;
-  align-content:center; */
+            grid-template-columns: var(--rail-width) var(--grid-width) var(--rail-width);
+            /* column-gap: var(--gap); */
         }
+
 
         /* LETTER GRID (auto-adjusts with JS) */
         .grid {
             display: grid;
             box-sizing: border-box;
-            grid-template-columns: repeat(var(--grid-size), var(--cell-size));
-            grid-template-rows: repeat(var(--grid-size), var(--cell-size));
-            row-gap: var(--gap);
-            column-gap:12px;
-            justify-content: left;
+            justify-content: center;
             align-content: center;
             margin:none;
-            margin-left:var(--gap);
-            /* border: 5px dashed #000; */
-
+            /* grid-template-columns: repeat(var(--grid-size), var(--cell-size)); */
+            /* grid-template-rows: repeat(var(--grid-size), var(--cell-size)); */
+            row-gap: var(--gap);
+            column-gap: var(--gap);
         }
+
+
+
 
         /* RAILS (rows match grid) */
         .rail {
             display: grid;
+            margin: none;
+            padding: none;
             grid-template-rows: repeat(var(--grid-size), var(--cell-size));
             gap: var(--gap);
             width: var(--rail-width);
-            margin: none;
-            padding: none;
         }
+        
+
+
+
+
+
 
         /* BUTTONS */
         .rail-btn {
@@ -850,9 +848,6 @@
             box-sizing: border-box;
             border: var(--gridcell-border);
             color: var(--gridcell-text);
-            width: var(--cell-size);
-            /* this also needs to be edited in renderGrid function */
-            height: var(--cell-size);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -861,6 +856,9 @@
             text-transform: uppercase;
             cursor: pointer;
             font-size: 16pt;
+            /* width: var(--cell-size); */
+            /* this also needs to be edited in renderGrid function */
+            /* height: var(--cell-size); */
         }
 
         .grid-cell.used {
@@ -2357,9 +2355,9 @@
 
     <div class="game-area"> <!-- Fixed width matching your history area -->
 
-        <div class="play-grid-layout">
+        <div id="play-grid-layout" class="play-grid-layout">
 
-            <div class="rail left-rail">
+            <div id="left-rail" class="rail left-rail">
                 <!-- <button id="missionsBtn" class="rail-btn span-0 hidden">&</button> -->
                 <button id="missionsBtn" class="rail-btn span-0 hidden">⇡⇡</button>
 
@@ -2373,7 +2371,7 @@
             <!-- <div></div>             -->
             <div class="grid" id="letterGrid"></div>
             <!-- <div></div> -->
-            <div class="rail right-rail">
+            <div id="right-rail" class="rail right-rail">
                 <button id="actionBtn" class="rail-btn span-2">PLAY</button>
                 <!-- <button id="dummyBtn3" class="rail-btn span-0 opacity-hide">?</button> -->
                 <button id="gridRefreshBtn" class="rail-btn">#</button>
@@ -2403,7 +2401,7 @@
                     later</p>
                 </div>
             <!-- First wildcard when chain reaches 128, another for every additional 32 words. They appear when grid rows and columns are cleared.<br><br> -->
-            <p class="demo-para hidden" style="text-align:justify;font-size:12pt;" id="wildcard-3">
+            <p class="demo-para hidden" style="justify-content:center;font-size:12pt;" id="wildcard-3">
                 <br>After 128 words, a wildcard is awarded. It appears the next time a grid row or column refreshes.
                 Another wildcard is earned for every 32 additional words.<br><br></p>
         </div>
@@ -2464,6 +2462,8 @@
             const highScoresElement = document.getElementById('highScores');
             const allTimeBestElement = document.getElementById('allTimeBestDisplay');
             const gridElement = document.getElementById('letterGrid');
+            const leftRail = document.getElementById('left-rail');
+            const rightRail = document.getElementById('right-rail');
             const actionBtn = document.getElementById('actionBtn');
             const newGameBtn = document.getElementById('newGameBtn');
             const bonusBtn = document.getElementById('bonusBtn');
@@ -2535,7 +2535,9 @@
             let bonusCounter = 0;
             let currentWord = "";
             let lastValidWord = "";
+
             let gridSize = 3;
+            let cellSize = 68;
             let grid = [];
             let gridFallback = [];
             let score = 0;
@@ -2571,7 +2573,7 @@
             let allTimeStreak = 0;
             let allTimeWordLength = 0;
             let allTimeWord = "";
-            // let allTimeSummary = "";
+            let allTimeSummary = "";
 
             async function loadLocalWords() {
                 const response = await fetch('assets/merged-wordlists.json');
@@ -2709,10 +2711,13 @@
                 sa_event("new_game");
                 saveHighScore();
                 getHighScores();
+                updateAllTimeStats();
+                
                 localStorage.removeItem("stringChainState");
                 localStorage.removeItem("isDisqualified");
                 gameID = new Date().toISOString().slice(0, 19).replace('T', ' ');
                 gridSize = 3;
+                cellSize = 68;
                 missionsBtn.classList.add("span-0");
                 // dummyBtn3.classList.add("span-0");
                 gridRefreshBtn.classList.remove("span-2");
@@ -2835,16 +2840,16 @@
                 // }, 4000); // Hide after 8 seconds
             }
 
-            function UpdateAllTimeStats() {
+            function updateAllTimeStats() {
                 allTimeString = Math.max(allTimeString, score);
                 allTimeChain = Math.max(allTimeChain, chain);
                 allTimeStreak = Math.max(allTimeStreak, bestNoBonusStreak);
-                if (allTimeWordLength < currentWord.length) {
+                if (allTimeWordLength <= currentWord.length) {
                     allTimeWordLength = currentWord.length;
                     allTimeWord = currentWord;
                 }
 
-                let allTimeSummary = `<table style="border:none;justify:center;align-content:center;margin-left:auto;margin-right:auto;">
+                allTimeSummary = `<table style="border:none;text-align:center;align-content:center;margin-left:auto;margin-right:auto;">
                     <tr>
                         <td style="width:50%;border:none;">
                             <p class="sq-para1"><span class="rewards2">${allTimeString} string</span></p>
@@ -3274,12 +3279,14 @@
                     playedWords = new Set(playedWords);
                     completedMissions = new Set(completedMissions);
                     renderWord();
+                    checkPlayAreaMeasurements();
                     renderGrid();
                     updateHistory();
+                    updateMilestones();
+                    updateAllTimeStats();
                     // updateDisallowedWords();
                     updateBonusButton();
                     updateGridRefreshButton();
-                    UpdateAllTimeStats();
                     // showDefinitions(lastValidWord);
                     updateStatus();
                     loadLocalWords();
@@ -3307,6 +3314,8 @@
                     if (specialModeActive == true) {
                         activateSpecialMode();
                     }
+                    updateAllTimeStats();
+
                 } catch (err) {
                     console.error("Error loading saved state", err);
                     newGameBtn.click();
@@ -3372,20 +3381,20 @@
                 localStorage.setItem('stringchainHighScore', JSON.stringify(combined));
             }
 
-            // function getHighScores() {
-            //     const scoreTableParse = JSON.parse(localStorage.getItem('stringchainHighScore')) || [];
-            //     let scoreTable = scoreTableParse
-            //     scoreTable = scoreTable.filter(entry => !(entry.score === 0 && entry.chain === 0));
-            //     const rows = scoreTable.map(entry => {
-            //         const highlightRow = entry.highlight && entry.highlight.trim()
-            //             ? `<tr><td colspan="3" class="highlight-reel">${entry.highlight}</td></tr>`
-            //             : "";
-            //         return `<tr><td>${entry.score}</td><td>${entry.chain}</td><td>${entry.saveTime}</td></tr>${highlightRow}`;
-            //     }).join('');
+            function getHighScores() {
+                const scoreTableParse = JSON.parse(localStorage.getItem('stringchainHighScore')) || [];
+                let scoreTable = scoreTableParse
+                scoreTable = scoreTable.filter(entry => !(entry.score === 0 && entry.chain === 0));
+                const rows = scoreTable.map(entry => {
+                    const highlightRow = entry.highlight && entry.highlight.trim()
+                        ? `<tr><td colspan="3" class="highlight-reel">${entry.highlight}</td></tr>`
+                        : "";
+                    return `<tr><td>${entry.score}</td><td>${entry.chain}</td><td>${entry.saveTime}</td></tr>${highlightRow}`;
+                }).join('');
 
-            //     if (!rows) { return };
-            //     highScoresElement.innerHTML = `<h4>BEST GAMES</h4><table class = "high-score-table"><tr><th>STRING</th><th>CHAIN</th><th>SAVED</th></tr>${rows}</table>`;
-            // }
+                if (!rows) { return };
+                // highScoresElement.innerHTML = `<h4>BEST GAMES</h4><table class = "high-score-table"><tr><th>STRING</th><th>CHAIN</th><th>SAVED</th></tr>${rows}</table>`;
+            }
 
 
 
@@ -3902,7 +3911,7 @@
                 // <p class="sq-para2">Shooting for:</p>
 
                 let milestoneSummary = `
-                <table style="border:none;justify:center;align-content:center;margin:auto;">
+                <table style="border:none;justify-content:center;align-content:center;margin:auto;">
                     <tr style="width:40%;">
                         <td style="border:none">
                             <p class="sq-para1"><span class="rewards2">${nextString}+ string</span><br>${nextStringToGo} letters to go</p>
@@ -4626,11 +4635,27 @@
                 fitWordContainer();
             }
 
+
+
+            function checkPlayAreaMeasurements() {
+                if (gridSize == 3) {
+                    cellSize = 68;
+                } else if (gridSize == 4) {
+                    cellSize = 49;
+                }
+            }
+
+
             function renderGrid() {
                 // maybePlaceAsterisk();
                 gridElement.innerHTML = '';
-                // gridElement.style.gridTemplateColumns = `repeat(${gridSize}, 45px)`;
-                gridElement.style.gridTemplateColumns = `repeat(${gridSize}, 45px)`;
+                gridElement.style.gridTemplateRows = `repeat(${gridSize}, ${cellSize}px)`;
+                gridElement.style.gridTemplateColumns = `repeat(${gridSize}, ${cellSize}px)`;
+                leftRail.style.gridTemplateRows = `repeat(${gridSize}, ${cellSize}px)`;
+                rightRail.style.gridTemplateRows = `repeat(${gridSize}, ${cellSize}px)`;
+                gridElement.style.gridTemplateColumns = `repeat(${gridSize}, ${cellSize}px)`;
+                gridElement.style.rowGap = 'var(--gap)';
+                gridElement.style.columnGap = 'var(--gap)';
                 // gridElement.style.gridTemplateRows = `repeat(${gridSize}, var(--cell-size)px)`;
 
                 for (let r = 0; r < gridSize; r++) {
@@ -4820,6 +4845,7 @@
 
                     gridSize = 4;
                     grid = newGrid;
+                    checkPlayAreaMeasurements();
                     // missionsBtn.classList.remove("span-0");
                     if (chain < 32) { missionsBtn.classList.add("opacity-hide"); missionsBtn.classList.remove("hidden");}
                     // dummyBtn3.classList.remove("span-0");
@@ -4984,16 +5010,16 @@
                     bestNoBonusStreak = Math.max(bestNoBonusStreak, noBonusStreak);
                     consecutiveBonuses = 0;
                     updateMilestones();
-                    UpdateAllTimeStats();
+                    updateAllTimeStats();
                     updateStatus();
                     checkMission(currentWord);
                     saveGameState();
                     return;
                 }
 
-                // fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${lower}`)
+                fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${lower}`)
 
-                fetch(`https://en.wiktionary.org/w/api.php?action=parse&page=${lower}&prop=wikitext&format=json&origin=*`)
+                // fetch(`https://en.wiktionary.org/w/api.php?action=parse&page=${lower}&prop=wikitext&format=json&origin=*`)
                     // fetch(`https://cors.isomorphic-git.org/https://api.dictionaryapi.dev/api/v2/entries/en/${lower}`)
                     .then(res => {
                         if (!res.ok) throw new Error();
@@ -5032,7 +5058,7 @@
                         bestNoBonusStreak = Math.max(bestNoBonusStreak, noBonusStreak);
                         consecutiveBonuses = 0;
                         updateMilestones();
-                        UpdateAllTimeStats();
+                        updateAllTimeStats();
                         updateStatus();
                         checkMission(currentWord);
                         saveGameState();
