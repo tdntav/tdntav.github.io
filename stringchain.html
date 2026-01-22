@@ -2465,7 +2465,16 @@
 
 
 
+            async function loadLocalWords() {
+                const response = await fetch('assets/merged-wordlists.json');
+                const data = await response.json();
 
+                // Flatten all buckets into one Set
+                LOCAL_WORDS = new Set(
+                    Object.values(data).flatMap(list => list)
+                );
+                console.log(LOCAL_WORDS);
+            }
             //DECLARATIONS
             const scaleWrapper = document.getElementById('scaleWrapper');
             const wordContainer = document.getElementById('wordContainer');
@@ -2585,16 +2594,6 @@
             let allTimeWord = "";
             let allTimeSummary = "";
 
-            async function loadLocalWords() {
-                const response = await fetch('assets/merged-wordlists.json');
-                const data = await response.json();
-
-                // Flatten all buckets into one Set
-                LOCAL_WORDS = new Set(
-                    Object.values(data).flatMap(list => list)
-                );
-                console.log(LOCAL_WORDS);
-            }
             //END OF DELARATIONS
 
             //BUTTONS
