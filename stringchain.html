@@ -53,7 +53,7 @@
         }
 
 /* #REGION OUTLINE TESTING - REMOVE LATER */    
-        /*
+        /*         
         * { outline: 2px dotted red }
         * * { outline: 2px dotted green }
         * * * { outline: 2px dotted orange }
@@ -933,7 +933,7 @@
             background: var(--wordcell-text);
             color: var(--wordcell);
             font-size: 18pt;
-            height: var(--cell-size);
+            height: 49px;
             width: var(--rail-width);
             opacity: 50%;
             z-index: 1001;
@@ -953,7 +953,7 @@
             background: var(--wordcell-text);
             color: var(--wordcell);
             margin-top: 15px;
-            height: var(--cell-size);
+            height: 49px;
             width: var(--rail-width);
             border: 2px solid var(--wordcell);
             opacity: 50%;
@@ -964,7 +964,18 @@
             /* border: 2px solid var(--selected-cell); */
         }
 
-
+        #themeToggle {
+            width: var(--rail-width);
+            height: 49px;
+        }
+        #aboutBtn {
+            width: var(--rail-width);
+            height: 49px;
+        }        
+        #toggle-rules {
+            min-width: var(--rail-width);
+            height: 49px;
+        }
 
         .newgame {
             box-sizing: border-box;
@@ -974,7 +985,7 @@
             display: block;
             background-image: linear-gradient(to right, var(--text), var(--accent), var(--accent-text));
             border: 2px solid var(--accent-text);
-            height: var(--cell-size);
+            height: 49px;
         }
 
         .help {
@@ -1058,18 +1069,18 @@
 
         #highScores {
             box-sizing: border-box;
-            margin-block: 10px 0px;
-            padding-block: 0px 10px;
+            margin-block: 20px 0px;
+            padding: 2px 0 30px 0;
             margin-inline:auto;
-            width:100%;
-            background:var(--wordcell);
-            color: var(--wordcell-text);
+            width:360px;
+            background:var(--bg);
+            color: var(--text);
             border-radius: var(--rounding);
             /* border: 6px solid var(--positive-feedback); */
             /* opacity:50%; */
         }
 
-        #allTimeBestDisplay {
+        /* #allTimeBestDisplay {
             box-sizing: border-box;
             margin-block: 10px 0px;
             padding-block: 5px 0px;
@@ -1078,8 +1089,7 @@
             background:var(--accent);
             color: var(--accent-text);
             border-radius: var(--rounding);
-            /* opacity:50%; */
-        }
+        } */
 
         #history {
             display: block;
@@ -1513,7 +1523,7 @@
             background: var(--wordcell-text);
             color: var(--wordcell);
             font-size: 18pt;
-            height: var(--cell-size);
+            height: 49px;
             width: var(--rail-width);
             opacity: 50%;
             z-index: 1001;
@@ -2425,7 +2435,7 @@
             <p class="demo-para" style="text-align:center;font-size:11pt;margin-top:-8px;">THIS GAME</p>
             <div id="nextMilestoneInfo"></div>
             <div id="milestones-1" class="milestones-1"></div>
-            <div id="allTimeBestDisplay"></div>
+            <!-- <div id="allTimeBestDisplay"></div> -->
 
         </div>
     </div>
@@ -2460,7 +2470,7 @@
             const scaleWrapper = document.getElementById('scaleWrapper');
             const wordContainer = document.getElementById('wordContainer');
             const highScoresElement = document.getElementById('highScores');
-            const allTimeBestElement = document.getElementById('allTimeBestDisplay');
+            // const allTimeBestElement = document.getElementById('allTimeBestDisplay');
             const gridElement = document.getElementById('letterGrid');
             const leftRail = document.getElementById('left-rail');
             const rightRail = document.getElementById('right-rail');
@@ -2850,27 +2860,33 @@
                     allTimeWord = currentWord;
                 }
 
-                allTimeSummary = `<table style="border:none;text-align:center;align-content:center;margin-left:auto;margin-right:auto;">
-                    <tr>
-                        <td style="width:50%;border:none;">
-                            <p class="sq-para1"><span class="rewards2">${allTimeString} string</span></p>
-                        </td>
-                        <td style="border:none;">
-                            <p class="sq-para1"><span class="rewards2">chain ${allTimeChain}</span></p>
-                        </td>
-                    </tr>
-                    <tr style="border:none;">
-                        <td style="border:none;">
-                            <p class="sq-para1"><span class="rewards2">${allTimeWordLength} letters</span><br><span class="sq-word">${allTimeWord.toLowerCase()}</span></p>
-                        </td>
-                        <td style="border:none;">
-                            <p class="sq-para1"><span class="rewards2">no-bonus streak of ${allTimeStreak}</span></p>
-                        </td>
-                    </tr>
-                </table>`;
-                allTimeBestElement.innerHTML = `<h6>ALL TIME BEST</h6>
-                    ${allTimeSummary}`;
-                highScoresElement.innerHTML = `<h2>ALL TIME BEST</h2>
+                // allTimeSummary = `<table style="border:none;text-align:center;align-content:center;margin-left:auto;margin-right:auto;">
+                //     <tr>
+                //         <td style="width:50%;border:none;">
+                //             <p class="sq-para1"><span class="rewards2">${allTimeString} string</span></p>
+                //         </td>
+                //         <td style="border:none;">
+                //             <p class="sq-para1"><span class="rewards2">chain ${allTimeChain}</span></p>
+                //         </td>
+                //     </tr>
+                //     <tr style="border:none;">
+                //         <td style="border:none;">
+                //             <p class="sq-para1"><span class="rewards2">${allTimeWordLength} letters</span><br><span class="sq-word">${allTimeWord.toLowerCase()}</span></p>
+                //         </td>
+                //         <td style="border:none;">
+                //             <p class="sq-para1"><span class="rewards2">no-bonus streak of ${allTimeStreak}</span></p>
+                //         </td>
+                //     </tr>
+                // </table>`;
+                allTimeSummary = `<p class="sq-para1" style="font-size:5pt;"><span class="rewards2">${allTimeString} string</span>
+                    <span class="rewards2">chain ${allTimeChain}</span><br>
+                    <br><span class="rewards2">${allTimeWordLength} letters: <span class="sq-word">${allTimeWord.toLowerCase()}</span></span><br>
+                    <br><span class="rewards2">no-bonus streak of ${allTimeStreak}</span></p>
+                        `;
+                
+                // allTimeBestElement.innerHTML = `<h6>ALL TIME BEST</h6>
+                //     ${allTimeSummary}`;
+                highScoresElement.innerHTML = `<h2>YOUR BEST</h2>
                     ${allTimeSummary}`;
             }
 
@@ -4646,9 +4662,9 @@
                 }
                 leftRail.style.gridTemplateRows = `repeat(${gridSize}, ${cellSize}px)`;
                 rightRail.style.gridTemplateRows = `repeat(${gridSize}, ${cellSize}px)`;
-                scrollBtn.style.height = `${cellSize}px`;
-                missionsHelpBtn.style.height = `${cellSize}px`;
-                collapseModal.style.height = `${cellSize}px`;
+                // scrollBtn.style.height = `${cellSize}px`;
+                // missionsHelpBtn.style.height = `${cellSize}px`;
+                // collapseModal.style.height = `${cellSize}px`;
             }
 
 
