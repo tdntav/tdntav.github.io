@@ -13,17 +13,19 @@
         :root {
             --grid-size: 3;
             /* will be overwritten by JS */
-            --cell-size: 48px;
-            --gap: 9px;
-            /* --rail-width: ((360 - ((var(--grid-size)*(var(--cell-size)+var(--gap))) + var(--gap)))/2)px; */
+            --cell-size: 68px;
 
-            --rail-width: 67.5px;
-            /* 48, 9, 61.5 */
-
-
+            --gap: 8px;
+            --rail-width: 62px;
+            --grid-width: 236px;
 
             --rounding: 8px;
             --rounding-small: 4px;
+
+
+            /* document.documentElement.style.setProperty("--cell-size", "green"); */
+
+
 
             --bg: #123;
             --text: #cde;
@@ -48,10 +50,22 @@
             --selected-cell: var(--positive-feedback);
             --selected-text: var(--pos-fb-text);
             --selected-border: 2px solid var(--selected-cell);
-
-
         }
 
+/* #REGION OUTLINE TESTING - REMOVE LATER */    
+        /*                 
+        * { outline: 2px dotted red }
+        * * { outline: 2px dotted green }
+        * * * { outline: 2px dotted orange }
+        * * * * { outline: 2px dotted blue }
+        * * * * * { outline: 1px solid red }
+        * * * * * * { outline: 1px solid green }
+        * * * * * * * { outline: 1px solid orange }
+        * * * * * * * * { outline: 1px solid blue } 
+        */
+/* #ENDREGION OUTLINE TESTING - */        
+
+/* * {box-sizing: border-box;} */
 
         .first-green {
 
@@ -178,7 +192,7 @@
             --rounding-small: 4px;
 
             --bg: #312;
-            --text: #fde;
+            --text: #cab;
 
             --accent: #645;
             --accent-text: #cab;
@@ -186,7 +200,9 @@
             --positive-feedback: #5b8;
             --pos-fb-text: var(--bg);
 
+            /* --disabled: #435; */
             --disabled: #435;
+            
             --negative-feedback: #500;
 
             --wordcell: var(--accent);
@@ -240,7 +256,7 @@
             --bg: #111;
             --text: #fff;
 
-            --accent: #ca2;
+            --accent: #c92;
             --accent-text: #000;
 
             --positive-feedback: #6c9;
@@ -273,7 +289,7 @@
             --accent: #eee;
             --accent-text: #555;
 
-            --positive-feedback: #5b8;
+            --positive-feedback: #7cf;
 
             --negative-feedback: #321;
             --disabled: #aaa;
@@ -286,7 +302,7 @@
             --gridcell-text: var(--text);
             --gridcell-border: 2px solid var(--gridcell);
 
-            --selected-cell: var(--text);
+            --selected-cell: #6ad;
             --selected-text: var(--bg);
             --selected-border: 2px solid var(--selected-cell);
 
@@ -350,11 +366,11 @@
 
             --selected-cell: var(--text);
             --selected-text: var(--bg);
-            --selected-border: 2px solid var(--text);
+            --selected-border: 2px solid var(--selected-cell);
 
 
 
-            /* --button-border: 3px inset #000; */
+            /* --button-border: 3px solid #000; */
         }
 
         .minimal-animal {
@@ -382,7 +398,7 @@
 
             --selected-cell: var(--text);
             --selected-text: var(--bg);
-            --selected-border: 2px solid var(--text);
+            --selected-border: 2px solid var(--selected-cell);
 
 
 
@@ -413,7 +429,7 @@
 
             --selected-cell: var(--text);
             --selected-text: var(--bg);
-            --selected-border: 2px solid var(--text);
+            --selected-border: 2px solid var(--selected-cell);
 
 
         }
@@ -443,7 +459,7 @@
 
             --selected-cell: var(--text);
             --selected-text: var(--bg);
-            --selected-border: 2px solid var(--text);
+            --selected-border: 2px solid var(--selected-cell);
 
 
         }
@@ -473,7 +489,7 @@
 
             --selected-cell: #055;
             --selected-text: var(--text);
-            --selected-border: 2px solid #0ff;
+            --selected-border: 2px solid var(--text);
         }
 
         .hi-contrast {
@@ -481,27 +497,27 @@
             --rounding-small: 3px;
 
             --bg: #101;
-            --text: #fff;
+            --text: #ddd;
 
             --accent: #a7f;
             --accent-text: var(--bg);
 
             --positive-feedback: #daf;
 
-            --negative-feedback: #f00;
+            --negative-feedback: #b43;
             --disabled: #645;
 
-            --wordcell: var(--text);
-            --wordcell-text: var(--bg);
-            --wordcell-border: 2px solid var(--text);
+            --wordcell: #fff;
+            --wordcell-text: #000;
+            --wordcell-border: 2px solid #fff;
 
             --gridcell: var(--text);
             --gridcell-text: var(--bg);
             --gridcell-border: 2px solid var(--text);
 
-            --selected-cell: var(--accent);
+            --selected-cell: #a8f;
             --selected-text: var(--bg);
-            --selected-border: 2px solid var(--positive-feedback);
+            --selected-border: 2px solid var(--selected-cell);
         }
 
         .fruit-salad {
@@ -531,7 +547,6 @@
             --selected-text: var(--bg);
             --selected-border: 2px solid var(--selected-cell);
 
-
         }
 
         /* END OF THEMES*/
@@ -542,6 +557,8 @@
         body {
             font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
             background: var(--bg);
+            /* background-image: linear-gradient(to top, var(--accent), var(--bg)); */
+
             max-width: 400px;
             margin: auto;
             /* margin: 0; */
@@ -712,38 +729,42 @@
 
         .play-grid-layout {
             display: grid;
-            grid-template-columns:
-                63.5px /* rail-width minus 4px*/
-                /* 0px  */
-                auto
-                /* var(--gap)  */
-                var(--rail-width);
-            column-gap: 0px;
-            /*   
-  justify-content: center;
-  align-content:center; */
+            grid-template-columns: var(--rail-width) var(--grid-width) var(--rail-width);
+            /* column-gap: var(--gap); */
         }
+
 
         /* LETTER GRID (auto-adjusts with JS) */
         .grid {
             display: grid;
-            /* box-sizing: border-box; */
-            grid-template-columns: repeat(var(--grid-size), var(--cell-size));
-            grid-template-rows: repeat(var(--grid-size), var(--cell-size));
-            gap: var(--gap);
+            box-sizing: border-box;
             justify-content: center;
             align-content: center;
+            margin:none;
+            /* grid-template-columns: repeat(var(--grid-size), var(--cell-size)); */
+            /* grid-template-rows: repeat(var(--grid-size), var(--cell-size)); */
+            row-gap: var(--gap);
+            column-gap: var(--gap);
         }
+
+
+
 
         /* RAILS (rows match grid) */
         .rail {
             display: grid;
+            margin: none;
+            padding: none;
             grid-template-rows: repeat(var(--grid-size), var(--cell-size));
             gap: var(--gap);
             width: var(--rail-width);
-            margin: none;
-            padding: none;
         }
+        
+
+
+
+
+
 
         /* BUTTONS */
         .rail-btn {
@@ -751,13 +772,11 @@
             height: 100%;
             border: none;
             margin: none;
+            padding:none;
             /* border: var(--gridcell-border); */
             color: var(--accent-text);
             box-sizing: border-box;
             background: var(--accent);
-
-            /* margin:none;
-  padding:none; */
         }
 
         /*spans all rows*/
@@ -829,9 +848,6 @@
             box-sizing: border-box;
             border: var(--gridcell-border);
             color: var(--gridcell-text);
-            width: var(--cell-size);
-            /* this also needs to be edited in renderGrid function */
-            height: var(--cell-size);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -840,6 +856,9 @@
             text-transform: uppercase;
             cursor: pointer;
             font-size: 16pt;
+            /* width: var(--cell-size); */
+            /* this also needs to be edited in renderGrid function */
+            /* height: var(--cell-size); */
         }
 
         .grid-cell.used {
@@ -914,7 +933,7 @@
             background: var(--wordcell-text);
             color: var(--wordcell);
             font-size: 18pt;
-            height: var(--cell-size);
+            height: 49px;
             width: var(--rail-width);
             opacity: 50%;
             z-index: 1001;
@@ -934,7 +953,7 @@
             background: var(--wordcell-text);
             color: var(--wordcell);
             margin-top: 15px;
-            height: var(--cell-size);
+            height: 49px;
             width: var(--rail-width);
             border: 2px solid var(--wordcell);
             opacity: 50%;
@@ -945,7 +964,18 @@
             /* border: 2px solid var(--selected-cell); */
         }
 
-
+        #themeToggle {
+            width: var(--rail-width);
+            height: 49px;
+        }
+        #aboutBtn {
+            width: var(--rail-width);
+            height: 49px;
+        }        
+        #toggle-rules {
+            min-width: var(--rail-width);
+            height: 49px;
+        }
 
         .newgame {
             box-sizing: border-box;
@@ -955,7 +985,7 @@
             display: block;
             background-image: linear-gradient(to right, var(--text), var(--accent), var(--accent-text));
             border: 2px solid var(--accent-text);
-            height: var(--cell-size);
+            height: 49px;
         }
 
         .help {
@@ -1038,8 +1068,28 @@
         */
 
         #highScores {
-            padding-block: 20px;
+            box-sizing: border-box;
+            margin-block: 20px 0px;
+            padding: 2px 0 30px 0;
+            margin-inline:auto;
+            width:360px;
+            background:var(--bg);
+            color: var(--text);
+            border-radius: var(--rounding);
+            /* border: 6px solid var(--positive-feedback); */
+            /* opacity:50%; */
         }
+
+        /* #allTimeBestDisplay {
+            box-sizing: border-box;
+            margin-block: 10px 0px;
+            padding-block: 5px 0px;
+            margin-inline:auto;
+            width:100%;
+            background:var(--accent);
+            color: var(--accent-text);
+            border-radius: var(--rounding);
+        } */
 
         #history {
             display: block;
@@ -1086,7 +1136,7 @@
 
 
         #definitions {
-            font-size: 10pt;
+            font-size: 11pt;
             color: var(--text);
             margin-bottom: 20px;
             width: 85%;
@@ -1205,7 +1255,7 @@
         .demo-para {
             margin-block: 0px;
             /* remove top margin */
-            font-size: 10pt;
+            font-size: 11pt;
             color: var(--text);
             text-align: center;
             /* line-height: 1.4; */
@@ -1349,7 +1399,7 @@
             -webkit-backdrop-filter: blur(3px);
         } */
 
-        .modal-content-1 {
+        .modal-milestones {
             position: fixed;
             top: 43px;
             background: var(--accent);
@@ -1370,13 +1420,13 @@
             display: flex;
             flex-direction: column;
             max-height: 80vh;
-            min-height: 60vh;
+            min-height: 20vh;
             width: 400px;
             /* z-index: 1; */
             /* opacity: unset; */
         }
 
-        .modal-content-2 {
+        .modal-wildcard {
             position: fixed;
             top: 43px;
             background: var(--accent);
@@ -1402,6 +1452,33 @@
             /* opacity: unset; */
         }
 
+        .modal-missions {
+            position: fixed;
+            top: 43px;
+            background: var(--accent);
+            color: var(--accent-text);
+            /* background-image: linear-gradient(to bottom, var(--accent), var(--bg));  */
+
+            padding-block: 12px;
+            /* padding-inline:30px; */
+            border-radius: var(--rounding);
+            border: var(--accent) solid 2px;
+            text-align: center;
+            /* overflow-y:scroll; */
+
+            /* CHANGE 1: Remove scrolling from here */
+            overflow:hidden;
+            
+            /* CHANGE 2: Use flexbox to organize the header and scroll area */
+            display: flex;
+            flex-direction: column;
+            /* max-height:60vh; */
+            max-height:300px;
+            width: 400px;
+            /* z-index: 1; */
+            /* opacity: unset; */
+        }
+
 
         .milestones-1 {
             background: var(--bg);
@@ -1410,8 +1487,81 @@
             overflow-y: auto; 
             padding-inline: auto;
             border-radius: var(--rounding);
-            min-height: 60vh;
+            /* min-height: 60vh; */
         }
+
+
+
+        .missions-1 {
+            background: var(--bg);
+            color: var(--text);
+            font-size: 12pt;
+            overflow-y: auto; 
+            padding-inline: auto;
+            border-radius: var(--rounding);
+            max-height:250px; 
+            /* height:auto; */
+        }
+
+
+
+        .missions-help-btn {
+            display: none;
+            position: fixed;
+            top: 377px;
+            /* left:300px; */
+            /* right:0px; */
+
+            align-self: center;
+            justify-self: center;
+            align-items: center;
+            text-align: center;
+            margin-block: 0px;
+            margin-inline: 4px;
+            border-radius: var(--rounding);
+            border: 2px solid var(--wordcell);
+            background: var(--wordcell-text);
+            color: var(--wordcell);
+            font-size: 18pt;
+            height: 49px;
+            width: var(--rail-width);
+            opacity: 50%;
+            z-index: 1001;
+
+        }
+
+
+/* 
+        .scrollBtn {
+            display: none;
+            position: fixed;
+            top: 364px;
+
+            align-self: center;
+            justify-self: center;
+
+            border-radius: var(--rounding);
+            background: var(--wordcell-text);
+            border: 2px solid var(--wordcell);
+            color: var(--wordcell);
+            margin-top: 15px;
+            height: var(--cell-size);
+            width: var(--rail-width);
+            opacity: 50%;
+            font-size: 18pt;
+            z-index: 999;
+        } */
+
+        .missions-help-btn.selected {
+            background: var(--selected-cell);
+            color: var(--selected-text);
+            border: var(--selected-border);
+            opacity:100%;
+        }
+
+
+
+
 
 
 
@@ -1421,18 +1571,18 @@
         }
 
         .sq-para {
-            font-size: 10pt;
+            font-size: 11pt;
         }
 
         .sq-para1 {
-            font-size:10pt; 
+            font-size:11pt; 
             text-align:center;
             display: block;
             margin: 0;
             padding:0;
         }
         .sq-para2 {
-            font-size:9pt; 
+            font-size:11pt; 
             text-align:center;
             display: block;
             margin: 0;
@@ -1693,7 +1843,7 @@
 
 
         .rewards2 {
-            font-size: 11pt;
+            font-size: 12pt;
             /* color: var(--text); */
             /* margin-top: 10px; */
             border-radius: var(--rounding);
@@ -1705,6 +1855,41 @@
             color: var(--bg);
         }
 
+
+        .yourBest {
+            font-size: 13pt;
+            /* color: var(--text); */
+            /* margin-top: 10px; */
+            border-radius: var(--rounding);
+            /* border: 1px solid var(--disabled); */
+            padding-block: 0px;
+            padding-inline: 8px;
+            margin-inline: 2px;
+            background: var(--accent);
+            color: var(--accent-text);
+        }
+
+
+
+
+
+        .missions-display {
+            font-family: "Courier New", monospace;
+            font-size: 12pt;
+            /* color: var(--text); */
+            /* margin-top: 10px; */
+            border-radius: var(--rounding);
+            /* border: 1px solid var(--accent-text); */
+            /* padding-block: 4px; */
+            padding: 2px;
+            margin: 2px;
+            background: var(--accent);
+            color: var(--accent-text);
+        }
+
+        .completed {
+            opacity: 40%;
+        }
 
 
 
@@ -1726,7 +1911,7 @@
             <div class="demo-div">
                 <!-- EXAMPLE 1: SWAP -->
                 <div class="demo-board">
-                    <p class="demo-para">Swap two <b><i>word</i></b> letters by selecting both.</p>
+                    <p class="demo-para">Swap two <b><i>word</i></b> letters<br>by selecting both.</p>
                     <div class="word-container demoscale">
                         <div class="insert-slot demo-cell"></div>
                         <div class="letter demo-cell selected">M</div>
@@ -1738,7 +1923,7 @@
                         <div class="letter demo-cell">E</div>
                         <div class="insert-slot demo-cell"></div>
                     </div>
-                    <p class="demo-para">Hit the <b><i>PLAY</i></b> button to complete the move.<br><br></p>
+                    <p class="demo-para">Hit the <b><i>PLAY</i></b> button<br>to complete the move.<br><br></p>
                     <!-- <div class="button-row demo demoscale"> 
                         <button class="bonusBtn disabled" style="border:2px solid transparent;">||</button>
                         <button class="actionBtn" style="border:var(--selected-border);">PLAY</button>
@@ -1900,7 +2085,7 @@
                         <div class="grid-cell-demo">E</div>
                         <div class="grid-cell-demo selected">T</div>
                     </div>
-                    <p class="demo-para">Engage <b><i>PLAY</i></b> to make it so<br><br></p>
+                    <p class="demo-para">Engage <b><i>PLAY</i></b> to make it so.<br><br></p>
 
                     <div class="word-container demoscale" style="width:75%;margin-top:5px;border:4px solid var(--positive-feedback);">
                         <div class="insert-slot demo-cell selected"></div>
@@ -2003,7 +2188,7 @@
                         <div class="grid-cell-demo">O</div>
                         <div class="grid-cell-demo">W</div>
                     </div>
-                    <p class="demo-para"><br>To use one, select a move as normal but<br>hit the <b>||</b> button
+                    <p class="demo-para"><br>To use one, select a move as normal but<br>hit the <b>|| <i>SETUP</i></b> button
                         instead of <b><i>PLAY</i></b>.<br><br><br>
                     </p>
                     <div class="button-row demo demoscale"> <button class="bonusBtn"
@@ -2136,7 +2321,7 @@
         <div id="about" style="display: none;">
             <p style="text-align: left;"> <b>ABOUT</b>
                 <br>
-                <br>Big shoutout to <b><i>dictionaryapi.dev</i></b> and <b><i>wordgamedictionary.com</i></b> for
+                <br>Big shoutout to <b><i>dictionaryapi.dev</i></b>, <b><i>wiktionary.org</i></b> and <b><i>wordgamedictionary.com</i></b> for
                 providing free dictionary resources. This is
                 the spirit of
                 random collaboration that embodies the internet at its best.
@@ -2144,34 +2329,23 @@
                 <br>Without whoever they are, whoever I am couldn't have made this game for whoever you are.
                 <br>
                 <br>The internet has lots of bitesize daily puzzles. These are great, but Stringchain is more
-                open-ended and user-driven.
+                open-ended and user-driven.<br><br>
                 You can play as much as you want, whenever you want. It's not a subscription, it's not an appointment. You
                 choose when and how much. Take breaks, be healthy.
                 <br>
-                <br>Your highscores will include a sample of some consecutive words you played. Make yourself presentable.
-                <br>
-                <br>The rewards and penalties incentivise exciting gameplay.
-                There are lots of strategies you might employ. You must break the 6-letter barrier to see your milestones and avail of the 4x4 letter grid.
-                <br><br>You could then retreat to short words, rack up string bonuses, chain bonuses, and no-bonus streaks finding new more efficient paths through all the obvious and convenient short words.
-                The no-bonus streak rewards caution. 
-                <br><br>Sustaining yourself in the long word realm will require burning through some of those bonuses. 
-                Bonuses help you to bridge gaps between longer words that can't be chained in a single move.
-                And you must reach long words to gain extra lives. You unlock extra lives by playing 7+ letter words. 
-                <br><br>Every extra life you gain adds another consecutive bonus to your allowance. Even lost lives still count towards this allowance.
-                This incentivises shooting for longer words to increase the consecutive bonus penalty threshold.
-                <br><br>Cautious or reckless, methodical or impulsive, you'll find your style, find your pace, find your flow. You choose your own adventure (or 'misadventure' to grab the 12 letter reward).
+                <br>The core game, switching letters around, making words, it's really basic and simple. 
+                <br>The mechanics around that should incentivise exciting gameplay. Find your flow. Complete a mission. Enjoy the scenery.
                 <br>
                 <br>Get a high score. Beat that high score. Screenshot that high score and challenge your
-                friends. Look at your wordlist, you made that! Look at all the words you know, all these rhymes and connections! Writers, rappers, poets, word enthusiasts, this is your groove.
+                friends. Look at your wordlist, you made that! Look at all the words you know, all these rhymes and connections! Writers, rappers, poets, word enthusiasts, this is your jam.
                 <br>
-                <br>Future tweaks and updates are planned, but the core game is in place, have at it.
+                <br>Future tweaks and updates may happen, but the core game is in place now. Have at it!
                 <br>
                 <br>If you enjoy this game, consider buying me a coffee or putting my kids through college.
                 <br>
                 <br>Word nerd,<br>Dave
             </p>
         </div>
-        <br>
         <div id="highScores"></div>
     </div>
     <div class="scores"><span id="score">0</span>&nbsp; <b>string</b><button id="toggle-dropdown"
@@ -2209,10 +2383,14 @@
 
     <div class="game-area"> <!-- Fixed width matching your history area -->
 
-        <div class="play-grid-layout">
+        <div id="play-grid-layout" class="play-grid-layout">
 
-            <div class="rail left-rail">
-                <button id="dummyBtn1" class="rail-btn span-0 opacity-hide">?</button>
+            <div id="left-rail" class="rail left-rail">
+                <!-- <button id="missionsBtn" class="rail-btn span-0 hidden">&</button> -->
+                <button id="missionsBtn" class="rail-btn span-0 hidden">⇡⇡</button>
+
+                
+
                 <button id="bonusBtn" class="rail-btn span-2">||</button>
                 <button id="milestonesBtn" class="rail-btn hidden">...</button>
                 <button id="collapseModal" class="collapseModal">^</button>
@@ -2221,10 +2399,12 @@
             <!-- <div></div>             -->
             <div class="grid" id="letterGrid"></div>
             <!-- <div></div> -->
-            <div class="rail right-rail">
+            <div id="right-rail" class="rail right-rail">
                 <button id="actionBtn" class="rail-btn span-2">PLAY</button>
                 <!-- <button id="dummyBtn3" class="rail-btn span-0 opacity-hide">?</button> -->
                 <button id="gridRefreshBtn" class="rail-btn">#</button>
+                <button id="missions-help-btn" class="missions-help-btn">?</button>
+
             </div>
 
         </div>
@@ -2234,22 +2414,22 @@
 
     <button id="newGameBtn" class="newgame">RESTART</button>
 
-    <div id="definitions"></div>
+    <div id="definitions" class="hidden"></div>
     <!-- <button id="scrollBtn" class="scrollBtn">^</button> -->
     <!-- Asterisk Letter Picker Modal -->
     <div id="asteriskModal" class="modal hidden">
-        <div class="modal-content-2">
-            <h6>WILDCARD</h6>
+        <div class="modal-wildcard">
+            <h6>* WILDCARD *</h6>
                 <div class="alphagrid-1">
                 <p class="demo-para opacity-hide" style="text-align:left;font-size:13pt;" id="wildcard-1">
                     <br>Pick a letter...
                 </p>
                 <div class="alpha-grid"></div>
                 <p class="demo-para opacity-hide" style="text-align:right;font-size:13pt;" id="wildcard-2">...or save for
-                    later with *</p>
+                    later</p>
                 </div>
             <!-- First wildcard when chain reaches 128, another for every additional 32 words. They appear when grid rows and columns are cleared.<br><br> -->
-            <p class="demo-para hidden" style="text-align:justify;font-size:12pt;" id="wildcard-3">
+            <p class="demo-para hidden" style="justify-content:center;font-size:12pt;" id="wildcard-3">
                 <br>After 128 words, a wildcard is awarded. It appears the next time a grid row or column refreshes.
                 Another wildcard is earned for every 32 additional words.<br><br></p>
         </div>
@@ -2266,16 +2446,31 @@
 
     <!-- Milestones Modal -->
     <div id="milestonesModal" class="modal-1 hidden">
-        <div class="modal-content-1">
-            <div id="nextMilestoneInfo" style="padding-left:20px;"></div>
-            <!-- <div id="nextMilestoneInfo"></div> -->
-            <h6>MILESTONES</h6>
-            <div id="milestones-1" class="milestones-1">
-                <!-- Milestone content will be dynamically inserted here -->
-            </div>
-            <!-- <span id="streakinfo"></span> -->
+        <div class="modal-milestones">
+            
+
+            <h6>… MILESTONES …</h6>
+            <p class="demo-para" style="text-align:center;font-size:11pt;margin-top:-8px;">THIS GAME</p>
+            <div id="nextMilestoneInfo"></div>
+            <div id="milestones-1" class="milestones-1"></div>
+            <!-- <div id="allTimeBestDisplay"></div> -->
+
         </div>
     </div>
+
+
+
+<!--#region Missions Modal -->
+
+<div id="missionsModal" class="modal hidden">
+    <div class="modal-missions">
+        <p class="demo-para hidden" style="text-align:center;font-size:11pt;" id="missions-help"></p>
+        <h6>⇡⇡ MISSIONS ⇡⇡</h6><p class="demo-para" style="text-align:center;font-size:11pt;margin-top:-8px;">ALL TIME<br><br></p>
+        <div id="missions-1" class="missions-1"></div>
+    </div>
+</div>
+
+<!--#endregion Missions Modal -->
 
 
 
@@ -2288,12 +2483,24 @@
 
 
 
+            async function loadLocalWords() {
+                const response = await fetch('assets/merged-wordlists.json');
+                const data = await response.json();
 
+                // Flatten all buckets into one Set
+                LOCAL_WORDS = new Set(
+                    Object.values(data).flatMap(list => list)
+                );
+                console.log(LOCAL_WORDS);
+            }
             //DECLARATIONS
             const scaleWrapper = document.getElementById('scaleWrapper');
             const wordContainer = document.getElementById('wordContainer');
             const highScoresElement = document.getElementById('highScores');
+            // const allTimeBestElement = document.getElementById('allTimeBestDisplay');
             const gridElement = document.getElementById('letterGrid');
+            const leftRail = document.getElementById('left-rail');
+            const rightRail = document.getElementById('right-rail');
             const actionBtn = document.getElementById('actionBtn');
             const newGameBtn = document.getElementById('newGameBtn');
             const bonusBtn = document.getElementById('bonusBtn');
@@ -2302,6 +2509,15 @@
             const milestonesModal = document.getElementById('milestonesModal');
             const milestonesContent = document.getElementById('milestones-1');
             const nextMilestoneInfo = document.getElementById('nextMilestoneInfo');
+
+
+            const missionsBtn = document.getElementById('missionsBtn');
+            const missionsModal = document.getElementById('missionsModal');
+            const missionsContent = document.getElementById('missions-1');
+            const missionsHelpBtn = document.getElementById('missions-help-btn');
+            const missionsHelp = document.getElementById('missions-help');
+
+
             // const streakinfo = document.getElementById('streakinfo');
             const wildcardOne = document.getElementById('wildcard-1');
             const wildcardTwo = document.getElementById('wildcard-2');
@@ -2325,6 +2541,29 @@
             const alphabet = "EEEEEEEEEAAAARRRRIIIOOONNSSSTTTLLLLCCUUUDDDPPGGHHBBMMYYFFVVWWKKXJQZ".split("");
             const starterWords = ["ACE", "ACT", "ADD", "ADO", "ADS", "AFT", "AGE", "AGO", "AIR", "ALL", "AND", "ANT", "ANY", "APE", "APT", "ARC", "ARE", "ARK", "ARM", "ART", "ASH", "ASK", "AWE", "AWL", "AXE", "BAD", "BAG", "BAN", "BAR", "BAT", "BAY", "BED", "BEE", "BEG", "BET", "BIG", "BIN", "BIT", "BOA", "BOB", "BOG", "BOP", "BOW", "BOY", "BRA", "BRO", "BUD", "BUG", "BUM", "BUS", "BUT", "BUY", "BYE", "CAB", "CAD", "CAM", "CAN", "CAP", "CAR", "CAT", "CAW", "COB", "COD", "COG", "CON", "COO", "COP", "COT", "COW", "COY", "CRY", "CUB", "CUE", "CUP", "CUR", "CUT", "DAB", "DAD", "DAG", "DAM", "DAY", "DEB", "DEN", "DEW", "DID", "DIE", "DIG", "DIN", "DIP", "DOC", "DOE", "DOG", "DON", "DOT", "DRY", "DUB", "DUD", "DUE", "DUG", "EAR", "EAT", "EEL", "EGG", "EGO", "ELF", "ELL", "EMU", "END", "ERA", "EVE", "EWE", "EYE", "FAD", "FAN", "FAR", "FAT", "FAX", "FED", "FEE", "FEW", "FIB", "FIG", "FIN", "FIR", "FIT", "FLY", "FOE", "FOG", "FOR", "FRY", "FUN", "FUR", "GAG", "GAP", "GAS", "GAY", "GEL", "GEM", "GET", "GIG", "GIN", "GOT", "GUM", "GUN", "GUT", "GUY", "GAP", "HAD", "HAM", "HAS", "HAT", "HAW", "HAY", "HEW", "HEY", "HIM", "HIP", "HIS", "HIT", "HOG", "HOP", "HOT", "HOW", "HUB", "HUE", "HUG", "HUM", "HUT", "ICE", "ILL", "INK", "INN", "ION", "JAB", "JAM", "JAR", "JAW", "JAY", "JAW", "JIG", "JOB", "JOE", "JOG", "JOT", "JOY", "JUG", "KEY", "KIT", "LAB", "LAD", "LAG", "LAP", "LAW", "LAY", "LEA", "LED", "LEG", "LET", "LID", "LIE", "LOG", "LOT", "LOW", "MAD", "MAN", "MAP", "MAT", "MAX", "MAY", "MEN", "MET", "MID", "MIX", "MOB", "MOD", "MOM", "MOP", "MOW", "MUD", "MUG", "MUM", "NAB", "NAP", "NOD", "NOT", "NOW", "NUN", "NUT", "OAR", "OAT", "ODD", "OFF", "OIL", "OLD", "ONE", "OPT", "OUR", "OUT", "OVA", "OWE", "OWL", "OWN", "PAD", "PAL", "PAN", "PAR", "PAT", "PAW", "PAY", "PEG", "PEN", "PET", "PEW", "PHI", "PIE", "PIG", "PIN", "PIT", "PLY", "POD", "POP", "POT", "PRO", "PUB", "PUG", "PUP", "PUT", "RAM", "RAN", "RAP", "RAT", "RAW", "RAY", "RED", "REP", "REV", "RIB", "RID", "RIG", "RIM", "RIP", "ROB", "ROD", "ROE", "ROT", "ROW", "RUB", "RUE", "RUG", "RUN", "RUT", "SAC", "SAD", "SAG", "SAP", "SAT", "SAW", "SAX", "SAY", "SEA", "SEE", "SET", "SEW", "SEX", "SHY", "SIB", "SIC", "SIN", "SIP", "SIR", "SIS", "SIT", "SKY", "SOB", "SOD", "SOL", "SON", "SOP", "SOS", "SOW", "SOX", "SPA", "SPY", "SUB", "SUE", "SUM", "SUN", "SUP", "TAB", "TAD", "TAG", "TAP", "TAR", "TEA", "TEE", "TEN", "THE", "TIE", "TIN", "TIP", "TOE", "TOG", "TON", "TOO", "TOP", "TOT", "TOW", "TOY", "TRY", "TUB", "TUG", "TUX", "TWO", "URN", "USE", "VAN", "VAT", "VET", "VIA", "VIE", "WAR", "WAS", "WAY", "WEB", "WED", "WEE", "WET", "WHO", "WHY", "WIN", "WIT", "WOK", "WON", "WOO", "YAK", "YAM", "YAP", "YAW", "YES", "ABLE", "ACID", "ACRE", "BACK", "BALL", "BAND", "CALM", "CAMP", "CARD", "DAWN", "DAYS", "DEAL", "EACH", "EARN", "ELSE", "FACE", "FACT", "FINE", "GAIN", "GATE", "GAVE", "GIRD", "HAIR", "HALF", "HAND", "ICON", "IDEA", "IDLE", "JACK", "JAIL", "KING", "KIND", "LACK", "LAKE", "LIMP", "MADE", "MAIL", "NAME", "NAIL", "ONCE", "ODDS", "PACK", "PAGE", "RACE", "RAIN", "SAFE", "SAIL", "TAKE", "TALE", "TINE", "UNIT", "URGE", "VARY", "VAST", "WAGE", "WAIT", "YARD", "YARN", "ZAPS"];
             const allowList = ["FLAP", "FLAPS", "FLAPPING", "FLAPPED", "FLAPPER", "FLAPPERS", "DOLLING", "DOLLED", "TOCK", "HELL", "FEWER", "YOUR", "PATTER", "DRAB", "LIVES", "LIVED", "LIVING", "HELLS", "TOW", "TOWS", "TOWED", "TOWING", "DUNK", "DUNKS", "DUNKING", "DUNKED", "TOW", "TOWS", "TOWING", "TOWED", "TIGHT", "SIFT", "DOSE", "DOSES", "DOSED", "DOSING", "KITE", "KITES", "NET", "CUE", "CUES", "CUED", "CUEING", "CUING", "RAPE", "RAPES", "RAPED", "SATES", "SATED", "SATING", "RAPING", "PEND", "PENDS", "PENDED", "PENDING", "BE", "LOOK", "LOOKS", "LOOKED", "LOOKING", "VEINY", "WEAN", "WEANS", "WEANED", "WEANING"];
+            const missions = {
+                "4": ["WAXY", "MEGA", "YUTZ", "PLOY", "JUNK", "FOWL", "ZINC"],
+                "5": ["AUDIO", "DISCO", "NYMPH", "IRONY", "KUDOS", "WHARF"],
+                "6": ["QUAINT", "JANGLY", "TERROR", "JOCKEY", "CRANKS"],
+                "7": ["ROBOTIC", "NARWHAL", "FOXSKIN", "YODELER"],
+                "8": ["ECLECTIC", "JUMPABLE", "VENEERED", "ICEBOXES"],
+                "9": ["JUXTAPOSE", "GROTESQUE", "INJURIOUS", "YARDSTICK"],
+                "10": ["CONGENITAL", "ACTIVEWEAR", "TIEBREAKER"],
+                "11": ["LIGHTHEADED", "STANDOFFISH", "HUMMINGBIRD"],
+                "12": ["QUANTIFIABLY", "INEXPLICABLY", "LIGHTHEARTED"],
+                "13": ["DISAPPOINTING", "POSTMODERNISM"],
+                "14": ["QUINTESSENTIAL", "THUNDERSHOWERS"],
+                "15": ["UNDISPASSIONATE", "PICTURESQUENESS"],
+                "16": ["INCOMPREHENSIBLE", "ELECTROMAGNETISM"],
+                "17": ["NONRESURRECTIONAL", "INDESTRUCTIBILITY"],
+                "18": ["EXTRATHERMODYNAMIC", "SUPERINDIVIDUALISM"],
+                "19": ["COUNTERCONDITIONING", "UNSELFCONSCIOUSNESS"],
+                "20": ["ANTIAUTHORITARIANISM"],
+                "21": ["INDISTINGUISHABLENESS"],
+                "22": ["HYPERCONSCIENTIOUSNESS"],
+                "23": ["ANTHROPOMORPHOLOGICALLY"],
+                "24": ["DISESTABLISHMENTARIANISM"],
+                };
             let isActiveGame = true;
             let playedWords = new Set();
             // let disallowedWords = new Set();
@@ -2333,7 +2572,9 @@
             let bonusCounter = 0;
             let currentWord = "";
             let lastValidWord = "";
+
             let gridSize = 3;
+            let cellSize = 68;
             let grid = [];
             let gridFallback = [];
             let score = 0;
@@ -2351,6 +2592,11 @@
             let noBonusStreak = 0;
             let bestNoBonusStreak = 0;
             let consecutiveBonuses = 0;
+
+            let unlockedMissionTier = 4;          // highest word length revealed
+            let completedMissions = new Set();    // words already completed
+            let openMissions = [];                // derived, not persisted // missions currently open
+            let clickNumber = 0;                 // track clicks for missions help
             let livesLost = 0;
             let totalLives = 3;
             let lastSelectedType = null;
@@ -2358,17 +2604,14 @@
             // let lastUsedGridCell = null; // Track last used cell for invalid move rollback
             let specialModeActive = false; // Track bonus special mode
             let LOCAL_WORDS = null;
+            
+            let allTimeString = 0;
+            let allTimeChain = 0;
+            let allTimeStreak = 0;
+            let allTimeWordLength = 0;
+            let allTimeWord = "";
+            let allTimeSummary = "";
 
-            async function loadLocalWords() {
-                const response = await fetch('assets/merged-wordlists.json');
-                const data = await response.json();
-
-                // Flatten all buckets into one Set
-                LOCAL_WORDS = new Set(
-                    Object.values(data).flatMap(list => list)
-                );
-                console.log(LOCAL_WORDS);
-            }
             //END OF DELARATIONS
 
             //BUTTONS
@@ -2382,7 +2625,7 @@
                 const dropdownHidden = dropdownDiv.style.display === "none";
                 dropdownDiv.style.display = dropdownHidden ? "block" : "none";
                 dropdownToggle.textContent = dropdownHidden ? "^" : "+";
-                getHighScores();
+                // getHighScores();
                 if (rulesDiv.style.display = "block") {
                     rulesDiv.style.display = "none";
                     rulesToggle.textContent = "HOW TO PLAY";
@@ -2494,12 +2737,16 @@
                 }
                 sa_event("new_game");
                 saveHighScore();
-                getHighScores();
+                // getHighScores();
+                updateAllTimeStats();
+                
                 localStorage.removeItem("stringChainState");
                 localStorage.removeItem("isDisqualified");
                 gameID = new Date().toISOString().slice(0, 19).replace('T', ' ');
                 gridSize = 3;
-                dummyBtn1.classList.add("span-0");
+                cellSize = 68;
+                checkPlayAreaMeasurements();
+                missionsBtn.classList.add("span-0");
                 // dummyBtn3.classList.add("span-0");
                 gridRefreshBtn.classList.remove("span-2");
                 grid = [];
@@ -2519,11 +2766,13 @@
                 consecutiveBonuses = 0;
                 // milestonesSummary = "";
                 milestonesBtn.classList.add('hidden');
+                missionsBtn.classList.add('hidden');
                 livesLost = 0;
                 totalLives = 3;
                 playedWords.clear();
                 bonusTicker = '';
                 bonusCounter = 0;
+                clickNumber = 0;
                 // disallowedWords.clear();
                 gridElement.style.pointerEvents = 'auto';
                 wordContainer.style.pointerEvents = 'auto';
@@ -2574,6 +2823,89 @@
                 // }, 4000); // Hide after 8 seconds
             }
 
+
+            missionsBtn.addEventListener('click', () => {
+                missionsModal.classList.remove('hidden');
+                collapseModal.style.display = "block";
+                missionsHelpBtn.style.display = "block";
+                renderMissions();
+            });
+
+
+            missionsHelpBtn.addEventListener('click', () => {
+                if (!missionsHelpBtn.classList.contains('selected')) {
+                    clickNumber = 1;
+                    missionsHelpBtn.classList.add('selected');
+                    missionsHelp.classList.remove('hidden');
+                    missionsHelp.innerHTML = `Complete half of the current level<br>to unlock the next level.<br><br>`;
+                } else if (clickNumber == 1) {
+                    clickNumber = 2;
+                    missionsHelp.innerHTML = `Just make the word<br>to complete the mission.<br><br>`;
+                } else if (clickNumber == 2) {
+                    clickNumber = 3;
+                    missionsHelp.innerHTML = `Missions persist between games.<br>You can undertake them at your leisure.<br><br>`;
+                } else if (clickNumber == 3) {
+                    clickNumber = 0;
+                    missionsHelpBtn.classList.remove('selected');
+                    missionsHelp.classList.add('hidden');
+                    missionsHelp.innerHTML = ``;
+                }
+            });
+
+            missionsModal.addEventListener("click", (e) => {
+                if (e.target === missionsModal) {
+                    missionsModal.classList.add("hidden");
+                    collapseModal.style.display = "none";
+                    missionsHelpBtn.style.display = "none";
+                    topFunction();
+                }
+            });
+
+            function showMissionsModal() {
+                missionsModal.classList.remove('hidden');
+                // setTimeout(() => {
+                //     missionsModal.classList.add('hidden');
+                // }, 4000); // Hide after 8 seconds
+            }
+
+            function updateAllTimeStats() {
+                allTimeString = Math.max(allTimeString, score);
+                allTimeChain = Math.max(allTimeChain, chain);
+                allTimeStreak = Math.max(allTimeStreak, bestNoBonusStreak);
+                if (allTimeWordLength <= currentWord.length) {
+                    allTimeWordLength = currentWord.length;
+                    allTimeWord = currentWord;
+                }
+
+                // allTimeSummary = `<table style="border:none;text-align:center;align-content:center;margin-left:auto;margin-right:auto;">
+                //     <tr>
+                //         <td style="width:50%;border:none;">
+                //             <p class="sq-para1"><span class="rewards2">${allTimeString} string</span></p>
+                //         </td>
+                //         <td style="border:none;">
+                //             <p class="sq-para1"><span class="rewards2">chain ${allTimeChain}</span></p>
+                //         </td>
+                //     </tr>
+                //     <tr style="border:none;">
+                //         <td style="border:none;">
+                //             <p class="sq-para1"><span class="rewards2">${allTimeWordLength} letters</span><br><span class="sq-word">${allTimeWord.toLowerCase()}</span></p>
+                //         </td>
+                //         <td style="border:none;">
+                //             <p class="sq-para1"><span class="rewards2">no-bonus streak of ${allTimeStreak}</span></p>
+                //         </td>
+                //     </tr>
+                // </table>`;
+                allTimeSummary = `<p class="sq-para1" style="font-size:5pt;"><span class="yourBest">${allTimeString} string</span>
+                    <span class="yourBest">chain ${allTimeChain}</span><br>
+                    <br><span class="yourBest">${allTimeWordLength} letters &nbsp;<span class="sq-word"><b>${allTimeWord.toLowerCase()}</b></span></span><br>
+                    <br><span class="yourBest">no-bonus streak of ${allTimeStreak}</span></p>
+                        `;
+                
+                // allTimeBestElement.innerHTML = `<h6>ALL TIME BEST</h6>
+                //     ${allTimeSummary}`;
+                highScoresElement.innerHTML = `<h2>YOUR BEST</h2>
+                    ${allTimeSummary}`;
+            }
 
             //END OF BUTTONS
 
@@ -2844,7 +3176,9 @@
                 if (dropdownDiv.style.display = "block") { dropdownToggle.click() };
                 if (asteriskModal.classList.contains("hidden") == false) { asteriskModal.classList.add("hidden") };
                 collapseModal.style.display = "none";
+                missionsHelpBtn.style.display = "none";
                 milestonesModal.classList.add("hidden");
+                missionsModal.classList.add("hidden");
             });
             //END OF SCROLLING ETC
 
@@ -2920,12 +3254,18 @@
                     bestNoBonusStreak,
                     consecutiveBonuses,
                     streakMilestones, 
-                    milestones, 
-                    playedWords: Array.from(playedWords)
+                    milestones,
+                    unlockedMissionTier,
+                    completedMissions: Array.from(completedMissions),
+                    playedWords: Array.from(playedWords),
+                    allTimeString, allTimeChain, allTimeStreak, allTimeWord, allTimeWordLength
                 };
                 localStorage.setItem("stringChainState", JSON.stringify(gameState));
             }
 
+
+
+            
             // Load and restore directly
             function loadGameState() {
                 // actionBtn.disabled = disqualified; 
@@ -2967,26 +3307,52 @@
                         consecutiveBonuses,
                         streakMilestones, 
                         milestones,
-                        playedWords
+                        unlockedMissionTier,
+                        completedMissions,
+                        playedWords,
+                        allTimeString, allTimeChain, allTimeStreak, allTimeWord, allTimeWordLength
                     } = JSON.parse(saved));
                     // disallowedWords = new Set(disallowedWords);
                     playedWords = new Set(playedWords);
+                    completedMissions = new Set(completedMissions);
                     renderWord();
+                    checkPlayAreaMeasurements();
                     renderGrid();
                     updateHistory();
+                    updateMilestones();
+                    updateAllTimeStats();
                     // updateDisallowedWords();
                     updateBonusButton();
                     updateGridRefreshButton();
-                    showDefinitions(lastValidWord);
+                    // showDefinitions(lastValidWord);
                     updateStatus();
                     loadLocalWords();
-                    if (gridSize == 3) { dummyBtn1.classList.add("span-0"); gridRefreshBtn.classList.remove("span-2"); milestonesBtn.classList.add("hidden"); }
-                    if (gridSize == 4) { dummyBtn1.classList.remove("span-0"); gridRefreshBtn.classList.add("span-2"); milestonesBtn.classList.remove("hidden"); }
+                    if (gridSize == 3) { 
+                        missionsBtn.classList.add("span-0"); 
+                        gridRefreshBtn.classList.remove("span-2"); 
+                        milestonesBtn.classList.add("hidden"); 
+                        missionsBtn.classList.add("hidden");
+                    } else if ((gridSize == 4) && (chain >= 32)) {
+                        gridRefreshBtn.classList.add("span-2"); 
+                        milestonesBtn.classList.remove("hidden");
+                        missionsBtn.classList.remove("span-0"); 
+                        missionsBtn.classList.remove("hidden"); 
+                        missionsBtn.classList.remove("opacity-hide"); 
+                    } else if ((gridSize == 4) && (chain < 32)) { 
+                        missionsBtn.classList.remove("span-0"); 
+                        gridRefreshBtn.classList.add("span-2"); 
+                        milestonesBtn.classList.remove("hidden"); 
+                        missionsBtn.classList.remove("hidden");
+                        missionsBtn.classList.add("opacity-hide"); 
+                    }    
+                    
                     scoreElement.textContent = score;
                     chainElement.textContent = chain;
                     if (specialModeActive == true) {
                         activateSpecialMode();
                     }
+                    updateAllTimeStats();
+
                 } catch (err) {
                     console.error("Error loading saved state", err);
                     newGameBtn.click();
@@ -3042,30 +3408,30 @@
 
                 const byScore = [...stringchainHighScore]
                     .sort((a, b) => b.score - a.score)
-                    .slice(0, 9);
+                    .slice(0, 3);
                 const byChain = [...stringchainHighScore]
                     .sort((a, b) => b.chain - a.chain)
-                    .slice(0, 9);
+                    .slice(0, 3);
 
                 const combined = [...byScore, ...byChain].filter((item, index, self) => index === self.findIndex(g => g.saveTime === item.saveTime));
                 combined.sort((a, b) => b.chain - a.chain);
                 localStorage.setItem('stringchainHighScore', JSON.stringify(combined));
             }
 
-            function getHighScores() {
-                const scoreTableParse = JSON.parse(localStorage.getItem('stringchainHighScore')) || [];
-                let scoreTable = scoreTableParse
-                scoreTable = scoreTable.filter(entry => !(entry.score === 0 && entry.chain === 0));
-                const rows = scoreTable.map(entry => {
-                    const highlightRow = entry.highlight && entry.highlight.trim()
-                        ? `<tr><td colspan="3" class="highlight-reel">${entry.highlight}</td></tr>`
-                        : "";
-                    return `<tr><td>${entry.score}</td><td>${entry.chain}</td><td>${entry.saveTime}</td></tr>${highlightRow}`;
-                }).join('');
+            // function getHighScores() {
+            //     const scoreTableParse = JSON.parse(localStorage.getItem('stringchainHighScore')) || [];
+            //     let scoreTable = scoreTableParse
+            //     scoreTable = scoreTable.filter(entry => !(entry.score === 0 && entry.chain === 0));
+            //     const rows = scoreTable.map(entry => {
+            //         const highlightRow = entry.highlight && entry.highlight.trim()
+            //             ? `<tr><td colspan="3" class="highlight-reel">${entry.highlight}</td></tr>`
+            //             : "";
+            //         return `<tr><td>${entry.score}</td><td>${entry.chain}</td><td>${entry.saveTime}</td></tr>${highlightRow}`;
+            //     }).join('');
 
-                if (!rows) { return };
-                highScoresElement.innerHTML = `<h4>YOUR BEST GAMES</h4><table class = "high-score-table"><tr><th>STRING</th><th>CHAIN</th><th>SAVED</th></tr>${rows}</table>`;
-            }
+            //     if (!rows) { return };
+            //     // highScoresElement.innerHTML = `<h4>BEST GAMES</h4><table class = "high-score-table"><tr><th>STRING</th><th>CHAIN</th><th>SAVED</th></tr>${rows}</table>`;
+            // }
 
 
 
@@ -3368,6 +3734,7 @@
                         // Remove it so it can't trigger again
                         chainMilestones.splice(chainQuestIndex, 1); 
                         // Apply reward 
+                        if (chain == 32) {missionsBtn.classList.remove("hidden"); missionsBtn.classList.remove("opacity-hide"); }
                         if (chain != 128) {
                             milestones.push({ 
                                 word: currentWord, 
@@ -3581,24 +3948,24 @@
                 // <p class="sq-para2">Shooting for:</p>
 
                 let milestoneSummary = `
-                <table style="border:none;width:360px;">
-                    <tr style="border:none;padding:none;">
-                        <td style="border:none;width:50%;padding:2px;margin:0px;">
+                <table style="border:none;justify-content:center;align-content:center;margin:auto;">
+                    <tr style="width:40%;">
+                        <td style="border:none;">
                             <p class="sq-para1"><span class="rewards2">${nextString}+ string</span><br>${nextStringToGo} letters to go</p>
                         </td>
-                        <td style="border:none;width:50%;padding:2px;margin:0px;">
+                        <td style="border:none;">
                             <p class="sq-para1"><span class="rewards2">chain ${nextChain}</span><br>${nextChainToGo} words to go</p>
                         </td>
                     </tr>
-                    <tr style="border:none;padding:none;">
-                        <td style="border:none;width:50%;padding:2px;margin:0px;">
+                    <tr style="width:40%;">
+                        <td style="border:none;">
                             <p class="sq-para1"><span class="rewards2">${nextWordLength} letters</span><br>currently ${currentWord.length}, avg ${avgWordLength} letters</p>
                         </td>
-                        <td style="border:none;width:50%;padding:2px;margin:0px;">
+                        <td style="border:none;">
                             <p class="sq-para1"><span class="rewards2">no-bonus streak of ${nextStreak}</span><br>currently ${noBonusStreak}, best ${bestNoBonusStreak} words</p>
                         </td>
                     </tr>
-                </table>`;
+                </table>`; 
 
                 if (isActiveGame == false) { 
                     milestoneSummary = `<p class="sq-para2">GAME OVER! 
@@ -3636,6 +4003,7 @@
                     const ordinalPenalty = getOrdinal(q.penaltyNumber);
                     headerParts.push(`${ordinalPenalty} penalty - ${q.penaltyReason}`);
                 }
+                if (q.missionQuest) headerParts.push(`mission ⇡⇡`);
 
                 const headerLine =
                         `${headerParts.join(", ")}`
@@ -3751,6 +4119,23 @@
                 }
 
 
+                //MISSION QUEST REWARDS
+                if (q.rewards?.setupMissionQuest || q.rewards?.gridRefreshMissionQuest) {
+                    rewardLines.push(`<span class="rewards">`);
+                }
+                
+                if (q.rewards?.setupMissionQuest) {
+                    // rewardLines.push(`+${q.rewards.setupStreakQuest} makes ${(q.rewards.setupStreakQuest + q.rewards.setupBeforeStreakQuest)} ||`);
+                    rewardLines.push(`+${q.rewards.setupMissionQuest} || `);
+                }
+                if (q.rewards?.gridRefreshMissionQuest) {
+                    // rewardLines.push(`+${q.rewards.gridRefreshStreakQuest} makes # ${(q.rewards.gridRefreshStreakQuest + q.rewards.gridRefreshBeforeStreakQuest)}`);
+                    rewardLines.push(`# +${q.rewards.gridRefreshMissionQuest}`);
+                }
+
+                if (q.rewards?.setupMissionQuest || q.rewards?.gridRefreshMissionQuest) {
+                    rewardLines.push(`</span>`);
+                }
 
 
 
@@ -3784,6 +4169,7 @@
                             map[key].stringQuest ||= quest.stringQuest;
                             map[key].streakQuest ||= quest.streakQuest;
                             map[key].penalty ||= quest.penalty;
+                            map[key].missionQuest ||= quest.missionQuest;
 
                             // preserve max / meaningful values
                             map[key].length = Math.max(map[key].length ?? 0, quest.length ?? 0);
@@ -3810,6 +4196,95 @@
 
                 // streakinfo.innerHTML = `best no-bonus streak is ${bestNoBonusStreak} words`;
             }
+
+
+            function computeOpenMissions() {
+                openMissions = [];
+
+                for (let len = 4; len <= unlockedMissionTier; len++) {
+                    if (!missions[len]) continue;
+
+                    for (const word of missions[len]) {
+                    if (!completedMissions.has(word)) {
+                        openMissions.push(word);
+                    }
+                    }
+                }
+            }
+
+
+            function checkMission(currentWord) {
+                const upper = currentWord.toUpperCase();
+                const len = upper.length;
+
+                // Must be within revealed tiers
+                if (len > unlockedMissionTier) return;
+
+                // Must exist in missions
+                if (!missions[len]?.includes(upper)) return;
+
+                // Must not already be completed
+                if (completedMissions.has(upper)) return;
+
+                // Complete it
+                completedMissions.add(upper);
+                console.log(`Mission completed: ${upper}`);
+                messageElement.textContent = `Mission completed: ${upper}`;
+                milestones.push({
+                                word: currentWord,
+                                missionQuest: true,
+                                chain: chain,
+                                string: score,
+                                length: currentWord.length,
+                                rewards: { setupMissionQuest: currentWord.length, 
+                                    setupBeforeMissionQuest: setupMovesAvailable,
+                                    gridRefreshMissionQuest: currentWord.length, 
+                                    gridRefreshBeforeMissionQuest: gridRefreshBonusesAvailable }
+                            });
+                setupMovesAvailable = currentWord.length + setupMovesAvailable;
+                gridRefreshBonusesAvailable = currentWord.length + gridRefreshBonusesAvailable;
+                // Recalculate unlock condition based on highest open tier only
+                const currentTierWords = missions[unlockedMissionTier];
+                if (!currentTierWords) return;
+
+                const completedInTier = currentTierWords.filter(
+                    word => completedMissions.has(word)
+                ).length;
+
+                if (completedInTier / currentTierWords.length >= 0.5) {
+                    unlockedMissionTier++;
+                }
+
+            }
+
+            function renderMissions() {
+                computeOpenMissions();
+                missionsContent.innerHTML = "<br>";
+
+                for (let len = unlockedMissionTier; len >= 4; len--) {
+                    if (!missions[len]) continue;
+
+                    const items = missions[len]
+                        .map(word => {
+                            const completed = completedMissions.has(word);
+                            return `<span class="missions-display${completed ? " completed" : ""}">${word.toLowerCase()}</span>`;
+                        })
+                        .join(" ");
+
+                    missionsContent.innerHTML += `
+                        ${items}
+                        <br><br>
+                    `;
+                }
+            }
+
+
+
+
+
+
+
+
 
 
             // function renderMilestones() {
@@ -3848,28 +4323,28 @@
                 // renderGrid();
             }
 
-            function showDefinitions(word) {
-                // Fetch up to first 3 definitions and show them
-                fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
-                    .then(res => res.json())
-                    .then(data => {
-                        if (!Array.isArray(data)) throw new Error();
-                        let defs = [];
-                        data.forEach(entry => {
-                            entry.meanings?.forEach(meaning => {
-                                meaning.definitions?.forEach(defObj => {
-                                    if (defs.length < 3) defs.push(defObj.definition);
-                                });
-                            });
-                        });
-                        definitionsElement.innerHTML = defs.length
-                            ? `<strong>${word}</strong>:<br>${defs.map(d => `- ${d}`).join('<br>')}`
-                            : `No definitions found for "${word}".`;
-                    })
-                    .catch(() => {
-                        definitionsElement.textContent = `No definitions found for "${word}".`;
-                    });
-            }
+            // function showDefinitions(word) {
+            //     // Fetch up to first 3 definitions and show them
+            //     fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
+            //         .then(res => res.json())
+            //         .then(data => {
+            //             if (!Array.isArray(data)) throw new Error();
+            //             let defs = [];
+            //             data.forEach(entry => {
+            //                 entry.meanings?.forEach(meaning => {
+            //                     meaning.definitions?.forEach(defObj => {
+            //                         if (defs.length < 3) defs.push(defObj.definition);
+            //                     });
+            //                 });
+            //             });
+            //             definitionsElement.innerHTML = defs.length
+            //                 ? `<strong>${word}</strong>:<br>${defs.map(d => `- ${d}`).join('<br>')}`
+            //                 : `No definitions found for "${word}".`;
+            //         })
+            //         .catch(() => {
+            //             definitionsElement.textContent = `No definitions found for "${word}".`;
+            //         });
+            // }
             //END OF CHANGING STATES
 
 
@@ -4197,12 +4672,30 @@
                 fitWordContainer();
             }
 
+
+
+            function checkPlayAreaMeasurements() {
+                if (gridSize == 3) {
+                    cellSize = 68;
+                } else if (gridSize == 4) {
+                    cellSize = 49;
+                }
+                leftRail.style.gridTemplateRows = `repeat(${gridSize}, ${cellSize}px)`;
+                rightRail.style.gridTemplateRows = `repeat(${gridSize}, ${cellSize}px)`;
+                // scrollBtn.style.height = `${cellSize}px`;
+                // missionsHelpBtn.style.height = `${cellSize}px`;
+                // collapseModal.style.height = `${cellSize}px`;
+            }
+
+
             function renderGrid() {
                 // maybePlaceAsterisk();
                 gridElement.innerHTML = '';
-                // gridElement.style.gridTemplateColumns = `repeat(${gridSize}, 45px)`;
-                gridElement.style.gridTemplateColumns = `repeat(${gridSize}, 45px)`;
-                // gridElement.style.gridTemplateRows = `repeat(${gridSize}, var(--cell-size)px)`;
+                gridElement.style.gridTemplateRows = `repeat(${gridSize}, ${cellSize}px)`;
+                gridElement.style.gridTemplateColumns = `repeat(${gridSize}, ${cellSize}px)`;
+                gridElement.style.gridTemplateColumns = `repeat(${gridSize}, ${cellSize}px)`;
+                gridElement.style.rowGap = 'var(--gap)';
+                gridElement.style.columnGap = 'var(--gap)';
 
                 for (let r = 0; r < gridSize; r++) {
                     for (let c = 0; c < gridSize; c++) {
@@ -4391,14 +4884,18 @@
 
                     gridSize = 4;
                     grid = newGrid;
-                    // dummyBtn1.classList.remove("span-0");
-                    dummyBtn1.classList.remove("span-0");
+                    checkPlayAreaMeasurements();
+                    // missionsBtn.classList.remove("span-0");
+                    if (chain < 32) { missionsBtn.classList.add("opacity-hide"); missionsBtn.classList.remove("hidden");}
                     // dummyBtn3.classList.remove("span-0");
                     gridRefreshBtn.classList.add("span-2");
 
                     playedWords.add("(4x4)");
                     updateHistory();
                     milestonesBtn.classList.remove("hidden");
+                    // missionsBtn.classList.remove("hidden");
+                    missionsBtn.classList.remove("span-0");
+
                     wordLengthMilestones.splice(0, 1);
                     milestones.push({
                             word: currentWord,
@@ -4544,7 +5041,7 @@
                     clearSpecialMode(); // Nov 4 EDIT
                     greenAnimation();
                     playAnimation();
-                    showDefinitions(lower);
+                    // showDefinitions(lower);
                     replenishGrid();
                     historyElement.scrollTo({ top: 0, behavior: 'smooth' });
                     gridFallback = grid;
@@ -4552,12 +5049,16 @@
                     bestNoBonusStreak = Math.max(bestNoBonusStreak, noBonusStreak);
                     consecutiveBonuses = 0;
                     updateMilestones();
+                    updateAllTimeStats();
                     updateStatus();
+                    checkMission(currentWord);
                     saveGameState();
                     return;
                 }
 
                 fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${lower}`)
+
+                // fetch(`https://en.wiktionary.org/w/api.php?action=parse&page=${lower}&prop=wikitext&format=json&origin=*`)
                     // fetch(`https://cors.isomorphic-git.org/https://api.dictionaryapi.dev/api/v2/entries/en/${lower}`)
                     .then(res => {
                         if (!res.ok) throw new Error();
@@ -4588,7 +5089,7 @@
                         clearSpecialMode(); // SEP 1 EDIT
                         greenAnimation();
                         playAnimation();
-                        showDefinitions(lower);
+                        // showDefinitions(lower);
                         replenishGrid();
                         historyElement.scrollTo({ top: 0, behavior: 'smooth' });
                         gridFallback = grid;
@@ -4596,7 +5097,9 @@
                         bestNoBonusStreak = Math.max(bestNoBonusStreak, noBonusStreak);
                         consecutiveBonuses = 0;
                         updateMilestones();
+                        updateAllTimeStats();
                         updateStatus();
+                        checkMission(currentWord);
                         saveGameState();
                         showTemporaryMessage();
                         return;
