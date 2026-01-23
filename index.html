@@ -2740,7 +2740,7 @@
                 // getHighScores();
                 updateAllTimeStats();
                 
-                localStorage.removeItem("stringChainState");
+                localStorage.removeItem("stringchainStateV2");
                 localStorage.removeItem("isDisqualified");
                 gameID = new Date().toISOString().slice(0, 19).replace('T', ' ');
                 gridSize = 3;
@@ -3260,20 +3260,26 @@
                     playedWords: Array.from(playedWords),
                     allTimeString, allTimeChain, allTimeStreak, allTimeWord, allTimeWordLength
                 };
-                localStorage.setItem("stringChainState", JSON.stringify(gameState));
+                localStorage.setItem("stringchainStateV2", JSON.stringify(gameState));
             }
 
 
 
-            
+
             // Load and restore directly
             function loadGameState() {
                 // actionBtn.disabled = disqualified; 
+                const saved = localStorage.getItem("stringchainStateV2");
+
+                if (!saved) {
+                    newGameBtn.click();
+                    return;
+                }                
+                
                 if (disqualified) {
                     newGameBtn.click();
                     return;
                 }
-                const saved = localStorage.getItem("stringChainState");
 
                 if (!saved) {
                     newGameBtn.click();
@@ -4314,7 +4320,7 @@
             // }
 
             function rollbackGrid() {
-                const savedGridState = localStorage.getItem("stringChainState");
+                const savedGridState = localStorage.getItem("stringchainStateV2");
                 const gridState = JSON.parse(savedGridState);
                 grid = gridState.grid;
                 gridSize = gridState.gridSize;
