@@ -2872,9 +2872,9 @@
                 allTimeString = Math.max(allTimeString, score);
                 allTimeChain = Math.max(allTimeChain, chain);
                 allTimeStreak = Math.max(allTimeStreak, bestNoBonusStreak);
-                if (allTimeWordLength <= currentWord.length) {
-                    allTimeWordLength = currentWord.length;
-                    allTimeWord = currentWord;
+                if (allTimeWordLength <= lastValidWord.length) {
+                    allTimeWordLength = lastValidWord.length;
+                    allTimeWord = lastValidWord;
                 }
 
                 // allTimeSummary = `<table style="border:none;text-align:center;align-content:center;margin-left:auto;margin-right:auto;">
@@ -3277,11 +3277,6 @@
                 }                
                 
                 if (disqualified) {
-                    newGameBtn.click();
-                    return;
-                }
-
-                if (!saved) {
                     newGameBtn.click();
                     return;
                 }
