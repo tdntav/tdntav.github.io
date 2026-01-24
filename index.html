@@ -4260,6 +4260,7 @@
 
                 if (completedInTier / currentTierWords.length >= 0.5) {
                     unlockedMissionTier++;
+                    sa_event(`mission_${unlockedMissionTier}`);
                 }
 
             }
