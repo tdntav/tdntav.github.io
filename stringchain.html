@@ -53,7 +53,7 @@
         }
 
 /* #REGION OUTLINE TESTING - REMOVE LATER */    
-        /*         
+        /*                         
         * { outline: 2px dotted red }
         * * { outline: 2px dotted green }
         * * * { outline: 2px dotted orange }
@@ -192,7 +192,7 @@
             --rounding-small: 4px;
 
             --bg: #312;
-            --text: #fde;
+            --text: #cab;
 
             --accent: #645;
             --accent-text: #cab;
@@ -489,7 +489,7 @@
 
             --selected-cell: #055;
             --selected-text: var(--text);
-            --selected-border: 2px solid var(--selected-cell);
+            --selected-border: 2px solid var(--text);
         }
 
         .hi-contrast {
@@ -977,15 +977,59 @@
             height: 49px;
         }
 
+
+
+
+
+
+        .button-row2 {
+            display: flex;
+            gap: none;
+            justify-content: center;
+            width: 360px;
+            /* flex-wrap: wrap; */
+            z-index: 1;
+        }
         .newgame {
             box-sizing: border-box;
-            width: 360px;     
+            width: 50%;
             padding: var(--gap);
             margin: var(--gap) 0px;
             display: block;
             background-image: linear-gradient(to right, var(--text), var(--accent), var(--accent-text));
             border: 2px solid var(--accent-text);
             height: 49px;
+        }
+        .search-played {
+            box-sizing: border-box;
+            width: 50%;
+            display: block;
+            padding: var(--gap);
+            margin: var(--gap) 0px;
+            /* background-image: linear-gradient(to left, var(--text), var(--accent), var(--accent-text)); */
+            background:var(--accent);
+            color:var(--accent-text);
+            /* border: 2px solid var(--accent-text); */
+            border:none;
+            height: 49px;
+            border-radius: var(--rounding);
+            text-align:center;
+        }
+
+        .search-results {
+            box-sizing: border-box;
+            position:absolute;
+            top:0;
+            width:360px;
+            /* top:200px; */
+            background:var(--bg);
+            overflow-y: auto;
+            overflow-x: auto;
+            /* min-height:0px; */
+            height:224px;
+            /* padding:10px; */
+            opacity:95%;
+            /* z-index:50; */
         }
 
         .help {
@@ -1006,7 +1050,7 @@
             background: var(--bg);
             color: var(--text);
             margin-top: 15px;
-            min-height: 40px;
+            min-height: 20px;
             min-width: 40px;
             opacity: 50%;
         }
@@ -1405,12 +1449,13 @@
             background: var(--accent);
             color: var(--accent-text);
             /* background-image: linear-gradient(to bottom, var(--accent), var(--bg));  */
-
+            box-sizing: border-box;
             padding-block: 12px;
             padding-inline:0px;
             border-radius: var(--rounding);
             border: var(--accent) solid 2px;
             text-align: center;
+            
             /* overflow-y:scroll; */
 
             /* CHANGE 1: Remove scrolling from here */
@@ -1503,7 +1548,9 @@
             /* height:auto; */
         }
 
-
+        .gap{
+            width:var(--gap);
+        }
 
         .missions-help-btn {
             display: none;
@@ -1600,7 +1647,7 @@
             display: grid;
             /* line-height: 0.1;  */
             grid-template-columns: repeat(7, 1fr);
-            gap: 5px;
+            gap: 7px;
             margin: 20px 0px;
             align-items: center;
             justify-content: center;
@@ -1615,8 +1662,8 @@
             /* cursor: pointer; */
             border: var(--gridcell-border);
             color: var(--gridcell-text);
-            width: 42px;
-            height: var(--cell-size);
+            width: 44px;
+            height: 44px;
             font-size: 18pt;
             display: flex;
             align-items: center;
@@ -1644,6 +1691,7 @@
             /* scroll-behavior: initial;             */
             border-radius: var(--rounding);
             width:344px;
+            height:300px;
             padding: 0px 28px 48px 28px;
             align-self:center;
         }
@@ -1843,7 +1891,7 @@
 
 
         .rewards2 {
-            font-size: 11pt;
+            font-size: 12pt;
             /* color: var(--text); */
             /* margin-top: 10px; */
             border-radius: var(--rounding);
@@ -1854,6 +1902,24 @@
             background: var(--text);
             color: var(--bg);
         }
+
+
+        .yourBest {
+            font-size: 13pt;
+            /* color: var(--text); */
+            /* margin-top: 10px; */
+            border-radius: var(--rounding);
+            /* border: 1px solid var(--disabled); */
+            padding-block: 0px;
+            padding-inline: 8px;
+            margin-inline: 2px;
+            background: var(--accent);
+            color: var(--accent-text);
+        }
+
+
+
+
 
         .missions-display {
             font-family: "Courier New", monospace;
@@ -1882,7 +1948,7 @@
 
     <!-- <div style="height:60px;"><br></div> -->
     <div id="dropdown" style="display:none;">
-        <h1>stringchain</h1>
+        <h1>stringchain.fyi</h1>
         <button id="themeToggle" class="help-dark">change</button> <button id="toggle-rules" class="help-dark">HOW TO
             PLAY</button> <button id="aboutBtn" class="help-dark">about</button>
 
@@ -1893,7 +1959,7 @@
             <div class="demo-div">
                 <!-- EXAMPLE 1: SWAP -->
                 <div class="demo-board">
-                    <p class="demo-para">Swap two <b><i>word</i></b> letters by selecting both.</p>
+                    <p class="demo-para">Swap two <b><i>word</i></b> letters<br>by selecting both.</p>
                     <div class="word-container demoscale">
                         <div class="insert-slot demo-cell"></div>
                         <div class="letter demo-cell selected">M</div>
@@ -1905,7 +1971,7 @@
                         <div class="letter demo-cell">E</div>
                         <div class="insert-slot demo-cell"></div>
                     </div>
-                    <p class="demo-para">Hit the <b><i>PLAY</i></b> button to complete the move.<br><br></p>
+                    <p class="demo-para">Hit the <b><i>PLAY</i></b> button<br>to complete the move.<br><br></p>
                     <!-- <div class="button-row demo demoscale"> 
                         <button class="bonusBtn disabled" style="border:2px solid transparent;">||</button>
                         <button class="actionBtn" style="border:var(--selected-border);">PLAY</button>
@@ -2067,7 +2133,7 @@
                         <div class="grid-cell-demo">E</div>
                         <div class="grid-cell-demo selected">T</div>
                     </div>
-                    <p class="demo-para">Engage <b><i>PLAY</i></b> to make it so<br><br></p>
+                    <p class="demo-para">Engage <b><i>PLAY</i></b> to make it so.<br><br></p>
 
                     <div class="word-container demoscale" style="width:75%;margin-top:5px;border:4px solid var(--positive-feedback);">
                         <div class="insert-slot demo-cell selected"></div>
@@ -2170,7 +2236,7 @@
                         <div class="grid-cell-demo">O</div>
                         <div class="grid-cell-demo">W</div>
                     </div>
-                    <p class="demo-para"><br>To use one, select a move as normal but<br>hit the <b>||</b> button
+                    <p class="demo-para"><br>To use one, select a move as normal but<br>hit the <b>|| <i>SETUP</i></b> button
                         instead of <b><i>PLAY</i></b>.<br><br><br>
                     </p>
                     <div class="button-row demo demoscale"> <button class="bonusBtn"
@@ -2362,9 +2428,24 @@
     </tr>
 </table> -->
     <!-- <div id="status">...</div> -->
-
-    <div class="game-area"> <!-- Fixed width matching your history area -->
-
+<!-- <div id="searchModal" class="modal" style="display:none;"> -->
+    <!-- <div id="searchModal" class="search-results hidden">
+        <div>
+            <div id="searchResults" style="width:360px;text-align:center;line-height: 70%;">
+                <div id="sectionStartsWith"></div>
+                <div id="sectionContains"></div>
+            </div>
+        </div>
+    </div> -->
+    <div class="game-area" style="position:relative;"> <!-- Fixed width matching your history area -->
+        <div id="searchModal" class="search-results hidden">
+            <div>
+                <div id="searchResults" style="width:360px;text-align:center;line-height: 70%;">
+                    <div id="sectionStartsWith"></div>
+                    <div id="sectionContains"></div>
+                </div>
+            </div>
+        </div>
         <div id="play-grid-layout" class="play-grid-layout">
 
             <div id="left-rail" class="rail left-rail">
@@ -2394,7 +2475,11 @@
     <div id="history"></div>
     <!-- <div id="disallowed"></div> -->
 
-    <button id="newGameBtn" class="newgame">RESTART</button>
+    <div class="button-row2">
+        <button id="newGameBtn" class="newgame">RESTART</button>
+        <span class="gap"></span>
+        <input type="text" id="searchInput" class="search-played" placeholder="search played" autocomplete="off">
+    </div>
 
     <div id="definitions" class="hidden"></div>
     <!-- <button id="scrollBtn" class="scrollBtn">^</button> -->
@@ -2403,12 +2488,11 @@
         <div class="modal-wildcard">
             <h6>* WILDCARD *</h6>
                 <div class="alphagrid-1">
-                <p class="demo-para opacity-hide" style="text-align:left;font-size:13pt;" id="wildcard-1">
-                    <br>Pick a letter...
+                <p class="demo-para opacity-hide" style="font-size:13pt;" id="wildcard-1">
+                    <br>Pick a letter or save for later
                 </p>
                 <div class="alpha-grid"></div>
-                <p class="demo-para opacity-hide" style="text-align:right;font-size:13pt;" id="wildcard-2">...or save for
-                    later</p>
+                <!-- <p class="demo-para opacity-hide" style="text-align:right;font-size:13pt;" id="wildcard-2">...or save for later</p> -->
                 </div>
             <!-- First wildcard when chain reaches 128, another for every additional 32 words. They appear when grid rows and columns are cleared.<br><br> -->
             <p class="demo-para hidden" style="justify-content:center;font-size:12pt;" id="wildcard-3">
@@ -2453,6 +2537,8 @@
 </div>
 
 <!--#endregion Missions Modal -->
+
+
 
 
 
@@ -2607,7 +2693,7 @@
                 const dropdownHidden = dropdownDiv.style.display === "none";
                 dropdownDiv.style.display = dropdownHidden ? "block" : "none";
                 dropdownToggle.textContent = dropdownHidden ? "^" : "+";
-                getHighScores();
+                // getHighScores();
                 if (rulesDiv.style.display = "block") {
                     rulesDiv.style.display = "none";
                     rulesToggle.textContent = "HOW TO PLAY";
@@ -2719,10 +2805,10 @@
                 }
                 sa_event("new_game");
                 saveHighScore();
-                getHighScores();
+                // getHighScores();
                 updateAllTimeStats();
                 
-                localStorage.removeItem("stringChainState");
+                localStorage.removeItem("stringchainStateV2");
                 localStorage.removeItem("isDisqualified");
                 gameID = new Date().toISOString().slice(0, 19).replace('T', ' ');
                 gridSize = 3;
@@ -2854,9 +2940,9 @@
                 allTimeString = Math.max(allTimeString, score);
                 allTimeChain = Math.max(allTimeChain, chain);
                 allTimeStreak = Math.max(allTimeStreak, bestNoBonusStreak);
-                if (allTimeWordLength <= currentWord.length) {
-                    allTimeWordLength = currentWord.length;
-                    allTimeWord = currentWord;
+                if (allTimeWordLength <= lastValidWord.length) {
+                    allTimeWordLength = lastValidWord.length;
+                    allTimeWord = lastValidWord;
                 }
 
                 // allTimeSummary = `<table style="border:none;text-align:center;align-content:center;margin-left:auto;margin-right:auto;">
@@ -2877,10 +2963,10 @@
                 //         </td>
                 //     </tr>
                 // </table>`;
-                allTimeSummary = `<p class="sq-para1" style="font-size:5pt;"><span class="rewards2">${allTimeString} string</span>
-                    <span class="rewards2">chain ${allTimeChain}</span><br>
-                    <br><span class="rewards2">${allTimeWordLength} letters: <span class="sq-word">${allTimeWord.toLowerCase()}</span></span><br>
-                    <br><span class="rewards2">no-bonus streak of ${allTimeStreak}</span></p>
+                allTimeSummary = `<p class="sq-para1" style="font-size:5pt;"><span class="yourBest">${allTimeString} string</span>
+                    <span class="yourBest">chain ${allTimeChain}</span><br>
+                    <br><span class="yourBest">${allTimeWordLength} letters &nbsp;<span class="sq-word"><b>${allTimeWord.toLowerCase()}</b></span></span><br>
+                    <br><span class="yourBest">no-bonus streak of ${allTimeStreak}</span></p>
                         `;
                 
                 // allTimeBestElement.innerHTML = `<h6>ALL TIME BEST</h6>
@@ -2890,6 +2976,106 @@
             }
 
             //END OF BUTTONS
+
+
+
+
+
+
+            function searchPlayedWords(query) {
+                const q = query.toLowerCase().trim();
+                if (q.length === 0) return { startsWith: [], contains: [] };
+
+                // Convert to Array just in case it's a Set, and default to [] if null
+                const wordsArray = Array.from(playedWords || []);
+
+                const startsWith = wordsArray.filter(word => word.toLowerCase().startsWith(q));
+                
+                const contains = wordsArray.filter(word => 
+                    word.toLowerCase().includes(q) && !word.toLowerCase().startsWith(q)
+                );
+
+                return { startsWith, contains };
+                console.log({ startsWith, contains });
+            }
+
+
+            const searchInput = document.getElementById('searchInput');
+            const searchModal = document.getElementById('searchModal');
+
+            // function openSearch() {
+            //     document.getElementById('searchModal').style.display = 'block';
+            //     // Small timeout ensures the modal is visible before requesting focus
+            //     setTimeout(() => searchInput.focus(), 50); 
+            // }
+
+            // searchInput.addEventListener('input', (e) => {
+            //     const results = searchPlayedWords(e.target.value);
+            //     renderResults(results);
+            //     if (e.target.value) {searchModal.classList.remove('hidden');
+            //     }
+            //     if (!e.target.value) {searchModal.classList.add('hidden');}
+            //     if (e.target.value.trim() === '') {
+            //         searchModal.classList.add('hidden');
+            //     }
+            // });
+
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.trim().toLowerCase();
+                
+                // 1. If the input is empty, hide the modal and stop
+                if (!query) {
+                    searchModal.classList.add('hidden');
+                    return;
+                }
+
+                // 2. Get your results
+                const results = searchPlayedWords(query);
+
+                // 3. Only show the modal if we actually found words
+                if (results.startsWith.length > 0 || results.contains.length > 0) {
+                    renderResults(results); // Fill the modal with the words
+                    searchModal.classList.remove('hidden');
+                } else {
+                    // Optional: Hide if no matches, or show a "No matches" message
+                    searchModal.classList.add('hidden'); 
+                }
+            });
+
+            function renderResults({ startsWith, contains }) {
+                const startDiv = document.getElementById('sectionStartsWith');
+                const containDiv = document.getElementById('sectionContains');
+
+                if (startsWith.length > 0) {
+                    const firstMatch = startsWith[0];
+                    highlightPlayed(firstMatch); 
+                } else if (contains.length > 0) {
+                    // Fallback: if no 'starts with' matches, highlight the first 'contains' match
+                    highlightPlayed(contains[0]);
+                }
+                startDiv.innerHTML = startsWith.length ? `` + 
+                    startsWith.map(w => `<span class="rewards2">${w}</span>`).join(' ') : '';
+
+                containDiv.innerHTML = contains.length ? `` + 
+                    contains.map(w => `<span class="rewards">${w}</span>`).join(' ') : '';
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             //ANIMATIONS AND HIGHLIGHTS
 
@@ -2907,55 +3093,44 @@
             // }
 
             function highlightPlayed(currentWord) {
-    const safeWord = currentWord.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const regex = new RegExp(`\\b${safeWord}\\b`, 'gi');
+                const safeWord = currentWord.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                const regex = new RegExp(`\\b${safeWord}\\b`, 'gi');
 
-    // Replace and mark
-    historyElement.innerHTML = historyElement.innerHTML.replace(
-        regex,
-        '<mark class="highlight">$&</mark>'
-    );
+                // Replace and mark
+                historyElement.innerHTML = historyElement.innerHTML.replace(
+                    regex,
+                    '<mark class="highlight">$&</mark>'
+                );
 
-    const marks = historyElement.querySelectorAll('mark.highlight');
-    if (!marks.length) return;
+                const marks = historyElement.querySelectorAll('mark.highlight');
+                if (!marks.length) return;
 
-    // Always target the most recent occurrence
-    const target = marks[marks.length - 1];
+                // Always target the most recent occurrence
+                const target = marks[marks.length - 1];
 
-    const containerRect = historyElement.getBoundingClientRect();
-    const targetRect = target.getBoundingClientRect();
+                const containerRect = historyElement.getBoundingClientRect();
+                const targetRect = target.getBoundingClientRect();
 
-    // const offset =
-    //     targetRect.top
-    //     - containerRect.top
-    //     - historyElement.clientHeight / 2
-    //     + target.offsetHeight / 2;
+                const destination =
+                        historyElement.scrollTop +
+                        (targetRect.top - containerRect.top) -
+                        (containerRect.height / 2) +
+                        (targetRect.height / 2);
 
-    // historyElement.scrollTo({
-    //     top: historyElement.scrollTop + offset,
-    //     behavior: 'smooth'
-    // });
+                historyElement.scrollTo({
+                    top: Math.max(0, destination),
+                    behavior: 'smooth'
+                });
 
-        const destination =
-            historyElement.scrollTop +
-            (targetRect.top - containerRect.top) -
-            (containerRect.height / 2) +
-            (targetRect.height / 2);
-
-    historyElement.scrollTo({
-        top: Math.max(0, destination),
-        behavior: 'smooth'
-    });
-
-    // Remove highlight after 20s
-    marks.forEach(mark => {
-        setTimeout(() => {
-            if (mark.isConnected) {
-                mark.replaceWith(mark.textContent);
+                // Remove highlight after 20s
+                marks.forEach(mark => {
+                    setTimeout(() => {
+                        if (mark.isConnected) {
+                            mark.replaceWith(mark.textContent);
+                        }
+                    }, 2000);
+                });
             }
-        }, 20000);
-    });
-}
 
 
 
@@ -3242,19 +3417,23 @@
                     playedWords: Array.from(playedWords),
                     allTimeString, allTimeChain, allTimeStreak, allTimeWord, allTimeWordLength
                 };
-                localStorage.setItem("stringChainState", JSON.stringify(gameState));
+                localStorage.setItem("stringchainStateV2", JSON.stringify(gameState));
             }
+
+
+
 
             // Load and restore directly
             function loadGameState() {
                 // actionBtn.disabled = disqualified; 
-                if (disqualified) {
-                    newGameBtn.click();
-                    return;
-                }
-                const saved = localStorage.getItem("stringChainState");
+                const saved = localStorage.getItem("stringchainStateV2");
 
                 if (!saved) {
+                    newGameBtn.click();
+                    return;
+                }                
+                
+                if (disqualified) {
                     newGameBtn.click();
                     return;
                 }
@@ -3397,20 +3576,20 @@
                 localStorage.setItem('stringchainHighScore', JSON.stringify(combined));
             }
 
-            function getHighScores() {
-                const scoreTableParse = JSON.parse(localStorage.getItem('stringchainHighScore')) || [];
-                let scoreTable = scoreTableParse
-                scoreTable = scoreTable.filter(entry => !(entry.score === 0 && entry.chain === 0));
-                const rows = scoreTable.map(entry => {
-                    const highlightRow = entry.highlight && entry.highlight.trim()
-                        ? `<tr><td colspan="3" class="highlight-reel">${entry.highlight}</td></tr>`
-                        : "";
-                    return `<tr><td>${entry.score}</td><td>${entry.chain}</td><td>${entry.saveTime}</td></tr>${highlightRow}`;
-                }).join('');
+            // function getHighScores() {
+            //     const scoreTableParse = JSON.parse(localStorage.getItem('stringchainHighScore')) || [];
+            //     let scoreTable = scoreTableParse
+            //     scoreTable = scoreTable.filter(entry => !(entry.score === 0 && entry.chain === 0));
+            //     const rows = scoreTable.map(entry => {
+            //         const highlightRow = entry.highlight && entry.highlight.trim()
+            //             ? `<tr><td colspan="3" class="highlight-reel">${entry.highlight}</td></tr>`
+            //             : "";
+            //         return `<tr><td>${entry.score}</td><td>${entry.chain}</td><td>${entry.saveTime}</td></tr>${highlightRow}`;
+            //     }).join('');
 
-                if (!rows) { return };
-                // highScoresElement.innerHTML = `<h4>BEST GAMES</h4><table class = "high-score-table"><tr><th>STRING</th><th>CHAIN</th><th>SAVED</th></tr>${rows}</table>`;
-            }
+            //     if (!rows) { return };
+            //     // highScoresElement.innerHTML = `<h4>BEST GAMES</h4><table class = "high-score-table"><tr><th>STRING</th><th>CHAIN</th><th>SAVED</th></tr>${rows}</table>`;
+            // }
 
 
 
@@ -3923,33 +4102,38 @@
                 const nextChainToGo = nextChain - chain;
                 const nextWordLength = `${wordLengthMilestones[0]}, ${wordLengthMilestones[1]}, ${wordLengthMilestones[2]}, ${wordLengthMilestones[3]}`; // show next 4 word lengths
                 const nextStreak = streakMilestones[0];
-                const avgWordLength = Math.round(100 * score / chain) / 100;
+                const avgWordLength = Math.round(10 * score / chain) / 10;
                 // <p class="sq-para2">Shooting for:</p>
 
                 let milestoneSummary = `
-                <table style="border:none;justify-content:center;align-content:center;margin:auto;">
-                    <tr style="width:40%;">
-                        <td style="border:none">
-                            <p class="sq-para1"><span class="rewards2">${nextString}+ string</span><br>${nextStringToGo} letters to go</p>
+                <table style="border:none;justify-content:center;align-content:center;align-self:center;margin:none;padding:none;width:100%;">
+                    <tr style="width:51%;">
+                        <td style="border:none;margin:none;padding:none;">
+                            <p class="sq-para1" style="border:none;margin:none;padding:none;"><span class="rewards2">${nextString}+ string</span><br>${nextStringToGo} letters to go</p>
                         </td>
-                        <td style="border:none;">
-                            <p class="sq-para1"><span class="rewards2">chain ${nextChain}</span><br>${nextChainToGo} words to go</p>
-                        </td>
-                    </tr>
-                    <tr style="width:40%;">
-                        <td style="border:none">
-                            <p class="sq-para1"><span class="rewards2">${nextWordLength} letters</span><br>currently ${currentWord.length}, avg ${avgWordLength} letters</p>
-                        </td>
-                        <td style="border:none">
-                            <p class="sq-para1"><span class="rewards2">no-bonus streak of ${nextStreak}</span><br>currently ${noBonusStreak}, best ${bestNoBonusStreak} words</p>
+                        <td style="border:none;margin:none;padding:none;">
+                            <p class="sq-para1" style="border:none;margin:none;padding:none;"><span class="rewards2">chain ${nextChain}</span><br>${nextChainToGo} words to go</p>
                         </td>
                     </tr>
-                </table>`;
+                    <tr style="width:51%;">
+                        <td style="border:none;margin:none;padding:none;">
+                            <p class="sq-para1" style="border:none;margin:none;padding:none;"><span class="rewards2">${nextWordLength} letters</span><br>currently ${currentWord.length}, avg ${avgWordLength} letters</p>
+                        </td>
+                        <td style="border:none;margin:none;padding:none;">
+                            <p class="sq-para1" style="border:none;margin:none;padding:none;"><span class="rewards2">no-bonus streak of ${nextStreak}</span><br>currently ${noBonusStreak}, best ${bestNoBonusStreak} words</p>
+                        </td>
+                    </tr>
+                </table>`; 
+
+                // let milestoneSummary = `
+                // <p class="sq-para1" style="font-size:11pt;"><br>${nextStringToGo} letters to go <span class="rewards2">${nextString}+ string</span><br></p>
+                // <p class="sq-para1" style="font-size:11pt;"><span class="rewards2">chain ${nextChain}</span> ${nextChainToGo} words to go<br></p>
+                // <p class="sq-para1" style="font-size:11pt;">currently ${noBonusStreak}, best ${bestNoBonusStreak} words <span class="rewards2">no-bonus streak of ${nextStreak}</span><br></p>
+                // <p class="sq-para1" style="font-size:11pt;"><span class="rewards2">${nextWordLength} letters</span> currently ${currentWord.length}, avg ${avgWordLength} letters<br><br></p>
+                // `; 
 
                 if (isActiveGame == false) { 
-                    milestoneSummary = `<p class="sq-para2">GAME OVER! 
-                    <br>${score} string chain ${chain}
-                    <br>best no-bonus streak of ${bestNoBonusStreak}</p>`;
+                    milestoneSummary = `<p class="sq-para2"><br><span class="rewards2">GAME OVER!</span><br><br></p>`
                 }
                 
                 document.getElementById("nextMilestoneInfo").innerHTML = milestoneSummary;
@@ -3982,7 +4166,7 @@
                     const ordinalPenalty = getOrdinal(q.penaltyNumber);
                     headerParts.push(`${ordinalPenalty} penalty - ${q.penaltyReason}`);
                 }
-                if (q.missionQuest) headerParts.push(`mission✧✧`);
+                if (q.missionQuest) headerParts.push(`mission ⇡⇡`);
 
                 const headerLine =
                         `${headerParts.join(", ")}`
@@ -4232,6 +4416,7 @@
 
                 if (completedInTier / currentTierWords.length >= 0.5) {
                     unlockedMissionTier++;
+                    sa_event(`mission_${unlockedMissionTier}`);
                 }
 
             }
@@ -4293,7 +4478,7 @@
             // }
 
             function rollbackGrid() {
-                const savedGridState = localStorage.getItem("stringChainState");
+                const savedGridState = localStorage.getItem("stringchainStateV2");
                 const gridState = JSON.parse(savedGridState);
                 grid = gridState.grid;
                 gridSize = gridState.gridSize;
@@ -4395,7 +4580,7 @@
                     //show basic instruction
                     if (wildcardOne.classList.contains('opacity-hide') && wildcardThree.classList.contains('hidden')) {
                         wildcardOne.classList.remove('opacity-hide');
-                        wildcardTwo.classList.remove('opacity-hide');
+                        // wildcardTwo.classList.remove('opacity-hide');
                         helpBtn.classList.add("selected");   // when showing instructions
                         return;
                     }
@@ -4410,7 +4595,7 @@
                     // Hide all info if already shown
                     if (!wildcardOne.classList.contains('opacity-hide') && !wildcardThree.classList.contains('hidden')) {
                         wildcardOne.classList.add('opacity-hide');
-                        wildcardTwo.classList.add('opacity-hide');
+                        // wildcardTwo.classList.add('opacity-hide');
                         wildcardThree.classList.add('hidden');
                         helpBtn.classList.remove("selected");   // when showing instructions
                         return;
