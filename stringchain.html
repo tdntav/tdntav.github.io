@@ -1019,17 +1019,20 @@
 
         .search-results {
             box-sizing: border-box;
+            display:flex;
             position:absolute;
             top:0;
             width:360px;
             /* top:200px; */
             background:var(--bg);
             overflow-y: auto;
-            overflow-x: auto;
+            /* overflow-x: auto; */
             /* min-height:0px; */
             height:224px;
             /* padding:10px; */
-            opacity:95%;
+            opacity:97%;
+            /* align-items: bottom; */
+            vertical-align: text-bottom;
             /* z-index:50; */
         }
 
@@ -2440,10 +2443,10 @@
     </div> -->
     <div class="game-area" style="position:relative;"> <!-- Fixed width matching your history area -->
         <div id="searchModal" class="search-results hidden">
-            <div>
+            <div style="align-content:end;margin:none;padding:none;">
                 <div id="searchResults" style="width:360px;text-align:center;line-height: 70%;">
-                    <div id="sectionStartsWith"></div>
                     <div id="sectionContains"></div>
+                    <div id="sectionStartsWith"></div>
                 </div>
             </div>
         </div>
@@ -2473,14 +2476,15 @@
 
         </div>
     </div>
-    <div id="history"></div>
-    <!-- <div id="disallowed"></div> -->
-
     <div class="button-row2">
         <button id="newGameBtn" class="newgame">RESTART</button>
         <span class="gap"></span>
         <input type="text" id="searchInput" class="search-played" placeholder="search played" autocomplete="off">
     </div>
+
+    <div id="history"></div>
+    <!-- <div id="disallowed"></div> -->
+
 
     <div id="definitions" class="hidden"></div>
     <!-- <button id="scrollBtn" class="scrollBtn">^</button> -->
@@ -3054,6 +3058,10 @@
                     // Fallback: if no 'starts with' matches, highlight the first 'contains' match
                     highlightPlayed(contains[0]);
                 }
+                
+                
+                
+
                 startDiv.innerHTML = startsWith.length ? `` + 
                     startsWith.map(w => `<span class="rewards2">${w}</span>`).join(' ') : '';
 
