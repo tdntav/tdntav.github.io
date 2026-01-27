@@ -994,6 +994,7 @@
         .newgame {
             box-sizing: border-box;
             width:50%;
+            font-size:16px;
             padding: var(--gap);
             margin: var(--gap) 0px;
             margin-bottom: var(--gap);
@@ -1023,9 +1024,19 @@
             text-transform: uppercase;
         }
 
-        #searchInput::placeholder {
+        #searchInput:placeholder-shown {
             color: var(--gridcell-text);
-            }
+            opacity:50%;
+            }        
+
+        #searchInput:focus {
+            /* outline: none; */
+            border: var(--selected-border);
+            background: var(--selected-cell);
+            color: var(--selected-text);
+        }
+
+
 
         .search-results {
             box-sizing: border-box;
@@ -1041,7 +1052,7 @@
             /* min-height:0px; */
             min-height:150px;
             max-height:400px;
-            padding: 20px;
+            padding: 10px;
             /* opacity:97%; */
             /* align-items: bottom; */
             /* vertical-align: text-bottom; */
@@ -3017,22 +3028,25 @@ window.addEventListener('resize', () => {
 
 
 
-
             function searchPlayedWords(query) {
                 const q = query.toLowerCase().trim();
                 if (q.length === 0) return { startsWith: [], contains: [] };
 
-                // Convert to Array just in case it's a Set, and default to [] if null
-                const wordsArray = Array.from(playedWords || []);
+                // 1. Convert to Array and immediately filter for A-Z only
+                const wordsArray = Array.from(playedWords || []).filter(word => 
+                    /^[a-zA-Z]+$/.test(word)
+                );
 
-                const startsWith = wordsArray.filter(word => word.toLowerCase().startsWith(q));
+                // 2. Perform your search on the clean list
+                const startsWith = wordsArray.filter(word => 
+                    word.toLowerCase().startsWith(q)
+                );
                 
                 const contains = wordsArray.filter(word => 
                     word.toLowerCase().includes(q) && !word.toLowerCase().startsWith(q)
                 );
 
                 return { startsWith, contains };
-                console.log({ startsWith, contains });
             }
 
 
