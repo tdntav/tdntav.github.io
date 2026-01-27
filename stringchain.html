@@ -2480,7 +2480,7 @@
     <div class="button-row2">
         <button id="newGameBtn" class="newgame">RESTART</button>
         <span class="gap"></span>
-        <input type="text" id="searchInput" class="search-played" placeholder="search played" autocomplete="off">
+        <input type="text" id="searchInput" class="search-played" placeholder="search" autocomplete="off">
     </div>
 
     <div id="history"></div>
@@ -3048,29 +3048,55 @@
                 }
             });
 
+            // function renderResults({ startsWith, contains }) {
+            //     const startDiv = document.getElementById('sectionStartsWith');
+            //     const containDiv = document.getElementById('sectionContains');
+
+            //     if (startsWith.length > 0) {
+            //         const firstMatch = startsWith[0];
+            //         highlightPlayed(firstMatch); 
+            //     } else if (contains.length > 0) {
+            //         // Fallback: if no 'starts with' matches, highlight the first 'contains' match
+            //         highlightPlayed(contains[0]);
+            //     }
+                
+
+
+            //     startDiv.innerHTML = startsWith.length ? `` + 
+            //         startsWith.map(w => `<span class="rewards2">${w}</span>`).join(' ') : '';
+
+            //     containDiv.innerHTML = contains.length ? `` + 
+            //         contains.map(w => `<span class="rewards">${w}</span>`).join(' ') : '';
+            // }
+
             function renderResults({ startsWith, contains }) {
-                const startDiv = document.getElementById('sectionStartsWith');
-                const containDiv = document.getElementById('sectionContains');
+    // Assuming you have one main container for results to avoid the div line break
+    const resultsContainer = document.getElementById('searchResults'); 
+    
+    // 1. Sort both arrays in reverse alphabetical order (Z-A)
+    const sortedStarts = [...startsWith].sort((a, b) => b.localeCompare(a));
+    const sortedContains = [...contains].sort((a, b) => b.localeCompare(a));
 
-                if (startsWith.length > 0) {
-                    const firstMatch = startsWith[0];
-                    highlightPlayed(firstMatch); 
-                } else if (contains.length > 0) {
-                    // Fallback: if no 'starts with' matches, highlight the first 'contains' match
-                    highlightPlayed(contains[0]);
-                }
-                
-                
-                
+    // 2. Trigger highlight logic (using the first of the sorted results)
+    if (sortedStarts.length > 0) {
+        highlightPlayed(sortedStarts[0], false); // false to prevent focus pull
+    } else if (sortedContains.length > 0) {
+        highlightPlayed(sortedContains[0], false);
+    }
 
-                startDiv.innerHTML = startsWith.length ? `` + 
-                    startsWith.map(w => `<span class="rewards2">${w}</span>`).join(' ') : '';
+    // 3. Map to spans with different classes
+    const startsHTML = sortedStarts
+        .map(w => `<span class="rewards2">${w}</span>`)
+        .join(' ');
 
-                containDiv.innerHTML = contains.length ? `` + 
-                    contains.map(w => `<span class="rewards">${w}</span>`).join(' ') : '';
-            }
+    const containsHTML = sortedContains
+        .map(w => `<span class="rewards">${w}</span>`)
+        .join(' ');
 
-
+    // 4. Consolidate into one string. 
+    // We use a space between the two sets so they don't touch.
+    resultsContainer.innerHTML = `${startsHTML} ${containsHTML}`.trim();
+}
 
 
 
