@@ -2555,32 +2555,28 @@
         <script>
 
 
-if ("virtualKeyboard" in navigator) {
-  const editor = document.getElementById("searchModal");
-  const editButton = document.getElementById("searchInput");
-  let isEditing = false;
+// if ("virtualKeyboard" in navigator) {
+//   const editor = document.getElementById("searchModal");
+//   const editButton = document.getElementById("searchInput");
+//   let isEditing = false;
 
-  editButton.addEventListener("click", () => {
-    if (isEditing) {
-      navigator.virtualKeyboard.hide();
-      editButton.textContent = "Edit";
-    } else {
-      editor.focus();
-      navigator.virtualKeyboard.show();
-      editButton.textContent = "Save changes";
-    }
+//   editButton.addEventListener("click", () => {
+//     if (isEditing) {
+//       navigator.virtualKeyboard.hide();
+//       editButton.textContent = "Edit";
+//     } else {
+//       editor.focus();
+//       navigator.virtualKeyboard.show();
+//       editButton.textContent = "Save changes";
+//     }
 
-    isEditing = !isEditing;
-  });
-}
+//     isEditing = !isEditing;
+//   });
+// }
 
-// window.addEventListener('resize', () => {
-//     console.log("Width:", window.innerWidth, "Height:", window.innerHeight);
-//     // Call your layout fix functions here
-//     // window.scrollTo(0, 0);
-//     // window.width(100%);
-//     body.reload();
-// });
+window.addEventListener('resize', () => {
+    window.innerWidth.resizeTo(100% auto);
+});
 
 
 
