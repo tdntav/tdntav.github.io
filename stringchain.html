@@ -1039,7 +1039,7 @@
             overflow-y: auto;
             /* overflow-x: auto; */
             /* min-height:0px; */
-            /* height:224px; */
+            min-height:224px;
             padding-block:12px;
             opacity:97%;
             /* align-items: bottom; */
@@ -2549,7 +2549,7 @@
 
 <!--#endregion Missions Modal -->
 
-<div id="searchModal" class="search-results hidden">
+<div id="searchModal" class="search-results opacity-hide">
     <div style="align-content:end;margin:none;padding:none;">
         <div id="searchResults" style="width:360px;text-align:center;line-height: 80%;">
         </div>
@@ -3070,10 +3070,10 @@ window.addEventListener('resize', () => {
                 // 3. Only show the modal if we actually found words
                 if (results.startsWith.length > 0 || results.contains.length > 0) {
                     renderResults(results); // Fill the modal with the words
-                    searchModal.classList.remove('hidden');
+                    searchModal.classList.remove('opacity-hide');
                 } else {
                     // Optional: Hide if no matches, or show a "No matches" message
-                    searchModal.classList.add('hidden'); 
+                    searchModal.classList.add('opacity-hide'); 
                 }
             });
 
