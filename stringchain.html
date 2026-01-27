@@ -2456,12 +2456,6 @@
         </div>
     </div> -->
     <div class="game-area" style="position:relative;"> <!-- Fixed width matching your history area -->
-        <div id="searchModal" class="search-results hidden">
-            <div style="align-content:end;margin:none;padding:none;">
-                <div id="searchResults" style="width:360px;text-align:center;line-height: 80%;">
-                </div>
-            </div>
-        </div>
         <div id="play-grid-layout" class="play-grid-layout">
 
             <div id="left-rail" class="rail left-rail">
@@ -2488,15 +2482,14 @@
 
         </div>
     </div>
+
+    <div id="history"></div>
+    <!-- <div id="disallowed"></div> -->
     <div class="button-row2">
         <button id="newGameBtn" class="newgame">RESTART</button>
         <span class="gap"></span>
         <input type="text" id="searchInput" class="search-played" autocomplete="off" contenteditable virtualkeyboardpolicy="manual" placeholder="search" >    
     </div>
-
-    <div id="history"></div>
-    <!-- <div id="disallowed"></div> -->
-
 
     <div id="definitions" class="hidden"></div>
     <!-- <button id="scrollBtn" class="scrollBtn">^</button> -->
@@ -2555,7 +2548,12 @@
 
 <!--#endregion Missions Modal -->
 
-
+<div id="searchModal" class="search-results hidden">
+    <div style="align-content:end;margin:none;padding:none;">
+        <div id="searchResults" style="width:360px;text-align:center;line-height: 80%;">
+        </div>
+    </div>
+</div>
 
 
 
