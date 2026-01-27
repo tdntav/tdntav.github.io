@@ -569,6 +569,7 @@
             align-items: center;
             /* padding: 10px; */
             font-size: 20pt;
+            box-sizing: border-box;
         }
 
         h1,
@@ -1001,7 +1002,8 @@
             border: 2px solid var(--accent-text);
             height: 49px;
         }
-        .search-played {
+
+        #searchInput {
             box-sizing: border-box;
             width: 50%;
             display: block;
@@ -1018,7 +1020,12 @@
             height: 49px;
             border-radius: var(--rounding);
             text-align:center;
+            /* text-transform: uppercase; */
         }
+
+        #searchInput::placeholder {
+            color: var(--accent);
+            }
 
         .search-results {
             box-sizing: border-box;
@@ -2484,7 +2491,7 @@
     <div class="button-row2">
         <button id="newGameBtn" class="newgame">RESTART</button>
         <span class="gap"></span>
-        <input type="text" id="searchInput" class="search-played" placeholder="search" autocomplete="off" contenteditable virtualkeyboardpolicy="manual">    
+        <input type="text" id="searchInput" class="search-played" autocomplete="off" contenteditable virtualkeyboardpolicy="manual" placeholder="search" >    
     </div>
 
     <div id="history"></div>
