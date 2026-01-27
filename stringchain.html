@@ -3165,6 +3165,15 @@ window.addEventListener('resize', () => {
 
                 // Replace and mark
                 historyElement.innerHTML = historyElement.innerHTML.replace(
+                    '<mark class="highlight">',
+                    ''
+                );
+                historyElement.innerHTML = historyElement.innerHTML.replace(
+                    '</mark>',
+                    ''
+                );
+
+                historyElement.innerHTML = historyElement.innerHTML.replace(
                     regex,
                     '<mark class="highlight">$&</mark>'
                 );
