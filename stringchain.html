@@ -2484,7 +2484,7 @@
     <div class="button-row2">
         <button id="newGameBtn" class="newgame">RESTART</button>
         <span class="gap"></span>
-        <input type="text" id="searchInput" class="search-played" placeholder="search" autocomplete="off">
+        <input type="text" id="searchInput" class="search-played" placeholder="search" autocomplete="off" contenteditable virtualkeyboardpolicy="manual">    
     </div>
 
     <div id="history"></div>
@@ -2555,14 +2555,32 @@
         <script>
 
 
+if ("virtualKeyboard" in navigator) {
+  const editor = document.getElementById("searchModal");
+  const editButton = document.getElementById("searchInput");
+  let isEditing = false;
 
+  editButton.addEventListener("click", () => {
+    if (isEditing) {
+      navigator.virtualKeyboard.hide();
+      editButton.textContent = "Edit";
+    } else {
+      editor.focus();
+      navigator.virtualKeyboard.show();
+      editButton.textContent = "Save changes";
+    }
 
-window.addEventListener('resize', () => {
-    console.log("Width:", window.innerWidth, "Height:", window.innerHeight);
-    // Call your layout fix functions here
-    // window.scrollTo(0, 0);
-    window.width.reload();
-});
+    isEditing = !isEditing;
+  });
+}
+
+// window.addEventListener('resize', () => {
+//     console.log("Width:", window.innerWidth, "Height:", window.innerHeight);
+//     // Call your layout fix functions here
+//     // window.scrollTo(0, 0);
+//     // window.width(100%);
+//     body.reload();
+// });
 
 
 
