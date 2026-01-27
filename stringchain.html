@@ -3062,7 +3062,7 @@ window.addEventListener('resize', () => {
                 // 1. If the input is empty, hide the modal and stop
                 if (!query) {
                     searchModal.classList.add('opacity-hide');
-                    return;
+                    return { startsWith: [], contains: [] };
                 }
 
                 // 2. Get your results
@@ -3074,7 +3074,8 @@ window.addEventListener('resize', () => {
                     searchModal.classList.remove('opacity-hide');
                 } else {
                     // Optional: Hide if no matches, or show a "No matches" message
-                    searchModal.classList.add('opacity-hide'); 
+                    searchModal.classList.add('opacity-hide');
+                    return { startsWith: [], contains: [] };
                 }
             });
 
