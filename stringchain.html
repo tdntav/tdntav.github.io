@@ -988,13 +988,14 @@
             justify-content: center;
             width: 360px;
             /* flex-wrap: wrap; */
-            z-index: 1;
+            /* z-index: 1; */
         }
         .newgame {
             box-sizing: border-box;
-            width: 50%;
+            width:50%;
             padding: var(--gap);
-            margin: var(--gap) 0px;
+            /* margin: var(--gap) 0px; */
+            margin-bottom: var(--gap);
             display: block;
             background-image: linear-gradient(to right, var(--text), var(--accent), var(--accent-text));
             border: 2px solid var(--accent-text);
@@ -1005,13 +1006,15 @@
             width: 50%;
             display: block;
             padding: var(--gap);
-            margin: var(--gap) 0px;
+            margin-bottom: var(--gap);
+            /* margin: var(--gap) 0px; */
             /* background-image: linear-gradient(to left, var(--text), var(--accent), var(--accent-text)); */
-            background:var(--accent);
-            color:var(--accent-text);
+            background:var(--gridcell);
+            color:var(--gridcell-text);
+            border:var(--gridcell-border);
             /* border: 2px solid var(--accent-text); */
             font-size:16px;
-            border:none;
+            /* border:none; */
             height: 49px;
             border-radius: var(--rounding);
             text-align:center;
@@ -1030,7 +1033,7 @@
             /* overflow-x: auto; */
             /* min-height:0px; */
             height:224px;
-            /* padding:10px; */
+            padding-block:12px;
             opacity:97%;
             /* align-items: bottom; */
             vertical-align: text-bottom;
@@ -1555,6 +1558,9 @@
 
         .gap{
             width:var(--gap);
+        }
+        .cell-width {
+            width:var(--cell-size);
         }
 
         .missions-help-btn {
