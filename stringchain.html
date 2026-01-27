@@ -995,7 +995,7 @@
             box-sizing: border-box;
             width:50%;
             padding: var(--gap);
-            /* margin: var(--gap) 0px; */
+            margin: var(--gap) 0px;
             margin-bottom: var(--gap);
             display: block;
             background-image: linear-gradient(to right, var(--text), var(--accent), var(--accent-text));
@@ -1009,7 +1009,7 @@
             display: block;
             padding: var(--gap);
             margin-bottom: var(--gap);
-            /* margin: var(--gap) 0px; */
+            margin: var(--gap) 0px;
             /* background-image: linear-gradient(to left, var(--text), var(--accent), var(--accent-text)); */
             background:var(--gridcell);
             color:var(--gridcell-text);
@@ -1030,20 +1030,20 @@
         .search-results {
             box-sizing: border-box;
             display:flex;
-            flex-direction: column-reverse;
-            position:absolute;
-            top:0;
+            /* flex-direction: column-reverse; */
+            /* position:absolute; */
+            /* top:0; */
             width:360px;
             /* top:200px; */
             background:var(--bg);
             overflow-y: auto;
             /* overflow-x: auto; */
             /* min-height:0px; */
-            height:224px;
+            /* height:224px; */
             padding-block:12px;
             opacity:97%;
             /* align-items: bottom; */
-            vertical-align: text-bottom;
+            /* vertical-align: text-bottom; */
             /* z-index:50; */
         }
 
@@ -3102,8 +3102,8 @@ window.addEventListener('resize', () => {
     const resultsContainer = document.getElementById('searchResults'); 
     
     // 1. Sort both arrays in reverse alphabetical order (Z-A)
-    const sortedStarts = [...startsWith].sort((a, b) => b.localeCompare(a));
-    const sortedContains = [...contains].sort((a, b) => b.localeCompare(a));
+    const sortedStarts = [...startsWith].sort((a, b) => a.localeCompare(b));
+    const sortedContains = [...contains].sort((a, b) => a.localeCompare(b));
 
     // 2. Trigger highlight logic (using the first of the sorted results)
     if (sortedStarts.length > 0) {
@@ -3123,7 +3123,7 @@ window.addEventListener('resize', () => {
 
     // 4. Consolidate into one string. 
     // We use a space between the two sets so they don't touch.
-    resultsContainer.innerHTML = `${containsHTML} ${startsHTML} `.trim();
+    resultsContainer.innerHTML = `${startsHTML} ${containsHTML}`.trim();
 }
 
 
