@@ -1029,14 +1029,21 @@
             opacity:50%;
             }        
 
-        #searchInput:focus {
-            /* outline: none; */
+        /* #searchInput:focus {
             background: var(--selected-cell);
             color: var(--selected-text);
             border: var(--selected-border);
+        } */
 
+        #searchInput:focus-visible {
+            /* remove default focus style */
+            outline: none;
+            /* custom focus styles */
+            box-shadow: 0 0 2px 2px #51a7e8;
+            background: var(--selected-cell);
+            color: var(--selected-text);
+            border: var(--selected-border);
         }
-
 
 
         .search-results {
@@ -2595,6 +2602,9 @@
 
 window.addEventListener('resize', () => {
     window.resizeTo(100% auto);
+    if (!searchInput.classList.contains('focus-visible')) {
+        topFunction();
+    }
 });
 
 
