@@ -1209,7 +1209,8 @@
             overflow-y: auto; 
             overscroll-behavior: contain;
             min-height:10px;
-            max-height: 132px;
+            /* max-height: 132px; */
+            max-height:56px;
             font-size: 12pt;
             font-family: "Courier New", monospace;
             color: var(--accent-text);
@@ -2618,8 +2619,9 @@
 
 <div id="missionsModal" class="modal hidden">
     <div class="modal-missions">
-        <p class="demo-para hidden" style="text-align:center;font-size:11pt;" id="missions-help"></p>
         <h6>⇡⇡ MISSIONS ⇡⇡</h6><p class="demo-para" style="text-align:center;font-size:11pt;margin-top:-8px;">ALL TIME<br><br></p>
+        <p class="demo-para hidden" style="text-align:center;font-size:11pt;" id="missions-help"></p>
+
         <div id="missions-1" class="missions-1"></div>
     </div>
 </div>
@@ -2628,11 +2630,11 @@
 
 <div id="searchModal" class="modal-1 hidden">
     <div class="modal-search">
-        <div id="history2"></div>
+        <div id="history2" style="overflow-y: auto;overscroll-behavior: contain;display: flex;align-items: center;height: 54px;"></div>
         <br>
         <input type="text" id="searchInput" autocomplete="off" placeholder="search">   
         <br> 
-        <div class="milestones-1" style="box-sizing:border-box;width:360px;min-height:200px;padding:20px;text-align:center;line-height:160%;">
+        <div class="milestones-1" style="box-sizing:border-box;width:360px;min-height:200px;padding:10px;text-align:center;line-height:160%;">
         <div id="searchResults"></div>
         </div>
     </div>
@@ -3104,6 +3106,7 @@ window.addEventListener('resize', () => {
 
             searchBtn.addEventListener('click', () => {
                 searchHistory.appendChild(historyElement);
+                // historyElement.style.height('54px');
                 searchModal.classList.remove('hidden');
                 collapseModal.style.display = "block";
             });
