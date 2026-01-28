@@ -1082,6 +1082,8 @@
             width:auto;
             /* top:200px; */
             background:var(--bg);
+            border: 2px solid var(--text);
+
             overflow-y: auto;
             /* overflow-x: auto; */
             /* min-height:0px; */
@@ -1209,8 +1211,8 @@
             overflow-y: auto; 
             overscroll-behavior: contain;
             min-height:10px;
-            /* max-height: 132px; */
-            max-height:56px;
+            max-height: 132px;
+            /* max-height:56px; */
             font-size: 12pt;
             font-family: "Courier New", monospace;
             color: var(--accent-text);
@@ -1222,6 +1224,10 @@
             /* margin-inline: 20px; */
             margin-block:0px;
             border-radius: var(--rounding);
+        }
+
+        #history.truncated {
+            height: 48px;
         }
 
 
@@ -1540,9 +1546,9 @@
 
         .modal-search {
             position: fixed;
-            top: 43px;
-            background: var(--accent);
-            color: var(--accent-text);
+            top: 5px;
+            background: var(--bg);
+            color: var(--text);
             /* background-image: linear-gradient(to bottom, var(--accent), var(--bg));  */
             box-sizing: border-box;
             padding-block: 12px;
@@ -2562,7 +2568,7 @@
 
         </div>
     </div>
-    <div id="history-wrapper"><div id="history"></div></div>
+    <div id="history-wrapper" style="height:132px;"><div id="history"></div></div>
     <!-- <div id="disallowed"></div> -->
     <div class="button-row2">
         <button id="newGameBtn" class="newgame">RESTART</button>
@@ -3106,15 +3112,17 @@ window.addEventListener('resize', () => {
 
             searchBtn.addEventListener('click', () => {
                 searchHistory.appendChild(historyElement);
-                // historyElement.style.height('54px');
+                historyElement.classList.add('truncated');
                 searchModal.classList.remove('hidden');
                 collapseModal.style.display = "block";
+                searchInput.focus();
             });
 
 
             searchModal.addEventListener("click", (e) => {
                 if (e.target === searchModal) {
                     historyHome.appendChild(historyElement);
+                    historyElement.classList.remove('truncated');
                     searchModal.classList.add("hidden");
                     collapseModal.style.display = "none";
                     topFunction();
@@ -3527,6 +3535,7 @@ window.addEventListener('resize', () => {
                 milestonesModal.classList.add("hidden");
                 missionsModal.classList.add("hidden");
                 historyHome.appendChild(historyElement);
+                historyElement.classList.remove('truncated');
                 searchModal.classList.add("hidden");                
             });
             //END OF SCROLLING ETC
