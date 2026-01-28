@@ -1004,9 +1004,29 @@
             height: 49px;
         }
 
-        #searchInput {
+        #searchBtn {
             box-sizing: border-box;
             width: 50%;
+            display: block;
+            padding: var(--gap);
+            margin-bottom: var(--gap);
+            margin: var(--gap) 0px;
+            /* background-image: linear-gradient(to left, var(--text), var(--accent), var(--accent-text)); */
+            background:var(--gridcell);
+            color:var(--gridcell-text);
+            border:var(--gridcell-border);
+            /* border: 2px solid var(--accent-text); */
+            font-size:16px;
+            /* border:none; */
+            height: 49px;
+            border-radius: var(--rounding);
+            text-align:center;
+            text-transform: uppercase;
+        }
+
+        #searchInput {
+            box-sizing: border-box;
+            width: 360px;
             display: block;
             padding: var(--gap);
             margin-bottom: var(--gap);
@@ -1029,16 +1049,23 @@
             opacity:50%;
             }        
 
-        /* #searchInput:focus {
+        /* #searchInput, select {
+            outline: none;
             background: var(--selected-cell);
             color: var(--selected-text);
             border: var(--selected-border);
         } */
 
+
+
+        #searchInput:focus {
+            background: var(--selected-cell);
+            color: var(--selected-text);
+            border: var(--selected-border);
+        }
+
         #searchInput:focus-visible {
-            /* remove default focus style */
             outline: none;
-            /* custom focus styles */
             box-shadow: 0 0 2px 2px #51a7e8;
             background: var(--selected-cell);
             color: var(--selected-text);
@@ -1504,6 +1531,35 @@
             flex-direction: column;
             max-height: 80vh;
             min-height: 20vh;
+            width: 400px;
+            /* z-index: 1; */
+            /* opacity: unset; */
+        }
+
+
+        .modal-search {
+            position: fixed;
+            top: 43px;
+            background: var(--accent);
+            color: var(--accent-text);
+            /* background-image: linear-gradient(to bottom, var(--accent), var(--bg));  */
+            box-sizing: border-box;
+            padding-block: 12px;
+            padding-inline:0px;
+            border-radius: var(--rounding);
+            border: var(--accent) solid 2px;
+            align-items: center;
+            
+            /* overflow-y:scroll; */
+
+            /* CHANGE 1: Remove scrolling from here */
+            overflow-y: hidden; 
+            
+            /* CHANGE 2: Use flexbox to organize the header and scroll area */
+            display: flex;
+            flex-direction: column;
+            max-height: 80vh;
+            min-height: 80vh;
             width: 400px;
             /* z-index: 1; */
             /* opacity: unset; */
@@ -2505,13 +2561,12 @@
 
         </div>
     </div>
-
-    <div id="history"></div>
+    <div id="history-wrapper"><div id="history"></div></div>
     <!-- <div id="disallowed"></div> -->
     <div class="button-row2">
         <button id="newGameBtn" class="newgame">RESTART</button>
         <span class="gap"></span>
-        <input type="text" id="searchInput" autocomplete="off" contenteditable virtualkeyboardpolicy="manual" placeholder="search" >    
+        <button id="searchBtn" class="searchBtn">search</button>
     </div>
 
     <div id="definitions" class="hidden"></div>
@@ -2571,9 +2626,16 @@
 
 <!--#endregion Missions Modal -->
 
-<div id="searchModal" class="search-results opacity-hide">
-        <div id="searchResults" style="width:360px;text-align:center;justify-content:center;">
+<div id="searchModal" class="modal-1 hidden">
+    <div class="modal-search">
+        <div id="history2"></div>
+        <br>
+        <input type="text" id="searchInput" autocomplete="off" placeholder="search">   
+        <br> 
+        <div class="milestones-1" style="box-sizing:border-box;width:360px;min-height:200px;padding:20px;text-align:center;line-height:160%;">
+        <div id="searchResults"></div>
         </div>
+    </div>
 </div>
 
 
@@ -2622,8 +2684,6 @@ window.addEventListener('resize', () => {
             //DECLARATIONS
             const scaleWrapper = document.getElementById('scaleWrapper');
             const wordContainer = document.getElementById('wordContainer');
-            const highScoresElement = document.getElementById('highScores');
-            // const allTimeBestElement = document.getElementById('allTimeBestDisplay');
             const gridElement = document.getElementById('letterGrid');
             const leftRail = document.getElementById('left-rail');
             const rightRail = document.getElementById('right-rail');
@@ -2631,11 +2691,17 @@ window.addEventListener('resize', () => {
             const newGameBtn = document.getElementById('newGameBtn');
             const bonusBtn = document.getElementById('bonusBtn');
             const gridRefreshBtn = document.getElementById('gridRefreshBtn');
+
             const milestonesBtn = document.getElementById('milestonesBtn');
             const milestonesModal = document.getElementById('milestonesModal');
             const milestonesContent = document.getElementById('milestones-1');
             const nextMilestoneInfo = document.getElementById('nextMilestoneInfo');
+            const highScoresElement = document.getElementById('highScores');
 
+            const searchBtn = document.getElementById('searchBtn');
+            const searchInput = document.getElementById('searchInput');
+            const searchModal = document.getElementById('searchModal');
+            const resultsContainer = document.getElementById('searchResults');
 
             const missionsBtn = document.getElementById('missionsBtn');
             const missionsModal = document.getElementById('missionsModal');
@@ -2651,8 +2717,11 @@ window.addEventListener('resize', () => {
             const messageElement = document.getElementById('message');
             const scoreElement = document.getElementById('score');
             const chainElement = document.getElementById('chain');
+
             const historyElement = document.getElementById('history');
-            // const disallowedElement = document.getElementById('disallowed');
+            const historyHome = document.getElementById('history-wrapper');
+            const searchHistory = document.getElementById('history2');
+
             const statusElement = document.getElementById('status');
             const definitionsElement = document.getElementById('definitions');
             const rulesToggle = document.getElementById("toggle-rules");
@@ -3027,11 +3096,33 @@ window.addEventListener('resize', () => {
                     <br><span class="yourBest">no-bonus streak of ${allTimeStreak}</span></p>
                         `;
                 
-                // allTimeBestElement.innerHTML = `<h6>ALL TIME BEST</h6>
-                //     ${allTimeSummary}`;
+                        
                 highScoresElement.innerHTML = `<h2>YOUR BEST</h2>
                     ${allTimeSummary}`;
             }
+
+
+            searchBtn.addEventListener('click', () => {
+                searchHistory.appendChild(historyElement);
+                searchModal.classList.remove('hidden');
+                collapseModal.style.display = "block";
+            });
+
+
+            searchModal.addEventListener("click", (e) => {
+                if (e.target === searchModal) {
+                    historyHome.appendChild(historyElement);
+                    searchModal.classList.add("hidden");
+                    collapseModal.style.display = "none";
+                    topFunction();
+                }
+            });
+
+
+
+
+
+
 
             //END OF BUTTONS
 
@@ -3061,8 +3152,6 @@ window.addEventListener('resize', () => {
             }
 
 
-            const searchInput = document.getElementById('searchInput');
-            const searchModal = document.getElementById('searchModal');
 
             // function openSearch() {
             //     document.getElementById('searchModal').style.display = 'block';
@@ -3086,7 +3175,7 @@ window.addEventListener('resize', () => {
                 
                 // 1. If the input is empty, hide the modal and stop
                 if (!query) {
-                    searchModal.classList.add('opacity-hide');
+                    resultsContainer.classList.add('hidden');
                     return { startsWith: [], contains: [] };
                 }
 
@@ -3096,10 +3185,10 @@ window.addEventListener('resize', () => {
                 // 3. Only show the modal if we actually found words
                 if (results.startsWith.length > 0 || results.contains.length > 0) {
                     renderResults(results); // Fill the modal with the words
-                    searchModal.classList.remove('opacity-hide');
+                    resultsContainer.classList.remove('hidden');
                 } else {
                     // Optional: Hide if no matches, or show a "No matches" message
-                    searchModal.classList.add('opacity-hide');
+                    resultsContainer.classList.add('hidden');
                     return { startsWith: [], contains: [] };
                 }
             });
@@ -3125,34 +3214,31 @@ window.addEventListener('resize', () => {
             //         contains.map(w => `<span class="rewards">${w}</span>`).join(' ') : '';
             // }
 
-            function renderResults({ startsWith, contains }) {
-    // Assuming you have one main container for results to avoid the div line break
-    const resultsContainer = document.getElementById('searchResults'); 
-    
-    // 1. Sort both arrays in reverse alphabetical order (Z-A)
-    const sortedStarts = [...startsWith].sort((a, b) => a.localeCompare(b));
-    const sortedContains = [...contains].sort((a, b) => a.localeCompare(b));
+            function renderResults({ startsWith, contains }) {                 
+                // 1. Sort both arrays in reverse alphabetical order (Z-A)
+                const sortedStarts = [...startsWith].sort((a, b) => a.localeCompare(b));
+                const sortedContains = [...contains].sort((a, b) => a.localeCompare(b));
 
-    // 2. Trigger highlight logic (using the first of the sorted results)
-    if (sortedStarts.length > 0) {
-        highlightPlayed(sortedStarts[0], false); // false to prevent focus pull
-    } else if (sortedContains.length > 0) {
-        highlightPlayed(sortedContains[0], false);
-    }
+                // 2. Trigger highlight logic (using the first of the sorted results)
+                if (sortedStarts.length > 0) {
+                    highlightPlayed(sortedStarts[0], false); // false to prevent focus pull
+                } else if (sortedContains.length > 0) {
+                    highlightPlayed(sortedContains[0], false);
+                }
 
-    // 3. Map to spans with different classes
-    const startsHTML = sortedStarts
-        .map(w => `<span class="rewards2">${w}</span>`)
-        .join(' ');
+                // 3. Map to spans with different classes
+                const startsHTML = sortedStarts
+                    .map(w => `<span class="rewards2">${w}</span>`)
+                    .join(' ');
 
-    const containsHTML = sortedContains
-        .map(w => `<span class="rewards">${w}</span>`)
-        .join(' ');
+                const containsHTML = sortedContains
+                    .map(w => `<span class="rewards">${w}</span>`)
+                    .join(' ');
 
-    // 4. Consolidate into one string. 
-    // We use a space between the two sets so they don't touch.
-    resultsContainer.innerHTML = `${startsHTML} ${containsHTML}`.trim();
-}
+                // 4. Consolidate into one string. 
+                // We use a space between the two sets so they don't touch.
+                resultsContainer.innerHTML = `${startsHTML} ${containsHTML}`.trim();
+            }
 
 
 
@@ -3437,6 +3523,8 @@ window.addEventListener('resize', () => {
                 missionsHelpBtn.style.display = "none";
                 milestonesModal.classList.add("hidden");
                 missionsModal.classList.add("hidden");
+                historyHome.appendChild(historyElement);
+                searchModal.classList.add("hidden");                
             });
             //END OF SCROLLING ETC
 
