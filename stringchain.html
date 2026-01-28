@@ -1536,8 +1536,8 @@
             /* CHANGE 2: Use flexbox to organize the header and scroll area */
             display: flex;
             flex-direction: column;
-            max-height: 80vh;
-            min-height: 20vh;
+            max-height: 80dvh;
+            min-height: 20dvh;
             width: 400px;
             /* z-index: 1; */
             /* opacity: unset; */
@@ -1565,8 +1565,8 @@
             /* CHANGE 2: Use flexbox to organize the header and scroll area */
             display: flex;
             flex-direction: column;
-            max-height: 80vh;
-            min-height: 80vh;
+            max-height: 80dvh;
+            min-height: 80dvh;
             width: 400px;
             /* z-index: 1; */
             /* opacity: unset; */
@@ -1592,7 +1592,7 @@
             /* CHANGE 2: Use flexbox to organize the header and scroll area */
             display: flex;
             flex-direction: column;
-            max-height: 80vh;
+            max-height: 80dvh;
             width: 340px;
             /* z-index: 1; */
             /* opacity: unset; */
@@ -2668,12 +2668,20 @@
 //   });
 // }
 
-window.addEventListener('resize', () => {
-    window.resizeTo(100% auto);
-    if (!searchInput.classList.contains('focus-visible')) {
-        topFunction();
-    }
-});
+// window.addEventListener('resize', () => {
+//     window.resizeTo(100% auto);
+//     if (!searchInput.classList.contains('focus-visible')) {
+//         topFunction();
+//     }
+// });
+
+if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', () => {
+        // Force the layout to stick to the top left
+        window.scrollTo(0, 0);
+        document.body.scrollTop = 0;
+    });
+}
 
 
 
@@ -3178,6 +3186,32 @@ window.addEventListener('resize', () => {
             //         searchModal.classList.add('hidden');
             //     }
             // });
+
+
+
+
+            searchInput.addEventListener('mousedown', function(e) {
+                // Firefox sometimes jolts on mousedown before focus
+                // This keeps the window steady
+                const x = window.scrollX;
+                const y = window.scrollY;
+                
+                setTimeout(() => {
+                    window.scrollTo(x, y);
+                }, 0);
+            });
+
+            searchInput.addEventListener('focus', (e) => {
+                // Explicitly prevent the browser from centering the input
+                window.scrollTo(0, 0);
+            }, { passive: true });
+
+
+
+
+
+
+
 
             searchInput.addEventListener('input', (e) => {
                 const query = e.target.value.trim().toLowerCase();
