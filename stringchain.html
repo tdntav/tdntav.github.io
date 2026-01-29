@@ -1046,15 +1046,16 @@
 
         #searchInput:placeholder-shown {
             color: var(--gridcell-text);
+            background: var(--gridcell);
             opacity:50%;
             }        
 
-        /* #searchInput, select {
+        #searchInput, select {
             outline: none;
             background: var(--selected-cell);
             color: var(--selected-text);
             border: var(--selected-border);
-        } */
+        }
 
 
 
@@ -1066,7 +1067,7 @@
 
         #searchInput:focus-visible {
             outline: none;
-            box-shadow: 0 0 2px 2px #51a7e8;
+            /* box-shadow: 0 0 2px 2px #51a7e8; */
             background: var(--selected-cell);
             color: var(--selected-text);
             border: var(--selected-border);
@@ -2046,6 +2047,46 @@
 
 
 
+
+
+
+        .custom-keyboard {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr); /* 10 equal columns */
+            gap: 2px;
+            width:360px;
+            /* background: rgba(0, 0, 0, 0.1); */
+            user-select: none; /* Prevents text selection while typing */
+        }
+
+        .key {
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--text);
+            color:var(--bg);
+            border:2px solid var(--text);
+            font-size: 11pt;
+            border-radius: var(--rounding-small);
+            cursor: pointer;
+            touch-action: manipulation; /* Prevents mobile double-tap zoom */
+        }
+
+        .key:active {
+            background: var(--key-active, #ccc);
+        }
+
+        /* Style for both delete buttons */
+        .key-control {
+            opacity:70%;
+        }
+
+        /* Optional: Make the "Clear All" look slightly different */
+        .key-clear-all {
+            opacity:70%;
+        }
+
     </style>
 </head>
 
@@ -2638,7 +2679,9 @@
 <div id="searchModal" class="modal-1 hidden">
     <div class="modal-search">
         <div id="history2" style="overflow-y: auto;overscroll-behavior: contain;display: flex;align-items: center;height: 54px;"></div>
-        <input type="text" id="searchInput" autocomplete="off" placeholder="search" contenteditable virtualkeyboardpolicy="manual" >
+        <!-- <input type="text" id="searchInput" autocomplete="off" placeholder="search" contenteditable virtualkeyboardpolicy="manual" > -->
+        <input type="text" id="searchInput" autocomplete="off" placeholder="search" readonly inputmode="none" >
+        <div id="keyboardContainer" class="custom-keyboard"></div>
         <div class="milestones-1" style="box-sizing:border-box;width:360px;min-height:200px;padding:10px;text-align:center;line-height:160%;">
         <div id="searchResults"></div>
         </div>
@@ -2822,6 +2865,83 @@ if (window.visualViewport) {
             let allTimeWordLength = 0;
             let allTimeWord = "";
             let allTimeSummary = "";
+            
+            
+            
+            const keys = [
+                'Q','W','E','R','T','Y','U','I','O','P',
+                'A','S','D','F','G','H','J','K','L','', 
+                'Z','X','C','V','B','N','M','','<','<<' // < for Delete, << for Clear All
+            ];
+
+
+            function createKeyboard() {
+                const container = document.getElementById('keyboardContainer');
+                container.innerHTML = ''; // Clear existing
+
+                keys.forEach(key => {
+                    const keyEl = document.createElement('div');
+                    keyEl.className = 'key';
+                    
+                    if (key === '') {
+                        keyEl.style.visibility = 'hidden';
+                    } else if (key === '<') {
+                        keyEl.classList.add('key-control');
+                        keyEl.textContent = '⌫'; // Icon for backspace
+                        keyEl.onclick = () => handleKey('<');
+                    } else if (key === '<<') {
+                        keyEl.classList.add('key-control', 'key-clear-all');
+                        keyEl.textContent = '×'; // Icon for clear
+                        keyEl.onclick = () => handleKey('<<');
+                    } else {
+                        keyEl.textContent = key;
+                        keyEl.onclick = () => handleKey(key);
+                    }
+                    
+                    container.appendChild(keyEl);
+                });
+            }
+
+            function handleKey(action) {
+                const input = document.getElementById('searchInput');
+                
+                if (action === '<<') {
+                    input.value = '';
+                } else if (action === '<') {
+                    input.value = input.value.slice(0, -1);
+                } else {
+                    input.value += action;
+                }
+                
+                // Trigger the search logic
+                input.dispatchEvent(new Event('input'));
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             //END OF DELARATIONS
 
@@ -3123,7 +3243,8 @@ if (window.visualViewport) {
                 historyElement.classList.add('truncated');
                 searchModal.classList.remove('hidden');
                 collapseModal.style.display = "block";
-                // searchInput.focus();
+                searchInput.focus();
+                createKeyboard();
             });
 
 
