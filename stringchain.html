@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
         content="Stringchain is a word game. Replace, add, swap, or delete a letter to make a new word. How long can you make your chain of words?">
     <title>stringchain - word game</title>
@@ -2716,21 +2716,21 @@
 //   });
 // }
 
-window.addEventListener('resize', () => {
-    window.resizeTo(100% auto);
-    if (!searchInput.classList.contains('focus-visible')) {
-        topFunction();
-    }
-});
+// window.addEventListener('resize', () => {
+//     window.resizeTo(100% auto);
+//     if (!searchInput.classList.contains('focus-visible')) {
+//         topFunction();
+//     }
+// });
 
-if (window.visualViewport) {
-    window.visualViewport.addEventListener('resize', () => {
-        // Force the layout to stick to the top left
-        window.scrollTo(0, 0);
-        document.body.scrollTop = 0;
-        topFunction();
-    });
-}
+// if (window.visualViewport) {
+//     window.visualViewport.addEventListener('resize', () => {
+//         // Force the layout to stick to the top left
+//         window.scrollTo(0, 0);
+//         document.body.scrollTop = 0;
+//         topFunction();
+//     });
+// }
 
 
 
