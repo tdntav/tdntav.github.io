@@ -2668,18 +2668,19 @@
 //   });
 // }
 
-// window.addEventListener('resize', () => {
-//     window.resizeTo(100% auto);
-//     if (!searchInput.classList.contains('focus-visible')) {
-//         topFunction();
-//     }
-// });
+window.addEventListener('resize', () => {
+    window.resizeTo(100% auto);
+    if (!searchInput.classList.contains('focus-visible')) {
+        topFunction();
+    }
+});
 
 if (window.visualViewport) {
     window.visualViewport.addEventListener('resize', () => {
         // Force the layout to stick to the top left
         window.scrollTo(0, 0);
         document.body.scrollTop = 0;
+        topFunction();
     });
 }
 
