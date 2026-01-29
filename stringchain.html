@@ -1567,8 +1567,7 @@
             /* CHANGE 2: Use flexbox to organize the header and scroll area */
             display: flex;
             flex-direction: column;
-            max-height: 80dvh;
-            min-height: 80dvh;
+            min-height: 100dvh;
             width: 400px;
             /* z-index: 1; */
             /* opacity: unset; */
@@ -2051,6 +2050,8 @@
 
 
         .custom-keyboard {
+            position:absolute;
+            bottom:50px;
             display: grid;
             grid-template-columns: repeat(10, 1fr); /* 10 equal columns */
             gap: 2px;
@@ -2060,14 +2061,14 @@
         }
 
         .key {
-            height: 16px;
+            height: 22px;
             display: flex;
             align-items: center;
             justify-content: center;
             background: var(--text);
             color:var(--bg);
             border:2px solid var(--text);
-            font-size: 11pt;
+            font-size: 13pt;
             border-radius: var(--rounding-small);
             cursor: pointer;
             touch-action: manipulation; /* Prevents mobile double-tap zoom */
