@@ -1567,7 +1567,7 @@
             /* CHANGE 2: Use flexbox to organize the header and scroll area */
             display: flex;
             flex-direction: column;
-            min-height: 100dvh;
+            min-height: 99dvh;
             width: 400px;
             /* z-index: 1; */
             /* opacity: unset; */
@@ -2054,21 +2054,21 @@
             bottom:50px;
             display: grid;
             grid-template-columns: repeat(10, 1fr); /* 10 equal columns */
-            gap: 2px;
+            gap: 4px;
             width:360px;
             /* background: rgba(0, 0, 0, 0.1); */
             user-select: none; /* Prevents text selection while typing */
         }
 
         .key {
-            height: 22px;
+            height: 42px;
             display: flex;
             align-items: center;
             justify-content: center;
             background: var(--text);
             color:var(--bg);
             border:2px solid var(--text);
-            font-size: 13pt;
+            font-size: 18pt;
             border-radius: var(--rounding-small);
             cursor: pointer;
             touch-action: manipulation; /* Prevents mobile double-tap zoom */
