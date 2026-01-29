@@ -1025,6 +1025,8 @@
         }
 
         #searchInput {
+            position:absolute;
+            bottom:162px;
             box-sizing: border-box;
             width: 360px;
             display: block;
@@ -1038,8 +1040,8 @@
             /* border: 2px solid var(--accent-text); */
             font-size:16px;
             /* border:none; */
-            height: 49px;
-            border-radius: var(--rounding);
+            height: 36px;
+            border-radius: var(--rounding-small);
             text-align:center;
             text-transform: uppercase;
         }
@@ -1225,11 +1227,12 @@
             /* margin-inline: 20px; */
             margin-block:0px;
             border-radius: var(--rounding);
-        }
-
+        } 
+        
         #history.truncated {
-            max-height: 54px;
-            min-height:48px;
+            max-height: 96px;
+            min-height:20px;
+            /* height:100px; */
         }
 
 
@@ -2051,7 +2054,7 @@
 
         .custom-keyboard {
             position:absolute;
-            bottom:50px;
+            bottom:20px;
             display: grid;
             grid-template-columns: repeat(10, 1fr); /* 10 equal columns */
             gap: 4px;
@@ -2679,7 +2682,7 @@
 
 <div id="searchModal" class="modal-1 hidden">
     <div class="modal-search">
-        <div id="history2" style="overflow-y: auto;overscroll-behavior: contain;display: flex;align-items: center;height: 54px;"></div>
+        <div id="history2" style="overflow-y: auto;overscroll-behavior: contain;display: flex;align-items: center;"></div>
         <!-- <input type="text" id="searchInput" autocomplete="off" placeholder="search" contenteditable virtualkeyboardpolicy="manual" > -->
         <input type="text" id="searchInput" autocomplete="off" placeholder="search" readonly inputmode="none" >
         <div id="keyboardContainer" class="custom-keyboard"></div>
@@ -3395,11 +3398,11 @@ if (window.visualViewport) {
 
                 // 3. Map to spans with different classes
                 const startsHTML = sortedStarts
-                    .map(w => `<span class="rewards2">${w}</span>`)
+                    .map(w => `<span class="rewards2" onclick="highlightPlayed('${w}')">${w}</span>`)
                     .join(' ');
 
                 const containsHTML = sortedContains
-                    .map(w => `<span class="rewards">${w}</span>`)
+                    .map(w => `<span class="rewards" onclick="highlightPlayed('${w}')">${w}</span>`)
                     .join(' ');
 
                 // 4. Consolidate into one string. 
