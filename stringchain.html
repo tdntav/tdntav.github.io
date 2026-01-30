@@ -4401,7 +4401,11 @@
                         // Remove it so it can't trigger again
                         chainMilestones.splice(chainQuestIndex, 1); 
                         // Apply reward 
-                        if (chain == 32) {missionsBtn.classList.remove("hidden"); missionsBtn.classList.remove("opacity-hide"); }
+                        if (chain == 32) {
+                            missionsBtn.classList.remove("hidden"); 
+                            missionsBtn.classList.remove("opacity-hide");
+                            searchBtn.classList.remove("opacity-hide"); 
+                        }
                         if (chain != 128) {
                             milestones.push({ 
                                 word: currentWord, 
