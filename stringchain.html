@@ -1275,21 +1275,21 @@
         }
 
 
-        mark.highlight {
+        .highlight {
             background: var(--wordcell-text);
             /* text-decoration: underline 3px solid var(--wordcell); */
             color: var(--wordcell);
             /* padding: 4px; */
             /* border: 2px solid var(--bg); */
-            border-radius: var(--rounding);
+            border-radius: var(--rounding-small);
             /* font-weight: bold; */
             /* opacity:75%; */
             /* transition: font-color text-decoration 5s ease; */
         }
-
+/* 
         mark.highlight.fade {
             color: transparent;
-        }
+        } */
 
 
 
@@ -3525,58 +3525,111 @@
             //     });
             // }
 
-            function highlightPlayed(currentWord) {
-                // Replace and mark
-                historyElement.innerHTML = historyElement.innerHTML.replace(
-                    '<mark class="highlight">',
-                    ''
-                );
-                historyElement.innerHTML = historyElement.innerHTML.replace(
-                    '</mark>',
-                    ''
-                );
 
+
+            function highlightPlayed(currentWord) {
 
                 const safeWord = currentWord.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
                 const regex = new RegExp(`\\b${safeWord}\\b`, 'gi');
 
+                // 1. Find all spans in the history list
+                const allSpans = historyElement.querySelectorAll('span');
+                console.log(allSpans);
                 
+                // 2. Remove previous highlights safely without touching HTML strings
+                allSpans.forEach(span => span.classList.remove('highlight'));
 
-                historyElement.innerHTML = historyElement.innerHTML.replace(
-                    regex,
-                    '<mark class="highlight">$&</mark>'
-                );
+                // 3. Find the specific span for this word
+                // We look for a match in textContent
+                const target = Array.from(allSpans).find(s => {
+                    // 1. Clean both sides of whitespace
+                    const spanText = s.textContent.trim().toLowerCase();
+                    const searchText = currentWord.trim().toLowerCase();
+                    
+                    // 2. Exact match check
+                    return spanText === searchText;
+                });
+                console.log("target is " + target);
 
-                const marks = historyElement.querySelectorAll('mark.highlight');
-                if (!marks.length) return;
+                if (!target) return;
 
-                // Always target the most recent occurrence
-                // const target = marks[marks.length - 1];
-                const target = marks[0];
+                // 4. Add the highlight class
+                target.classList.add('highlight');
 
+                // 5. Scroll logic (Your math was actually solid, just needed a stable target)
                 const containerRect = historyElement.getBoundingClientRect();
                 const targetRect = target.getBoundingClientRect();
 
                 const destination =
-                        historyElement.scrollTop +
-                        (targetRect.top - containerRect.top) -
-                        (containerRect.height / 2) +
-                        (targetRect.height / 2);
+                    historyElement.scrollTop +
+                    (targetRect.top - containerRect.top) -
+                    (containerRect.height / 2) +
+                    (targetRect.height / 2);
 
                 historyElement.scrollTo({
                     top: Math.max(0, destination),
                     behavior: 'smooth'
                 });
 
-                //Remove highlight after 20s
-                marks.forEach(mark => {
-                    setTimeout(() => {
-                        if (mark.isConnected) {
-                            mark.replaceWith(mark.textContent);
-                        }
-                    }, 20000);
-                });
+                // 6. Remove highlight after 20s using a simple class removal
+                setTimeout(() => {
+                    if (target.isConnected) {
+                        target.classList.remove('highlight');
+                    }
+                }, 20000);
             }
+
+
+
+
+            // function highlightPlayed(currentWord) {
+            //     // Replace existing
+            //     historyElement.innerHTML = historyElement.innerHTML.replace(
+            //         '<mark class="highlight">',
+            //         ''
+            //     );
+            //     historyElement.innerHTML = historyElement.innerHTML.replace(
+            //         '</mark>',
+            //         ''
+            //     );
+            //     const safeWord = currentWord.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            //     const regex = new RegExp(`\\b${safeWord}\\b`, 'gi');
+
+            //     historyElement.innerHTML = historyElement.innerHTML.replace(
+            //         regex,
+            //         '<mark class="highlight">$&</mark>'
+            //     );
+
+            //     const marks = historyElement.querySelectorAll('mark.highlight');
+            //     if (!marks.length) return;
+
+            //     // Always target the most recent occurrence
+            //     // const target = marks[marks.length - 1];
+            //     const target = marks[0];
+
+            //     const containerRect = historyElement.getBoundingClientRect();
+            //     const targetRect = target.getBoundingClientRect();
+
+            //     const destination =
+            //             historyElement.scrollTop +
+            //             (targetRect.top - containerRect.top) -
+            //             (containerRect.height / 2) +
+            //             (targetRect.height / 2);
+
+            //     historyElement.scrollTo({
+            //         top: Math.max(0, destination),
+            //         behavior: 'smooth'
+            //     });
+
+            //     //Remove highlight after 20s
+            //     marks.forEach(mark => {
+            //         setTimeout(() => {
+            //             if (mark.isConnected) {
+            //                 mark.replaceWith(mark.textContent);
+            //             }
+            //         }, 20000);
+            //     });
+            // }
 
 
 
@@ -4280,7 +4333,7 @@
                         //strip numeric characters
                             return `<i>${w.replace(/\d+/g, '')}</i> `;
                         // For regular words, append a space
-                        return w + " ";
+                        return "<span> " + w + "</span> ";
                     })
                     .join('');
             }
