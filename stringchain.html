@@ -2767,6 +2767,7 @@
         <!-- <input type="text" id="searchInput" autocomplete="off" placeholder="search" contenteditable virtualkeyboardpolicy="manual" > -->
         <input type="text" id="searchInput" autocomplete="off" readonly inputmode="none" >
         <div id="history2" style="overflow-y: auto;overscroll-behavior: contain;display: flex;align-items: center;"></div>
+        <!-- <p class="demo-para" style="text-align:center;font-size:10pt;">Click results to see nearby words in wordlist<br><br></p> -->
 
         <!-- <div class="milestones-1" style="box-sizing:border-box;width:360px;min-height:200px;padding:10px;text-align:center;line-height:160%;"> -->
             <div id="searchResults" class="search-results"></div>
@@ -3332,7 +3333,8 @@
                 historyElement.classList.add('truncated');
                 searchModal.classList.remove('hidden');
                 collapseModal.style.display = "block";
-                searchInput.focus();
+                // searchInput.focus();
+                document.getElementById('searchInput').value = '';
                 createKeyboard();
             });
 
