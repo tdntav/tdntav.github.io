@@ -1025,8 +1025,8 @@
         }
 
         #searchInput {
-            position:absolute;
-            bottom:164px;
+            /* position:absolute; */
+            /* bottom:164px; */
             box-sizing: border-box;
             width: 360px;
             display: block;
@@ -1040,8 +1040,8 @@
             /* border: 2px solid var(--accent-text); */
             font-size:16px;
             /* border:none; */
-            height: 36px;
-            border-radius: var(--rounding-small);
+            height: 49px;
+            border-radius: var(--rounding);
             text-align:center;
             text-transform: uppercase;
         }
@@ -1076,30 +1076,68 @@
         }
 
 
-        .search-results {
+        /* .search-results {
+            display: block;
+        
+            text-align: center;
             box-sizing: border-box;
-            display:block;
-            /* flex-direction: column-reverse; */
-            /* position:absolute; */
-            /* top:0; */
-            width:auto;
-            /* top:200px; */
+            width: 360px;            
+            overflow-y: auto; 
+            overscroll-behavior: contain;
+            border-radius: var(--rounding);
             background:var(--bg);
             border: 2px solid var(--text);
 
             overflow-y: auto;
-            /* overflow-x: auto; */
-            /* min-height:0px; */
-            min-height:100px;
-            max-height:250px;
-            padding: 10px 10px 0px 10px;
+            overflow-wrap: normal;
+            padding: 10px;
+            margin-block: 10px;
+            height:200px;
             align-items: center;
             justify-content: center;
-            /* opacity:97%; */
-            /* align-items: bottom; */
-            /* vertical-align: text-bottom; */
-            /* z-index:50; */
-        }
+            align-items: end;
+            line-height: 80%;
+        } */
+
+
+
+        .search-results {
+    display: flex;
+    /* 1. Start from the bottom */
+    flex-direction: row-reverse; 
+    /* 2. New lines grow upward */
+    flex-wrap: wrap-reverse; 
+    /* 3. Align content to the left (or right) */
+    align-content: flex-start; 
+    justify-content: center;
+    
+    /* Container styling */
+    height: 200px; /* Or your halved height */
+    width: 360px;
+    overflow-x: auto; /* If content grows horizontally */
+    overflow-y: hidden;
+    /* padding: 5px; */
+    gap: 2px;
+    border-radius: var(--rounding);
+    background:var(--bg);
+    /* border: 2px solid var(--text); */
+    margin-block: 10px;
+    box-sizing: border-box;
+    /* padding-inline:10px; */
+    line-height: 120%;
+
+
+}
+
+.search-results span {
+    display: inline-block;
+    /* white-space: nowrap; */
+}
+
+
+
+
+
 
         .help {
             border-radius: 22px;
@@ -1568,7 +1606,7 @@
 
         .modal-search {
             position: fixed;
-            top: 5px;
+            top: 43px;
             background: var(--bg);
             color: var(--text);
             /* background-image: linear-gradient(to bottom, var(--accent), var(--bg));  */
@@ -1578,6 +1616,7 @@
             border-radius: var(--rounding);
             border: var(--accent) solid 2px;
             align-items: center;
+            align-content: bottom;
             
             /* overflow-y:scroll; */
 
@@ -1587,7 +1626,8 @@
             /* CHANGE 2: Use flexbox to organize the header and scroll area */
             display: flex;
             flex-direction: column;
-            min-height: 99dvh;
+            flex-direction: column-reverse;
+            height: 548px;
             width: 400px;
             /* z-index: 1; */
             /* opacity: unset; */
@@ -2070,8 +2110,8 @@
 
 
         .custom-keyboard {
-            position:absolute;
-            bottom:20px;
+            /* position:absolute; */
+            /* bottom:20px; */
             display: grid;
             grid-template-columns: repeat(10, 1fr); /* 10 equal columns */
             gap: 4px;
@@ -2718,13 +2758,17 @@
 
 <div id="searchModal" class="modal-1 hidden">
     <div class="modal-search">
-        <div id="history2" style="overflow-y: auto;overscroll-behavior: contain;display: flex;align-items: center;"></div>
+        
+        
+        <div id="keyboardContainer" class="custom-keyboard"></div>
+
         <!-- <input type="text" id="searchInput" autocomplete="off" placeholder="search" contenteditable virtualkeyboardpolicy="manual" > -->
         <input type="text" id="searchInput" autocomplete="off" placeholder="search" readonly inputmode="none" >
-        <div id="keyboardContainer" class="custom-keyboard"></div>
-        <div class="milestones-1" style="box-sizing:border-box;width:360px;min-height:200px;padding:10px;text-align:center;line-height:160%;">
-        <div id="searchResults"></div>
-        </div>
+        <div id="history2" style="overflow-y: auto;overscroll-behavior: contain;display: flex;align-items: center;"></div>
+
+        <!-- <div class="milestones-1" style="box-sizing:border-box;width:360px;min-height:200px;padding:10px;text-align:center;line-height:160%;"> -->
+            <div id="searchResults" class="search-results"></div>
+        <!-- </div> -->
     </div>
 </div>
 
@@ -3383,7 +3427,7 @@
                 
                 // 1. If the input is empty, hide the modal and stop
                 if (!query) {
-                    resultsContainer.classList.add('hidden');
+                    resultsContainer.classList.add('opacity-hide');
                     return { startsWith: [], contains: [] };
                 }
 
@@ -3393,10 +3437,10 @@
                 // 3. Only show the modal if we actually found words
                 if (results.startsWith.length > 0 || results.contains.length > 0) {
                     renderResults(results); // Fill the modal with the words
-                    resultsContainer.classList.remove('hidden');
+                    resultsContainer.classList.remove('opacity-hide');
                 } else {
                     // Optional: Hide if no matches, or show a "No matches" message
-                    resultsContainer.classList.add('hidden');
+                    resultsContainer.classList.add('opacity-hide');
                     return { startsWith: [], contains: [] };
                 }
             });
