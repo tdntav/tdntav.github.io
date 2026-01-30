@@ -3564,14 +3564,14 @@
                     behavior: 'smooth'
                 });
 
-                // Remove highlight after 20s
-                marks.forEach(mark => {
-                    setTimeout(() => {
-                        if (mark.isConnected) {
-                            mark.replaceWith(mark.textContent);
-                        }
-                    }, 2000);
-                });
+                // Remove highlight after 2s
+                // marks.forEach(mark => {
+                //     setTimeout(() => {
+                //         if (mark.isConnected) {
+                //             mark.replaceWith(mark.textContent);
+                //         }
+                //     }, 2000);
+                // });
             }
 
 
