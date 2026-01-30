@@ -2697,7 +2697,7 @@
     <div class="button-row2">
         <button id="newGameBtn" class="newgame">RESTART</button>
         <span class="gap"></span>
-        <button id="searchBtn" class="searchBtn">search</button>
+        <button id="searchBtn" class="searchBtn opacity-hide">search</button>
     </div>
 
     <div id="definitions" class="hidden"></div>
@@ -3187,6 +3187,7 @@
                 consecutiveBonuses = 0;
                 // milestonesSummary = "";
                 milestonesBtn.classList.add('hidden');
+                searchBtn.classList.add('opacity-hide');
                 missionsBtn.classList.add('hidden');
                 livesLost = 0;
                 totalLives = 3;
@@ -3993,18 +3994,21 @@
                     if (gridSize == 3) { 
                         missionsBtn.classList.add("span-0"); 
                         gridRefreshBtn.classList.remove("span-2"); 
-                        milestonesBtn.classList.add("hidden"); 
+                        milestonesBtn.classList.add("hidden");
+                        searchBtn.classList.add("opacity-hide"); 
                         missionsBtn.classList.add("hidden");
                     } else if ((gridSize == 4) && (chain >= 32)) {
                         gridRefreshBtn.classList.add("span-2"); 
                         milestonesBtn.classList.remove("hidden");
+                        searchBtn.classList.remove("opacity-hide"); 
                         missionsBtn.classList.remove("span-0"); 
                         missionsBtn.classList.remove("hidden"); 
                         missionsBtn.classList.remove("opacity-hide"); 
                     } else if ((gridSize == 4) && (chain < 32)) { 
                         missionsBtn.classList.remove("span-0"); 
                         gridRefreshBtn.classList.add("span-2"); 
-                        milestonesBtn.classList.remove("hidden"); 
+                        milestonesBtn.classList.remove("hidden");
+                        searchBtn.classList.add("opacity-hide"); 
                         missionsBtn.classList.remove("hidden");
                         missionsBtn.classList.add("opacity-hide"); 
                     }    
