@@ -3526,9 +3526,6 @@
             // }
 
             function highlightPlayed(currentWord) {
-                const safeWord = currentWord.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-                const regex = new RegExp(`\\b${safeWord}\\b`, 'gi');
-
                 // Replace and mark
                 historyElement.innerHTML = historyElement.innerHTML.replace(
                     '<mark class="highlight">',
@@ -3539,6 +3536,12 @@
                     ''
                 );
 
+
+                const safeWord = currentWord.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                const regex = new RegExp(`\\b${safeWord}\\b`, 'gi');
+
+                
+
                 historyElement.innerHTML = historyElement.innerHTML.replace(
                     regex,
                     '<mark class="highlight">$&</mark>'
@@ -3548,7 +3551,8 @@
                 if (!marks.length) return;
 
                 // Always target the most recent occurrence
-                const target = marks[marks.length - 1];
+                // const target = marks[marks.length - 1];
+                const target = marks[0];
 
                 const containerRect = historyElement.getBoundingClientRect();
                 const targetRect = target.getBoundingClientRect();
@@ -3564,14 +3568,14 @@
                     behavior: 'smooth'
                 });
 
-                // Remove highlight after 2s
-                // marks.forEach(mark => {
-                //     setTimeout(() => {
-                //         if (mark.isConnected) {
-                //             mark.replaceWith(mark.textContent);
-                //         }
-                //     }, 2000);
-                // });
+                //Remove highlight after 20s
+                marks.forEach(mark => {
+                    setTimeout(() => {
+                        if (mark.isConnected) {
+                            mark.replaceWith(mark.textContent);
+                        }
+                    }, 20000);
+                });
             }
 
 
