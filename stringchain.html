@@ -1369,8 +1369,25 @@
             padding: 0;
             box-sizing: border-box;
             height: fit-content;
-            background-image: linear-gradient(to bottom, var(--bg), var(--accent));
+            background:var(--bg);
+            /* background-image: linear-gradient(to bottom, var(--bg), var(--accent)); */
             border-radius:var(--rounding);
+        }
+
+        .demo-accent {
+            width: 100%;
+            background-image: linear-gradient(to bottom, var(--bg), var(--accent));
+            border-radius: 0 0 var(--rounding) var(--rounding);
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            height: fit-content;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            box-sizing: border-box;
+
         }
 
         .demo-para {
@@ -2127,18 +2144,20 @@
                         <button class="actionBtn" style="border:var(--selected-border);">PLAY</button>
                         <button class="gridRefreshBtn disabled" style="border:2px solid transparent;">#</button>
                         </div> -->
-
-                    <div class="word-container demoscale" style="width:75%;margin-top:5px;border:4px solid var(--positive-feedback);">
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">T</div>
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">A</div>
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">M</div>
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">E</div>
-                        <div class="insert-slot demo-cell selected"></div>
+                    <div class="demo-accent">
+                        <div class="word-container demoscale" style="width:75%;margin-top:5px;border:4px solid var(--positive-feedback);">
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">T</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">A</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">M</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">E</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                        </div>
                     </div>
+                    
                 </div>
             </div><br>
             <div class="demo-div">
@@ -2162,17 +2181,20 @@
                             style="border:2px solid transparent;">||</button><button class="actionBtn"
                             style="border:var(--selected-border);">PLAY</button><button class="gridRefreshBtn disabled"
                             style="border:2px solid transparent;">#</button></div> -->
-                    <div class="word-container demoscale" style="width:75%;margin-top:5px;border:4px solid var(--positive-feedback);">
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">T</div>
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">E</div>
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">A</div>
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">M</div>
-                        <div class="insert-slot demo-cell selected"></div>
+                    <div class="demo-accent">
+                        <div class="word-container demoscale" style="width:75%;margin-top:5px;border:4px solid var(--positive-feedback);">
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">T</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">E</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">A</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">M</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                        </div>
                     </div>
+                    
                 </div>
             </div>
             <br>
@@ -2196,16 +2218,18 @@
                             style="border:2px solid transparent;">||</button><button class="actionBtn"
                             style="border:var(--selected-border);">PLAY</button><button class="gridRefreshBtn disabled"
                             style="border:2px solid transparent;">#</button></div> -->
-
-                    <div class="word-container demoscale" style="width:75%;margin-top:5px;border:4px solid var(--positive-feedback);">
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">T</div>
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">E</div>
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">A</div>
-                        <div class="insert-slot demo-cell selected"></div>
+                    <div class="demo-accent">
+                        <div class="word-container demoscale" style="width:75%;margin-top:5px;border:4px solid var(--positive-feedback);">
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">T</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">E</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">A</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                        </div>
                     </div>
+                    
                 </div>
             </div>
 
@@ -2241,15 +2265,16 @@
                         <div class="grid-cell-demo">T</div>
                     </div>
                     <p class="demo-para">Hit <b><i>PLAY</i></b> to confirm.<br><br></p>
-
-                    <div class="word-container demoscale" style="width:75%;margin-top:5px;border:4px solid var(--positive-feedback);">
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">T</div>
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">E</div>
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">N</div>
-                        <div class="insert-slot demo-cell selected"></div>
+                    <div class="demo-accent">
+                        <div class="word-container demoscale" style="width:75%;margin-top:5px;border:4px solid var(--positive-feedback);">
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">T</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">E</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">N</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -2284,17 +2309,18 @@
                         <div class="grid-cell-demo selected">T</div>
                     </div>
                     <p class="demo-para">Engage <b><i>PLAY</i></b> to make it so.<br><br></p>
-
-                    <div class="word-container demoscale" style="width:75%;margin-top:5px;border:4px solid var(--positive-feedback);">
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">T</div>
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">E</div>
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">N</div>
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">T</div>
-                        <div class="insert-slot demo-cell selected"></div>
+                    <div class="demo-accent">
+                        <div class="word-container demoscale" style="width:75%;margin-top:5px;border:4px solid var(--positive-feedback);">
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">T</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">E</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">N</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">T</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -2398,18 +2424,20 @@
                         <p class="demo-para"><br>This allows you to use an invalid word
                             <br>to bridge the gap to your next word.<br>
                         </p>
-                    <div class="word-container demoscale" style="width:75%;margin-top:15px;background:var(--selected-text);border:4px solid var(--selected-cell);">
-                        <div class="insert-slot demo-cell"></div>
-                        <div class="letter demo-cell">T</div>
-                        <div class="insert-slot demo-cell"></div>
-                        <div class="letter demo-cell">E</div>
-                        <div class="insert-slot demo-cell"></div>
-                        <div class="letter demo-cell">N</div>
-                        <div class="insert-slot demo-cell"></div>
-                        <div class="letter demo-cell">N</div>
-                        <div class="insert-slot demo-cell"></div>
-                        <div class="letter demo-cell">T</div>
-                        <div class="insert-slot demo-cell"></div>
+                    <div class="demo-accent">
+                        <div class="word-container demoscale" style="width:75%;margin-top:15px;background:var(--selected-text);border:4px solid var(--selected-cell);">
+                            <div class="insert-slot demo-cell"></div>
+                            <div class="letter demo-cell">T</div>
+                            <div class="insert-slot demo-cell"></div>
+                            <div class="letter demo-cell">E</div>
+                            <div class="insert-slot demo-cell"></div>
+                            <div class="letter demo-cell">N</div>
+                            <div class="insert-slot demo-cell"></div>
+                            <div class="letter demo-cell">N</div>
+                            <div class="insert-slot demo-cell"></div>
+                            <div class="letter demo-cell">T</div>
+                            <div class="insert-slot demo-cell"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -2426,21 +2454,21 @@
             <div class="demo-div">
                 <!-- EXAMPLE 8: GRID EXPAND -->
                 <div class="demo-board">
-                    <div class="word-container demoscale" style="width:110%;border:4px solid var(--positive-feedback);">
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">T</div>
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">E</div>
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">N</div>
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">A</div>
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">N</div>
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">T</div>
-                        <div class="insert-slot demo-cell selected"></div>
-                    </div>
+                        <div class="word-container demoscale" style="width:110%;border:4px solid var(--positive-feedback);">
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">T</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">E</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">N</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">A</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">N</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">T</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                        </div>
                     <p class="demo-para">Reach or exceed six letters<br>and the grid expands to 4x4.</p>
                     <div class="grid-demo-four selected" style="background:var(--positive-feedback);border:none;">
                         <div class="grid-cell-demo">F</div>
@@ -2509,12 +2537,20 @@
            </div>
             <br>
             <h2>ALSO GOOD TO KNOW</h2>
-            <p style="text-align:left;">Attempting to play a previously played word does not incur a penalty. 
-                This word will be highlighted in your wordlist to help you plan your next moves.
-                <br>
-                <br>You can see your remaining lives and track your consecutive bonus use under the current word.
-                <br><br>Enjoy!
-            </p>
+            <div class="demo-div">
+                <p class="demo-para">Trying to play a previously played
+                    <br>word doesn't incur a penalty. 
+                    <br>It will be highlighted in your wordlist
+                    <br>to help you plan your next moves.
+                    <br>
+                    <br>The search function also helps you
+                    <br>to check previously played words.
+                    <br>
+                    <br>You can see your remaining lives
+                    <br>and track your consecutive bonus
+                    <br>use under the current word.
+                </p>
+            </div>
         </div>
         <div id="about" style="display: none;">
             <p style="text-align: left;"> <b>ABOUT</b>
@@ -2891,11 +2927,13 @@
                         keyEl.style.visibility = 'hidden';
                     } else if (key === '<') {
                         keyEl.classList.add('key-control');
-                        keyEl.textContent = '⌫'; // Icon for backspace
+                        // keyEl.textContent = '⌫'; // Icon for backspace
+                        keyEl.innerHTML = '<small><small><small>del</small></small></small>'; // Icon for backspace
                         keyEl.onclick = () => handleKey('<');
                     } else if (key === '<<') {
                         keyEl.classList.add('key-control', 'key-clear-all');
-                        keyEl.textContent = '×'; // Icon for clear
+                        // keyEl.textContent = '×'; // Icon for clear
+                        keyEl.innerHTML = '<small><small><small>all</small></small></small>'; // Icon for clear
                         keyEl.onclick = () => handleKey('<<');
                     } else {
                         keyEl.textContent = key;
