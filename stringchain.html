@@ -3335,6 +3335,7 @@
                 collapseModal.style.display = "block";
                 // searchInput.focus();
                 document.getElementById('searchInput').value = '';
+                handleKey('');
                 createKeyboard();
             });
 
@@ -3573,12 +3574,12 @@
                     behavior: 'smooth'
                 });
 
-                // 6. Remove highlight after 20s using a simple class removal
+                // 6. Remove highlight after 5s using a simple class removal
                 setTimeout(() => {
                     if (target.isConnected) {
                         target.classList.remove('highlight');
                     }
-                }, 20000);
+                }, 5000);
             }
 
 
