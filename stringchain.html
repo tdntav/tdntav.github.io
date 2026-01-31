@@ -2597,7 +2597,7 @@
         <div id="about" style="display: none;">
             <p style="text-align: left;"> <b>ABOUT</b>
                 <br>
-                <br>Big shoutout to <b><i>dictionaryapi.dev</i></b>, <b><i>wiktionary.org</i></b> and <b><i>wordgamedictionary.com</i></b> (who seem to have ) for
+                <br>Big shoutout to <b><i>dictionaryapi.dev</i></b>, <b><i>wiktionary.org</i></b> and <b><i>wordgamedictionary.com</i></b> for
                 providing free dictionary resources. This is
                 the spirit of
                 random collaboration that embodies the internet at its best.
@@ -5738,15 +5738,30 @@
                     return;
                 }
 
-                fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${lower}`)
+                // fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${lower}`)
+                //     .then(res => {
+                //         if (!res.ok) throw new Error();
+                //         return res.json();
+                //     })
 
-                // fetch(`https://en.wiktionary.org/w/api.php?action=parse&page=${lower}&prop=wikitext&format=json&origin=*`)
-                    // fetch(`https://cors.isomorphic-git.org/https://api.dictionaryapi.dev/api/v2/entries/en/${lower}`)
+
+                fetch(`https://en.wiktionary.org/w/api.php?action=parse&page=${lower}&prop=wikitext&format=json&origin=*`)
                     .then(res => {
-                        if (!res.ok) throw new Error();
+                        if (!res.ok) throw new Error("Network error");
                         return res.json();
                     })
-                    .then(() => {
+                    .then(data => {
+                        // 1. Check for Wiktionary's specific error object
+                        if (data.error) {
+                            throw new Error("Word not found");
+                        }
+
+                        // 2. Check for English section in the wikitext
+                        const wikitext = data.parse.wikitext['*'];
+                        if (!wikitext.includes("==English==")) {
+                            throw new Error("Not an English word");
+                        }
+
                         playedWords.add(lower);
                         updateHistory();
                         lastValidWord = currentWord;
