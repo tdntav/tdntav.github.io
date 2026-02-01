@@ -569,6 +569,7 @@
             align-items: center;
             /* padding: 10px; */
             font-size: 20pt;
+            box-sizing: border-box;
         }
 
         h1,
@@ -977,16 +978,167 @@
             height: 49px;
         }
 
+
+
+
+
+
+        .button-row2 {
+            display: flex;
+            gap: none;
+            justify-content: center;
+            width: 360px;
+            /* flex-wrap: wrap; */
+            /* z-index: 1; */
+        }
         .newgame {
             box-sizing: border-box;
-            width: 360px;     
+            width:50%;
+            font-size:16px;
             padding: var(--gap);
             margin: var(--gap) 0px;
+            margin-bottom: var(--gap);
             display: block;
             background-image: linear-gradient(to right, var(--text), var(--accent), var(--accent-text));
             border: 2px solid var(--accent-text);
             height: 49px;
         }
+
+        #searchBtn {
+            box-sizing: border-box;
+            width: 50%;
+            display: block;
+            padding: var(--gap);
+            margin-bottom: var(--gap);
+            margin: var(--gap) 0px;
+            /* background-image: linear-gradient(to left, var(--text), var(--accent), var(--accent-text)); */
+            background:var(--gridcell);
+            color:var(--gridcell-text);
+            border:var(--gridcell-border);
+            /* border: 2px solid var(--accent-text); */
+            font-size:16px;
+            /* border:none; */
+            height: 49px;
+            border-radius: var(--rounding);
+            text-align:center;
+            text-transform: uppercase;
+        }
+
+        #searchInput {
+            position:absolute;
+            top:325px;
+            left: 88px;
+            box-sizing: border-box;
+            width: 290px;
+            display: block;
+            padding: var(--gap);
+            margin-bottom: var(--gap);
+            margin: var(--gap) 0px;
+            /* background-image: linear-gradient(to left, var(--text), var(--accent), var(--accent-text)); */
+            background:var(--gridcell);
+            color:var(--gridcell-text);
+            border:var(--gridcell-border);
+            /* border: 2px solid var(--accent-text); */
+            font-size:16px;
+            /* border:none; */
+            height: 49px;
+            border-radius: var(--rounding);
+            text-align:center;
+            text-transform: uppercase;
+        }
+
+        #searchInput:placeholder-shown {
+            color: var(--gridcell-text);
+            background: var(--gridcell);
+            opacity:50%;
+            }        
+
+        #searchInput, select {
+            outline: none;
+            background: var(--selected-cell);
+            color: var(--selected-text);
+            border: var(--selected-border);
+        }
+
+
+
+        #searchInput:focus {
+            background: var(--selected-cell);
+            color: var(--selected-text);
+            border: var(--selected-border);
+        }
+
+        #searchInput:focus-visible {
+            outline: none;
+            /* box-shadow: 0 0 2px 2px #51a7e8; */
+            background: var(--selected-cell);
+            color: var(--selected-text);
+            border: var(--selected-border);
+        }
+
+
+        /* .search-results {
+            display: block;
+        
+            text-align: center;
+            box-sizing: border-box;
+            width: 360px;            
+            overflow-y: auto; 
+            overscroll-behavior: contain;
+            border-radius: var(--rounding);
+            background:var(--bg);
+            border: 2px solid var(--text);
+
+            overflow-y: auto;
+            overflow-wrap: normal;
+            padding: 10px;
+            margin-block: 10px;
+            height:200px;
+            align-items: center;
+            justify-content: center;
+            align-items: end;
+            line-height: 80%;
+        } */
+
+
+
+        .search-results {
+    display: flex;
+    /* 1. Start from the bottom */
+    flex-direction: row-reverse; 
+    /* 2. New lines grow upward */
+    flex-wrap: wrap-reverse; 
+    /* 3. Align content to the left (or right) */
+    align-content: flex-start; 
+    justify-content: center;
+    
+    /* Container styling */
+    height: 170px; /* Or your halved height */
+    width: 360px;
+    overflow-x: auto; /* If content grows horizontally */
+    overflow-y: auto;
+    /* padding: 5px; */
+    gap: 2px;
+    border-radius: var(--rounding);
+    background:var(--bg);
+    /* border: 2px solid var(--text); */
+    margin-block: 10px;
+    box-sizing: border-box;
+    /* padding-inline:10px; */
+    line-height: 120%;
+
+
+}
+
+.search-results span {
+    display: inline-block;
+    /* white-space: nowrap; */
+}
+
+
+
+
+
 
         .help {
             border-radius: 22px;
@@ -1006,7 +1158,7 @@
             background: var(--bg);
             color: var(--text);
             margin-top: 15px;
-            min-height: 40px;
+            min-height: 20px;
             min-width: 40px;
             opacity: 50%;
         }
@@ -1102,6 +1254,7 @@
             overscroll-behavior: contain;
             min-height:10px;
             max-height: 132px;
+            /* max-height:56px; */
             font-size: 12pt;
             font-family: "Courier New", monospace;
             color: var(--accent-text);
@@ -1113,24 +1266,30 @@
             /* margin-inline: 20px; */
             margin-block:0px;
             border-radius: var(--rounding);
+        } 
+        
+        #history.truncated {
+            max-height: 96px;
+            min-height:20px;
+            /* height:100px; */
         }
 
 
-        mark.highlight {
+        .highlight {
             background: var(--wordcell-text);
             /* text-decoration: underline 3px solid var(--wordcell); */
             color: var(--wordcell);
             /* padding: 4px; */
             /* border: 2px solid var(--bg); */
-            border-radius: var(--rounding);
+            border-radius: var(--rounding-small);
             /* font-weight: bold; */
             /* opacity:75%; */
-            transition: font-color text-decoration 5s ease;
+            /* transition: font-color text-decoration 5s ease; */
         }
-
+/* 
         mark.highlight.fade {
             color: transparent;
-        }
+        } */
 
 
 
@@ -1173,6 +1332,7 @@
             width: 100%;
             font-size: 14px;
             text-align: center;
+            box-sizing: border-box;
         }
 
         .high-score-table {
@@ -1233,7 +1393,7 @@
 
 
         .demo-board {
-            width: 100%;
+            width: 320px;
             /* transform: scale(1); */
             overflow: hidden;
 
@@ -1248,8 +1408,25 @@
             padding: 0;
             box-sizing: border-box;
             height: fit-content;
-            background-image: linear-gradient(to bottom, var(--bg), var(--accent));
+            background:var(--bg);
+            /* background-image: linear-gradient(to bottom, var(--bg), var(--accent)); */
             border-radius:var(--rounding);
+        }
+
+        .demo-accent {
+            width: 100%;
+            background-image: linear-gradient(to bottom, var(--bg), var(--accent));
+            border-radius: 0 0 var(--rounding) var(--rounding);
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            height: fit-content;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            box-sizing: border-box;
+
         }
 
         .demo-para {
@@ -1420,8 +1597,38 @@
             /* CHANGE 2: Use flexbox to organize the header and scroll area */
             display: flex;
             flex-direction: column;
-            max-height: 80vh;
-            min-height: 20vh;
+            max-height: 80dvh;
+            min-height: 20dvh;
+            width: 400px;
+            /* z-index: 1; */
+            /* opacity: unset; */
+        }
+
+
+        .modal-search {
+            position: fixed;
+            top: 43px;
+            background: var(--bg);
+            color: var(--text);
+            /* background-image: linear-gradient(to bottom, var(--accent), var(--bg));  */
+            box-sizing: border-box;
+            padding-block: 12px;
+            padding-inline:0px;
+            border-radius: var(--rounding);
+            border: var(--accent) solid 2px;
+            align-items: center;
+            align-content: bottom;
+            
+            /* overflow-y:scroll; */
+
+            /* CHANGE 1: Remove scrolling from here */
+            overflow-y: hidden; 
+            
+            /* CHANGE 2: Use flexbox to organize the header and scroll area */
+            display: flex;
+            flex-direction: column;
+            flex-direction: column-reverse;
+            height: 552px;
             width: 400px;
             /* z-index: 1; */
             /* opacity: unset; */
@@ -1447,7 +1654,7 @@
             /* CHANGE 2: Use flexbox to organize the header and scroll area */
             display: flex;
             flex-direction: column;
-            max-height: 80vh;
+            max-height: 80dvh;
             width: 340px;
             /* z-index: 1; */
             /* opacity: unset; */
@@ -1504,7 +1711,12 @@
             /* height:auto; */
         }
 
-
+        .gap{
+            width:var(--gap);
+        }
+        .cell-width {
+            width:var(--cell-size);
+        }
 
         .missions-help-btn {
             display: none;
@@ -1831,7 +2043,7 @@
         }
 
         .rewards {
-            font-size: 11pt;
+            font-size: 12pt;
             /* color: var(--text); */
             /* margin-top: 10px; */
             border-radius: var(--rounding);
@@ -1895,6 +2107,49 @@
 
 
 
+
+
+
+        .custom-keyboard {
+            /* position:absolute; */
+            /* bottom:20px; */
+            display: grid;
+            grid-template-columns: repeat(10, 1fr); /* 10 equal columns */
+            gap: 4px;
+            width:360px;
+            margin-block: 68px 0;
+            /* background: rgba(0, 0, 0, 0.1); */
+            user-select: none; /* Prevents text selection while typing */
+        }
+
+        .key {
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--text);
+            color:var(--bg);
+            border:2px solid var(--text);
+            font-size: 18pt;
+            border-radius: var(--rounding-small);
+            cursor: pointer;
+            touch-action: manipulation; /* Prevents mobile double-tap zoom */
+        }
+
+        .key:active {
+            background: var(--key-active, #ccc);
+        }
+
+        /* Style for both delete buttons */
+        .key-control {
+            opacity:70%;
+        }
+
+        /* Optional: Make the "Clear All" look slightly different */
+        .key-clear-all {
+            opacity:70%;
+        }
+
     </style>
 </head>
 
@@ -1902,7 +2157,7 @@
 
     <!-- <div style="height:60px;"><br></div> -->
     <div id="dropdown" style="display:none;">
-        <h1>stringchain</h1>
+        <h1>stringchain.fyi</h1>
         <button id="themeToggle" class="help-dark">change</button> <button id="toggle-rules" class="help-dark">HOW TO
             PLAY</button> <button id="aboutBtn" class="help-dark">about</button>
 
@@ -1931,18 +2186,20 @@
                         <button class="actionBtn" style="border:var(--selected-border);">PLAY</button>
                         <button class="gridRefreshBtn disabled" style="border:2px solid transparent;">#</button>
                         </div> -->
-
-                    <div class="word-container demoscale" style="width:75%;margin-top:5px;border:4px solid var(--positive-feedback);">
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">T</div>
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">A</div>
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">M</div>
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">E</div>
-                        <div class="insert-slot demo-cell selected"></div>
+                    <div class="demo-accent">
+                        <div class="word-container demoscale" style="width:75%;margin-top:5px;border:4px solid var(--positive-feedback);">
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">T</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">A</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">M</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">E</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                        </div>
                     </div>
+                    
                 </div>
             </div><br>
             <div class="demo-div">
@@ -1966,17 +2223,20 @@
                             style="border:2px solid transparent;">||</button><button class="actionBtn"
                             style="border:var(--selected-border);">PLAY</button><button class="gridRefreshBtn disabled"
                             style="border:2px solid transparent;">#</button></div> -->
-                    <div class="word-container demoscale" style="width:75%;margin-top:5px;border:4px solid var(--positive-feedback);">
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">T</div>
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">E</div>
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">A</div>
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">M</div>
-                        <div class="insert-slot demo-cell selected"></div>
+                    <div class="demo-accent">
+                        <div class="word-container demoscale" style="width:75%;margin-top:5px;border:4px solid var(--positive-feedback);">
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">T</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">E</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">A</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">M</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                        </div>
                     </div>
+                    
                 </div>
             </div>
             <br>
@@ -2000,16 +2260,18 @@
                             style="border:2px solid transparent;">||</button><button class="actionBtn"
                             style="border:var(--selected-border);">PLAY</button><button class="gridRefreshBtn disabled"
                             style="border:2px solid transparent;">#</button></div> -->
-
-                    <div class="word-container demoscale" style="width:75%;margin-top:5px;border:4px solid var(--positive-feedback);">
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">T</div>
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">E</div>
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">A</div>
-                        <div class="insert-slot demo-cell selected"></div>
+                    <div class="demo-accent">
+                        <div class="word-container demoscale" style="width:75%;margin-top:5px;border:4px solid var(--positive-feedback);">
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">T</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">E</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">A</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                        </div>
                     </div>
+                    
                 </div>
             </div>
 
@@ -2045,15 +2307,16 @@
                         <div class="grid-cell-demo">T</div>
                     </div>
                     <p class="demo-para">Hit <b><i>PLAY</i></b> to confirm.<br><br></p>
-
-                    <div class="word-container demoscale" style="width:75%;margin-top:5px;border:4px solid var(--positive-feedback);">
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">T</div>
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">E</div>
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">N</div>
-                        <div class="insert-slot demo-cell selected"></div>
+                    <div class="demo-accent">
+                        <div class="word-container demoscale" style="width:75%;margin-top:5px;border:4px solid var(--positive-feedback);">
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">T</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">E</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">N</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -2088,17 +2351,18 @@
                         <div class="grid-cell-demo selected">T</div>
                     </div>
                     <p class="demo-para">Engage <b><i>PLAY</i></b> to make it so.<br><br></p>
-
-                    <div class="word-container demoscale" style="width:75%;margin-top:5px;border:4px solid var(--positive-feedback);">
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">T</div>
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">E</div>
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">N</div>
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">T</div>
-                        <div class="insert-slot demo-cell selected"></div>
+                    <div class="demo-accent">
+                        <div class="word-container demoscale" style="width:75%;margin-top:5px;border:4px solid var(--positive-feedback);">
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">T</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">E</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">N</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">T</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -2202,18 +2466,20 @@
                         <p class="demo-para"><br>This allows you to use an invalid word
                             <br>to bridge the gap to your next word.<br>
                         </p>
-                    <div class="word-container demoscale" style="width:75%;margin-top:15px;background:var(--selected-text);border:4px solid var(--selected-cell);">
-                        <div class="insert-slot demo-cell"></div>
-                        <div class="letter demo-cell">T</div>
-                        <div class="insert-slot demo-cell"></div>
-                        <div class="letter demo-cell">E</div>
-                        <div class="insert-slot demo-cell"></div>
-                        <div class="letter demo-cell">N</div>
-                        <div class="insert-slot demo-cell"></div>
-                        <div class="letter demo-cell">N</div>
-                        <div class="insert-slot demo-cell"></div>
-                        <div class="letter demo-cell">T</div>
-                        <div class="insert-slot demo-cell"></div>
+                    <div class="demo-accent">
+                        <div class="word-container demoscale" style="width:75%;margin-top:15px;background:var(--selected-text);border:4px solid var(--selected-cell);">
+                            <div class="insert-slot demo-cell"></div>
+                            <div class="letter demo-cell">T</div>
+                            <div class="insert-slot demo-cell"></div>
+                            <div class="letter demo-cell">E</div>
+                            <div class="insert-slot demo-cell"></div>
+                            <div class="letter demo-cell">N</div>
+                            <div class="insert-slot demo-cell"></div>
+                            <div class="letter demo-cell">N</div>
+                            <div class="insert-slot demo-cell"></div>
+                            <div class="letter demo-cell">T</div>
+                            <div class="insert-slot demo-cell"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -2230,21 +2496,21 @@
             <div class="demo-div">
                 <!-- EXAMPLE 8: GRID EXPAND -->
                 <div class="demo-board">
-                    <div class="word-container demoscale" style="width:110%;border:4px solid var(--positive-feedback);">
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">T</div>
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">E</div>
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">N</div>
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">A</div>
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">N</div>
-                        <div class="insert-slot demo-cell selected"></div>
-                        <div class="letter demo-cell selected">T</div>
-                        <div class="insert-slot demo-cell selected"></div>
-                    </div>
+                        <div class="word-container demoscale" style="width:110%;border:4px solid var(--positive-feedback);">
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">T</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">E</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">N</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">A</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">N</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                            <div class="letter demo-cell selected">T</div>
+                            <div class="insert-slot demo-cell selected"></div>
+                        </div>
                     <p class="demo-para">Reach or exceed six letters<br>and the grid expands to 4x4.</p>
                     <div class="grid-demo-four selected" style="background:var(--positive-feedback);border:none;">
                         <div class="grid-cell-demo">F</div>
@@ -2313,12 +2579,20 @@
            </div>
             <br>
             <h2>ALSO GOOD TO KNOW</h2>
-            <p style="text-align:left;">Attempting to play a previously played word does not incur a penalty. 
-                This word will be highlighted in your wordlist to help you plan your next moves.
-                <br>
-                <br>You can see your remaining lives and track your consecutive bonus use under the current word.
-                <br><br>Enjoy!
-            </p>
+            <div class="demo-div">
+                <p class="demo-para">Trying to play a previously played
+                    <br>word doesn't incur a penalty. 
+                    <br>It will be highlighted in your wordlist
+                    <br>to help you plan your next moves.
+                    <br>
+                    <br>The search function also helps you
+                    <br>to check previously played words.
+                    <br>
+                    <br>You can see your remaining lives
+                    <br>and track your consecutive bonus
+                    <br>use under the current word.
+                </p>
+            </div>
         </div>
         <div id="about" style="display: none;">
             <p style="text-align: left;"> <b>ABOUT</b>
@@ -2331,17 +2605,21 @@
                 <br>Without whoever they are, whoever I am couldn't have made this game for whoever you are.
                 <br>
                 <br>The internet has lots of bitesize daily puzzles. These are great, but Stringchain is more
-                open-ended and user-driven.<br><br>
-                You can play as much as you want, whenever you want. It's not a subscription, it's not an appointment. You
-                choose when and how much. Take breaks, be healthy.
+                open-ended and user-driven.
+                <br><br>You can play as much as you want, whenever you want.
+                It's not a subscription, it's not an appointment. You choose when and how much.
                 <br>
-                <br>The core game, switching letters around, making words, it's really basic and simple. 
+                <br>Take breaks, be healthy. A game can (and probably should) be played over multiple sessions. The search function makes it easy to pick up where you left off.
+                <br>
+                <br>The core game, switching letters around, making words, it's really basic and simple, but so satisfying.
                 <br>The mechanics around that should incentivise exciting gameplay. Find your flow. Complete a mission. Enjoy the scenery.
                 <br>
                 <br>Get a high score. Beat that high score. Screenshot that high score and challenge your
                 friends. Look at your wordlist, you made that! Look at all the words you know, all these rhymes and connections! Writers, rappers, poets, word enthusiasts, this is your jam.
                 <br>
-                <br>Future tweaks and updates may happen, but the core game is in place now. Have at it!
+                <br>Future tweaks and updates will happen. 
+                Word validation is still not bulletproof (sorry!) - these rare injustices will help us update the wordlist for future intrepid chainstringers. 
+                Lookit, the core game is in place now, and it's quite good. Have at it!
                 <br>
                 <br>If you enjoy this game, consider buying me a coffee or putting my kids through college.
                 <br>
@@ -2382,9 +2660,16 @@
     </tr>
 </table> -->
     <!-- <div id="status">...</div> -->
-
-    <div class="game-area"> <!-- Fixed width matching your history area -->
-
+<!-- <div id="searchModal" class="modal" style="display:none;"> -->
+    <!-- <div id="searchModal" class="search-results hidden">
+        <div>
+            <div id="searchResults" style="width:360px;text-align:center;line-height: 70%;">
+                <div id="sectionStartsWith"></div>
+                <div id="sectionContains"></div>
+            </div>
+        </div>
+    </div> -->
+    <div class="game-area" style="position:relative;"> <!-- Fixed width matching your history area -->
         <div id="play-grid-layout" class="play-grid-layout">
 
             <div id="left-rail" class="rail left-rail">
@@ -2411,10 +2696,13 @@
 
         </div>
     </div>
-    <div id="history"></div>
+    <div id="history-wrapper"><div id="history"></div></div>
     <!-- <div id="disallowed"></div> -->
-
-    <button id="newGameBtn" class="newgame">RESTART</button>
+    <div class="button-row2">
+        <button id="newGameBtn" class="newgame">RESTART</button>
+        <span class="gap"></span>
+        <button id="searchBtn" class="searchBtn opacity-hide">search</button>
+    </div>
 
     <div id="definitions" class="hidden"></div>
     <!-- <button id="scrollBtn" class="scrollBtn">^</button> -->
@@ -2465,22 +2753,72 @@
 
 <div id="missionsModal" class="modal hidden">
     <div class="modal-missions">
-        <p class="demo-para hidden" style="text-align:center;font-size:11pt;" id="missions-help"></p>
         <h6>⇡⇡ MISSIONS ⇡⇡</h6><p class="demo-para" style="text-align:center;font-size:11pt;margin-top:-8px;">ALL TIME<br><br></p>
+        <p class="demo-para hidden" style="text-align:center;font-size:11pt;" id="missions-help"></p>
+
         <div id="missions-1" class="missions-1"></div>
     </div>
 </div>
 
 <!--#endregion Missions Modal -->
 
+<div id="searchModal" class="modal-1 hidden">
+    <div class="modal-search">
+        
+        
+        <div id="keyboardContainer" class="custom-keyboard"></div>
+
+        <!-- <input type="text" id="searchInput" autocomplete="off" placeholder="search" contenteditable virtualkeyboardpolicy="manual" > -->
+        <input type="text" id="searchInput" autocomplete="off" readonly inputmode="none" >
+        <div id="history2" style="overflow-y: auto;overscroll-behavior: contain;display: flex;align-items: center;"></div>
+        <!-- <p class="demo-para" style="text-align:center;font-size:10pt;">Click results to see nearby words in wordlist<br><br></p> -->
+
+        <!-- <div class="milestones-1" style="box-sizing:border-box;width:360px;min-height:200px;padding:10px;text-align:center;line-height:160%;"> -->
+            <div id="searchResults" class="search-results"></div>
+            <h6 style="position:absolute;top:15px;">SEARCH</h6>
+        <!-- </div> -->
+    </div>
+</div>
+
 
 
         <script>
 
 
+// if ("virtualKeyboard" in navigator) {
+//   const editor = document.getElementById("searchModal");
+//   const editButton = document.getElementById("searchInput");
+//   let isEditing = false;
 
+//   editButton.addEventListener("click", () => {
+//     if (isEditing) {
+//       navigator.virtualKeyboard.hide();
+//       editButton.textContent = "Edit";
+//     } else {
+//       editor.focus();
+//       navigator.virtualKeyboard.show();
+//       editButton.textContent = "Save changes";
+//     }
 
+//     isEditing = !isEditing;
+//   });
+// }
 
+// window.addEventListener('resize', () => {
+//     window.resizeTo(100% auto);
+//     if (!searchInput.classList.contains('focus-visible')) {
+//         topFunction();
+//     }
+// });
+
+// if (window.visualViewport) {
+//     window.visualViewport.addEventListener('resize', () => {
+//         // Force the layout to stick to the top left
+//         window.scrollTo(0, 0);
+//         document.body.scrollTop = 0;
+//         topFunction();
+//     });
+// }
 
 
 
@@ -2497,8 +2835,6 @@
             //DECLARATIONS
             const scaleWrapper = document.getElementById('scaleWrapper');
             const wordContainer = document.getElementById('wordContainer');
-            const highScoresElement = document.getElementById('highScores');
-            // const allTimeBestElement = document.getElementById('allTimeBestDisplay');
             const gridElement = document.getElementById('letterGrid');
             const leftRail = document.getElementById('left-rail');
             const rightRail = document.getElementById('right-rail');
@@ -2506,11 +2842,17 @@
             const newGameBtn = document.getElementById('newGameBtn');
             const bonusBtn = document.getElementById('bonusBtn');
             const gridRefreshBtn = document.getElementById('gridRefreshBtn');
+
             const milestonesBtn = document.getElementById('milestonesBtn');
             const milestonesModal = document.getElementById('milestonesModal');
             const milestonesContent = document.getElementById('milestones-1');
             const nextMilestoneInfo = document.getElementById('nextMilestoneInfo');
+            const highScoresElement = document.getElementById('highScores');
 
+            const searchBtn = document.getElementById('searchBtn');
+            const searchInput = document.getElementById('searchInput');
+            const searchModal = document.getElementById('searchModal');
+            const resultsContainer = document.getElementById('searchResults');
 
             const missionsBtn = document.getElementById('missionsBtn');
             const missionsModal = document.getElementById('missionsModal');
@@ -2526,8 +2868,11 @@
             const messageElement = document.getElementById('message');
             const scoreElement = document.getElementById('score');
             const chainElement = document.getElementById('chain');
+
             const historyElement = document.getElementById('history');
-            // const disallowedElement = document.getElementById('disallowed');
+            const historyHome = document.getElementById('history-wrapper');
+            const searchHistory = document.getElementById('history2');
+
             const statusElement = document.getElementById('status');
             const definitionsElement = document.getElementById('definitions');
             const rulesToggle = document.getElementById("toggle-rules");
@@ -2612,6 +2957,85 @@
             let allTimeWordLength = 0;
             let allTimeWord = "";
             let allTimeSummary = "";
+            
+            
+            
+            const keys = [
+                'Q','W','E','R','T','Y','U','I','O','P',
+                'A','S','D','F','G','H','J','K','L','', 
+                'Z','X','C','V','B','N','M','','<','<<' // < for Delete, << for Clear All
+            ];
+
+
+            function createKeyboard() {
+                const container = document.getElementById('keyboardContainer');
+                container.innerHTML = ''; // Clear existing
+
+                keys.forEach(key => {
+                    const keyEl = document.createElement('div');
+                    keyEl.className = 'key';
+                    
+                    if (key === '') {
+                        keyEl.style.visibility = 'hidden';
+                    } else if (key === '<') {
+                        keyEl.classList.add('key-control');
+                        // keyEl.textContent = '⌫'; // Icon for backspace
+                        keyEl.innerHTML = '<small><small><small>del</small></small></small>'; // Icon for backspace
+                        keyEl.onclick = () => handleKey('<');
+                    } else if (key === '<<') {
+                        keyEl.classList.add('key-control', 'key-clear-all');
+                        // keyEl.textContent = '×'; // Icon for clear
+                        keyEl.innerHTML = '<small><small><small>all</small></small></small>'; // Icon for clear
+                        keyEl.onclick = () => handleKey('<<');
+                    } else {
+                        keyEl.textContent = key;
+                        keyEl.onclick = () => handleKey(key);
+                    }
+                    
+                    container.appendChild(keyEl);
+                });
+            }
+
+            function handleKey(action) {
+                const input = document.getElementById('searchInput');
+                
+                if (action === '<<') {
+                    input.value = '';
+                } else if (action === '<') {
+                    input.value = input.value.slice(0, -1);
+                } else {
+                    input.value += action;
+                }
+                
+                // Trigger the search logic
+                input.dispatchEvent(new Event('input'));
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             //END OF DELARATIONS
 
@@ -2767,6 +3191,7 @@
                 consecutiveBonuses = 0;
                 // milestonesSummary = "";
                 milestonesBtn.classList.add('hidden');
+                searchBtn.classList.add('opacity-hide');
                 missionsBtn.classList.add('hidden');
                 livesLost = 0;
                 totalLives = 3;
@@ -2902,13 +3327,196 @@
                     <br><span class="yourBest">no-bonus streak of ${allTimeStreak}</span></p>
                         `;
                 
-                // allTimeBestElement.innerHTML = `<h6>ALL TIME BEST</h6>
-                //     ${allTimeSummary}`;
+                        
                 highScoresElement.innerHTML = `<h2>YOUR BEST</h2>
                     ${allTimeSummary}`;
             }
 
+
+            searchBtn.addEventListener('click', () => {
+                searchHistory.appendChild(historyElement);
+                historyElement.classList.add('truncated');
+                searchModal.classList.remove('hidden');
+                collapseModal.style.display = "block";
+                // searchInput.focus();
+                document.getElementById('searchInput').value = '';
+                handleKey('');
+                createKeyboard();
+            });
+
+
+            searchModal.addEventListener("click", (e) => {
+                if (e.target === searchModal) {
+                    historyHome.appendChild(historyElement);
+                    historyElement.classList.remove('truncated');
+                    searchModal.classList.add("hidden");
+                    collapseModal.style.display = "none";
+                    topFunction();
+                }
+            });
+
+
+
+
+
+
+
             //END OF BUTTONS
+
+
+
+
+
+            function searchPlayedWords(query) {
+                const q = query.toLowerCase().trim();
+                if (q.length === 0) return { startsWith: [], contains: [] };
+
+                // 1. Convert to Array and immediately filter for A-Z only
+                const wordsArray = Array.from(playedWords || []).filter(word => 
+                    /^[a-zA-Z]+$/.test(word)
+                );
+
+                // 2. Perform your search on the clean list
+                const startsWith = wordsArray.filter(word => 
+                    word.toLowerCase().startsWith(q)
+                );
+                
+                const contains = wordsArray.filter(word => 
+                    word.toLowerCase().includes(q) && !word.toLowerCase().startsWith(q)
+                );
+
+                return { startsWith, contains };
+            }
+
+
+
+            // function openSearch() {
+            //     document.getElementById('searchModal').style.display = 'block';
+            //     // Small timeout ensures the modal is visible before requesting focus
+            //     setTimeout(() => searchInput.focus(), 50); 
+            // }
+
+            // searchInput.addEventListener('input', (e) => {
+            //     const results = searchPlayedWords(e.target.value);
+            //     renderResults(results);
+            //     if (e.target.value) {searchModal.classList.remove('hidden');
+            //     }
+            //     if (!e.target.value) {searchModal.classList.add('hidden');}
+            //     if (e.target.value.trim() === '') {
+            //         searchModal.classList.add('hidden');
+            //     }
+            // });
+
+
+
+
+            searchInput.addEventListener('mousedown', function(e) {
+                // Firefox sometimes jolts on mousedown before focus
+                // This keeps the window steady
+                const x = window.scrollX;
+                const y = window.scrollY;
+                
+                setTimeout(() => {
+                    window.scrollTo(x, y);
+                }, 0);
+            });
+
+            searchInput.addEventListener('focus', (e) => {
+                // Explicitly prevent the browser from centering the input
+                window.scrollTo(0, 0);
+            }, { passive: true });
+
+
+
+
+
+
+
+
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.trim().toLowerCase();
+                
+                // 1. If the input is empty, hide the modal and stop
+                if (!query) {
+                    resultsContainer.classList.add('opacity-hide');
+                    return { startsWith: [], contains: [] };
+                }
+
+                // 2. Get your results
+                const results = searchPlayedWords(query);
+
+                // 3. Only show the modal if we actually found words
+                if (results.startsWith.length > 0 || results.contains.length > 0) {
+                    renderResults(results); // Fill the modal with the words
+                    resultsContainer.classList.remove('opacity-hide');
+                } else {
+                    // Optional: Hide if no matches, or show a "No matches" message
+                    resultsContainer.classList.add('opacity-hide');
+                    return { startsWith: [], contains: [] };
+                }
+            });
+
+            // function renderResults({ startsWith, contains }) {
+            //     const startDiv = document.getElementById('sectionStartsWith');
+            //     const containDiv = document.getElementById('sectionContains');
+
+            //     if (startsWith.length > 0) {
+            //         const firstMatch = startsWith[0];
+            //         highlightPlayed(firstMatch); 
+            //     } else if (contains.length > 0) {
+            //         // Fallback: if no 'starts with' matches, highlight the first 'contains' match
+            //         highlightPlayed(contains[0]);
+            //     }
+                
+
+
+            //     startDiv.innerHTML = startsWith.length ? `` + 
+            //         startsWith.map(w => `<span class="rewards2">${w}</span>`).join(' ') : '';
+
+            //     containDiv.innerHTML = contains.length ? `` + 
+            //         contains.map(w => `<span class="rewards">${w}</span>`).join(' ') : '';
+            // }
+
+            function renderResults({ startsWith, contains }) {                 
+                // 1. Sort both arrays in reverse alphabetical order (Z-A)
+                const sortedStarts = [...startsWith].sort((a, b) => a.localeCompare(b));
+                const sortedContains = [...contains].sort((a, b) => a.localeCompare(b));
+
+                // 2. Trigger highlight logic (using the first of the sorted results)
+                if (sortedStarts.length > 0) {
+                    highlightPlayed(sortedStarts[0], false); // false to prevent focus pull
+                } else if (sortedContains.length > 0) {
+                    highlightPlayed(sortedContains[0], false);
+                }
+
+                // 3. Map to spans with different classes
+                const startsHTML = sortedStarts
+                    .map(w => `<span class="rewards2" onclick="highlightPlayed('${w}')">${w}</span>`)
+                    .join(' ');
+
+                const containsHTML = sortedContains
+                    .map(w => `<span class="rewards" onclick="highlightPlayed('${w}')">${w}</span>`)
+                    .join(' ');
+
+                // 4. Consolidate into one string. 
+                // We use a space between the two sets so they don't touch.
+                resultsContainer.innerHTML = `${startsHTML} ${containsHTML}`.trim();
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             //ANIMATIONS AND HIGHLIGHTS
 
@@ -2925,56 +3533,111 @@
             //     });
             // }
 
+
+
             function highlightPlayed(currentWord) {
-    const safeWord = currentWord.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const regex = new RegExp(`\\b${safeWord}\\b`, 'gi');
 
-    // Replace and mark
-    historyElement.innerHTML = historyElement.innerHTML.replace(
-        regex,
-        '<mark class="highlight">$&</mark>'
-    );
+                const safeWord = currentWord.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                const regex = new RegExp(`\\b${safeWord}\\b`, 'gi');
 
-    const marks = historyElement.querySelectorAll('mark.highlight');
-    if (!marks.length) return;
+                // 1. Find all spans in the history list
+                const allSpans = historyElement.querySelectorAll('span');
+                console.log(allSpans);
+                
+                // 2. Remove previous highlights safely without touching HTML strings
+                allSpans.forEach(span => span.classList.remove('highlight'));
 
-    // Always target the most recent occurrence
-    const target = marks[marks.length - 1];
+                // 3. Find the specific span for this word
+                // We look for a match in textContent
+                const target = Array.from(allSpans).find(s => {
+                    // 1. Clean both sides of whitespace
+                    const spanText = s.textContent.trim().toLowerCase();
+                    const searchText = currentWord.trim().toLowerCase();
+                    
+                    // 2. Exact match check
+                    return spanText === searchText;
+                });
+                console.log("target is " + target);
 
-    const containerRect = historyElement.getBoundingClientRect();
-    const targetRect = target.getBoundingClientRect();
+                if (!target) return;
 
-    // const offset =
-    //     targetRect.top
-    //     - containerRect.top
-    //     - historyElement.clientHeight / 2
-    //     + target.offsetHeight / 2;
+                // 4. Add the highlight class
+                target.classList.add('highlight');
 
-    // historyElement.scrollTo({
-    //     top: historyElement.scrollTop + offset,
-    //     behavior: 'smooth'
-    // });
+                // 5. Scroll logic (Your math was actually solid, just needed a stable target)
+                const containerRect = historyElement.getBoundingClientRect();
+                const targetRect = target.getBoundingClientRect();
 
-        const destination =
-            historyElement.scrollTop +
-            (targetRect.top - containerRect.top) -
-            (containerRect.height / 2) +
-            (targetRect.height / 2);
+                const destination =
+                    historyElement.scrollTop +
+                    (targetRect.top - containerRect.top) -
+                    (containerRect.height / 2) +
+                    (targetRect.height / 2);
 
-    historyElement.scrollTo({
-        top: Math.max(0, destination),
-        behavior: 'smooth'
-    });
+                historyElement.scrollTo({
+                    top: Math.max(0, destination),
+                    behavior: 'smooth'
+                });
 
-    // Remove highlight after 20s
-    marks.forEach(mark => {
-        setTimeout(() => {
-            if (mark.isConnected) {
-                mark.replaceWith(mark.textContent);
+                // 6. Remove highlight after 5s using a simple class removal
+                setTimeout(() => {
+                    if (target.isConnected) {
+                        target.classList.remove('highlight');
+                    }
+                }, 5000);
             }
-        }, 20000);
-    });
-}
+
+
+
+
+            // function highlightPlayed(currentWord) {
+            //     // Replace existing
+            //     historyElement.innerHTML = historyElement.innerHTML.replace(
+            //         '<mark class="highlight">',
+            //         ''
+            //     );
+            //     historyElement.innerHTML = historyElement.innerHTML.replace(
+            //         '</mark>',
+            //         ''
+            //     );
+            //     const safeWord = currentWord.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            //     const regex = new RegExp(`\\b${safeWord}\\b`, 'gi');
+
+            //     historyElement.innerHTML = historyElement.innerHTML.replace(
+            //         regex,
+            //         '<mark class="highlight">$&</mark>'
+            //     );
+
+            //     const marks = historyElement.querySelectorAll('mark.highlight');
+            //     if (!marks.length) return;
+
+            //     // Always target the most recent occurrence
+            //     // const target = marks[marks.length - 1];
+            //     const target = marks[0];
+
+            //     const containerRect = historyElement.getBoundingClientRect();
+            //     const targetRect = target.getBoundingClientRect();
+
+            //     const destination =
+            //             historyElement.scrollTop +
+            //             (targetRect.top - containerRect.top) -
+            //             (containerRect.height / 2) +
+            //             (targetRect.height / 2);
+
+            //     historyElement.scrollTo({
+            //         top: Math.max(0, destination),
+            //         behavior: 'smooth'
+            //     });
+
+            //     //Remove highlight after 20s
+            //     marks.forEach(mark => {
+            //         setTimeout(() => {
+            //             if (mark.isConnected) {
+            //                 mark.replaceWith(mark.textContent);
+            //             }
+            //         }, 20000);
+            //     });
+            // }
 
 
 
@@ -3180,6 +3843,9 @@
                 missionsHelpBtn.style.display = "none";
                 milestonesModal.classList.add("hidden");
                 missionsModal.classList.add("hidden");
+                historyHome.appendChild(historyElement);
+                historyElement.classList.remove('truncated');
+                searchModal.classList.add("hidden");                
             });
             //END OF SCROLLING ETC
 
@@ -3332,18 +3998,21 @@
                     if (gridSize == 3) { 
                         missionsBtn.classList.add("span-0"); 
                         gridRefreshBtn.classList.remove("span-2"); 
-                        milestonesBtn.classList.add("hidden"); 
+                        milestonesBtn.classList.add("hidden");
+                        searchBtn.classList.add("opacity-hide"); 
                         missionsBtn.classList.add("hidden");
                     } else if ((gridSize == 4) && (chain >= 32)) {
                         gridRefreshBtn.classList.add("span-2"); 
                         milestonesBtn.classList.remove("hidden");
+                        searchBtn.classList.remove("opacity-hide"); 
                         missionsBtn.classList.remove("span-0"); 
                         missionsBtn.classList.remove("hidden"); 
                         missionsBtn.classList.remove("opacity-hide"); 
                     } else if ((gridSize == 4) && (chain < 32)) { 
                         missionsBtn.classList.remove("span-0"); 
                         gridRefreshBtn.classList.add("span-2"); 
-                        milestonesBtn.classList.remove("hidden"); 
+                        milestonesBtn.classList.remove("hidden");
+                        searchBtn.classList.add("opacity-hide"); 
                         missionsBtn.classList.remove("hidden");
                         missionsBtn.classList.add("opacity-hide"); 
                     }    
@@ -3675,7 +4344,7 @@
                         //strip numeric characters
                             return `<i>${w.replace(/\d+/g, '')}</i> `;
                         // For regular words, append a space
-                        return w + " ";
+                        return "<span> " + w + "</span> ";
                     })
                     .join('');
             }
@@ -3736,7 +4405,12 @@
                         // Remove it so it can't trigger again
                         chainMilestones.splice(chainQuestIndex, 1); 
                         // Apply reward 
-                        if (chain == 32) {missionsBtn.classList.remove("hidden"); missionsBtn.classList.remove("opacity-hide"); }
+                        if (chain == 32) {
+                            missionsBtn.classList.remove("hidden"); 
+                            missionsBtn.classList.remove("opacity-hide");
+                            searchBtn.classList.remove("opacity-hide"); 
+
+                        }
                         if (chain != 128) {
                             milestones.push({ 
                                 word: currentWord, 
@@ -5064,15 +5738,30 @@
                     return;
                 }
 
-                fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${lower}`)
+                // fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${lower}`)
+                //     .then(res => {
+                //         if (!res.ok) throw new Error();
+                //         return res.json();
+                //     })
 
-                // fetch(`https://en.wiktionary.org/w/api.php?action=parse&page=${lower}&prop=wikitext&format=json&origin=*`)
-                    // fetch(`https://cors.isomorphic-git.org/https://api.dictionaryapi.dev/api/v2/entries/en/${lower}`)
+
+                fetch(`https://en.wiktionary.org/w/api.php?action=parse&page=${lower}&prop=wikitext&format=json&origin=*`)
                     .then(res => {
-                        if (!res.ok) throw new Error();
+                        if (!res.ok) throw new Error("Network error");
                         return res.json();
                     })
-                    .then(() => {
+                    .then(data => {
+                        // 1. Check for Wiktionary's specific error object
+                        if (data.error) {
+                            throw new Error("Word not found");
+                        }
+
+                        // 2. Check for English section in the wikitext
+                        const wikitext = data.parse.wikitext['*'];
+                        if (!wikitext.includes("==English==")) {
+                            throw new Error("Not an English word");
+                        }
+
                         playedWords.add(lower);
                         updateHistory();
                         lastValidWord = currentWord;
