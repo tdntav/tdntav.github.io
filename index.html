@@ -875,7 +875,17 @@
             z-index: 1;
         }
 
-
+        .search-row {
+            box-sizing: border-box;
+            display: grid;
+            max-width:360px;
+            grid-template-columns: var(--rail-width) var(--gap) auto var(--gap) var(--rail-width);
+            gap: none;
+            margin-block:5px;
+            /* justify-content: center; */
+            /* flex-wrap: wrap; */
+            /* z-index: 1; */
+        }
 
 
         .button-row button {
@@ -910,27 +920,48 @@
 
         .collapseModal {
             display: none;
+            box-sizing: border-box;
             position: fixed;
             top: 376px;
-            /* left:300px; */
-            /* right:0px; */
-
             align-self: center;
             justify-self: center;
             align-items: center;
             text-align: center;
             margin-block: 0px;
-            margin-inline: 4px;
+            /* margin-inline: 4px; */
             border-radius: var(--rounding);
-            border: var(--wordcell--border);
-            background: var(--wordcell-text);
-            color: var(--wordcell);
+            border: 2px solid var(--text);
+            background: var(--bg);
+            color: var(--text);
             font-size: 18pt;
             height: 49px;
             width: var(--rail-width);
             opacity: 50%;
             z-index: 1001;
+        }
 
+        .collapseModal2 {
+            display:block;
+
+            /* top: 376px; */
+            /* left:300px; */
+            /* right:0px; */
+
+            /* align-self: center; */
+            /* justify-self: center; */
+            /* align-items: center; */
+            text-align: center;
+            /* margin-block: 0px; */
+            /* margin-inline: 4px; */
+            border-radius: var(--rounding);
+            border: 2px solid var(--text);
+            background: var(--bg);
+            color: var(--text);
+            font-size: 18pt;
+            height: 49px;
+            width: var(--rail-width);
+            opacity: 50%;
+            /* z-index: 1002; */
         }
 
         .scrollBtn {
@@ -1017,41 +1048,30 @@
         }
 
         #searchInput {
-            box-sizing: border-box;
-            width: 360px;
-            align-self: right;
+            width: 287px;
             display: block;
-            padding: var(--gap);
-            margin-bottom: var(--gap);
-            margin: var(--gap) 0px;
             background-image: linear-gradient(to left, var(--bg), var(--accent));
-            /* background:var(--gridcell); */
             color:var(--gridcell-text);
             border:none;
-            /* border:var(--gridcell-border); */
-            /* border: 2px solid var(--accent-text); */
             font-size:22px;
             font-weight: bold;
-            /* border:none; */
             height: 49px;
             border-radius: var(--rounding);
             text-align:center;
             text-transform: uppercase;
-            /* cursor: auto; */
         }
+
 
         #searchInput:placeholder-shown {
             color: var(--gridcell-text);
-            /* background: var(--gridcell); */
             opacity:50%;
             }        
 
         #searchInput, select {
             outline: none;
-            /* background:var(--gridcell); */
             color:var(--gridcell-text);
             border:none;
-            /* border:var(--gridcell-border); */        }
+                }
 
 
 
@@ -1060,14 +1080,14 @@
             background:var(--gridcell);
             color:var(--gridcell-text);
             border:none;
-            /* border:var(--gridcell-border); */        }
+              }
 
         #searchInput:focus-visible {
             outline: none;
             background:var(--gridcell);
             color:var(--gridcell-text);
             border:none;
-            /* border:var(--gridcell-border); */        }
+                } 
 
 
         /* .search-results {
@@ -2770,7 +2790,11 @@
         <div id="keyboardContainer" class="custom-keyboard"></div>
 
         <!-- <input type="text" id="searchInput" autocomplete="off" placeholder="search" contenteditable virtualkeyboardpolicy="manual" > -->
-        <input type="text" id="searchInput" autocomplete="off" readonly inputmode="none" >
+        <div class="search-row">
+            <button id="collapseModal2" class="collapseModal2">^</button>
+            <span class="gap"></span>
+            <input type="text" id="searchInput" autocomplete="off" readonly inputmode="none" >
+        </div>
         <div id="history2" style="overflow-y: auto;overscroll-behavior: contain;display: flex;align-items: center;"></div>
             <div id="searchResults" class="search-results"></div>
             <h6 style="position:absolute;top:15px;">SEARCH</h6>
@@ -2877,6 +2901,7 @@
             const dropdownToggle = document.getElementById("toggle-dropdown");
             const scrollBtn = document.getElementById("scrollBtn");
             const collapseModal = document.getElementById("collapseModal");
+            const collapseModal2 = document.getElementById("collapseModal2");
             const aboutBtn = document.getElementById("aboutBtn");
             const aboutDiv = document.getElementById("about");
             const rulesDiv = document.getElementById("rules");
@@ -3335,7 +3360,7 @@
                 searchHistory.appendChild(historyElement);
                 historyElement.classList.add('truncated');
                 searchModal.classList.remove('hidden');
-                collapseModal.style.display = "block";
+                // collapseModal.style.display = "block";
                 // searchInput.focus();
                 document.getElementById('searchInput').value = '';
                 handleKey('');
@@ -3348,7 +3373,7 @@
                     historyHome.appendChild(historyElement);
                     historyElement.classList.remove('truncated');
                     searchModal.classList.add("hidden");
-                    collapseModal.style.display = "none";
+                    // collapseModal.style.display = "none";
                     topFunction();
                 }
             });
@@ -3845,7 +3870,10 @@
                 historyElement.classList.remove('truncated');
                 searchModal.classList.add("hidden");                
             });
-            //END OF SCROLLING ETC
+
+            collapseModal2.addEventListener("click", () => {
+                collapseModal.click();               
+            });            //END OF SCROLLING ETC
 
             //THEMES
             const themeToggle = document.getElementById("themeToggle");
