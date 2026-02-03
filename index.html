@@ -52,8 +52,8 @@
             --selected-border: 2px solid var(--selected-cell);
         }
 
-/* #REGION OUTLINE TESTING - REMOVE LATER */    
-        /*                         
+/* #REGION OUTLINE TESTING - REMOVE LATER   */ 
+/*                                 
         * { outline: 2px dotted red }
         * * { outline: 2px dotted green }
         * * * { outline: 2px dotted orange }
@@ -63,7 +63,7 @@
         * * * * * * * { outline: 1px solid orange }
         * * * * * * * * { outline: 1px solid blue } 
         */
-/* #ENDREGION OUTLINE TESTING - */        
+/* #ENDREGION OUTLINE TESTING - */         
 
 /* * {box-sizing: border-box;} */
 
@@ -550,31 +550,28 @@
         }
 
         /* END OF THEMES*/
-        html, body { overflow-x: hidden;
-            /* height: 100%; */
+
+
+        html, body { 
+            overflow-x: hidden;
         }
 
         body {
             font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
             background: var(--bg);
-            /* background-image: linear-gradient(to top, var(--accent), var(--bg)); */
-
             max-width: 400px;
             margin: auto;
-            /* margin: 0; */
-            /* overflow-x: hidden; */
             color: var(--text);
             display: flex;
             flex-direction: column;
             align-items: center;
-            /* padding: 10px; */
             font-size: 20pt;
             box-sizing: border-box;
         }
 
         h1,
         h3 {
-            font-family: "Courier New", monospace;
+            font-family: "Courier New", "Courier", monospace;
             margin: 20px 0 5px 0;
             text-align: center;
         }
@@ -582,7 +579,6 @@
         h4,
         h5,
         h6 {
-            /* font-family: "Courier New", monospace; */
             margin: 0 0 5px 0;
             text-align: center;
         }
@@ -596,18 +592,14 @@
             text-align: center;
             width: 100%;
             height: 22px;
-            font-family: 'Courier New', Courier, monospace;
+            font-family: "Courier New", "Courier", monospace;
             z-index: 1;
-            /* font-weight: bold; */
-            /* background-image: linear-gradient(to top, var(--wordcell), var(--bg)); */
         }
 
         .message {
-            /* position: relative; */
-            /* bottom: 2px; */
             font-size: 11pt;
             border-radius: var(--rounding) var(--rounding) 0px 0px;
-            font-family: 'Courier New', Courier, monospace;
+            font-family: "Courier New", "Courier", monospace;
             flex-wrap: wrap;
             text-align: center;
             color: var(--text);
@@ -919,7 +911,7 @@
         .collapseModal {
             display: none;
             position: fixed;
-            top: 377px;
+            top: 376px;
             /* left:300px; */
             /* right:0px; */
 
@@ -930,7 +922,7 @@
             margin-block: 0px;
             margin-inline: 4px;
             border-radius: var(--rounding);
-            border: 2px solid var(--wordcell);
+            border: var(--wordcell--border);
             background: var(--wordcell-text);
             color: var(--wordcell);
             font-size: 18pt;
@@ -1025,56 +1017,57 @@
         }
 
         #searchInput {
-            position:absolute;
-            top:325px;
-            left: 88px;
             box-sizing: border-box;
-            width: 290px;
+            width: 360px;
+            align-self: right;
             display: block;
             padding: var(--gap);
             margin-bottom: var(--gap);
             margin: var(--gap) 0px;
-            /* background-image: linear-gradient(to left, var(--text), var(--accent), var(--accent-text)); */
-            background:var(--gridcell);
+            background-image: linear-gradient(to left, var(--bg), var(--accent));
+            /* background:var(--gridcell); */
             color:var(--gridcell-text);
-            border:var(--gridcell-border);
+            border:none;
+            /* border:var(--gridcell-border); */
             /* border: 2px solid var(--accent-text); */
-            font-size:16px;
+            font-size:22px;
+            font-weight: bold;
             /* border:none; */
             height: 49px;
             border-radius: var(--rounding);
             text-align:center;
             text-transform: uppercase;
+            /* cursor: auto; */
         }
 
         #searchInput:placeholder-shown {
             color: var(--gridcell-text);
-            background: var(--gridcell);
+            /* background: var(--gridcell); */
             opacity:50%;
             }        
 
         #searchInput, select {
             outline: none;
-            background: var(--selected-cell);
-            color: var(--selected-text);
-            border: var(--selected-border);
-        }
+            /* background:var(--gridcell); */
+            color:var(--gridcell-text);
+            border:none;
+            /* border:var(--gridcell-border); */        }
 
 
 
         #searchInput:focus {
-            background: var(--selected-cell);
-            color: var(--selected-text);
-            border: var(--selected-border);
-        }
+            outline: none;
+            background:var(--gridcell);
+            color:var(--gridcell-text);
+            border:none;
+            /* border:var(--gridcell-border); */        }
 
         #searchInput:focus-visible {
             outline: none;
-            /* box-shadow: 0 0 2px 2px #51a7e8; */
-            background: var(--selected-cell);
-            color: var(--selected-text);
-            border: var(--selected-border);
-        }
+            background:var(--gridcell);
+            color:var(--gridcell-text);
+            border:none;
+            /* border:var(--gridcell-border); */        }
 
 
         /* .search-results {
@@ -1198,7 +1191,7 @@
 
         #status {
             font-size: 13pt;
-            font-family: 'Courier New', Courier, monospace;
+            font-family: "Courier New", "Courier", monospace;
             margin: -10px 0px 8px 0px;
             color: var(--accent);
             /* text-align:end; */
@@ -1259,7 +1252,7 @@
             max-height: 132px;
             /* max-height:56px; */
             font-size: 12pt;
-            font-family: "Courier New", monospace;
+            font-family: "Courier New", "Courier", monospace;
             color: var(--accent-text);
             /* border: 2px solid var(--accent); */
             /* box-sizing: border-box; */
@@ -1361,7 +1354,7 @@
         }
 
         .highlight-reel {
-            font-family: 'Courier New', Courier, monospace;
+            font-family: "Courier New", "Courier", monospace;
             text-align: center;
             /* font-size: 9pt; */
             width: auto;
@@ -1539,8 +1532,8 @@
             z-index: 1000;
 
             background-color: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(3px);
-            -webkit-backdrop-filter: blur(3px);
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
         }
 
 
@@ -1559,8 +1552,8 @@
             z-index: 1000;
 
             background-color: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(3px);
-            -webkit-backdrop-filter: blur(3px);
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
         }
 
 /* 
@@ -1631,7 +1624,7 @@
             display: flex;
             flex-direction: column;
             flex-direction: column-reverse;
-            height: 552px;
+            height: 520px;
             width: 400px;
             /* z-index: 1; */
             /* opacity: unset; */
@@ -1724,7 +1717,11 @@
         .missions-help-btn {
             display: none;
             position: fixed;
-            top: 377px;
+            top:50px;
+            left:366px;
+            right:0px;
+            /* left:10px; */
+            /* top: 377px; */
             /* left:300px; */
             /* right:0px; */
 
@@ -1740,7 +1737,8 @@
             color: var(--wordcell);
             font-size: 18pt;
             height: 49px;
-            width: var(--rail-width);
+            /* width: var(--rail-width); */
+            width:30px;
             opacity: 50%;
             z-index: 1001;
 
@@ -1783,7 +1781,7 @@
 
         .sq-word {
             font-size: 13pt;
-            font-family: "Courier New", monospace;
+            font-family: "Courier New", "Courier", monospace;
         }
 
         .sq-para {
@@ -2091,7 +2089,7 @@
 
 
         .missions-display {
-            font-family: "Courier New", monospace;
+            font-family: "Courier New", "Courier", monospace;
             font-size: 12pt;
             /* color: var(--text); */
             /* margin-top: 10px; */
@@ -2120,20 +2118,20 @@
             grid-template-columns: repeat(10, 1fr); /* 10 equal columns */
             gap: 4px;
             width:360px;
-            margin-block: 68px 0;
+            margin-block: 4px 0;
             /* background: rgba(0, 0, 0, 0.1); */
             user-select: none; /* Prevents text selection while typing */
         }
 
         .key {
-            height: 42px;
+            height: 32px;
             display: flex;
             align-items: center;
             justify-content: center;
             background: var(--text);
             color:var(--bg);
             border:2px solid var(--text);
-            font-size: 18pt;
+            font-size: 14pt;
             border-radius: var(--rounding-small);
             cursor: pointer;
             touch-action: manipulation; /* Prevents mobile double-tap zoom */
@@ -2774,9 +2772,6 @@
         <!-- <input type="text" id="searchInput" autocomplete="off" placeholder="search" contenteditable virtualkeyboardpolicy="manual" > -->
         <input type="text" id="searchInput" autocomplete="off" readonly inputmode="none" >
         <div id="history2" style="overflow-y: auto;overscroll-behavior: contain;display: flex;align-items: center;"></div>
-        <!-- <p class="demo-para" style="text-align:center;font-size:10pt;">Click results to see nearby words in wordlist<br><br></p> -->
-
-        <!-- <div class="milestones-1" style="box-sizing:border-box;width:360px;min-height:200px;padding:10px;text-align:center;line-height:160%;"> -->
             <div id="searchResults" class="search-results"></div>
             <h6 style="position:absolute;top:15px;">SEARCH</h6>
         <!-- </div> -->
@@ -5589,10 +5584,8 @@
                             length: currentWord.length,
                             rewards: { gridExpanded: true }
                         });
-                    // milestonesSummary +=
-                    //     `<p><small><small><small>4x4 grid unlocked for 6+ letters: <span style="font-family: 'Courier New', monospace;">${currentWord.toLowerCase()}</span></small></small></small><br>`;
 
-                    // Place asterisk if earned (again for expansion refresh)
+                        
                     maybePlaceAsterisk(refreshedCells);
                 }
                 saveGameState();
