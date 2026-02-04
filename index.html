@@ -3177,7 +3177,7 @@
                 // getHighScores();
                 updateAllTimeStats();
                 
-                localStorage.removeItem("stringchainStateV2");
+                localStorage.removeItem("stringchainStateV3");
                 localStorage.removeItem("isDisqualified");
                 gameID = new Date().toISOString().slice(0, 19).replace('T', ' ');
                 gridSize = 3;
@@ -3315,24 +3315,7 @@
                     allTimeWord = lastValidWord;
                 }
 
-                // allTimeSummary = `<table style="border:none;text-align:center;align-content:center;margin-left:auto;margin-right:auto;">
-                //     <tr>
-                //         <td style="width:50%;border:none;">
-                //             <p class="sq-para1"><span class="rewards2">${allTimeString} string</span></p>
-                //         </td>
-                //         <td style="border:none;">
-                //             <p class="sq-para1"><span class="rewards2">chain ${allTimeChain}</span></p>
-                //         </td>
-                //     </tr>
-                //     <tr style="border:none;">
-                //         <td style="border:none;">
-                //             <p class="sq-para1"><span class="rewards2">${allTimeWordLength} letters</span><br><span class="sq-word">${allTimeWord.toLowerCase()}</span></p>
-                //         </td>
-                //         <td style="border:none;">
-                //             <p class="sq-para1"><span class="rewards2">no-bonus streak of ${allTimeStreak}</span></p>
-                //         </td>
-                //     </tr>
-                // </table>`;
+            
                 allTimeSummary = `<p class="sq-para1" style="font-size:5pt;"><span class="yourBest">${allTimeString} string</span>
                     <span class="yourBest">chain ${allTimeChain}</span><br>
                     <br><span class="yourBest">${allTimeWordLength} letters &nbsp;<span class="sq-word"><b>${allTimeWord.toLowerCase()}</b></span></span><br>
@@ -3937,12 +3920,20 @@
                     consecutiveBonuses,
                     streakMilestones, 
                     milestones,
-                    unlockedMissionTier,
-                    completedMissions: Array.from(completedMissions),
                     playedWords: Array.from(playedWords),
-                    allTimeString, allTimeChain, allTimeStreak, allTimeWord, allTimeWordLength
+                    //allTimeString, allTimeChain, allTimeStreak, allTimeWord, allTimeWordLength, unlockedMissionTier, completedMissions: Array.from(completedMissions)
                 };
-                localStorage.setItem("stringchainStateV2", JSON.stringify(gameState));
+                const yourBest = {
+                    allTimeString, 
+                    allTimeChain, 
+                    allTimeStreak, 
+                    allTimeWord, 
+                    allTimeWordLength,
+                    unlockedMissionTier,
+                    completedMissions: Array.from(completedMissions)
+                };
+                localStorage.setItem("yourBest", JSON.stringify(yourBest));
+                localStorage.setItem("stringchainStateV3", JSON.stringify(gameState));
             }
 
 
@@ -3951,13 +3942,30 @@
             // Load and restore directly
             function loadGameState() {
                 // actionBtn.disabled = disqualified; 
-                const saved = localStorage.getItem("stringchainStateV2");
+                const saved = localStorage.getItem("stringchainStateV3");
+                const savedBest = localStorage.getItem("yourBest");
 
-                if (!saved) {
+                if (!saved && !savedBest) {
                     newGameBtn.click();
                     return;
-                }                
+                }
                 
+                try {
+                    ({
+                        allTimeString, 
+                        allTimeChain, 
+                        allTimeStreak, 
+                        allTimeWord, 
+                        allTimeWordLength,
+                        unlockedMissionTier,
+                        completedMissions
+                    } = JSON.parse(savedBest));                
+                    updateAllTimeStats();
+
+                } catch (err) {
+                    console.error("Error loading saved bests", err);
+                }
+
                 if (disqualified) {
                     newGameBtn.click();
                     return;
@@ -3990,12 +3998,9 @@
                         consecutiveBonuses,
                         streakMilestones, 
                         milestones,
-                        unlockedMissionTier,
-                        completedMissions,
                         playedWords,
-                        allTimeString, allTimeChain, allTimeStreak, allTimeWord, allTimeWordLength
+                        //allTimeString, allTimeChain, allTimeStreak, allTimeWord, allTimeWordLength, unlockedMissionTier, completedMissions
                     } = JSON.parse(saved));
-                    // disallowedWords = new Set(disallowedWords);
                     playedWords = new Set(playedWords);
                     completedMissions = new Set(completedMissions);
                     renderWord();
@@ -4003,8 +4008,6 @@
                     renderGrid();
                     updateHistory();
                     updateMilestones();
-                    updateAllTimeStats();
-                    // updateDisallowedWords();
                     updateBonusButton();
                     updateGridRefreshButton();
                     // showDefinitions(lastValidWord);
@@ -4048,6 +4051,19 @@
 
 
             function saveHighScore() {
+                const allTimeBestUpdate = {
+                    allTimeString, 
+                    allTimeChain, 
+                    allTimeStreak, 
+                    allTimeWord, 
+                    allTimeWordLength,
+                    unlockedMissionTier,
+                    completedMissions: Array.from(completedMissions)
+                };
+                localStorage.setItem('yourBest', JSON.stringify(allTimeBestUpdate));
+                // console.log("Saved bests: " + JSON.stringify(allTimeBestUpdate));
+
+                //legacy highscores (still in backend use for analytics, no longer used for frontend display)
                 const stringchainHighScore = JSON.parse(localStorage.getItem("stringchainHighScore")) || [];
                 const saveTime = new Intl.DateTimeFormat(undefined, {
                     year: 'numeric',
@@ -5011,7 +5027,7 @@
             // }
 
             function rollbackGrid() {
-                const savedGridState = localStorage.getItem("stringchainStateV2");
+                const savedGridState = localStorage.getItem("stringchainStateV3");
                 const gridState = JSON.parse(savedGridState);
                 grid = gridState.grid;
                 gridSize = gridState.gridSize;
