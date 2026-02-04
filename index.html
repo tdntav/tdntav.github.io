@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,11 +20,6 @@
 
             --rounding: 8px;
             --rounding-small: 4px;
-
-
-            /* document.documentElement.style.setProperty("--cell-size", "green"); */
-
-
 
             --bg: #123;
             --text: #cde;
@@ -1133,14 +1127,14 @@
     overflow-x: auto; /* If content grows horizontally */
     overflow-y: auto;
     /* padding: 5px; */
-    gap: 7px;
-    /* border-radius: var(--rounding); */
+    gap: 8px;
+    border-radius: var(--rounding);
     background:var(--bg);
     /* border: 2px solid var(--text); */
     margin-block: 10px;
     box-sizing: border-box;
     /* padding-inline:10px; */
-    line-height: 70%;
+    line-height: 60%;
 
 
 }
@@ -1738,29 +1732,22 @@
 
         .missions-help-btn {
             display: none;
+            box-sizing: border-box;
             position: fixed;
-            top:50px;
-            left:366px;
-            right:0px;
-            /* left:10px; */
-            /* top: 377px; */
-            /* left:300px; */
-            /* right:0px; */
-
+            top: 376px;
             align-self: center;
             justify-self: center;
             align-items: center;
             text-align: center;
             margin-block: 0px;
-            margin-inline: 4px;
+            /* margin-inline: 4px; */
             border-radius: var(--rounding);
-            border: 2px solid var(--wordcell);
-            background: var(--wordcell-text);
-            color: var(--wordcell);
+            border: 2px solid var(--text);
+            background: var(--bg);
+            color: var(--text);
             font-size: 18pt;
             height: 49px;
-            /* width: var(--rail-width); */
-            width:30px;
+            width: var(--rail-width);
             opacity: 50%;
             z-index: 1001;
 
