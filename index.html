@@ -3959,7 +3959,8 @@
                         allTimeWordLength,
                         unlockedMissionTier,
                         completedMissions
-                    } = JSON.parse(savedBest));                
+                    } = JSON.parse(savedBest));                    
+                    completedMissions = new Set(completedMissions);
                     updateAllTimeStats();
 
                 } catch (err) {
@@ -4002,7 +4003,7 @@
                         //allTimeString, allTimeChain, allTimeStreak, allTimeWord, allTimeWordLength, unlockedMissionTier, completedMissions
                     } = JSON.parse(saved));
                     playedWords = new Set(playedWords);
-                    completedMissions = new Set(completedMissions);
+                    // completedMissions = new Set(completedMissions);
                     renderWord();
                     checkPlayAreaMeasurements();
                     renderGrid();
