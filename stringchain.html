@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,11 +20,6 @@
 
             --rounding: 8px;
             --rounding-small: 4px;
-
-
-            /* document.documentElement.style.setProperty("--cell-size", "green"); */
-
-
 
             --bg: #123;
             --text: #cde;
@@ -52,8 +46,8 @@
             --selected-border: 2px solid var(--selected-cell);
         }
 
-/* #REGION OUTLINE TESTING - REMOVE LATER */    
-        /*                         
+/* #REGION OUTLINE TESTING - REMOVE LATER   */ 
+/*                                 
         * { outline: 2px dotted red }
         * * { outline: 2px dotted green }
         * * * { outline: 2px dotted orange }
@@ -63,7 +57,7 @@
         * * * * * * * { outline: 1px solid orange }
         * * * * * * * * { outline: 1px solid blue } 
         */
-/* #ENDREGION OUTLINE TESTING - */        
+/* #ENDREGION OUTLINE TESTING - */         
 
 /* * {box-sizing: border-box;} */
 
@@ -550,31 +544,29 @@
         }
 
         /* END OF THEMES*/
-        html, body { overflow-x: hidden;
-            /* height: 100%; */
+
+
+        html, body { 
+            overflow-x: hidden;
         }
 
         body {
             font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
             background: var(--bg);
-            /* background-image: linear-gradient(to top, var(--accent), var(--bg)); */
-
             max-width: 400px;
             margin: auto;
-            /* margin: 0; */
-            /* overflow-x: hidden; */
             color: var(--text);
             display: flex;
             flex-direction: column;
             align-items: center;
-            /* padding: 10px; */
             font-size: 20pt;
             box-sizing: border-box;
+            overflow-x: hidden;
         }
 
         h1,
         h3 {
-            font-family: "Courier New", monospace;
+            font-family: "Courier New", "Courier", monospace;
             margin: 20px 0 5px 0;
             text-align: center;
         }
@@ -582,7 +574,6 @@
         h4,
         h5,
         h6 {
-            /* font-family: "Courier New", monospace; */
             margin: 0 0 5px 0;
             text-align: center;
         }
@@ -596,18 +587,14 @@
             text-align: center;
             width: 100%;
             height: 22px;
-            font-family: 'Courier New', Courier, monospace;
+            font-family: "Courier New", "Courier", monospace;
             z-index: 1;
-            /* font-weight: bold; */
-            /* background-image: linear-gradient(to top, var(--wordcell), var(--bg)); */
         }
 
         .message {
-            /* position: relative; */
-            /* bottom: 2px; */
             font-size: 11pt;
             border-radius: var(--rounding) var(--rounding) 0px 0px;
-            font-family: 'Courier New', Courier, monospace;
+            font-family: "Courier New", "Courier", monospace;
             flex-wrap: wrap;
             text-align: center;
             color: var(--text);
@@ -883,7 +870,17 @@
             z-index: 1;
         }
 
-
+        .search-row {
+            box-sizing: border-box;
+            display: grid;
+            max-width:360px;
+            grid-template-columns: var(--rail-width) var(--gap) auto var(--gap) var(--rail-width);
+            gap: none;
+            margin-block:5px;
+            /* justify-content: center; */
+            /* flex-wrap: wrap; */
+            /* z-index: 1; */
+        }
 
 
         .button-row button {
@@ -918,27 +915,49 @@
 
         .collapseModal {
             display: none;
+            box-sizing: border-box;
             position: fixed;
-            top: 377px;
-            /* left:300px; */
-            /* right:0px; */
-
+            top: 376px;
             align-self: center;
             justify-self: center;
             align-items: center;
             text-align: center;
             margin-block: 0px;
-            margin-inline: 4px;
+            /* margin-inline: 4px; */
             border-radius: var(--rounding);
-            border: 2px solid var(--wordcell);
-            background: var(--wordcell-text);
-            color: var(--wordcell);
+            border: 2px solid var(--text);
+            background: var(--bg);
+            color: var(--text);
             font-size: 18pt;
             height: 49px;
             width: var(--rail-width);
             opacity: 50%;
             z-index: 1001;
+        }
 
+        .collapseModal2 {
+            display:block;
+            box-sizing: border-box;
+
+            /* top: 376px; */
+            /* left:300px; */
+            /* right:0px; */
+
+            /* align-self: center; */
+            /* justify-self: center; */
+            /* align-items: center; */
+            text-align: center;
+            /* margin-block: 0px; */
+            /* margin-inline: 4px; */
+            border-radius: var(--rounding);
+            border: 2px solid var(--text);
+            background: var(--bg);
+            color: var(--text);
+            font-size: 18pt;
+            height: 49px;
+            width: var(--rail-width);
+            opacity: 50%;
+            /* z-index: 1002; */
         }
 
         .scrollBtn {
@@ -959,6 +978,43 @@
             border: 2px solid var(--wordcell);
             opacity: 50%;
             font-size: 18pt;
+            z-index: 999;
+            /* border-radius: 23px; */
+            /* margin: 0.5px; */
+            /* border: 2px solid var(--selected-cell); */
+        }
+
+
+        .streakDiv {
+            display: none;
+            box-sizing: border-box;
+            padding-inline:10px;
+            padding-block:0px;
+            position: absolute;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            /* top:432px; */
+            /* left:0; */
+            /* right:-200px; */
+            top: 42px;
+            left:260px;
+            /* right: 400px; */
+            /* right: 50%; */
+            align-self: center;
+            justify-self: center;
+            align-content: center;
+            justify-content: center;
+            text-align: center;
+            /* transform: translateY(200px); */
+            border-radius: 0 var(--rounding) 0 var(--rounding);
+            background: var(--bg);
+            color: var(--text);
+            /* margin-top: 15px; */
+            /* max-height: 29px; */
+            /* width: var(--rail-width); */
+            width: 140px;
+            /* border: 2px solid var(--wordcell); */
+            opacity: 40%;
+            font-size: 8pt;
             z-index: 999;
             /* border-radius: 23px; */
             /* margin: 0.5px; */
@@ -1025,56 +1081,47 @@
         }
 
         #searchInput {
-            position:absolute;
-            top:325px;
-            left: 88px;
             box-sizing: border-box;
-            width: 290px;
+            width: 287px;
             display: block;
-            padding: var(--gap);
-            margin-bottom: var(--gap);
-            margin: var(--gap) 0px;
-            /* background-image: linear-gradient(to left, var(--text), var(--accent), var(--accent-text)); */
-            background:var(--gridcell);
+            background-image: linear-gradient(to left, var(--bg), var(--accent));
             color:var(--gridcell-text);
-            border:var(--gridcell-border);
-            /* border: 2px solid var(--accent-text); */
-            font-size:16px;
-            /* border:none; */
+            border:none;
+            font-size:22px;
+            font-weight: bold;
             height: 49px;
             border-radius: var(--rounding);
             text-align:center;
             text-transform: uppercase;
         }
 
+
         #searchInput:placeholder-shown {
             color: var(--gridcell-text);
-            background: var(--gridcell);
-            opacity:50%;
+            /* opacity:50%; */
             }        
 
         #searchInput, select {
             outline: none;
-            background: var(--selected-cell);
-            color: var(--selected-text);
-            border: var(--selected-border);
-        }
+            color:var(--gridcell-text);
+            border:none;
+                }
 
 
 
         #searchInput:focus {
-            background: var(--selected-cell);
-            color: var(--selected-text);
-            border: var(--selected-border);
-        }
+            outline: none;
+            /* background:var(--gridcell); */
+            color:var(--gridcell-text);
+            border:none;
+              }
 
         #searchInput:focus-visible {
             outline: none;
-            /* box-shadow: 0 0 2px 2px #51a7e8; */
-            background: var(--selected-cell);
-            color: var(--selected-text);
-            border: var(--selected-border);
-        }
+            /* background:var(--gridcell); */
+            color:var(--gridcell-text);
+            border:none;
+                } 
 
 
         /* .search-results {
@@ -1118,14 +1165,14 @@
     overflow-x: auto; /* If content grows horizontally */
     overflow-y: auto;
     /* padding: 5px; */
-    gap: 2px;
+    gap: 8px;
     border-radius: var(--rounding);
     background:var(--bg);
     /* border: 2px solid var(--text); */
     margin-block: 10px;
     box-sizing: border-box;
     /* padding-inline:10px; */
-    line-height: 120%;
+    line-height: 60%;
 
 
 }
@@ -1141,11 +1188,11 @@
 
 
         .help {
-            border-radius: 22px;
+            border-radius: 24px;
             /* margin: 0.5px; */
             /* border: 2px solid var(--selected-cell); */
-            height: 44px;
-            width: 44px;
+            height: 48px;
+            width: 48px;
             align-items: center;
             text-align: center;
             margin-block: 0px;
@@ -1157,10 +1204,13 @@
             border-radius: var(--rounding);
             background: var(--bg);
             color: var(--text);
-            margin-top: 15px;
+            margin-block: 10px 0;
             min-height: 20px;
             min-width: 40px;
             opacity: 50%;
+            padding-inline: 5px;
+            text-align: center;
+
         }
 
         button:disabled,
@@ -1194,8 +1244,9 @@
 
 
         #status {
+            position:relative;
             font-size: 13pt;
-            font-family: 'Courier New', Courier, monospace;
+            font-family: "Courier New", "Courier", monospace;
             margin: -10px 0px 8px 0px;
             color: var(--accent);
             /* text-align:end; */
@@ -1256,7 +1307,7 @@
             max-height: 132px;
             /* max-height:56px; */
             font-size: 12pt;
-            font-family: "Courier New", monospace;
+            font-family: "Courier New", "Courier", monospace;
             color: var(--accent-text);
             /* border: 2px solid var(--accent); */
             /* box-sizing: border-box; */
@@ -1358,7 +1409,7 @@
         }
 
         .highlight-reel {
-            font-family: 'Courier New', Courier, monospace;
+            font-family: "Courier New", "Courier", monospace;
             text-align: center;
             /* font-size: 9pt; */
             width: auto;
@@ -1536,8 +1587,8 @@
             z-index: 1000;
 
             background-color: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(3px);
-            -webkit-backdrop-filter: blur(3px);
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
         }
 
 
@@ -1556,8 +1607,8 @@
             z-index: 1000;
 
             background-color: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(3px);
-            -webkit-backdrop-filter: blur(3px);
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
         }
 
 /* 
@@ -1628,7 +1679,7 @@
             display: flex;
             flex-direction: column;
             flex-direction: column-reverse;
-            height: 552px;
+            height: 520px;
             width: 400px;
             /* z-index: 1; */
             /* opacity: unset; */
@@ -1720,21 +1771,19 @@
 
         .missions-help-btn {
             display: none;
+            box-sizing: border-box;
             position: fixed;
-            top: 377px;
-            /* left:300px; */
-            /* right:0px; */
-
+            top: 376px;
             align-self: center;
             justify-self: center;
             align-items: center;
             text-align: center;
             margin-block: 0px;
-            margin-inline: 4px;
+            /* margin-inline: 4px; */
             border-radius: var(--rounding);
-            border: 2px solid var(--wordcell);
-            background: var(--wordcell-text);
-            color: var(--wordcell);
+            border: 2px solid var(--text);
+            background: var(--bg);
+            color: var(--text);
             font-size: 18pt;
             height: 49px;
             width: var(--rail-width);
@@ -1780,7 +1829,7 @@
 
         .sq-word {
             font-size: 13pt;
-            font-family: "Courier New", monospace;
+            font-family: "Courier New", "Courier", monospace;
         }
 
         .sq-para {
@@ -2088,7 +2137,7 @@
 
 
         .missions-display {
-            font-family: "Courier New", monospace;
+            font-family: "Courier New", "Courier", monospace;
             font-size: 12pt;
             /* color: var(--text); */
             /* margin-top: 10px; */
@@ -2117,20 +2166,20 @@
             grid-template-columns: repeat(10, 1fr); /* 10 equal columns */
             gap: 4px;
             width:360px;
-            margin-block: 68px 0;
+            margin-block: 4px 0;
             /* background: rgba(0, 0, 0, 0.1); */
             user-select: none; /* Prevents text selection while typing */
         }
 
         .key {
-            height: 42px;
+            height: 32px;
             display: flex;
             align-items: center;
             justify-content: center;
             background: var(--text);
             color:var(--bg);
             border:2px solid var(--text);
-            font-size: 18pt;
+            font-size: 14pt;
             border-radius: var(--rounding-small);
             cursor: pointer;
             touch-action: manipulation; /* Prevents mobile double-tap zoom */
@@ -2607,19 +2656,17 @@
                 <br>The internet has lots of bitesize daily puzzles. These are great, but Stringchain is more
                 open-ended and user-driven.
                 <br><br>You can play as much as you want, whenever you want.
-                It's not a subscription, it's not an appointment. You choose when and how much.
+                It's not a subscription, it's not an appointment. You choose when and how much. It's not a puzzle, it's a game. Take breaks, be healthy. 
                 <br>
-                <br>Take breaks, be healthy. A game can (and probably should) be played over multiple sessions. The search function makes it easy to pick up where you left off.
+                <br>A game can (and probably should) be played over multiple sessions. The search function makes it easy to pick up where you left off.
                 <br>
                 <br>The core game, switching letters around, making words, it's really basic and simple, but so satisfying.
-                <br>The mechanics around that should incentivise exciting gameplay. Find your flow. Complete a mission. Enjoy the scenery.
+                <br>The mechanics around that should incentivise exciting gameplay. Find your flow. Complete a mission. Enjoy the scenery. Get a high score. Beat that high score. Screenshot that high score and challenge your
+                friends. 
                 <br>
-                <br>Get a high score. Beat that high score. Screenshot that high score and challenge your
-                friends. Look at your wordlist, you made that! Look at all the words you know, all these rhymes and connections! Writers, rappers, poets, word enthusiasts, this is your jam.
+                <br>Look at your wordlist, you made that! Look at all the words you know, all these rhymes and connections! Writers, rappers, poets, word enthusiasts, this is your jam.
                 <br>
-                <br>Future tweaks and updates will happen. 
-                Word validation is still not bulletproof (sorry!) - these rare injustices will help us update the wordlist for future intrepid chainstringers. 
-                Lookit, the core game is in place now, and it's quite good. Have at it!
+                <br>Future tweaks and updates will happen. But the core game is in place now, and it's quite good. Have at it!
                 <br>
                 <br>If you enjoy this game, consider buying me a coffee or putting my kids through college.
                 <br>
@@ -2628,8 +2675,12 @@
         </div>
         <div id="highScores"></div>
     </div>
-    <div class="scores"><span id="score">0</span>&nbsp; <b>string</b><button id="toggle-dropdown"
-            class="help toggle-dropdown">+</button><b>chain</b> &nbsp;<span id="chain">0</span></div>
+    <div class="scores">
+        <span id="score">0</span>&nbsp; <b>string</b><button id="toggle-dropdown"
+            class="help toggle-dropdown">+</button><b>chain</b> &nbsp;<span id="chain">0</span>
+        <div id="streakDiv" class="streakDiv">STREAK</div>
+    </div>
+            
     <div id="anti-move-wrapper">
         <div id="message" class="message"></div>
     </div>
@@ -2679,7 +2730,7 @@
                 
 
                 <button id="bonusBtn" class="rail-btn span-2">||</button>
-                <button id="milestonesBtn" class="rail-btn hidden">...</button>
+                <button id="milestonesBtn" class="rail-btn hidden">…</button>
                 <button id="collapseModal" class="collapseModal">^</button>
                 <button id="scrollBtn" class="scrollBtn">^</button>
             </div>
@@ -2769,11 +2820,12 @@
         <div id="keyboardContainer" class="custom-keyboard"></div>
 
         <!-- <input type="text" id="searchInput" autocomplete="off" placeholder="search" contenteditable virtualkeyboardpolicy="manual" > -->
-        <input type="text" id="searchInput" autocomplete="off" readonly inputmode="none" >
+        <div class="search-row">
+            <button id="collapseModal2" class="collapseModal2">^</button>
+            <span class="gap"></span>
+            <input type="text" id="searchInput" autocomplete="off" readonly inputmode="none" >
+        </div>
         <div id="history2" style="overflow-y: auto;overscroll-behavior: contain;display: flex;align-items: center;"></div>
-        <!-- <p class="demo-para" style="text-align:center;font-size:10pt;">Click results to see nearby words in wordlist<br><br></p> -->
-
-        <!-- <div class="milestones-1" style="box-sizing:border-box;width:360px;min-height:200px;padding:10px;text-align:center;line-height:160%;"> -->
             <div id="searchResults" class="search-results"></div>
             <h6 style="position:absolute;top:15px;">SEARCH</h6>
         <!-- </div> -->
@@ -2878,7 +2930,9 @@
             const rulesToggle = document.getElementById("toggle-rules");
             const dropdownToggle = document.getElementById("toggle-dropdown");
             const scrollBtn = document.getElementById("scrollBtn");
+            const streakDiv = document.getElementById("streakDiv");
             const collapseModal = document.getElementById("collapseModal");
+            const collapseModal2 = document.getElementById("collapseModal2");
             const aboutBtn = document.getElementById("aboutBtn");
             const aboutDiv = document.getElementById("about");
             const rulesDiv = document.getElementById("rules");
@@ -3049,6 +3103,7 @@
             dropdownToggle.addEventListener("click", () => {
                 const dropdownHidden = dropdownDiv.style.display === "none";
                 dropdownDiv.style.display = dropdownHidden ? "block" : "none";
+                // streakDiv.style.display = dropdownHidden ? "none" : "block";
                 dropdownToggle.textContent = dropdownHidden ? "^" : "+";
                 // getHighScores();
                 if (rulesDiv.style.display = "block") {
@@ -3165,7 +3220,7 @@
                 // getHighScores();
                 updateAllTimeStats();
                 
-                localStorage.removeItem("stringchainStateV2");
+                localStorage.removeItem("stringchainStateV3");
                 localStorage.removeItem("isDisqualified");
                 gameID = new Date().toISOString().slice(0, 19).replace('T', ' ');
                 gridSize = 3;
@@ -3204,6 +3259,7 @@
                 wordContainer.style.pointerEvents = 'auto';
                 scoreElement.textContent = score;
                 chainElement.textContent = chain;
+                // milestonesBtn.innerHTML = '… <small><small><small>[' + noBonusStreak + ']</small></small></small>';
                 messageElement.textContent = '';
                 // disallowedElement.textContent = '';
                 updateBonusButton();
@@ -3303,24 +3359,7 @@
                     allTimeWord = lastValidWord;
                 }
 
-                // allTimeSummary = `<table style="border:none;text-align:center;align-content:center;margin-left:auto;margin-right:auto;">
-                //     <tr>
-                //         <td style="width:50%;border:none;">
-                //             <p class="sq-para1"><span class="rewards2">${allTimeString} string</span></p>
-                //         </td>
-                //         <td style="border:none;">
-                //             <p class="sq-para1"><span class="rewards2">chain ${allTimeChain}</span></p>
-                //         </td>
-                //     </tr>
-                //     <tr style="border:none;">
-                //         <td style="border:none;">
-                //             <p class="sq-para1"><span class="rewards2">${allTimeWordLength} letters</span><br><span class="sq-word">${allTimeWord.toLowerCase()}</span></p>
-                //         </td>
-                //         <td style="border:none;">
-                //             <p class="sq-para1"><span class="rewards2">no-bonus streak of ${allTimeStreak}</span></p>
-                //         </td>
-                //     </tr>
-                // </table>`;
+            
                 allTimeSummary = `<p class="sq-para1" style="font-size:5pt;"><span class="yourBest">${allTimeString} string</span>
                     <span class="yourBest">chain ${allTimeChain}</span><br>
                     <br><span class="yourBest">${allTimeWordLength} letters &nbsp;<span class="sq-word"><b>${allTimeWord.toLowerCase()}</b></span></span><br>
@@ -3337,7 +3376,7 @@
                 searchHistory.appendChild(historyElement);
                 historyElement.classList.add('truncated');
                 searchModal.classList.remove('hidden');
-                collapseModal.style.display = "block";
+                // collapseModal.style.display = "block";
                 // searchInput.focus();
                 document.getElementById('searchInput').value = '';
                 handleKey('');
@@ -3350,7 +3389,7 @@
                     historyHome.appendChild(historyElement);
                     historyElement.classList.remove('truncated');
                     searchModal.classList.add("hidden");
-                    collapseModal.style.display = "none";
+                    // collapseModal.style.display = "none";
                     topFunction();
                 }
             });
@@ -3800,6 +3839,7 @@
                 specialModeActive = true;
                 wordContainer.classList.add('special');
                 messageElement.classList.add('special-sauce');
+                streakDiv.style.display = "none";
                 saveGameState();
                 return;
             }
@@ -3807,6 +3847,7 @@
                 specialModeActive = false;
                 wordContainer.classList.remove('special');
                 messageElement.classList.remove('special-sauce');
+                if (chain >= 16) { streakDiv.style.display = "block" };
                 saveGameState();
                 return;
             }
@@ -3847,7 +3888,10 @@
                 historyElement.classList.remove('truncated');
                 searchModal.classList.add("hidden");                
             });
-            //END OF SCROLLING ETC
+
+            collapseModal2.addEventListener("click", () => {
+                collapseModal.click();               
+            });            //END OF SCROLLING ETC
 
             //THEMES
             const themeToggle = document.getElementById("themeToggle");
@@ -3922,12 +3966,20 @@
                     consecutiveBonuses,
                     streakMilestones, 
                     milestones,
-                    unlockedMissionTier,
-                    completedMissions: Array.from(completedMissions),
                     playedWords: Array.from(playedWords),
-                    allTimeString, allTimeChain, allTimeStreak, allTimeWord, allTimeWordLength
+                    //allTimeString, allTimeChain, allTimeStreak, allTimeWord, allTimeWordLength, unlockedMissionTier, completedMissions: Array.from(completedMissions)
                 };
-                localStorage.setItem("stringchainStateV2", JSON.stringify(gameState));
+                const yourBest = {
+                    allTimeString, 
+                    allTimeChain, 
+                    allTimeStreak, 
+                    allTimeWord, 
+                    allTimeWordLength,
+                    unlockedMissionTier,
+                    completedMissions: Array.from(completedMissions)
+                };
+                localStorage.setItem("yourBest", JSON.stringify(yourBest));
+                localStorage.setItem("stringchainStateV3", JSON.stringify(gameState));
             }
 
 
@@ -3936,13 +3988,31 @@
             // Load and restore directly
             function loadGameState() {
                 // actionBtn.disabled = disqualified; 
-                const saved = localStorage.getItem("stringchainStateV2");
+                const saved = localStorage.getItem("stringchainStateV3");
+                const savedBest = localStorage.getItem("yourBest");
 
-                if (!saved) {
+                if (!saved && !savedBest) {
                     newGameBtn.click();
                     return;
-                }                
+                }
                 
+                try {
+                    ({
+                        allTimeString, 
+                        allTimeChain, 
+                        allTimeStreak, 
+                        allTimeWord, 
+                        allTimeWordLength,
+                        unlockedMissionTier,
+                        completedMissions
+                    } = JSON.parse(savedBest));                    
+                    completedMissions = new Set(completedMissions);
+                    updateAllTimeStats();
+
+                } catch (err) {
+                    console.error("Error loading saved bests", err);
+                }
+
                 if (disqualified) {
                     newGameBtn.click();
                     return;
@@ -3975,21 +4045,16 @@
                         consecutiveBonuses,
                         streakMilestones, 
                         milestones,
-                        unlockedMissionTier,
-                        completedMissions,
                         playedWords,
-                        allTimeString, allTimeChain, allTimeStreak, allTimeWord, allTimeWordLength
+                        //allTimeString, allTimeChain, allTimeStreak, allTimeWord, allTimeWordLength, unlockedMissionTier, completedMissions
                     } = JSON.parse(saved));
-                    // disallowedWords = new Set(disallowedWords);
                     playedWords = new Set(playedWords);
-                    completedMissions = new Set(completedMissions);
+                    // completedMissions = new Set(completedMissions);
                     renderWord();
                     checkPlayAreaMeasurements();
                     renderGrid();
                     updateHistory();
                     updateMilestones();
-                    updateAllTimeStats();
-                    // updateDisallowedWords();
                     updateBonusButton();
                     updateGridRefreshButton();
                     // showDefinitions(lastValidWord);
@@ -4019,6 +4084,7 @@
                     
                     scoreElement.textContent = score;
                     chainElement.textContent = chain;
+                    // milestonesBtn.innerHTML = '… <small><small><small>[' + noBonusStreak + ']</small></small></small>';
                     if (specialModeActive == true) {
                         activateSpecialMode();
                     }
@@ -4033,6 +4099,19 @@
 
 
             function saveHighScore() {
+                const allTimeBestUpdate = {
+                    allTimeString, 
+                    allTimeChain, 
+                    allTimeStreak, 
+                    allTimeWord, 
+                    allTimeWordLength,
+                    unlockedMissionTier,
+                    completedMissions: Array.from(completedMissions)
+                };
+                localStorage.setItem('yourBest', JSON.stringify(allTimeBestUpdate));
+                // console.log("Saved bests: " + JSON.stringify(allTimeBestUpdate));
+
+                //legacy highscores (still in backend use for analytics, no longer used for frontend display)
                 const stringchainHighScore = JSON.parse(localStorage.getItem("stringchainHighScore")) || [];
                 const saveTime = new Intl.DateTimeFormat(undefined, {
                     year: 'numeric',
@@ -4236,6 +4315,8 @@
             // Enhanced updateStatus with bonus highlighting WORK IN PROGRESS
 
             function updateStatus() {
+                streakDiv.innerHTML = `no-bonus streak of ${noBonusStreak}`;
+                if (chain >= 16) { streakDiv.style.display = "block" };
                 const livesLeft = Math.min(totalLives,12) - livesLost;
                 let output = "";
 
@@ -4625,20 +4706,20 @@
 
                 let milestoneSummary = `
                 <table style="border:none;justify-content:center;align-content:center;align-self:center;margin:none;padding:none;width:100%;">
-                    <tr style="width:51%;">
+                    <tr>
                         <td style="border:none;margin:none;padding:none;">
-                            <p class="sq-para1" style="border:none;margin:none;padding:none;"><span class="rewards2">${nextString}+ string</span><br>${nextStringToGo} letters to go</p>
+                            <p class="sq-para1" style="border:none;margin:none;padding:none;text-align:right;"><span class="rewards2">${nextString}+ string</span><br>${nextStringToGo} letters to go</p>
                         </td>
                         <td style="border:none;margin:none;padding:none;">
-                            <p class="sq-para1" style="border:none;margin:none;padding:none;"><span class="rewards2">chain ${nextChain}</span><br>${nextChainToGo} words to go</p>
+                            <p class="sq-para1" style="border:none;margin:none;padding:none;text-align:left;"><span class="rewards2">chain ${nextChain}</span><br>${nextChainToGo} words to go</p>
                         </td>
                     </tr>
-                    <tr style="width:51%;">
+                    <tr>
                         <td style="border:none;margin:none;padding:none;">
-                            <p class="sq-para1" style="border:none;margin:none;padding:none;"><span class="rewards2">${nextWordLength} letters</span><br>currently ${currentWord.length}, avg ${avgWordLength} letters</p>
+                            <p class="sq-para1" style="border:none;margin:none;padding:none;text-align:right;"><span class="rewards2">${nextWordLength} letters</span><br>currently ${currentWord.length}, avg ${avgWordLength} letters</p>
                         </td>
                         <td style="border:none;margin:none;padding:none;">
-                            <p class="sq-para1" style="border:none;margin:none;padding:none;"><span class="rewards2">no-bonus streak of ${nextStreak}</span><br>currently ${noBonusStreak}, best ${bestNoBonusStreak} words</p>
+                            <p class="sq-para1" style="border:none;margin:none;padding:none;text-align:left;"><span class="rewards2">no-bonus streak of ${nextStreak}</span><br>currently ${noBonusStreak}, best ${bestNoBonusStreak} words</p>
                         </td>
                     </tr>
                 </table>`; 
@@ -4996,7 +5077,7 @@
             // }
 
             function rollbackGrid() {
-                const savedGridState = localStorage.getItem("stringchainStateV2");
+                const savedGridState = localStorage.getItem("stringchainStateV3");
                 const gridState = JSON.parse(savedGridState);
                 grid = gridState.grid;
                 gridSize = gridState.gridSize;
@@ -5586,10 +5667,8 @@
                             length: currentWord.length,
                             rewards: { gridExpanded: true }
                         });
-                    // milestonesSummary +=
-                    //     `<p><small><small><small>4x4 grid unlocked for 6+ letters: <span style="font-family: 'Courier New', monospace;">${currentWord.toLowerCase()}</span></small></small></small><br>`;
 
-                    // Place asterisk if earned (again for expansion refresh)
+                        
                     maybePlaceAsterisk(refreshedCells);
                 }
                 saveGameState();
@@ -5718,6 +5797,7 @@
 
                     scoreElement.textContent = score;
                     chainElement.textContent = chain;
+                    // milestonesBtn.innerHTML = '… <small><small><small>[' + noBonusStreak + ']</small></small></small>';
                     if (chain != 1) { messageElement.textContent = "Valid word!" }; //FROM LOCAL LIST
                     showTemporaryMessage();
                     clearSpecialMode(); // Nov 4 EDIT
@@ -5781,6 +5861,7 @@
                         // }
                         scoreElement.textContent = score;
                         chainElement.textContent = chain;
+                        // milestonesBtn.innerHTML = '… <small><small><small>[' + noBonusStreak + ']</small></small></small>';
                         messageElement.textContent = "Yes, valid word!";
                         sa_event(() => "api_" + currentWord); //LOG API-VALIDATED WORDS (NOT ON LOCAL LIST)
                         clearSpecialMode(); // SEP 1 EDIT
@@ -5850,6 +5931,7 @@
                         }
                         scoreElement.textContent = score;
                         chainElement.textContent = chain;
+                        // milestonesBtn.innerHTML = '… <small><small><small>[' + noBonusStreak + ']</small></small></small>';
 
                         // updateStatus();
                         // updateDisallowedWords();
