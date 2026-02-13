@@ -9,7 +9,20 @@
     <link rel="icon" href="/favicon.ico">
     <script>window.sa_event = window.sa_event || function () { var a = [].slice.call(arguments); window.sa_event.q ? window.sa_event.q.push(a) : window.sa_event.q = [a] };</script>
     <style>
+
+        
+        @font-face {
+            font-family: Inconsolata;
+            src: url(assets/Inconsolata.ttf);
+        }
+
         :root {
+
+            --font1: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+            /* --font1: "Courier New", "Courier", monospace; */
+            --font2: "Courier New", "Courier", monospace;
+            --font3: monospace;
+
             --grid-size: 3;
             /* will be overwritten by JS */
             --cell-size: 68px;
@@ -551,7 +564,7 @@
         }
 
         body {
-            font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+            font-family: var(--font1);
             background: var(--bg);
             max-width: 400px;
             margin: auto;
@@ -566,7 +579,7 @@
 
         h1,
         h3 {
-            font-family: "Courier New", "Courier", monospace;
+            font-family: var(--font2);
             margin: 20px 0 5px 0;
             text-align: center;
         }
@@ -587,21 +600,21 @@
             text-align: center;
             width: 100%;
             height: 22px;
-            font-family: "Courier New", "Courier", monospace;
+            font-family: var(--font2);
             z-index: 1;
         }
 
         .message {
-            font-size: 11pt;
+            font-size: 9pt;
             border-radius: var(--rounding) var(--rounding) 0px 0px;
-            font-family: "Courier New", "Courier", monospace;
+            font-family: var(--font2);
             flex-wrap: wrap;
             text-align: center;
             color: var(--text);
             height: 66px;
             width: 100%;
             background-image: linear-gradient(to top, var(--bg), var(--accent));
-            padding-block: 15px;
+            padding-block: 18px;
             opacity: 75%;
             z-index: -1;
         }
@@ -886,7 +899,7 @@
         .button-row button {
             margin: 3px;
             padding: 10px;
-            font-family: inherit;
+            font-family: var(--font1);
             color: var(--accent-text);
             border-radius: var(--rounding);
             border: 2px solid var(--selected-cell);
@@ -910,6 +923,8 @@
             margin: none;
             font-size: 11pt;
             height: var(--cell-size);
+            font-family: var(--font1);
+            /* font-weight:200; */
         }
 
 
@@ -991,12 +1006,12 @@
             padding-inline:10px;
             padding-block:0px;
             position: absolute;
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-family: var(--font2);
             /* top:432px; */
             /* left:0; */
             /* right:-200px; */
             top: 42px;
-            left: 238px;
+            left: 288px;
             /* right: 400px; */
             /* right: 50%; */
             align-self: center;
@@ -1008,10 +1023,11 @@
             border-radius: 0 var(--rounding) 0 var(--rounding);
             background: var(--bg);
             color: var(--text);
+            /* font-style: italic; */
             /* margin-top: 15px; */
             /* max-height: 29px; */
             /* width: var(--rail-width); */
-            width: 162px;
+            width: 112px;
             /* border: 2px solid var(--wordcell); */
             opacity: 40%;
             font-size: 9pt;
@@ -1050,7 +1066,7 @@
         .newgame {
             box-sizing: border-box;
             width:50%;
-            font-size:16px;
+            /* font-size:16px; */
             padding: var(--gap);
             margin: var(--gap) 0px;
             margin-bottom: var(--gap);
@@ -1072,7 +1088,7 @@
             color:var(--gridcell-text);
             border:var(--gridcell-border);
             /* border: 2px solid var(--accent-text); */
-            font-size:16px;
+            /* font-size:16px; */
             /* border:none; */
             height: 49px;
             border-radius: var(--rounding);
@@ -1246,7 +1262,7 @@
         #status {
             position:relative;
             font-size: 13pt;
-            font-family: "Courier New", "Courier", monospace;
+            font-family: var(--font2);
             margin: -10px 0px 8px 0px;
             color: var(--accent);
             /* text-align:end; */
@@ -1307,7 +1323,7 @@
             max-height: 132px;
             /* max-height:56px; */
             font-size: 12pt;
-            font-family: "Courier New", "Courier", monospace;
+            font-family: var(--font2);
             color: var(--accent-text);
             /* border: 2px solid var(--accent); */
             /* box-sizing: border-box; */
@@ -1327,15 +1343,17 @@
 
 
         .highlight {
+            /* box-sizing:border-box; */
+            /* padding-inline:4px; */
             background: var(--wordcell-text);
             /* text-decoration: underline 3px solid var(--wordcell); */
             color: var(--wordcell);
             /* padding: 4px; */
-            /* border: 2px solid var(--bg); */
+            /* border: 5px solid var(--bg); */
             border-radius: var(--rounding-small);
-            /* font-weight: bold; */
+            font-weight: bold;
             /* opacity:75%; */
-            /* transition: font-color text-decoration 5s ease; */
+            transition: font-color text-decoration 5s ease;
         }
 /* 
         mark.highlight.fade {
@@ -1409,7 +1427,7 @@
         }
 
         .highlight-reel {
-            font-family: "Courier New", "Courier", monospace;
+            font-family: var(--font2);
             text-align: center;
             /* font-size: 9pt; */
             width: auto;
@@ -1829,7 +1847,7 @@
 
         .sq-word {
             font-size: 13pt;
-            font-family: "Courier New", "Courier", monospace;
+            font-family: var(--font2);
         }
 
         .sq-para {
@@ -2137,7 +2155,7 @@
 
 
         .missions-display {
-            font-family: "Courier New", "Courier", monospace;
+            font-family: var(--font2);
             font-size: 12pt;
             /* color: var(--text); */
             /* margin-top: 10px; */
@@ -2603,7 +2621,7 @@
                 <br>for passing game milestones
                 <br>and achieving no-bonus streaks.
                 <br><br>Words 7+ letters are worth an extra life
-                <br>until you reach the maximum of 12 lives.
+                <br>until you reach the maximum of 8 lives.
                 <br>
             </p>
            </div>
@@ -3141,12 +3159,12 @@
 
             bonusBtn.addEventListener('click', () => {
                 if (setupMovesAvailable <= 0) {
-                    messageElement.textContent = "Click + for guidance.";
+                    messageElement.innerHTML = `CLICK + FOR GUIDANCE`;
                     showTemporaryMessage();
                     return;
                 }
                 if (selected.length === 0) {
-                    messageElement.textContent = "Select a playable move first";
+                    messageElement.innerHTML = `SELECT A PLAYABLE MOVE FIRST`;
                     showTemporaryMessage();
                     return;
                 }
@@ -3157,7 +3175,7 @@
                 renderWord();
                 // replenishGrid(); // MOVED TO THE END
                 if (!moved) {
-                    messageElement.textContent = "Invalid move. Click + for guidance.";
+                    messageElement.innerHTML = `INVALID MOVE. CLICK + FOR GUIDANCE`;
                     showTemporaryMessage();
                     return;
                 }
@@ -3169,7 +3187,7 @@
                 updateHistory();
                 bonusTicker = '';
                 lastValidWord = currentWord;
-                messageElement.innerHTML = `Bonus setup move played.`;
+                messageElement.innerHTML = `BONUS SETUP MOVE PLAYED!`;
                 bestNoBonusStreak = Math.max(bestNoBonusStreak, noBonusStreak);
                 noBonusStreak = 0;
                 consecutiveBonuses++;
@@ -3192,7 +3210,7 @@
                     bonusTicker = '';
                     initGrid();
                     updateGridRefreshButton();
-                    messageElement.textContent = "Grid refreshed!";
+                    messageElement.innerHTML = `GRID REFRESHED!`;
                     showTemporaryMessage();
                     bestNoBonusStreak = Math.max(bestNoBonusStreak, noBonusStreak);
                     noBonusStreak = 0;
@@ -4315,13 +4333,14 @@
             // Enhanced updateStatus with bonus highlighting WORK IN PROGRESS
 
             function updateStatus() {
-                streakDiv.innerHTML = `no-bonus streak of ${noBonusStreak}`;
+                // streakDiv.innerHTML = `no-bonus streak of ${noBonusStreak}`;
+                streakDiv.innerHTML = `streak ${noBonusStreak}`;
                 if (chain >= 16) { streakDiv.style.display = "block" };
-                const livesLeft = Math.min(totalLives,12) - livesLost;
+                const livesLeft = Math.min(totalLives,8) - livesLost;
                 let output = "";
 
                 // We loop through the total number of lives/slots
-                for (let i = 0; i < Math.min(totalLives,12); i++) {
+                for (let i = 0; i < Math.min(totalLives,8); i++) {
                     // 1. Determine the character (- for lost, | for remaining)
                     const char = (i < livesLost) ? "-" : "|";
                     
@@ -4336,10 +4355,10 @@
 
                 statusElement.innerHTML = `<b>${output.trim()}</b>`;
                 if (consecutiveBonuses == totalLives - 1) {
-                messageElement.textContent = `One more bonus can be used without penalty`;
+                messageElement.textContent = `ONE MORE BONUS CAN BE USED WITHOUT PENALTY`;
                 }
                 if (consecutiveBonuses == totalLives) {
-                messageElement.textContent = `Play a valid word!`;
+                messageElement.textContent = `PLAY A VALID WORD`;
                 }
             }
 
@@ -4348,7 +4367,7 @@
                 if ((consecutiveBonuses < (totalLives + 1))) { return; }
                 livesLost++;
                 consecutiveBonuses = 0;
-                messageElement.textContent = `-1 life for bonus overuse`;
+                messageElement.textContent = `-1 LIFE FOR BONUS OVERUSE`;
                 milestones.push({
                                 word: `(${currentWord})`,
                                 penalty: true,
@@ -4552,7 +4571,7 @@
                             updateBonusButton();
                             totalLives++;
                             updateStatus();
-                        } else if (currentWord.length % 2 === 0 && currentWord.length >= 7 && totalLives < 12) {
+                        } else if (currentWord.length % 2 === 0 && currentWord.length >= 7 && totalLives < 8) {
                             milestones.push({
                                 word: currentWord,
                                 wordQuest: true,
@@ -4568,7 +4587,7 @@
                             updateBonusButton();
                             totalLives++;
                             updateStatus();
-                        } else if (currentWord.length % 2 === 0 && currentWord.length >= 7 && totalLives == 12) {
+                        } else if (currentWord.length % 2 === 0 && currentWord.length >= 7 && totalLives == 8) {
                             milestones.push({
                                 word: currentWord,
                                 wordQuest: true,
@@ -4599,7 +4618,7 @@
                             updateGridRefreshButton();
                             totalLives++;
                             updateStatus();
-                        } else if (currentWord.length % 2 !== 0 && currentWord.length >= 7 && totalLives < 12) {
+                        } else if (currentWord.length % 2 !== 0 && currentWord.length >= 7 && totalLives < 8) {
                             milestones.push({
                                 word: currentWord,
                                 wordQuest: true,
@@ -4615,7 +4634,7 @@
                             updateGridRefreshButton();
                             totalLives++;
                             updateStatus();
-                        } else if (currentWord.length % 2 !== 0 && currentWord.length >= 7 && totalLives == 12) {
+                        } else if (currentWord.length % 2 !== 0 && currentWord.length >= 7 && totalLives == 8) {
                             milestones.push({
                                 word: currentWord,
                                 wordQuest: true,
@@ -4991,7 +5010,7 @@
                 // Complete it
                 completedMissions.add(upper);
                 console.log(`Mission completed: ${upper}`);
-                messageElement.textContent = `Mission completed: ${upper}`;
+                messageElement.textContent = `MISSION COMPLETED: ${upper}`;
                 milestones.push({
                                 word: currentWord,
                                 missionQuest: true,
@@ -5252,7 +5271,7 @@
 
             function selectCell(cell) {
                 // cell.classList.remove('selected');
-                if (!specialModeActive) { messageElement.textContent = "" };
+                if (!specialModeActive) { messageElement.innerHTML = `` };
 
 
 
@@ -5757,7 +5776,7 @@
             function validateWord(previousWord) {
                 const lower = currentWord.toLowerCase();
                 if (playedWords.has(lower)) {
-                    messageElement.textContent = `${currentWord} already used!`;
+                    messageElement.innerHTML = `<i><b>${currentWord}</b></i> ALREADY USED!`;
                     highlightPlayed(currentWord);
                     rollbackGrid();
                     alreadyUsedAnimation();
@@ -5798,7 +5817,7 @@
                     scoreElement.textContent = score;
                     chainElement.textContent = chain;
                     // milestonesBtn.innerHTML = '… <small><small><small>[' + noBonusStreak + ']</small></small></small>';
-                    if (chain != 1) { messageElement.textContent = "Valid word!" }; //FROM LOCAL LIST
+                    if (chain != 1) { messageElement.innerHTML = `<i><b>${currentWord}</b></i>, VALID WORD!` }; //FROM LOCAL LIST
                     showTemporaryMessage();
                     clearSpecialMode(); // Nov 4 EDIT
                     greenAnimation();
@@ -5862,7 +5881,7 @@
                         scoreElement.textContent = score;
                         chainElement.textContent = chain;
                         // milestonesBtn.innerHTML = '… <small><small><small>[' + noBonusStreak + ']</small></small></small>';
-                        messageElement.textContent = "Yes, valid word!";
+                        messageElement.innerHTML = `<i><b>${currentWord}</b></i>, YES, VALID WORD!`;
                         sa_event(() => "api_" + currentWord); //LOG API-VALIDATED WORDS (NOT ON LOCAL LIST)
                         clearSpecialMode(); // SEP 1 EDIT
                         greenAnimation();
@@ -5912,7 +5931,7 @@
                         // bestNoBonusStreak = Math.max(bestNoBonusStreak, noBonusStreak);
                         // noBonusStreak = 0;
                         updateHistory();
-                        messageElement.textContent = currentWord + `, unknown word`;
+                        messageElement.textContent = currentWord + `, UNKNOWN WORD`;
                         currentWord = lastValidWord;
                         renderWord();
                         rollbackGrid();
@@ -5946,7 +5965,7 @@
                 clearSelection();
                 renderWord();
                 if (!moved) {
-                    messageElement.textContent = "Not a valid move. Click + for guidance"; //MAX 42 chars
+                    messageElement.innerHTML = `NOT A VALID MOVE. CLICK + FOR GUIDANCE`; //MAX 42 chars
                     showTemporaryMessage();
                     return;
                 }
