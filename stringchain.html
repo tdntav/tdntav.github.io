@@ -3278,7 +3278,7 @@
                 scoreElement.textContent = score;
                 chainElement.textContent = chain;
                 // milestonesBtn.innerHTML = '… <small><small><small>[' + noBonusStreak + ']</small></small></small>';
-                messageElement.textContent = '';
+                messageElement.innerHTML = ``;
                 // disallowedElement.textContent = '';
                 updateBonusButton();
                 updateGridRefreshButton();
@@ -4355,10 +4355,10 @@
 
                 statusElement.innerHTML = `<b>${output.trim()}</b>`;
                 if (consecutiveBonuses == totalLives - 1) {
-                messageElement.textContent = `ONE MORE BONUS CAN BE USED WITHOUT PENALTY`;
+                messageElement.innerHTML = `ONE MORE BONUS CAN BE USED WITHOUT PENALTY`;
                 }
                 if (consecutiveBonuses == totalLives) {
-                messageElement.textContent = `PLAY A VALID WORD`;
+                messageElement.innerHTML = `PLAY A VALID WORD`;
                 }
             }
 
@@ -4367,7 +4367,7 @@
                 if ((consecutiveBonuses < (totalLives + 1))) { return; }
                 livesLost++;
                 consecutiveBonuses = 0;
-                messageElement.textContent = `-1 LIFE FOR BONUS OVERUSE`;
+                messageElement.innerHTML = `-1 LIFE FOR BONUS OVERUSE`;
                 milestones.push({
                                 word: `(${currentWord})`,
                                 penalty: true,
@@ -4380,7 +4380,7 @@
                                 }
                             });
                 if (livesLost >= totalLives) {
-                            messageElement.textContent += ", GAME OVER.";
+                            messageElement.innerHTML += `, GAME OVER.`;
                             saveHighScore();
                             disableGame();
                             saveGameState();
@@ -5010,7 +5010,7 @@
                 // Complete it
                 completedMissions.add(upper);
                 console.log(`Mission completed: ${upper}`);
-                messageElement.textContent = `MISSION COMPLETED: ${upper}`;
+                messageElement.innerHTML = `MISSION COMPLETED: ${upper}`;
                 milestones.push({
                                 word: currentWord,
                                 missionQuest: true,
@@ -5931,7 +5931,7 @@
                         // bestNoBonusStreak = Math.max(bestNoBonusStreak, noBonusStreak);
                         // noBonusStreak = 0;
                         updateHistory();
-                        messageElement.textContent = currentWord + `, UNKNOWN WORD`;
+                        messageElement.innerHTML = `${currentWord}, UNKNOWN WORD`;
                         currentWord = lastValidWord;
                         renderWord();
                         rollbackGrid();
@@ -5943,7 +5943,7 @@
 
 
                         if (livesLost >= totalLives) {
-                            messageElement.textContent += ", GAME OVER.";
+                            messageElement.innerHTML += `, GAME OVER.`;
                             saveHighScore();
                             disableGame();
                             saveGameState();
