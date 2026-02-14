@@ -1197,6 +1197,10 @@
     display: inline-block;
     /* white-space: nowrap; */
 }
+.message span {
+    display: inline-block;
+    /* white-space: nowrap; */
+}
 
 
 
@@ -3159,12 +3163,12 @@
 
             bonusBtn.addEventListener('click', () => {
                 if (setupMovesAvailable <= 0) {
-                    messageElement.innerHTML = `CLICK + FOR GUIDANCE`;
+                    messageElement.innerHTML = `<span>CLICK + FOR GUIDANCE</span>`;
                     showTemporaryMessage();
                     return;
                 }
                 if (selected.length === 0) {
-                    messageElement.innerHTML = `SELECT A PLAYABLE MOVE FIRST`;
+                    messageElement.innerHTML = `<span>SELECT A PLAYABLE MOVE FIRST</span>`;
                     showTemporaryMessage();
                     return;
                 }
@@ -3175,7 +3179,7 @@
                 renderWord();
                 // replenishGrid(); // MOVED TO THE END
                 if (!moved) {
-                    messageElement.innerHTML = `INVALID MOVE. CLICK + FOR GUIDANCE`;
+                    messageElement.innerHTML = `<span>INVALID MOVE. CLICK + FOR GUIDANCE</span>`;
                     showTemporaryMessage();
                     return;
                 }
@@ -3187,7 +3191,7 @@
                 updateHistory();
                 bonusTicker = '';
                 lastValidWord = currentWord;
-                messageElement.innerHTML = `BONUS SETUP MOVE PLAYED!`;
+                messageElement.innerHTML = `<span>BONUS SETUP MOVE PLAYED!</span>`;
                 bestNoBonusStreak = Math.max(bestNoBonusStreak, noBonusStreak);
                 noBonusStreak = 0;
                 consecutiveBonuses++;
@@ -3210,7 +3214,7 @@
                     bonusTicker = '';
                     initGrid();
                     updateGridRefreshButton();
-                    messageElement.innerHTML = `GRID REFRESHED!`;
+                    messageElement.innerHTML = `<span>GRID REFRESHED!</span>`;
                     showTemporaryMessage();
                     bestNoBonusStreak = Math.max(bestNoBonusStreak, noBonusStreak);
                     noBonusStreak = 0;
@@ -3278,7 +3282,7 @@
                 scoreElement.textContent = score;
                 chainElement.textContent = chain;
                 // milestonesBtn.innerHTML = '… <small><small><small>[' + noBonusStreak + ']</small></small></small>';
-                messageElement.innerHTML = ``;
+                messageElement.innerHTML = `<span></span>`;
                 // disallowedElement.textContent = '';
                 updateBonusButton();
                 updateGridRefreshButton();
@@ -4355,10 +4359,10 @@
 
                 statusElement.innerHTML = `<b>${output.trim()}</b>`;
                 if (consecutiveBonuses == totalLives - 1) {
-                messageElement.innerHTML = `ONE MORE BONUS CAN BE USED WITHOUT PENALTY`;
+                messageElement.innerHTML = `<span>ONE MORE BONUS CAN BE USED WITHOUT PENALTY</span>`;
                 }
                 if (consecutiveBonuses == totalLives) {
-                messageElement.innerHTML = `PLAY A VALID WORD`;
+                messageElement.innerHTML = `<span>PLAY A VALID WORD</span>`;
                 }
             }
 
@@ -4367,7 +4371,7 @@
                 if ((consecutiveBonuses < (totalLives + 1))) { return; }
                 livesLost++;
                 consecutiveBonuses = 0;
-                messageElement.innerHTML = `-1 LIFE FOR BONUS OVERUSE`;
+                messageElement.innerHTML = `<span>-1 LIFE FOR BONUS OVERUSE</span>`;
                 milestones.push({
                                 word: `(${currentWord})`,
                                 penalty: true,
@@ -4380,7 +4384,7 @@
                                 }
                             });
                 if (livesLost >= totalLives) {
-                            messageElement.innerHTML += `, GAME OVER.`;
+                            messageElement.innerHTML += `<span>, GAME OVER.</span>`;
                             saveHighScore();
                             disableGame();
                             saveGameState();
@@ -5010,7 +5014,7 @@
                 // Complete it
                 completedMissions.add(upper);
                 console.log(`Mission completed: ${upper}`);
-                messageElement.innerHTML = `MISSION COMPLETED: ${upper}`;
+                messageElement.innerHTML = `<span>MISSION COMPLETED: ${upper}</span>`;
                 milestones.push({
                                 word: currentWord,
                                 missionQuest: true,
@@ -5271,7 +5275,7 @@
 
             function selectCell(cell) {
                 // cell.classList.remove('selected');
-                if (!specialModeActive) { document.getElementById('message').innerHTML = ""; };
+                if (!specialModeActive) { messageElement.innerHTML = `<span></span>`; };
 
 
 
@@ -5776,7 +5780,7 @@
             function validateWord(previousWord) {
                 const lower = currentWord.toLowerCase();
                 if (playedWords.has(lower)) {
-                    messageElement.innerHTML = `<i><b>${currentWord}</b></i> ALREADY USED!`;
+                    messageElement.innerHTML = `<span><i><b>${currentWord}</b></i> ALREADY USED!</span>`;
                     highlightPlayed(currentWord);
                     rollbackGrid();
                     alreadyUsedAnimation();
@@ -5817,7 +5821,7 @@
                     scoreElement.textContent = score;
                     chainElement.textContent = chain;
                     // milestonesBtn.innerHTML = '… <small><small><small>[' + noBonusStreak + ']</small></small></small>';
-                    if (chain != 1) { messageElement.innerHTML = `<i><b>${currentWord}</b></i>, VALID WORD!` }; //FROM LOCAL LIST
+                    if (chain != 1) { messageElement.innerHTML = `<span><i><b>${currentWord}</b></i>, VALID WORD!</span>` }; //FROM LOCAL LIST
                     showTemporaryMessage();
                     clearSpecialMode(); // Nov 4 EDIT
                     greenAnimation();
@@ -5881,7 +5885,7 @@
                         scoreElement.textContent = score;
                         chainElement.textContent = chain;
                         // milestonesBtn.innerHTML = '… <small><small><small>[' + noBonusStreak + ']</small></small></small>';
-                        messageElement.innerHTML = `<i><b>${currentWord}</b></i>, YES, VALID WORD!`;
+                        messageElement.innerHTML = `<span><i><b>${currentWord}</b></i>, YES, VALID WORD!</span>`;
                         sa_event(() => "api_" + currentWord); //LOG API-VALIDATED WORDS (NOT ON LOCAL LIST)
                         clearSpecialMode(); // SEP 1 EDIT
                         greenAnimation();
@@ -5931,7 +5935,7 @@
                         // bestNoBonusStreak = Math.max(bestNoBonusStreak, noBonusStreak);
                         // noBonusStreak = 0;
                         updateHistory();
-                        messageElement.innerHTML = `${currentWord}, UNKNOWN WORD`;
+                        messageElement.innerHTML = `<span>${currentWord}, UNKNOWN WORD</span>`;
                         currentWord = lastValidWord;
                         renderWord();
                         rollbackGrid();
@@ -5943,7 +5947,7 @@
 
 
                         if (livesLost >= totalLives) {
-                            messageElement.innerHTML += `, GAME OVER.`;
+                            messageElement.innerHTML += `<span>, GAME OVER.</span>`;
                             saveHighScore();
                             disableGame();
                             saveGameState();
@@ -5965,7 +5969,7 @@
                 clearSelection();
                 renderWord();
                 if (!moved) {
-                    messageElement.innerHTML = `NOT A VALID MOVE. CLICK + FOR GUIDANCE`; //MAX 42 chars
+                    messageElement.innerHTML = `<span>NOT A VALID MOVE. CLICK + FOR GUIDANCE</span>`; //MAX 42 chars
                     showTemporaryMessage();
                     return;
                 }
