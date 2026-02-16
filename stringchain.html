@@ -748,9 +748,6 @@
             column-gap: var(--gap);
         }
 
-
-
-
         /* RAILS (rows match grid) */
         .rail {
             display: grid;
@@ -1066,6 +1063,19 @@
         .newgame {
             box-sizing: border-box;
             width:50%;
+            /* font-size:16px; */
+            padding: var(--gap);
+            margin: var(--gap) 0px;
+            margin-bottom: var(--gap);
+            display: block;
+            background-image: linear-gradient(to right, var(--text), var(--accent), var(--accent-text));
+            border: 2px solid var(--accent-text);
+            height: 49px;
+        }
+
+        .newgame2 {
+            box-sizing: border-box;
+            width:180px;
             /* font-size:16px; */
             padding: var(--gap);
             margin: var(--gap) 0px;
@@ -1618,13 +1628,12 @@
         }
 
 
-        .modal-1 {
+        /* .modal-1 {
             position: fixed;
             top: 0;
             left: 0;            
             bottom: 0;
             right: 0;
-            /* width: 100vw; */
             height: 100dvh; 
             
             display: flex;
@@ -1635,7 +1644,7 @@
             background-color: rgba(0, 0, 0, 0.75);
             backdrop-filter: blur(2px);
             -webkit-backdrop-filter: blur(2px);
-        }
+        } */
 
 /* 
         .modal {
@@ -1738,6 +1747,33 @@
         }
 
         .modal-missions {
+            position: fixed;
+            top: 43px;
+            background: var(--accent);
+            color: var(--accent-text);
+            /* background-image: linear-gradient(to bottom, var(--accent), var(--bg));  */
+
+            padding-block: 12px;
+            /* padding-inline:30px; */
+            border-radius: var(--rounding);
+            border: var(--accent) solid 2px;
+            text-align: center;
+            /* overflow-y:scroll; */
+
+            /* CHANGE 1: Remove scrolling from here */
+            overflow:hidden;
+            
+            /* CHANGE 2: Use flexbox to organize the header and scroll area */
+            display: flex;
+            flex-direction: column;
+            /* max-height:60vh; */
+            max-height:300px;
+            width: 400px;
+            /* z-index: 1; */
+            /* opacity: unset; */
+        }
+
+        .modal-gameover {
             position: fixed;
             top: 43px;
             background: var(--accent);
@@ -2811,7 +2847,7 @@
 
 
     <!-- Milestones Modal -->
-    <div id="milestonesModal" class="modal-1 hidden">
+    <div id="milestonesModal" class="modal hidden">
         <div class="modal-milestones">
             
 
@@ -2839,7 +2875,7 @@
 
 <!--#endregion Missions Modal -->
 
-<div id="searchModal" class="modal-1 hidden">
+<div id="searchModal" class="modal hidden">
     <div class="modal-search">
         
         
@@ -2858,6 +2894,15 @@
     </div>
 </div>
 
+<div id="gameOverModal" class="modal hidden">
+    <div class="modal-gameover">
+        <h5 style="font-family: 'Courier New', Courier, monospace;">stringchain.fyi</h5><p class="demo-para" style="text-align:center;font-size:11pt;margin-top:-8px;">GAME OVER<br><br></p>
+        <p class="demo-para hidden" style="text-align:center;font-size:11pt;" id="game-over-message"></p>
+
+        <div id="game-over-stats" class="missions-1" style="padding-block:20px;"></div>
+    </div>
+    <button id="gameoverRestart" class="newgame2">RESTART</button>
+</div>
 
 
         <script>
@@ -2918,6 +2963,7 @@
             const rightRail = document.getElementById('right-rail');
             const actionBtn = document.getElementById('actionBtn');
             const newGameBtn = document.getElementById('newGameBtn');
+            const gameoverRestart = document.getElementById('gameoverRestart');
             const bonusBtn = document.getElementById('bonusBtn');
             const gridRefreshBtn = document.getElementById('gridRefreshBtn');
 
@@ -2938,6 +2984,8 @@
             const missionsHelpBtn = document.getElementById('missions-help-btn');
             const missionsHelp = document.getElementById('missions-help');
 
+            const gameOverModal = document.getElementById('gameOverModal');
+            const gameOverStats = document.getElementById('game-over-stats');
 
             // const streakinfo = document.getElementById('streakinfo');
             const wildcardOne = document.getElementById('wildcard-1');
@@ -3016,7 +3064,6 @@
             let streakMilestones = [ 10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600 ];
             let milestones = [];
             let noBonusStreak = 0;
-            let bestNoBonusStreak = 0;
             let consecutiveBonuses = 0;
 
             let unlockedMissionTier = 4;          // highest word length revealed
@@ -3037,6 +3084,13 @@
             let allTimeWordLength = 0;
             let allTimeWord = "";
             let allTimeSummary = "";
+
+            let thisGameString = 0;
+            let thisGameChain = 0;
+            let thisGameStreak = 0;
+            let thisGameWordLength = 0;
+            let thisGameWord = "";
+            let thisGameSummary = "";
             
             
             
@@ -3196,7 +3250,7 @@
                 bonusTicker = '';
                 lastValidWord = currentWord;
                 messageElement.innerHTML = `<span>BONUS SETUP MOVE PLAYED!</span>`;
-                bestNoBonusStreak = Math.max(bestNoBonusStreak, noBonusStreak);
+                thisGameStreak = Math.max(thisGameStreak, noBonusStreak);
                 noBonusStreak = 0;
                 consecutiveBonuses++;
                 updateStatus();
@@ -3220,7 +3274,7 @@
                     updateGridRefreshButton();
                     messageElement.innerHTML = `<span>GRID REFRESHED!</span>`;
                     showTemporaryMessage();
-                    bestNoBonusStreak = Math.max(bestNoBonusStreak, noBonusStreak);
+                    thisGameStreak = Math.max(thisGameStreak, noBonusStreak);
                     noBonusStreak = 0;
                     consecutiveBonuses++;
                     updateStatus();
@@ -3233,7 +3287,14 @@
                 }
             });
 
+            gameoverRestart.addEventListener('click', () => {newGameBtn.click();})
+
             newGameBtn.addEventListener('click', () => {
+
+                if ( !gameOverModal.classList.contains("hidden")) {
+                    gameOverModal.classList.add("hidden")
+                };
+                thisGameSummary = "";
 
                 if (isActiveGame == true && chain >= 5) {
                     let text = "Are you sure you want to restart?";
@@ -3268,7 +3329,11 @@
                 streakMilestones = [ 10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600 ];
                 milestones = [];
                 noBonusStreak = 0;
-                bestNoBonusStreak = 0;
+                thisGameStreak = 0;
+                thisGameString = 0;
+                thisGameChain = 0;
+                thisGameWordLength = 0;
+                thisGameWord = "";
                 consecutiveBonuses = 0;
                 // milestonesSummary = "";
                 milestonesBtn.classList.add('hidden');
@@ -3379,13 +3444,18 @@
             function updateAllTimeStats() {
                 allTimeString = Math.max(allTimeString, score);
                 allTimeChain = Math.max(allTimeChain, chain);
-                allTimeStreak = Math.max(allTimeStreak, bestNoBonusStreak);
+                allTimeStreak = Math.max(allTimeStreak, thisGameStreak);
                 if (allTimeWordLength <= lastValidWord.length) {
                     allTimeWordLength = lastValidWord.length;
                     allTimeWord = lastValidWord;
                 }
 
-            
+                if (thisGameWordLength <= lastValidWord.length) {
+                    thisGameWordLength = lastValidWord.length;
+                    thisGameWord = lastValidWord;
+                }
+
+
                 allTimeSummary = `<p class="sq-para1" style="font-size:5pt;"><span class="yourBest">${allTimeString} string</span>
                     <span class="yourBest">chain ${allTimeChain}</span><br>
                     <br><span class="yourBest">${allTimeWordLength} letters &nbsp;<span class="sq-word"><b>${allTimeWord.toLowerCase()}</b></span></span><br>
@@ -3988,7 +4058,11 @@
                     chainMilestones, 
                     stringMilestones, 
                     noBonusStreak,
-                    bestNoBonusStreak,
+                    thisGameStreak,
+                    thisGameChain,
+                    thisGameString,
+                    thisGameWordLength,
+                    thisGameWord,
                     consecutiveBonuses,
                     streakMilestones, 
                     milestones,
@@ -4067,7 +4141,11 @@
                         chainMilestones, 
                         stringMilestones, 
                         noBonusStreak,
-                        bestNoBonusStreak,
+                        thisGameStreak,
+                        thisGameChain,
+                        thisGameString,
+                        thisGameWordLength,
+                        thisGameWord,
                         consecutiveBonuses,
                         streakMilestones, 
                         milestones,
@@ -4344,6 +4422,7 @@
                 // streakDiv.innerHTML = `no-bonus streak of ${noBonusStreak}`;
                 streakDiv.innerHTML = `streak ${noBonusStreak}`;
                 if (chain >= 16) { streakDiv.style.display = "block" };
+                if (chain < 16) { streakDiv.style.display = "none" };
                 const livesLeft = Math.min(totalLives,8) - livesLost;
                 let output = "";
 
@@ -4425,11 +4504,18 @@
             function disableGame() {
                 isActiveGame = false;
                 localStorage.setItem("isDisqualified", "true");
-                actionBtn.disabled = true;
-                bonusBtn.disabled = true;
-                gridRefreshBtn.disabled = true;
-                gridElement.style.pointerEvents = 'none';
-                wordContainer.style.pointerEvents = 'none';
+                // actionBtn.disabled = true;
+                // bonusBtn.disabled = true;
+                // gridRefreshBtn.disabled = true;
+                // gridElement.style.pointerEvents = 'none';
+                // wordContainer.style.pointerEvents = 'none';
+                gameOverModal.classList.remove('hidden');
+                thisGameSummary = `<p class="sq-para1" style="font-size:5pt;"><span class="yourBest">${score} string</span>
+                    <span class="yourBest">chain ${chain}</span><br>
+                    <br><span class="yourBest">${thisGameWordLength} letters &nbsp;<span class="sq-word"><b>${thisGameWord.toLowerCase()}</b></span></span><br>
+                    <br><span class="yourBest">no-bonus streak of ${thisGameStreak}</span></p>
+                        `;
+                gameOverStats.innerHTML = `${thisGameSummary}`;
             }
 
             function showTemporaryMessage(message) {
@@ -4746,7 +4832,7 @@
                             <p class="sq-para1" style="border:none;margin:none;padding:none;text-align:right;"><span class="rewards2">${nextWordLength} letters</span><br>currently ${currentWord.length}, avg ${avgWordLength} letters</p>
                         </td>
                         <td style="border:none;margin:none;padding:none;">
-                            <p class="sq-para1" style="border:none;margin:none;padding:none;text-align:left;"><span class="rewards2">no-bonus streak of ${nextStreak}</span><br>currently ${noBonusStreak}, best ${bestNoBonusStreak} words</p>
+                            <p class="sq-para1" style="border:none;margin:none;padding:none;text-align:left;"><span class="rewards2">no-bonus streak of ${nextStreak}</span><br>currently ${noBonusStreak}, best ${thisGameStreak} words</p>
                         </td>
                     </tr>
                 </table>`; 
@@ -4754,7 +4840,7 @@
                 // let milestoneSummary = `
                 // <p class="sq-para1" style="font-size:11pt;"><br>${nextStringToGo} letters to go <span class="rewards2">${nextString}+ string</span><br></p>
                 // <p class="sq-para1" style="font-size:11pt;"><span class="rewards2">chain ${nextChain}</span> ${nextChainToGo} words to go<br></p>
-                // <p class="sq-para1" style="font-size:11pt;">currently ${noBonusStreak}, best ${bestNoBonusStreak} words <span class="rewards2">no-bonus streak of ${nextStreak}</span><br></p>
+                // <p class="sq-para1" style="font-size:11pt;">currently ${noBonusStreak}, best ${thisGameStreak} words <span class="rewards2">no-bonus streak of ${nextStreak}</span><br></p>
                 // <p class="sq-para1" style="font-size:11pt;"><span class="rewards2">${nextWordLength} letters</span> currently ${currentWord.length}, avg ${avgWordLength} letters<br><br></p>
                 // `; 
 
@@ -4983,7 +5069,7 @@
                     .map(q => renderRewards(q))
                     .join("");
 
-                // streakinfo.innerHTML = `best no-bonus streak is ${bestNoBonusStreak} words`;
+                // streakinfo.innerHTML = `best no-bonus streak is ${thisGameStreak} words`;
             }
 
 
@@ -5835,7 +5921,7 @@
                     historyElement.scrollTo({ top: 0, behavior: 'smooth' });
                     gridFallback = grid;
                     noBonusStreak++;
-                    bestNoBonusStreak = Math.max(bestNoBonusStreak, noBonusStreak);
+                    thisGameStreak = Math.max(thisGameStreak, noBonusStreak);
                     consecutiveBonuses = 0;
                     updateMilestones();
                     updateAllTimeStats();
@@ -5899,7 +5985,7 @@
                         historyElement.scrollTo({ top: 0, behavior: 'smooth' });
                         gridFallback = grid;
                         noBonusStreak++;
-                        bestNoBonusStreak = Math.max(bestNoBonusStreak, noBonusStreak);
+                        thisGameStreak = Math.max(thisGameStreak, noBonusStreak);
                         consecutiveBonuses = 0;
                         updateMilestones();
                         updateAllTimeStats();
@@ -5936,7 +6022,7 @@
 
                         playedWords.add(lower + `(-` + livesLost + `)`);
 
-                        // bestNoBonusStreak = Math.max(bestNoBonusStreak, noBonusStreak);
+                        // thisGameStreak = Math.max(thisGameStreak, noBonusStreak);
                         // noBonusStreak = 0;
                         updateHistory();
                         messageElement.innerHTML = `<span>${currentWord}, UNKNOWN WORD</span>`;
