@@ -663,27 +663,39 @@
         }
 
         .letter {
-            width: 28px;
-            height: 60px;
+            box-sizing: border-box;
+            width: 32px;
+            height: 66px;
             margin: 3px;
         }
 
         .insert-slot {
-            width: 12px;
+            box-sizing: border-box;
+            width: 14px;
             height: 30px;
-            opacity:50%;
+            /* margin: 3px; */
         }
 
         .selected {
-            /* animation-name: animate-selected; */
-            /* animation-duration: 0.3s; */
-            /* animation-timing-function: ease-out; */
+            box-sizing: border-box;
             border: var(--selected-border);
             color: var(--selected-text);
             background: var(--selected-cell);
             filter: none;
             opacity:100%;
+
+            margin-block:none;
+            padding-block:none;
+            transform:scale(105%);
+            /* height:52px; */
         }
+
+
+
+
+
+
+
 
         
 
@@ -1029,7 +1041,7 @@
             width: 94px;
             /* border: 2px solid var(--wordcell); */
             opacity: 50%;
-            font-size: 9pt;
+            font-size: 8pt;
             z-index: 999;
             /* border-radius: 23px; */
             /* margin: 0.5px; */
@@ -1391,9 +1403,8 @@
             color: var(--text);
             margin-bottom: 20px;
             width: 85%;
-            background: var(--gridcell);
-            color: var(--gridcell-text);
-            border: var(--gridcell-border);
+            background: var(--bg);
+            border: none;
             padding-inline: 2.5%;
             padding-block: 10px;
             border-radius: var(--rounding);
@@ -2822,7 +2833,7 @@
         <button id="searchBtn" class="searchBtn opacity-hide">search</button>
     </div>
 
-    <div id="definitions" class="hidden"></div>
+    <div id="definitions"></div>
     <!-- <button id="scrollBtn" class="scrollBtn">^</button> -->
     <!-- Asterisk Letter Picker Modal -->
     <div id="asteriskModal" class="modal hidden">
@@ -3003,6 +3014,7 @@
             const historyElement = document.getElementById('history');
             const historyHome = document.getElementById('history-wrapper');
             const searchHistory = document.getElementById('history2');
+
 
             const statusElement = document.getElementById('status');
             const definitionsElement = document.getElementById('definitions');
@@ -3360,7 +3372,7 @@
                 // disallowedElement.textContent = '';
                 updateBonusButton();
                 updateGridRefreshButton();
-                definitionsElement.textContent = '';
+                // definitionsElement.textContent = '';
                 specialModeActive = false;
                 fitWordContainer();
                 isActiveGame = true;
@@ -5204,20 +5216,43 @@
                 // renderGrid();
             }
 
+            definitionsElement.addEventListener("click", () => {
+                showDefinitions(lastValidWord);
+            });
+
+
+
             // function showDefinitions(word) {
-            //     // Fetch up to first 3 definitions and show them
-            //     fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
+            //     const url = `https://en.wiktionary.org/w/api.php?action=parse&page=${word}&prop=wikitext&format=json&origin=*`;
+
+            //     fetch(url)
             //         .then(res => res.json())
             //         .then(data => {
-            //             if (!Array.isArray(data)) throw new Error();
+            //             if (data.error || !data.parse) throw new Error();
+
+            //             const wikitext = data.parse.wikitext['*'];
             //             let defs = [];
-            //             data.forEach(entry => {
-            //                 entry.meanings?.forEach(meaning => {
-            //                     meaning.definitions?.forEach(defObj => {
-            //                         if (defs.length < 3) defs.push(defObj.definition);
-            //                     });
-            //                 });
-            //             });
+
+            //             // 1. Split by lines and find lines starting with '#'
+            //             const lines = wikitext.split('\n');
+                        
+            //             for (let line of lines) {
+            //                 // Regex looks for lines starting with '#' but NOT followed by '*' or ':' (which are examples/subs)
+            //                 if (line.startsWith('# ') || line.startsWith('#\t')) {
+            //                     let cleanDef = line
+            //                         .replace(/^#+\s*/, '')           // Remove the leading #
+            //                         .replace(/\[\[([^|\]]+)\|?.*?\]\]/g, '$1') // Simplify [[link|text]] to 'text'
+            //                         .replace(/\{\{[^}]+\}\}/g, '')   // Remove {{templates}}
+            //                         .replace(/'''|''/g, '')          // Remove bold/italic markers
+            //                         .trim();
+
+            //                     if (cleanDef && cleanDef.length > 3) {
+            //                         defs.push(cleanDef);
+            //                     }
+            //                 }
+            //                 if (defs.length >= 3) break;
+            //             }
+
             //             definitionsElement.innerHTML = defs.length
             //                 ? `<strong>${word}</strong>:<br>${defs.map(d => `- ${d}`).join('<br>')}`
             //                 : `No definitions found for "${word}".`;
@@ -5226,6 +5261,28 @@
             //             definitionsElement.textContent = `No definitions found for "${word}".`;
             //         });
             // }
+            function showDefinitions(word) {
+                // Fetch up to first 3 definitions and show them
+                fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (!Array.isArray(data)) throw new Error();
+                        let defs = [];
+                        data.forEach(entry => {
+                            entry.meanings?.forEach(meaning => {
+                                meaning.definitions?.forEach(defObj => {
+                                    if (defs.length < 3) defs.push(defObj.definition);
+                                });
+                            });
+                        });
+                        definitionsElement.innerHTML = defs.length
+                            ? `<strong>${word}</strong>:<br>${defs.map(d => `- ${d}`).join('<br>')}`
+                            : `No definitions found for "${word}".`;
+                    })
+                    .catch(() => {
+                        definitionsElement.textContent = `No definitions found for "${word}".`;
+                    });
+            }
             //END OF CHANGING STATES
 
 
