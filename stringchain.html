@@ -11,20 +11,22 @@
     <style>
 
         
-        /* @font-face {
-            font-family: Inconsolata;
-            src: url(assets/Inconsolata.ttf);
-        } */
+        @font-face {
+            font-family: JetBrainsMono;
+            src: url(assets/JetBrainsMono.ttf);
+        }
 
         :root {
-
+            /* --font1:JetBrainsMono; */
             --font1: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
             /* --font1: "Courier New", "Courier", monospace; */
-            --font2: "Courier New", "Courier", monospace;
-            --font3: monospace;
+            /* --font2: "Courier New", "Courier", monospace; */
+            --font2: JetBrainsMono, "Courier New", "Courier", monospace;
+            --font3: JetBrainsMono, "Courier New", "Courier", monospace;
+            /* --font3 for message only*/
+
 
             --grid-size: 3;
-            /* will be overwritten by JS */
             --cell-size: 68px;
 
             --gap: 8px;
@@ -605,9 +607,9 @@
         }
 
         .message {
-            font-size: 11pt;
+            font-size: 9pt;
             border-radius: var(--rounding) var(--rounding) 0px 0px;
-            font-family: var(--font2);
+            font-family: var(--font3);
             flex-wrap: wrap;
             text-align: center;
             color: var(--text);
@@ -1119,6 +1121,7 @@
             border-radius: var(--rounding);
             text-align:center;
             text-transform: uppercase;
+            font-family: var(--font1);
         }
 
 
