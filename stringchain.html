@@ -1472,16 +1472,47 @@
             /* color: var(--wordcell); */
         }
 
-        .demo-div {
+        #highScores {
             box-sizing: border-box;
-            width: 360px;
-            background: var(--bg);
-            font-size: 22pt;
+            margin-block: 20px 0px;
+            padding: 2px 0 30px 0;
+            margin-inline:auto;
+            width:360px;
+            background:var(--bg);
+            color: var(--text);
             border-radius: var(--rounding);
-            display: flex;
-            flex-direction: column;
-            padding-block: 20px;
-            padding-inline:20px;
+            /* border: 6px solid var(--positive-feedback); */
+            /* opacity:50%; */
+        }
+
+
+
+
+
+        .demo-div {
+
+            box-sizing: border-box;
+            /* margin-block: 20px 0px; */
+            padding: 20px;
+            margin-inline:auto;
+            width:360px;
+            background:var(--bg);
+            color: var(--text);
+            border-radius: var(--rounding);
+            font-size: 22pt;
+
+            /* box-sizing: border-box; */
+            /* width: 360px; */
+            /* background: var(--bg); */
+            /* font-size: 22pt; */
+            /* border-radius: var(--rounding); */
+            /* display: flex; */
+            /* flex-direction: column; */
+            /* padding-block: 20px; */
+            /* padding-inline:20px; */
+
+
+
             /* background-image: linear-gradient(to top, var(--bg), var(--accent)); */
             /* border: 6px solid var(--accent); */
             /* align-items: center; */
@@ -2893,8 +2924,9 @@
 
 <div id="searchModal" class="modal hidden">
     <div class="modal-search">
-        
-        
+        <p class="demo-para" style="text-align:center;font-size:8pt; padding-top:10px;opacity:50%;">
+            Click on a search result to jump to its position in your played words list</p>
+
         <div id="keyboardContainer" class="custom-keyboard"></div>
 
         <!-- <input type="text" id="searchInput" autocomplete="off" placeholder="search" contenteditable virtualkeyboardpolicy="manual" > -->
