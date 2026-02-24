@@ -1868,11 +1868,19 @@
             width:var(--cell-size);
         }
 
+        .missionsProgress {
+            position: fixed;
+            top: 380px;
+            align-self: center;
+        }
+
+
         .missions-help-btn {
             display: none;
             box-sizing: border-box;
             position: fixed;
             top: 376px;
+
             align-self: center;
             justify-self: center;
             align-items: center;
@@ -1888,7 +1896,6 @@
             width: var(--rail-width);
             opacity: 50%;
             z-index: 1001;
-
         }
 
 
@@ -2914,7 +2921,7 @@
         <p class="demo-para hidden" style="text-align:center;font-size:11pt;" id="missions-help"></p>
 
         <div id="missions-1" class="missions-1"></div>
-        <div id="missionsProgress"></div>
+        <div id="missionsProgress" class="missionsProgress"></div>
     </div>
 </div>
 
