@@ -9,9 +9,23 @@
     <link rel="icon" href="/favicon.ico">
     <script>window.sa_event = window.sa_event || function () { var a = [].slice.call(arguments); window.sa_event.q ? window.sa_event.q.push(a) : window.sa_event.q = [a] };</script>
     <style>
+
+        
+        @font-face {
+            font-family: JetBrainsMono;
+            src: url(assets/JetBrainsMono.ttf);
+        }
+
         :root {
+            /* --font1 for GAME WORD GRIDS ETC */
+            --font1: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+            /* --font2 for WORD LISTS ETC */
+            --font2: JetBrainsMono, "Courier New", "Courier", monospace;
+            /* --font3 for message only*/
+            --font3: JetBrainsMono, "Courier New", "Courier", monospace;
+
+
             --grid-size: 3;
-            /* will be overwritten by JS */
             --cell-size: 68px;
 
             --gap: 8px;
@@ -551,7 +565,7 @@
         }
 
         body {
-            font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+            font-family: var(--font1);
             background: var(--bg);
             max-width: 400px;
             margin: auto;
@@ -561,11 +575,12 @@
             align-items: center;
             font-size: 20pt;
             box-sizing: border-box;
+            overflow-x: hidden;
         }
 
         h1,
         h3 {
-            font-family: "Courier New", "Courier", monospace;
+            font-family: var(--font2);
             margin: 20px 0 5px 0;
             text-align: center;
         }
@@ -586,21 +601,21 @@
             text-align: center;
             width: 100%;
             height: 22px;
-            font-family: "Courier New", "Courier", monospace;
+            font-family: var(--font2);
             z-index: 1;
         }
 
         .message {
-            font-size: 11pt;
+            font-size: 9pt;
             border-radius: var(--rounding) var(--rounding) 0px 0px;
-            font-family: "Courier New", "Courier", monospace;
+            font-family: var(--font3);
             flex-wrap: wrap;
             text-align: center;
             color: var(--text);
             height: 66px;
             width: 100%;
             background-image: linear-gradient(to top, var(--bg), var(--accent));
-            padding-block: 15px;
+            padding-block: 18px;
             opacity: 75%;
             z-index: -1;
         }
@@ -630,6 +645,10 @@
             margin-bottom: 10px;
             padding: 2px;
             border-radius: var(--rounding);
+
+            font-family: var(--font2);
+            font-size: 34pt;
+            font-weight:bold;
         }
 
         .letter,
@@ -647,27 +666,39 @@
         }
 
         .letter {
-            width: 28px;
-            height: 60px;
+            box-sizing: border-box;
+            width: 32px;
+            height: 66px;
             margin: 3px;
         }
 
         .insert-slot {
-            width: 12px;
+            box-sizing: border-box;
+            width: 14px;
             height: 30px;
-            opacity:50%;
+            /* margin: 3px; */
         }
 
         .selected {
-            /* animation-name: animate-selected; */
-            /* animation-duration: 0.3s; */
-            /* animation-timing-function: ease-out; */
+            box-sizing: border-box;
             border: var(--selected-border);
             color: var(--selected-text);
             background: var(--selected-cell);
             filter: none;
             opacity:100%;
+
+            margin-block:none;
+            padding-block:none;
+            transform:scale(105%);
+            /* height:52px; */
         }
+
+
+
+
+
+
+
 
         
 
@@ -733,9 +764,6 @@
             row-gap: var(--gap);
             column-gap: var(--gap);
         }
-
-
-
 
         /* RAILS (rows match grid) */
         .rail {
@@ -885,7 +913,7 @@
         .button-row button {
             margin: 3px;
             padding: 10px;
-            font-family: inherit;
+            font-family: var(--font1);
             color: var(--accent-text);
             border-radius: var(--rounding);
             border: 2px solid var(--selected-cell);
@@ -909,6 +937,8 @@
             margin: none;
             font-size: 11pt;
             height: var(--cell-size);
+            font-family: var(--font1);
+            /* font-weight:200; */
         }
 
 
@@ -983,6 +1013,44 @@
             /* border: 2px solid var(--selected-cell); */
         }
 
+
+        .streakDiv {
+            display: none;
+            box-sizing: border-box;
+            padding-inline:10px;
+            padding-block:2px 1px;
+            position: absolute;
+            font-family: var(--font2);
+            /* top:432px; */
+            /* left:0; */
+            /* right:-200px; */
+            top: 42px;
+            left: 306px;
+            /* right: 400px; */
+            /* right: 50%; */
+            align-self: center;
+            justify-self: center;
+            align-content: center;
+            justify-content: center;
+            text-align: center;
+            /* transform: translateY(200px); */
+            border-radius: 0 var(--rounding) 0 var(--rounding);
+            background: var(--bg);
+            color: var(--text);
+            /* font-style: italic; */
+            /* margin-top: 15px; */
+            /* max-height: 29px; */
+            /* width: var(--rail-width); */
+            width: 94px;
+            /* border: 2px solid var(--wordcell); */
+            opacity: 50%;
+            font-size: 8pt;
+            z-index: 999;
+            /* border-radius: 23px; */
+            /* margin: 0.5px; */
+            /* border: 2px solid var(--selected-cell); */
+        }
+
         #themeToggle {
             width: var(--rail-width);
             height: 49px;
@@ -1012,7 +1080,22 @@
         .newgame {
             box-sizing: border-box;
             width:50%;
-            font-size:16px;
+            /* font-size:16px; */
+            padding: var(--gap);
+            margin: var(--gap) 0px;
+            margin-bottom: var(--gap);
+            display: block;
+            background-image: linear-gradient(to right, var(--text), var(--accent), var(--accent-text));
+            border: 2px solid var(--accent-text);
+            height: 49px;
+        }
+
+        .newgame2 {
+            position:fixed;
+            top:376px;
+            box-sizing: border-box;
+            width:360px;
+            /* font-size:16px; */
             padding: var(--gap);
             margin: var(--gap) 0px;
             margin-bottom: var(--gap);
@@ -1034,7 +1117,7 @@
             color:var(--gridcell-text);
             border:var(--gridcell-border);
             /* border: 2px solid var(--accent-text); */
-            font-size:16px;
+            /* font-size:16px; */
             /* border:none; */
             height: 49px;
             border-radius: var(--rounding);
@@ -1055,6 +1138,7 @@
             border-radius: var(--rounding);
             text-align:center;
             text-transform: uppercase;
+            font-family: var(--font1);
         }
 
 
@@ -1143,6 +1227,14 @@
     display: inline-block;
     /* white-space: nowrap; */
 }
+.message span {
+    display: inline-block;
+    padding-inline:10px;
+    background:var(--bg);
+    border-radius: var(--rounding);
+    opacity:50%;
+    /* white-space: nowrap; */
+}
 
 
 
@@ -1206,8 +1298,9 @@
 
 
         #status {
+            position:relative;
             font-size: 13pt;
-            font-family: "Courier New", "Courier", monospace;
+            font-family: var(--font2);
             margin: -10px 0px 8px 0px;
             color: var(--accent);
             /* text-align:end; */
@@ -1233,16 +1326,48 @@
 
         #highScores {
             box-sizing: border-box;
-            margin-block: 20px 0px;
-            padding: 2px 0 30px 0;
-            margin-inline:auto;
             width:360px;
+
+            padding: 2px 0 30px 0;
+            margin-block: 20px 0px;
+            margin-inline:auto;
+
             background:var(--bg);
             color: var(--text);
             border-radius: var(--rounding);
             /* border: 6px solid var(--positive-feedback); */
             /* opacity:50%; */
         }
+
+
+
+
+        .demo-div {
+            box-sizing: border-box;
+            width:360px;
+
+            padding: 20px;
+            margin-block: 5px 0px;
+            margin-inline:auto;
+
+            background:var(--bg);
+            color: var(--text);
+            border-radius: var(--rounding);
+
+            font-size: 22pt;
+
+        /* box-sizing: border-box; */
+        /* width: 360px; */
+        /* background: var(--bg); */
+        /* font-size: 22pt; */
+        /* border-radius: var(--rounding); */
+        /* display: flex; */
+        /* flex-direction: column; */
+        /* padding-block: 20px; */
+        /* padding-inline:20px; */
+        }
+
+
 
         /* #allTimeBestDisplay {
             box-sizing: border-box;
@@ -1268,7 +1393,7 @@
             max-height: 132px;
             /* max-height:56px; */
             font-size: 12pt;
-            font-family: "Courier New", "Courier", monospace;
+            font-family: var(--font2);
             color: var(--accent-text);
             /* border: 2px solid var(--accent); */
             /* box-sizing: border-box; */
@@ -1288,11 +1413,13 @@
 
 
         .highlight {
+            /* box-sizing:border-box; */
+            /* padding-inline:4px; */
             background: var(--wordcell-text);
             /* text-decoration: underline 3px solid var(--wordcell); */
             color: var(--wordcell);
             /* padding: 4px; */
-            /* border: 2px solid var(--bg); */
+            /* border: 5px solid var(--bg); */
             border-radius: var(--rounding-small);
             /* font-weight: bold; */
             /* opacity:75%; */
@@ -1311,16 +1438,17 @@
             color: var(--text);
             margin-bottom: 20px;
             width: 85%;
-            background: var(--gridcell);
-            color: var(--gridcell-text);
-            border: var(--gridcell-border);
+            background: var(--bg);
+            border: none;
             padding-inline: 2.5%;
             padding-block: 10px;
             border-radius: var(--rounding);
             opacity: 66%
         }
 
-        #rules,
+        #rules {
+            background: var(--wordcell);
+        }
         #about {
             background: var(--wordcell);
             padding: 10px;
@@ -1370,7 +1498,7 @@
         }
 
         .highlight-reel {
-            font-family: "Courier New", "Courier", monospace;
+            font-family: var(--font2);
             text-align: center;
             /* font-size: 9pt; */
             width: auto;
@@ -1381,27 +1509,11 @@
             /* color: var(--wordcell); */
         }
 
-        .demo-div {
-            box-sizing: border-box;
-            width: 360px;
-            background: var(--bg);
-            font-size: 22pt;
-            border-radius: var(--rounding);
-            display: flex;
-            flex-direction: column;
-            padding-block: 20px;
-            padding-inline:20px;
-            /* background-image: linear-gradient(to top, var(--bg), var(--accent)); */
-            /* border: 6px solid var(--accent); */
-            /* align-items: center; */
-            /* justify-content: center; */
-            /* gap: 0rem; */
-            /* margin: 0; */
-            /* padding: 0; */
-            /* box-sizing: border-box; */
-            /* height:min-content; */
-            /* overflow:unset; */
-        }
+
+
+
+
+
 
 
         .demo-board {
@@ -1426,7 +1538,7 @@
         }
 
         .demo-accent {
-            width: 100%;
+            width: 320px;
             background-image: linear-gradient(to bottom, var(--bg), var(--accent));
             border-radius: 0 0 var(--rounding) var(--rounding);
             margin: 0;
@@ -1437,7 +1549,6 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            box-sizing: border-box;
 
         }
 
@@ -1553,13 +1664,12 @@
         }
 
 
-        .modal-1 {
+        /* .modal-1 {
             position: fixed;
             top: 0;
             left: 0;            
             bottom: 0;
             right: 0;
-            /* width: 100vw; */
             height: 100dvh; 
             
             display: flex;
@@ -1570,7 +1680,7 @@
             background-color: rgba(0, 0, 0, 0.75);
             backdrop-filter: blur(2px);
             -webkit-backdrop-filter: blur(2px);
-        }
+        } */
 
 /* 
         .modal {
@@ -1635,12 +1745,13 @@
 
             /* CHANGE 1: Remove scrolling from here */
             overflow-y: hidden; 
+            /* opacity:85%; */
             
             /* CHANGE 2: Use flexbox to organize the header and scroll area */
             display: flex;
             flex-direction: column;
             flex-direction: column-reverse;
-            height: 520px;
+            height: 544px;
             width: 400px;
             /* z-index: 1; */
             /* opacity: unset; */
@@ -1699,6 +1810,33 @@
             /* opacity: unset; */
         }
 
+        .modal-gameover {
+            position: fixed;
+            top: 43px;
+            background: var(--accent);
+            color: var(--accent-text);
+            /* background-image: linear-gradient(to bottom, var(--accent), var(--bg));  */
+
+            padding-block: 12px;
+            /* padding-inline:30px; */
+            border-radius: var(--rounding);
+            border: var(--accent) solid 2px;
+            text-align: center;
+            /* overflow-y:scroll; */
+
+            /* CHANGE 1: Remove scrolling from here */
+            overflow:hidden;
+            
+            /* CHANGE 2: Use flexbox to organize the header and scroll area */
+            display: flex;
+            flex-direction: column;
+            /* max-height:60vh; */
+            max-height:300px;
+            width: 400px;
+            /* z-index: 1; */
+            /* opacity: unset; */
+        }
+
 
         .milestones-1 {
             background: var(--bg);
@@ -1730,11 +1868,24 @@
             width:var(--cell-size);
         }
 
+        .missionsProgress {
+            position: fixed;
+            top: 380px;
+            align-self: center;
+            justify-self: center;
+            align-items: center;
+            text-align: center;
+            margin:0;
+            padding:0;
+        }
+
+
         .missions-help-btn {
             display: none;
             box-sizing: border-box;
             position: fixed;
             top: 376px;
+
             align-self: center;
             justify-self: center;
             align-items: center;
@@ -1750,7 +1901,6 @@
             width: var(--rail-width);
             opacity: 50%;
             z-index: 1001;
-
         }
 
 
@@ -1790,7 +1940,7 @@
 
         .sq-word {
             font-size: 13pt;
-            font-family: "Courier New", "Courier", monospace;
+            font-family: var(--font2);
         }
 
         .sq-para {
@@ -2098,7 +2248,7 @@
 
 
         .missions-display {
-            font-family: "Courier New", "Courier", monospace;
+            font-family: var(--font2);
             font-size: 12pt;
             /* color: var(--text); */
             /* margin-top: 10px; */
@@ -2564,7 +2714,7 @@
                 <br>for passing game milestones
                 <br>and achieving no-bonus streaks.
                 <br><br>Words 7+ letters are worth an extra life
-                <br>until you reach the maximum of 12 lives.
+                <br>until you reach the maximum of 8 lives.
                 <br>
             </p>
            </div>
@@ -2607,6 +2757,26 @@
         <div id="about" style="display: none;">
             <p style="text-align: left;"> <b>ABOUT</b>
                 <br>
+                <br>The internet has lots of bitesize daily puzzles. These are great, but Stringchain is more
+                open-ended and user-driven.
+                <br><br>You can play as much as you want, whenever you want.
+                It's not a subscription, it's not an appointment. You choose when and how much. 
+                It's not a puzzle, it's a game. Take breaks, be healthy. 
+                <br>
+                <br>A game can (and probably should) be played over multiple sessions. 
+                The search function makes it easy to pick up where you left off.
+                <br>
+                <br>The core game, switching letters around, making words, it's really basic and simple, but so satisfying.
+                The mechanics around that should incentivise exciting gameplay. 
+                <br>
+                <br>Trustfall into your vocabulary. Find your flow. Complete a mission. Enjoy the scenery. 
+                Get a high score. Beat that high score. Screenshot that high score and challenge your
+                friends. 
+                <br>
+                <br>Look at your wordlist, you made that! 
+                Look at all the words you know, all these rhymes and connections! 
+                Writers, rappers, poets, word enthusiasts, this is your jam.
+                <br>
                 <br>Big shoutout to <b><i>dictionaryapi.dev</i></b>, <b><i>wiktionary.org</i></b> and <b><i>wordgamedictionary.com</i></b> for
                 providing free dictionary resources. This is
                 the spirit of
@@ -2614,20 +2784,7 @@
                 <br>
                 <br>Without whoever they are, whoever I am couldn't have made this game for whoever you are.
                 <br>
-                <br>The internet has lots of bitesize daily puzzles. These are great, but Stringchain is more
-                open-ended and user-driven.
-                <br><br>You can play as much as you want, whenever you want.
-                It's not a subscription, it's not an appointment. You choose when and how much. It's not a puzzle, it's a game. Take breaks, be healthy. 
-                <br>
-                <br>A game can (and probably should) be played over multiple sessions. The search function makes it easy to pick up where you left off.
-                <br>
-                <br>The core game, switching letters around, making words, it's really basic and simple, but so satisfying.
-                <br>The mechanics around that should incentivise exciting gameplay. Find your flow. Complete a mission. Enjoy the scenery.
-                <br>
-                <br>Get a high score. Beat that high score. Screenshot that high score and challenge your
-                friends. Look at your wordlist, you made that! Look at all the words you know, all these rhymes and connections! Writers, rappers, poets, word enthusiasts, this is your jam.
-                <br>
-                <br>Future tweaks and updates will happen. But the core game is in place now, and it's quite good. Have at it!
+                <br>Future tweaks and updates may happen. But the game is in place now. Have at it!
                 <br>
                 <br>If you enjoy this game, consider buying me a coffee or putting my kids through college.
                 <br>
@@ -2636,8 +2793,12 @@
         </div>
         <div id="highScores"></div>
     </div>
-    <div class="scores"><span id="score">0</span>&nbsp; <b>string</b><button id="toggle-dropdown"
-            class="help toggle-dropdown">+</button><b>chain</b> &nbsp;<span id="chain">0</span></div>
+    <div class="scores">
+        <span id="score">0</span>&nbsp; <b>string</b><button id="toggle-dropdown"
+            class="help toggle-dropdown">+</button><b>chain</b> &nbsp;<span id="chain">0</span>
+        <div id="streakDiv" class="streakDiv">STREAK</div>
+    </div>
+            
     <div id="anti-move-wrapper">
         <div id="message" class="message"></div>
     </div>
@@ -2687,7 +2848,7 @@
                 
 
                 <button id="bonusBtn" class="rail-btn span-2">||</button>
-                <button id="milestonesBtn" class="rail-btn hidden">...</button>
+                <button id="milestonesBtn" class="rail-btn hidden">…</button>
                 <button id="collapseModal" class="collapseModal">^</button>
                 <button id="scrollBtn" class="scrollBtn">^</button>
             </div>
@@ -2712,7 +2873,7 @@
         <button id="searchBtn" class="searchBtn opacity-hide">search</button>
     </div>
 
-    <div id="definitions" class="hidden"></div>
+    <div id="definitions"></div>
     <!-- <button id="scrollBtn" class="scrollBtn">^</button> -->
     <!-- Asterisk Letter Picker Modal -->
     <div id="asteriskModal" class="modal hidden">
@@ -2742,7 +2903,7 @@
 
 
     <!-- Milestones Modal -->
-    <div id="milestonesModal" class="modal-1 hidden">
+    <div id="milestonesModal" class="modal hidden">
         <div class="modal-milestones">
             
 
@@ -2766,14 +2927,16 @@
 
         <div id="missions-1" class="missions-1"></div>
     </div>
+    <div id="missionsProgress" class="missionsProgress"></div>
 </div>
 
 <!--#endregion Missions Modal -->
 
-<div id="searchModal" class="modal-1 hidden">
+<div id="searchModal" class="modal hidden">
     <div class="modal-search">
-        
-        
+        <p class="demo-para" style="text-align:center;font-size:8pt; padding-top:10px;opacity:50%;">
+            Click on a search result to jump to its position in your played words list</p>
+
         <div id="keyboardContainer" class="custom-keyboard"></div>
 
         <!-- <input type="text" id="searchInput" autocomplete="off" placeholder="search" contenteditable virtualkeyboardpolicy="manual" > -->
@@ -2789,6 +2952,15 @@
     </div>
 </div>
 
+<div id="gameOverModal" class="modal hidden">
+    <div class="modal-gameover">
+        <h5 style="font-family: 'Courier New', Courier, monospace;">stringchain.fyi</h5><p class="demo-para" style="text-align:center;font-size:11pt;margin-top:-8px;">GAME OVER<br><br></p>
+        <p class="demo-para hidden" style="text-align:center;font-size:11pt;" id="game-over-message"></p>
+
+        <div id="game-over-stats" class="missions-1" style="padding-block:20px;"></div>
+    </div>
+    <button id="gameoverRestart" class="newgame2">RESTART</button>
+</div>
 
 
         <script>
@@ -2849,6 +3021,7 @@
             const rightRail = document.getElementById('right-rail');
             const actionBtn = document.getElementById('actionBtn');
             const newGameBtn = document.getElementById('newGameBtn');
+            const gameoverRestart = document.getElementById('gameoverRestart');
             const bonusBtn = document.getElementById('bonusBtn');
             const gridRefreshBtn = document.getElementById('gridRefreshBtn');
 
@@ -2868,7 +3041,10 @@
             const missionsContent = document.getElementById('missions-1');
             const missionsHelpBtn = document.getElementById('missions-help-btn');
             const missionsHelp = document.getElementById('missions-help');
+            const missionsProgress = document.getElementById('missionsProgress');
 
+            const gameOverModal = document.getElementById('gameOverModal');
+            const gameOverStats = document.getElementById('game-over-stats');
 
             // const streakinfo = document.getElementById('streakinfo');
             const wildcardOne = document.getElementById('wildcard-1');
@@ -2882,11 +3058,13 @@
             const historyHome = document.getElementById('history-wrapper');
             const searchHistory = document.getElementById('history2');
 
+
             const statusElement = document.getElementById('status');
             const definitionsElement = document.getElementById('definitions');
             const rulesToggle = document.getElementById("toggle-rules");
             const dropdownToggle = document.getElementById("toggle-dropdown");
             const scrollBtn = document.getElementById("scrollBtn");
+            const streakDiv = document.getElementById("streakDiv");
             const collapseModal = document.getElementById("collapseModal");
             const collapseModal2 = document.getElementById("collapseModal2");
             const aboutBtn = document.getElementById("aboutBtn");
@@ -2946,7 +3124,6 @@
             let streakMilestones = [ 10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600 ];
             let milestones = [];
             let noBonusStreak = 0;
-            let bestNoBonusStreak = 0;
             let consecutiveBonuses = 0;
 
             let unlockedMissionTier = 4;          // highest word length revealed
@@ -2967,6 +3144,13 @@
             let allTimeWordLength = 0;
             let allTimeWord = "";
             let allTimeSummary = "";
+
+            let thisGameString = 0;
+            let thisGameChain = 0;
+            let thisGameStreak = 0;
+            let thisGameWordLength = 0;
+            let thisGameWord = "";
+            let thisGameSummary = "";
             
             
             
@@ -3059,6 +3243,7 @@
             dropdownToggle.addEventListener("click", () => {
                 const dropdownHidden = dropdownDiv.style.display === "none";
                 dropdownDiv.style.display = dropdownHidden ? "block" : "none";
+                // streakDiv.style.display = dropdownHidden ? "none" : "block";
                 dropdownToggle.textContent = dropdownHidden ? "^" : "+";
                 // getHighScores();
                 if (rulesDiv.style.display = "block") {
@@ -3096,12 +3281,12 @@
 
             bonusBtn.addEventListener('click', () => {
                 if (setupMovesAvailable <= 0) {
-                    messageElement.textContent = "Click + for guidance.";
+                    messageElement.innerHTML = `<span>CLICK + FOR GUIDANCE</span>`;
                     showTemporaryMessage();
                     return;
                 }
                 if (selected.length === 0) {
-                    messageElement.textContent = "Select a playable move first";
+                    messageElement.innerHTML = `<span>SELECT A PLAYABLE MOVE FIRST</span>`;
                     showTemporaryMessage();
                     return;
                 }
@@ -3112,7 +3297,7 @@
                 renderWord();
                 // replenishGrid(); // MOVED TO THE END
                 if (!moved) {
-                    messageElement.textContent = "Invalid move. Click + for guidance.";
+                    messageElement.innerHTML = `<span>INVALID MOVE. CLICK + FOR GUIDANCE</span>`;
                     showTemporaryMessage();
                     return;
                 }
@@ -3124,8 +3309,8 @@
                 updateHistory();
                 bonusTicker = '';
                 lastValidWord = currentWord;
-                messageElement.innerHTML = `Bonus setup move played.`;
-                bestNoBonusStreak = Math.max(bestNoBonusStreak, noBonusStreak);
+                messageElement.innerHTML = `<span>BONUS SETUP MOVE PLAYED!</span>`;
+                thisGameStreak = Math.max(thisGameStreak, noBonusStreak);
                 noBonusStreak = 0;
                 consecutiveBonuses++;
                 updateStatus();
@@ -3147,9 +3332,9 @@
                     bonusTicker = '';
                     initGrid();
                     updateGridRefreshButton();
-                    messageElement.textContent = "Grid refreshed!";
+                    messageElement.innerHTML = `<span>GRID REFRESHED!</span>`;
                     showTemporaryMessage();
-                    bestNoBonusStreak = Math.max(bestNoBonusStreak, noBonusStreak);
+                    thisGameStreak = Math.max(thisGameStreak, noBonusStreak);
                     noBonusStreak = 0;
                     consecutiveBonuses++;
                     updateStatus();
@@ -3162,7 +3347,14 @@
                 }
             });
 
+            gameoverRestart.addEventListener('click', () => {newGameBtn.click();})
+
             newGameBtn.addEventListener('click', () => {
+
+                if ( !gameOverModal.classList.contains("hidden")) {
+                    gameOverModal.classList.add("hidden")
+                };
+                thisGameSummary = "";
 
                 if (isActiveGame == true && chain >= 5) {
                     let text = "Are you sure you want to restart?";
@@ -3197,7 +3389,11 @@
                 streakMilestones = [ 10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600 ];
                 milestones = [];
                 noBonusStreak = 0;
-                bestNoBonusStreak = 0;
+                thisGameStreak = 0;
+                thisGameString = 0;
+                thisGameChain = 0;
+                thisGameWordLength = 0;
+                thisGameWord = "";
                 consecutiveBonuses = 0;
                 // milestonesSummary = "";
                 milestonesBtn.classList.add('hidden');
@@ -3214,11 +3410,12 @@
                 wordContainer.style.pointerEvents = 'auto';
                 scoreElement.textContent = score;
                 chainElement.textContent = chain;
-                messageElement.textContent = '';
+                // milestonesBtn.innerHTML = '… <small><small><small>[' + noBonusStreak + ']</small></small></small>';
+                messageElement.innerHTML = `<span></span>`;
                 // disallowedElement.textContent = '';
                 updateBonusButton();
                 updateGridRefreshButton();
-                definitionsElement.textContent = '';
+                // definitionsElement.textContent = '';
                 specialModeActive = false;
                 fitWordContainer();
                 isActiveGame = true;
@@ -3265,6 +3462,7 @@
                 collapseModal.style.display = "block";
                 missionsHelpBtn.style.display = "block";
                 renderMissions();
+                missionsProgress.innerHTML = `<span class="rewards2"">${calculateMissionProgress()}% <small><small>completed</small></small></span> <span class="rewards2""><small><small>level</small></small> ${unlockedMissionTier}</span>`;  
             });
 
 
@@ -3276,7 +3474,7 @@
                     missionsHelp.innerHTML = `Complete half of the current level<br>to unlock the next level.<br><br>`;
                 } else if (clickNumber == 1) {
                     clickNumber = 2;
-                    missionsHelp.innerHTML = `Just make the word<br>to complete the mission.<br><br>`;
+                    missionsHelp.innerHTML = `Just make the word<br>to complete the mission.<br><br>`; 
                 } else if (clickNumber == 2) {
                     clickNumber = 3;
                     missionsHelp.innerHTML = `Missions persist between games.<br>You can undertake them at your leisure.<br><br>`;
@@ -3304,16 +3502,56 @@
                 // }, 4000); // Hide after 8 seconds
             }
 
+            function calculateMissionProgress() {
+                let totalChars = 0;
+                let completedChars = 0;
+
+                // Iterate through tiers up to and including the unlocked one
+                for (let tier = 4; tier <= unlockedMissionTier; tier++) {
+                    const wordsInTier = missions[tier.toString()];
+                    
+                    if (wordsInTier) {
+                        wordsInTier.forEach(word => {
+                            const wordLength = word.length;
+                            totalChars += wordLength;
+
+                            // If the player has finished this word, add its length to progress
+                            if (completedMissions.has(word)) {
+                                completedChars += wordLength;
+                            }
+                        });
+                    }
+                }
+
+                if (totalChars === 0) return 0;
+                
+                // Return a rounded percentage
+                return Math.round((completedChars / totalChars) * 10000)/100;
+            }
+
+
+
+
+
+
+
+
+
             function updateAllTimeStats() {
                 allTimeString = Math.max(allTimeString, score);
                 allTimeChain = Math.max(allTimeChain, chain);
-                allTimeStreak = Math.max(allTimeStreak, bestNoBonusStreak);
+                allTimeStreak = Math.max(allTimeStreak, thisGameStreak);
                 if (allTimeWordLength <= lastValidWord.length) {
                     allTimeWordLength = lastValidWord.length;
                     allTimeWord = lastValidWord;
                 }
 
-            
+                if (thisGameWordLength <= lastValidWord.length) {
+                    thisGameWordLength = lastValidWord.length;
+                    thisGameWord = lastValidWord;
+                }
+
+
                 allTimeSummary = `<p class="sq-para1" style="font-size:5pt;"><span class="yourBest">${allTimeString} string</span>
                     <span class="yourBest">chain ${allTimeChain}</span><br>
                     <br><span class="yourBest">${allTimeWordLength} letters &nbsp;<span class="sq-word"><b>${allTimeWord.toLowerCase()}</b></span></span><br>
@@ -3793,6 +4031,7 @@
                 specialModeActive = true;
                 wordContainer.classList.add('special');
                 messageElement.classList.add('special-sauce');
+                streakDiv.style.display = "none";
                 saveGameState();
                 return;
             }
@@ -3800,6 +4039,7 @@
                 specialModeActive = false;
                 wordContainer.classList.remove('special');
                 messageElement.classList.remove('special-sauce');
+                if (chain >= 16) { streakDiv.style.display = "block" };
                 saveGameState();
                 return;
             }
@@ -3914,7 +4154,11 @@
                     chainMilestones, 
                     stringMilestones, 
                     noBonusStreak,
-                    bestNoBonusStreak,
+                    thisGameStreak,
+                    thisGameChain,
+                    thisGameString,
+                    thisGameWordLength,
+                    thisGameWord,
                     consecutiveBonuses,
                     streakMilestones, 
                     milestones,
@@ -3993,7 +4237,11 @@
                         chainMilestones, 
                         stringMilestones, 
                         noBonusStreak,
-                        bestNoBonusStreak,
+                        thisGameStreak,
+                        thisGameChain,
+                        thisGameString,
+                        thisGameWordLength,
+                        thisGameWord,
                         consecutiveBonuses,
                         streakMilestones, 
                         milestones,
@@ -4036,6 +4284,7 @@
                     
                     scoreElement.textContent = score;
                     chainElement.textContent = chain;
+                    // milestonesBtn.innerHTML = '… <small><small><small>[' + noBonusStreak + ']</small></small></small>';
                     if (specialModeActive == true) {
                         activateSpecialMode();
                     }
@@ -4266,11 +4515,15 @@
             // Enhanced updateStatus with bonus highlighting WORK IN PROGRESS
 
             function updateStatus() {
-                const livesLeft = Math.min(totalLives,12) - livesLost;
+                // streakDiv.innerHTML = `no-bonus streak of ${noBonusStreak}`;
+                streakDiv.innerHTML = `streak ${noBonusStreak}`;
+                if (chain >= 16) { streakDiv.style.display = "block" };
+                if (chain < 16) { streakDiv.style.display = "none" };
+                const livesLeft = Math.min(totalLives,8) - livesLost;
                 let output = "";
 
                 // We loop through the total number of lives/slots
-                for (let i = 0; i < Math.min(totalLives,12); i++) {
+                for (let i = 0; i < Math.min(totalLives,8); i++) {
                     // 1. Determine the character (- for lost, | for remaining)
                     const char = (i < livesLost) ? "-" : "|";
                     
@@ -4285,10 +4538,10 @@
 
                 statusElement.innerHTML = `<b>${output.trim()}</b>`;
                 if (consecutiveBonuses == totalLives - 1) {
-                messageElement.textContent = `One more bonus can be used without penalty`;
+                messageElement.innerHTML = `<span>ONE MORE BONUS CAN BE USED WITHOUT PENALTY</span>`;
                 }
                 if (consecutiveBonuses == totalLives) {
-                messageElement.textContent = `Play a valid word!`;
+                messageElement.innerHTML = `<span>PLAY A VALID WORD</span>`;
                 }
             }
 
@@ -4297,7 +4550,7 @@
                 if ((consecutiveBonuses < (totalLives + 1))) { return; }
                 livesLost++;
                 consecutiveBonuses = 0;
-                messageElement.textContent = `-1 life for bonus overuse`;
+                messageElement.innerHTML = `<span>-1 LIFE FOR BONUS OVERUSE</span>`;
                 milestones.push({
                                 word: `(${currentWord})`,
                                 penalty: true,
@@ -4310,7 +4563,7 @@
                                 }
                             });
                 if (livesLost >= totalLives) {
-                            messageElement.textContent += ", GAME OVER.";
+                            messageElement.innerHTML += `<span>, GAME OVER.</span>`;
                             saveHighScore();
                             disableGame();
                             saveGameState();
@@ -4347,11 +4600,18 @@
             function disableGame() {
                 isActiveGame = false;
                 localStorage.setItem("isDisqualified", "true");
-                actionBtn.disabled = true;
-                bonusBtn.disabled = true;
-                gridRefreshBtn.disabled = true;
-                gridElement.style.pointerEvents = 'none';
-                wordContainer.style.pointerEvents = 'none';
+                // actionBtn.disabled = true;
+                // bonusBtn.disabled = true;
+                // gridRefreshBtn.disabled = true;
+                // gridElement.style.pointerEvents = 'none';
+                // wordContainer.style.pointerEvents = 'none';
+                gameOverModal.classList.remove('hidden');
+                thisGameSummary = `<p class="sq-para1" style="font-size:5pt;"><span class="yourBest">${score} string</span>
+                    <span class="yourBest">chain ${chain}</span><br>
+                    <br><span class="yourBest">${thisGameWordLength} letters &nbsp;<span class="sq-word"><b>${thisGameWord.toLowerCase()}</b></span></span><br>
+                    <br><span class="yourBest">no-bonus streak of ${thisGameStreak}</span></p>
+                        `;
+                gameOverStats.innerHTML = `${thisGameSummary}`;
             }
 
             function showTemporaryMessage(message) {
@@ -4501,7 +4761,7 @@
                             updateBonusButton();
                             totalLives++;
                             updateStatus();
-                        } else if (currentWord.length % 2 === 0 && currentWord.length >= 7 && totalLives < 12) {
+                        } else if (currentWord.length % 2 === 0 && currentWord.length >= 7 && totalLives < 8) {
                             milestones.push({
                                 word: currentWord,
                                 wordQuest: true,
@@ -4517,7 +4777,7 @@
                             updateBonusButton();
                             totalLives++;
                             updateStatus();
-                        } else if (currentWord.length % 2 === 0 && currentWord.length >= 7 && totalLives == 12) {
+                        } else if (currentWord.length % 2 === 0 && currentWord.length >= 7 && totalLives == 8) {
                             milestones.push({
                                 word: currentWord,
                                 wordQuest: true,
@@ -4548,7 +4808,7 @@
                             updateGridRefreshButton();
                             totalLives++;
                             updateStatus();
-                        } else if (currentWord.length % 2 !== 0 && currentWord.length >= 7 && totalLives < 12) {
+                        } else if (currentWord.length % 2 !== 0 && currentWord.length >= 7 && totalLives < 8) {
                             milestones.push({
                                 word: currentWord,
                                 wordQuest: true,
@@ -4564,7 +4824,7 @@
                             updateGridRefreshButton();
                             totalLives++;
                             updateStatus();
-                        } else if (currentWord.length % 2 !== 0 && currentWord.length >= 7 && totalLives == 12) {
+                        } else if (currentWord.length % 2 !== 0 && currentWord.length >= 7 && totalLives == 8) {
                             milestones.push({
                                 word: currentWord,
                                 wordQuest: true,
@@ -4655,20 +4915,20 @@
 
                 let milestoneSummary = `
                 <table style="border:none;justify-content:center;align-content:center;align-self:center;margin:none;padding:none;width:100%;">
-                    <tr style="width:51%;">
+                    <tr>
                         <td style="border:none;margin:none;padding:none;">
-                            <p class="sq-para1" style="border:none;margin:none;padding:none;"><span class="rewards2">${nextString}+ string</span><br>${nextStringToGo} letters to go</p>
+                            <p class="sq-para1" style="border:none;margin:none;padding:none;text-align:right;"><span class="rewards2">${nextString}+ string</span><br>${nextStringToGo} letters to go</p>
                         </td>
                         <td style="border:none;margin:none;padding:none;">
-                            <p class="sq-para1" style="border:none;margin:none;padding:none;"><span class="rewards2">chain ${nextChain}</span><br>${nextChainToGo} words to go</p>
+                            <p class="sq-para1" style="border:none;margin:none;padding:none;text-align:left;"><span class="rewards2">chain ${nextChain}</span><br>${nextChainToGo} words to go</p>
                         </td>
                     </tr>
-                    <tr style="width:51%;">
+                    <tr>
                         <td style="border:none;margin:none;padding:none;">
-                            <p class="sq-para1" style="border:none;margin:none;padding:none;"><span class="rewards2">${nextWordLength} letters</span><br>currently ${currentWord.length}, avg ${avgWordLength} letters</p>
+                            <p class="sq-para1" style="border:none;margin:none;padding:none;text-align:right;"><span class="rewards2">${nextWordLength} letters</span><br>currently ${currentWord.length}, avg ${avgWordLength} letters</p>
                         </td>
                         <td style="border:none;margin:none;padding:none;">
-                            <p class="sq-para1" style="border:none;margin:none;padding:none;"><span class="rewards2">no-bonus streak of ${nextStreak}</span><br>currently ${noBonusStreak}, best ${bestNoBonusStreak} words</p>
+                            <p class="sq-para1" style="border:none;margin:none;padding:none;text-align:left;"><span class="rewards2">no-bonus streak of ${nextStreak}</span><br>currently ${noBonusStreak}, best ${thisGameStreak} words</p>
                         </td>
                     </tr>
                 </table>`; 
@@ -4676,7 +4936,7 @@
                 // let milestoneSummary = `
                 // <p class="sq-para1" style="font-size:11pt;"><br>${nextStringToGo} letters to go <span class="rewards2">${nextString}+ string</span><br></p>
                 // <p class="sq-para1" style="font-size:11pt;"><span class="rewards2">chain ${nextChain}</span> ${nextChainToGo} words to go<br></p>
-                // <p class="sq-para1" style="font-size:11pt;">currently ${noBonusStreak}, best ${bestNoBonusStreak} words <span class="rewards2">no-bonus streak of ${nextStreak}</span><br></p>
+                // <p class="sq-para1" style="font-size:11pt;">currently ${noBonusStreak}, best ${thisGameStreak} words <span class="rewards2">no-bonus streak of ${nextStreak}</span><br></p>
                 // <p class="sq-para1" style="font-size:11pt;"><span class="rewards2">${nextWordLength} letters</span> currently ${currentWord.length}, avg ${avgWordLength} letters<br><br></p>
                 // `; 
 
@@ -4905,7 +5165,7 @@
                     .map(q => renderRewards(q))
                     .join("");
 
-                // streakinfo.innerHTML = `best no-bonus streak is ${bestNoBonusStreak} words`;
+                // streakinfo.innerHTML = `best no-bonus streak is ${thisGameStreak} words`;
             }
 
 
@@ -4940,7 +5200,7 @@
                 // Complete it
                 completedMissions.add(upper);
                 console.log(`Mission completed: ${upper}`);
-                messageElement.textContent = `Mission completed: ${upper}`;
+                messageElement.innerHTML = `<span>MISSION COMPLETED: ${upper}</span>`;
                 milestones.push({
                                 word: currentWord,
                                 missionQuest: true,
@@ -5035,20 +5295,43 @@
                 // renderGrid();
             }
 
+            definitionsElement.addEventListener("click", () => {
+                showDefinitions(lastValidWord);
+            });
+
+
+
             // function showDefinitions(word) {
-            //     // Fetch up to first 3 definitions and show them
-            //     fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
+            //     const url = `https://en.wiktionary.org/w/api.php?action=parse&page=${word}&prop=wikitext&format=json&origin=*`;
+
+            //     fetch(url)
             //         .then(res => res.json())
             //         .then(data => {
-            //             if (!Array.isArray(data)) throw new Error();
+            //             if (data.error || !data.parse) throw new Error();
+
+            //             const wikitext = data.parse.wikitext['*'];
             //             let defs = [];
-            //             data.forEach(entry => {
-            //                 entry.meanings?.forEach(meaning => {
-            //                     meaning.definitions?.forEach(defObj => {
-            //                         if (defs.length < 3) defs.push(defObj.definition);
-            //                     });
-            //                 });
-            //             });
+
+            //             // 1. Split by lines and find lines starting with '#'
+            //             const lines = wikitext.split('\n');
+                        
+            //             for (let line of lines) {
+            //                 // Regex looks for lines starting with '#' but NOT followed by '*' or ':' (which are examples/subs)
+            //                 if (line.startsWith('# ') || line.startsWith('#\t')) {
+            //                     let cleanDef = line
+            //                         .replace(/^#+\s*/, '')           // Remove the leading #
+            //                         .replace(/\[\[([^|\]]+)\|?.*?\]\]/g, '$1') // Simplify [[link|text]] to 'text'
+            //                         .replace(/\{\{[^}]+\}\}/g, '')   // Remove {{templates}}
+            //                         .replace(/'''|''/g, '')          // Remove bold/italic markers
+            //                         .trim();
+
+            //                     if (cleanDef && cleanDef.length > 3) {
+            //                         defs.push(cleanDef);
+            //                     }
+            //                 }
+            //                 if (defs.length >= 3) break;
+            //             }
+
             //             definitionsElement.innerHTML = defs.length
             //                 ? `<strong>${word}</strong>:<br>${defs.map(d => `- ${d}`).join('<br>')}`
             //                 : `No definitions found for "${word}".`;
@@ -5057,6 +5340,28 @@
             //             definitionsElement.textContent = `No definitions found for "${word}".`;
             //         });
             // }
+            function showDefinitions(word) {
+                // Fetch up to first 3 definitions and show them
+                fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (!Array.isArray(data)) throw new Error();
+                        let defs = [];
+                        data.forEach(entry => {
+                            entry.meanings?.forEach(meaning => {
+                                meaning.definitions?.forEach(defObj => {
+                                    if (defs.length < 3) defs.push(defObj.definition);
+                                });
+                            });
+                        });
+                        definitionsElement.innerHTML = defs.length
+                            ? `<strong>${word}</strong>:<br>${defs.map(d => `- ${d}`).join('<br>')}`
+                            : `No definitions found for "${word}".`;
+                    })
+                    .catch(() => {
+                        definitionsElement.textContent = `No definitions found for "${word}".`;
+                    });
+            }
             //END OF CHANGING STATES
 
 
@@ -5201,7 +5506,7 @@
 
             function selectCell(cell) {
                 // cell.classList.remove('selected');
-                if (!specialModeActive) { messageElement.textContent = "" };
+                if (!specialModeActive) { messageElement.innerHTML = `<span></span>`; };
 
 
 
@@ -5706,7 +6011,7 @@
             function validateWord(previousWord) {
                 const lower = currentWord.toLowerCase();
                 if (playedWords.has(lower)) {
-                    messageElement.textContent = `${currentWord} already used!`;
+                    messageElement.innerHTML = `<span><i><b>${currentWord}</b></i> ALREADY USED!</span>`;
                     highlightPlayed(currentWord);
                     rollbackGrid();
                     alreadyUsedAnimation();
@@ -5746,7 +6051,8 @@
 
                     scoreElement.textContent = score;
                     chainElement.textContent = chain;
-                    if (chain != 1) { messageElement.textContent = "Valid word!" }; //FROM LOCAL LIST
+                    // milestonesBtn.innerHTML = '… <small><small><small>[' + noBonusStreak + ']</small></small></small>';
+                    if (chain != 1) { messageElement.innerHTML = `<span><i><b>${currentWord}</b></i>, VALID WORD!</span>` }; //FROM LOCAL LIST
                     showTemporaryMessage();
                     clearSpecialMode(); // Nov 4 EDIT
                     greenAnimation();
@@ -5756,7 +6062,7 @@
                     historyElement.scrollTo({ top: 0, behavior: 'smooth' });
                     gridFallback = grid;
                     noBonusStreak++;
-                    bestNoBonusStreak = Math.max(bestNoBonusStreak, noBonusStreak);
+                    thisGameStreak = Math.max(thisGameStreak, noBonusStreak);
                     consecutiveBonuses = 0;
                     updateMilestones();
                     updateAllTimeStats();
@@ -5809,7 +6115,8 @@
                         // }
                         scoreElement.textContent = score;
                         chainElement.textContent = chain;
-                        messageElement.textContent = "Yes, valid word!";
+                        // milestonesBtn.innerHTML = '… <small><small><small>[' + noBonusStreak + ']</small></small></small>';
+                        messageElement.innerHTML = `<span><i><b>${currentWord}</b></i>, YES, VALID WORD!</span>`;
                         sa_event(() => "api_" + currentWord); //LOG API-VALIDATED WORDS (NOT ON LOCAL LIST)
                         clearSpecialMode(); // SEP 1 EDIT
                         greenAnimation();
@@ -5819,7 +6126,7 @@
                         historyElement.scrollTo({ top: 0, behavior: 'smooth' });
                         gridFallback = grid;
                         noBonusStreak++;
-                        bestNoBonusStreak = Math.max(bestNoBonusStreak, noBonusStreak);
+                        thisGameStreak = Math.max(thisGameStreak, noBonusStreak);
                         consecutiveBonuses = 0;
                         updateMilestones();
                         updateAllTimeStats();
@@ -5856,10 +6163,10 @@
 
                         playedWords.add(lower + `(-` + livesLost + `)`);
 
-                        // bestNoBonusStreak = Math.max(bestNoBonusStreak, noBonusStreak);
+                        // thisGameStreak = Math.max(thisGameStreak, noBonusStreak);
                         // noBonusStreak = 0;
                         updateHistory();
-                        messageElement.textContent = currentWord + `, unknown word`;
+                        messageElement.innerHTML = `<span>${currentWord}, UNKNOWN WORD</span>`;
                         currentWord = lastValidWord;
                         renderWord();
                         rollbackGrid();
@@ -5871,13 +6178,14 @@
 
 
                         if (livesLost >= totalLives) {
-                            messageElement.textContent += ", GAME OVER.";
+                            messageElement.innerHTML += `<span>, GAME OVER.</span>`;
                             saveHighScore();
                             disableGame();
                             saveGameState();
                         }
                         scoreElement.textContent = score;
                         chainElement.textContent = chain;
+                        // milestonesBtn.innerHTML = '… <small><small><small>[' + noBonusStreak + ']</small></small></small>';
 
                         // updateStatus();
                         // updateDisallowedWords();
@@ -5892,7 +6200,7 @@
                 clearSelection();
                 renderWord();
                 if (!moved) {
-                    messageElement.textContent = "Not a valid move. Click + for guidance"; //MAX 42 chars
+                    messageElement.innerHTML = `<span>NOT A VALID MOVE. CLICK + FOR GUIDANCE</span>`; //MAX 42 chars
                     showTemporaryMessage();
                     return;
                 }
