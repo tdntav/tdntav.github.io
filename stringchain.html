@@ -19,11 +19,10 @@
         :root {
             /* --font1 for GAME WORD GRIDS ETC */
             --font1: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-            /* --font1: "Courier New", "Courier", monospace; */
-            /* --font2: "Courier New", "Courier", monospace; */
+            /* --font2 for WORD LISTS ETC */
             --font2: JetBrainsMono, "Courier New", "Courier", monospace;
-            --font3: JetBrainsMono, "Courier New", "Courier", monospace;
             /* --font3 for message only*/
+            --font3: JetBrainsMono, "Courier New", "Courier", monospace;
 
 
             --grid-size: 3;
@@ -2915,6 +2914,7 @@
         <p class="demo-para hidden" style="text-align:center;font-size:11pt;" id="missions-help"></p>
 
         <div id="missions-1" class="missions-1"></div>
+        <div id="missionsProgress"></div>
     </div>
 </div>
 
@@ -3029,6 +3029,7 @@
             const missionsContent = document.getElementById('missions-1');
             const missionsHelpBtn = document.getElementById('missions-help-btn');
             const missionsHelp = document.getElementById('missions-help');
+            const missionsProgress = document.getElementById('missionsProgress');
 
             const gameOverModal = document.getElementById('gameOverModal');
             const gameOverStats = document.getElementById('game-over-stats');
@@ -3449,6 +3450,7 @@
                 collapseModal.style.display = "block";
                 missionsHelpBtn.style.display = "block";
                 renderMissions();
+                missionsProgress.innerHTML = `<span class="rewards2" style="font-family:var(--font2);">${calculateMissionProgress()}% <small><small>completed</small></small></span> <span class="rewards2" style="font-family:var(--font2);"><small><small>level</small></small> ${unlockedMissionTier}</span>`;  
             });
 
 
@@ -3460,7 +3462,7 @@
                     missionsHelp.innerHTML = `Complete half of the current level<br>to unlock the next level.<br><br>`;
                 } else if (clickNumber == 1) {
                     clickNumber = 2;
-                    missionsHelp.innerHTML = `Just make the word<br>to complete the mission.<br><br>`;
+                    missionsHelp.innerHTML = `Just make the word<br>to complete the mission.<br><br>`; 
                 } else if (clickNumber == 2) {
                     clickNumber = 3;
                     missionsHelp.innerHTML = `Missions persist between games.<br>You can undertake them at your leisure.<br><br>`;
@@ -3487,6 +3489,41 @@
                 //     missionsModal.classList.add('hidden');
                 // }, 4000); // Hide after 8 seconds
             }
+
+            function calculateMissionProgress() {
+                let totalChars = 0;
+                let completedChars = 0;
+
+                // Iterate through tiers up to and including the unlocked one
+                for (let tier = 4; tier <= unlockedMissionTier; tier++) {
+                    const wordsInTier = missions[tier.toString()];
+                    
+                    if (wordsInTier) {
+                        wordsInTier.forEach(word => {
+                            const wordLength = word.length;
+                            totalChars += wordLength;
+
+                            // If the player has finished this word, add its length to progress
+                            if (completedMissions.has(word)) {
+                                completedChars += wordLength;
+                            }
+                        });
+                    }
+                }
+
+                if (totalChars === 0) return 0;
+                
+                // Return a rounded percentage
+                return Math.round((completedChars / totalChars) * 10000)/100;
+            }
+
+
+
+
+
+
+
+
 
             function updateAllTimeStats() {
                 allTimeString = Math.max(allTimeString, score);
