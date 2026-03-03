@@ -3346,12 +3346,21 @@
             });
 
             function showLongwordBtn() {
-                if (currentWord.length > 8) {
+                if (currentWord.length > 7) {
                     longwordBtn.style.display = "block";
                 } else {
                     longwordBtn.style.display = "none";
                 }
-            }
+            };
+
+            function resetWrapper() {
+                if (longwordBtn.classList.contains("longwordBtn-selected")) {
+                    longwordBtn.classList.remove("longwordBtn-selected");
+                    scaleWrapper.classList.remove("scale-wrapper-longword");
+                    scaleWrapper.classList.add("scale-wrapper");
+                }
+            };
+            
 
             bonusBtn.addEventListener('click', () => {
                 if (setupMovesAvailable <= 0) {
@@ -6098,6 +6107,7 @@
                     // renderGrid();
                     showTemporaryMessage();
                     saveGameState();
+                    resetWrapper();
                     return;
                 }
 
@@ -6133,6 +6143,7 @@
                     clearSpecialMode(); // Nov 4 EDIT
                     greenAnimation();
                     playAnimation();
+                    resetWrapper();
                     // showDefinitions(lower);
                     replenishGrid();
                     historyElement.scrollTo({ top: 0, behavior: 'smooth' });
@@ -6197,6 +6208,7 @@
                         clearSpecialMode(); // SEP 1 EDIT
                         greenAnimation();
                         playAnimation();
+                        resetWrapper();
                         // showDefinitions(lower);
                         replenishGrid();
                         historyElement.scrollTo({ top: 0, behavior: 'smooth' });
@@ -6251,6 +6263,7 @@
                         updateBonusButton();
                         updateGridRefreshButton();
                         redAnimation();
+                        resetWrapper();
 
 
                         if (livesLost >= totalLives) {
