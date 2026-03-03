@@ -614,13 +614,14 @@
             color: var(--text);
             height: 66px;
             width: 100%;
-            background-image: linear-gradient(to top, var(--bg), var(--accent));
+            background-image: linear-gradient(to top, transparent, var(--accent));
             padding-block: 18px;
-            opacity: 75%;
+            opacity: 60%;
             z-index: -1;
         }
 
         .scale-wrapper {
+            box-sizing:border-box;
             transform: scale(var(--scale-var));
             object-fit: contain;
             display: flex;
@@ -632,6 +633,25 @@
             transform-origin: center;
             transition: transform 1s ease;
             border-radius: var(--rounding);
+            z-index: 2;
+        }
+
+        .scale-wrapper-longword {
+            box-sizing:border-box;
+            transform: scale(0.8);
+            /* transform: scale(var(--scale-var)); */
+            object-fit:contain;
+            display: flex;
+            width:450px;
+            justify-content: left;
+            overflow:scroll;
+            overflow-x:scroll;
+            background: var(--bg);
+            padding: 10px;
+            transform-origin: center;
+            transition: transform 1s ease;
+            border-radius: var(--rounding);
+            /* border: 3px solid var(--wordcell); */
             z-index: 2;
         }
 
@@ -1013,6 +1033,34 @@
             /* border: 2px solid var(--selected-cell); */
         }
 
+        .longwordBtn {
+            box-sizing: border-box;
+            display: none;
+            position: absolute;
+            top: -163px;
+            align-self: center;
+            justify-self: center;
+            border-radius: var(--rounding);
+            background: var(--wordcell-text);
+            color: var(--wordcell);
+            /* margin-top: 15px; */
+            height: 40px;
+            width: var(--rail-width);
+            border: 2px solid var(--wordcell);
+            opacity: 30%;
+            font-size: 18pt;
+            z-index: 999;
+            padding:0;
+            margin:0;
+        }
+
+        .longwordBtn-selected {
+            opacity: 60%;    
+        }
+
+
+
+
 
         .streakDiv {
             display: none;
@@ -1233,6 +1281,7 @@
     background:var(--bg);
     border-radius: var(--rounding);
     opacity:50%;
+    z-index:1000;
     /* white-space: nowrap; */
 }
 
@@ -1242,6 +1291,8 @@
 
 
         .help {
+            box-sizing: border-box;
+            border:3px solid var(--bg);
             border-radius: 24px;
             /* margin: 0.5px; */
             /* border: 2px solid var(--selected-cell); */
@@ -2851,6 +2902,8 @@
                 <button id="milestonesBtn" class="rail-btn hidden">…</button>
                 <button id="collapseModal" class="collapseModal">^</button>
                 <button id="scrollBtn" class="scrollBtn">^</button>
+                <button id="longwordBtn" class="longwordBtn">&#8596;</button>
+
             </div>
             <!-- <div></div>             -->
             <div class="grid" id="letterGrid"></div>
@@ -3064,6 +3117,7 @@
             const rulesToggle = document.getElementById("toggle-rules");
             const dropdownToggle = document.getElementById("toggle-dropdown");
             const scrollBtn = document.getElementById("scrollBtn");
+            const longwordBtn = document.getElementById("longwordBtn");
             const streakDiv = document.getElementById("streakDiv");
             const collapseModal = document.getElementById("collapseModal");
             const collapseModal2 = document.getElementById("collapseModal2");
@@ -3278,6 +3332,26 @@
                     rulesToggle.textContent = "HOW TO PLAY";
                 }
             });
+
+            longwordBtn.addEventListener("click", () => {
+                if (longwordBtn.classList.contains("longwordBtn-selected")) {
+                    longwordBtn.classList.remove("longwordBtn-selected");
+                    scaleWrapper.classList.remove("scale-wrapper-longword");
+                    scaleWrapper.classList.add("scale-wrapper");
+                } else {
+                    longwordBtn.classList.add("longwordBtn-selected");
+                    scaleWrapper.classList.add("scale-wrapper-longword");
+                    scaleWrapper.classList.remove("scale-wrapper");
+                }
+            });
+
+            function showLongwordBtn() {
+                if (currentWord.length > 9) {
+                    longwordBtn.style.display = "block";
+                } else {
+                    longwordBtn.style.display = "none";
+                }
+            }
 
             bonusBtn.addEventListener('click', () => {
                 if (setupMovesAvailable <= 0) {
@@ -4516,6 +4590,7 @@
 
             function updateStatus() {
                 // streakDiv.innerHTML = `no-bonus streak of ${noBonusStreak}`;
+                showLongwordBtn();
                 streakDiv.innerHTML = `streak ${noBonusStreak}`;
                 if (chain >= 16) { streakDiv.style.display = "block" };
                 if (chain < 16) { streakDiv.style.display = "none" };
@@ -4570,6 +4645,7 @@
                         }
                 showTemporaryMessage();
                 updateStatus();
+
                 }
 
 
