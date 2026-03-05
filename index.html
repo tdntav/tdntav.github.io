@@ -638,20 +638,20 @@
 
         .scale-wrapper-longword {
             box-sizing:border-box;
-            transform: scale(0.8);
+            transform: scale(0.75);
             /* transform: scale(var(--scale-var)); */
             object-fit:contain;
             display: flex;
-            width:450px;
+            width:480px;
             justify-content: left;
-            overflow:scroll;
+            /* overflow:scroll; */
             overflow-x:scroll;
             background: var(--bg);
             padding: 10px;
             transform-origin: center;
             transition: transform 1s ease;
             border-radius: var(--rounding);
-            /* border: 3px solid var(--wordcell); */
+            /* border: 3px solid var(--wordcell-text); */
             z-index: 2;
         }
 
@@ -1037,7 +1037,7 @@
             box-sizing: border-box;
             display: none;
             position: absolute;
-            top: -163px;
+            top: -161px;
             align-self: center;
             justify-self: center;
             border-radius: var(--rounding);
@@ -1046,7 +1046,7 @@
             /* margin-top: 15px; */
             height: 40px;
             width: var(--rail-width);
-            border: 2px solid var(--wordcell);
+            /* border: 2px solid var(--wordcell); */
             opacity: 30%;
             font-size: 18pt;
             z-index: 999;
