@@ -1038,8 +1038,8 @@
             display: none;
             position: absolute;
             top: -161px;
-            align-self: center;
-            justify-self: center;
+            align-items:center;
+            justify-content: center;
             border-radius: var(--rounding);
             background: var(--wordcell-text);
             color: var(--wordcell);
@@ -1048,7 +1048,8 @@
             width: var(--rail-width);
             /* border: 2px solid var(--wordcell); */
             opacity: 30%;
-            font-size: 18pt;
+            font-size: 16pt;
+            line-height: 0.5;
             z-index: 999;
             padding:0;
             margin:0;
@@ -1380,7 +1381,7 @@
             width:360px;
 
             padding: 2px 0 30px 0;
-            margin-block: 20px 0px;
+            margin-block: 15px 15px;
             margin-inline:auto;
 
             background:var(--bg);
@@ -2369,6 +2370,7 @@
     <!-- <div style="height:60px;"><br></div> -->
     <div id="dropdown" style="display:none;">
         <h1>stringchain.fyi</h1>
+        <div id="highScores"></div>
         <button id="themeToggle" class="help-dark">change</button> <button id="toggle-rules" class="help-dark">HOW TO
             PLAY</button> <button id="aboutBtn" class="help-dark">about</button>
 
@@ -2842,7 +2844,7 @@
                 <br>Word nerd,<br>Dave
             </p>
         </div>
-        <div id="highScores"></div>
+        <!-- <div id="highScores"></div> -->
     </div>
     <div class="scores">
         <span id="score">0</span>&nbsp; <b>string</b><button id="toggle-dropdown"
