@@ -648,8 +648,8 @@
             overflow-x:scroll;
             background: var(--bg);
             padding: 10px;
-            transform-origin: center;
             transition: transform 1s ease;
+            transform-origin: center;
             border-radius: var(--rounding);
             /* border: 3px solid var(--wordcell-text); */
             z-index: 2;
@@ -1037,26 +1037,33 @@
             box-sizing: border-box;
             display: none;
             position: absolute;
-            top: -161px;
+            /* top: -161px; */
+            top: -35px;
             align-items:center;
             justify-content: center;
             border-radius: var(--rounding);
-            background: var(--wordcell-text);
-            color: var(--wordcell);
+            background: var(--bg);
+            color: var(--text);
+            overflow-y: hidden;
+            /* font-family: var(--font2); */
             /* margin-top: 15px; */
-            height: 40px;
+            height: 28px;
             width: var(--rail-width);
-            /* border: 2px solid var(--wordcell); */
+            border: 2px solid var(--text);
             opacity: 30%;
-            font-size: 16pt;
-            line-height: 0.5;
+            font-size: 14pt;
+            /* line-height: 0.5; */
             z-index: 999;
-            padding:0;
+            padding: 0 0 6px 0;
             margin:0;
         }
 
         .longwordBtn-selected {
-            opacity: 60%;    
+            opacity: 100%;    
+            background: var(--accent);
+            border: var(--selected-border);
+            color: var(--accent-text);
+
         }
 
 
@@ -2905,6 +2912,7 @@
                 <button id="collapseModal" class="collapseModal">^</button>
                 <button id="scrollBtn" class="scrollBtn">^</button>
                 <button id="longwordBtn" class="longwordBtn">&#8596;</button>
+                <!-- <button id="longwordBtn" class="longwordBtn">---</button> -->
 
             </div>
             <!-- <div></div>             -->
@@ -3337,6 +3345,7 @@
 
             longwordBtn.addEventListener("click", () => {
                 if (longwordBtn.classList.contains("longwordBtn-selected")) {
+
                     longwordBtn.classList.remove("longwordBtn-selected");
                     scaleWrapper.classList.remove("scale-wrapper-longword");
                     scaleWrapper.classList.add("scale-wrapper");
@@ -3344,6 +3353,10 @@
                     longwordBtn.classList.add("longwordBtn-selected");
                     scaleWrapper.classList.add("scale-wrapper-longword");
                     scaleWrapper.classList.remove("scale-wrapper");
+                    // scaleWrapper.scrollTo({
+                    // left: 95,
+                    // behavior: 'auto'
+                    // });
                 }
             });
 
