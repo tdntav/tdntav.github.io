@@ -629,11 +629,12 @@
             justify-content: center;
             /* overflow: hidden; */
             background: transparent;
-            padding: 10px;
+            padding: 11px;
             transform-origin: center;
             transition: transform 1s ease;
             border-radius: var(--rounding);
             z-index: 2;
+            /* margin:auto; */
         }
 
         .scale-wrapper-longword {
@@ -641,17 +642,17 @@
             transform: scale(0.75);
             /* transform: scale(var(--scale-var)); */
             object-fit:contain;
-            display: flex;
+            display:flex;
             width:480px;
             justify-content: left;
             /* overflow:scroll; */
-            overflow-x:scroll;
+            overflow:scroll;
             background: var(--bg);
-            padding: 10px;
+            padding: 8px;
             transition: transform 1s ease;
             transform-origin: center;
-            border-radius: var(--rounding);
-            /* border: 3px solid var(--wordcell-text); */
+            border-radius: var(--rounding) var(--rounding) var(--rounding) 0;
+            border: 3px solid var(--wordcell);
             z-index: 2;
         }
 
@@ -1038,7 +1039,7 @@
             display: none;
             position: absolute;
             /* top: -161px; */
-            top: -35px;
+            top: -39px;
             align-items:center;
             justify-content: center;
             border-radius: var(--rounding);
@@ -1047,23 +1048,26 @@
             overflow-y: hidden;
             /* font-family: var(--font2); */
             /* margin-top: 15px; */
-            height: 28px;
+            height: 32px;
             width: var(--rail-width);
             border: 2px solid var(--text);
             opacity: 30%;
             font-size: 14pt;
             /* line-height: 0.5; */
             z-index: 999;
-            padding: 0 0 6px 0;
+            /* padding: 0 0 5px 0; */
             margin:0;
         }
 
         .longwordBtn-selected {
             opacity: 100%;    
-            background: var(--accent);
-            border: var(--selected-border);
-            color: var(--accent-text);
-
+            top: -39px;
+            height: 32px;
+            background: var(--wordcell);
+            border-color: var(--wordcell);
+            border: 2px solid var(--wordcell);
+            border-radius: 0 0 var(--rounding) var(--rounding);
+            color: var(--wordcell-text);
         }
 
 
@@ -2824,14 +2828,16 @@
                 It's not a puzzle, it's a game. 
                 <br>
                 <br>I didn't set a solution, only the rules and constraints to create conditions where exploring your vocabulary becomes a compelling challenge. 
-                This isn't about knowing all the 5 letter words. It's about stretching to every word length in the sweeping breadth of your personal lexicon.
-                <br>
-                <br>A game of Stringchain can (and probably should) be played over multiple sessions. Take breaks, be healthy. 
-                The search function makes it easy to pick up where you left off.
+                This isn't about knowing all the 5 letter words. You can stretch to any word length in the sweeping breadth of your personal lexicon.
                 <br>
                 <br>The core game, switching letters around, making words, it's really basic and simple, but very satisfying.
                 Strategic word choice, grid awareness, and canny use of bonus setup moves can make a game last a long time.
                 Once you have used up all the easy and convenient short words, it can get very challenging. 
+                <br>
+
+                <br>A game of Stringchain can (and probably should) be played over multiple sessions. Take breaks, be healthy. 
+                The search function makes it easy to pick up where you left off.
+                <br>
                 <br>
                 <br>Trustfall into your vocabulary. Find your flow. Complete a mission. Enjoy the scenery. 
                 Get a high score. Beat that high score. Screenshot that high score and challenge your
@@ -2841,8 +2847,7 @@
                 Look at all the words you know, all these rhymes and connections! 
                 Writers, rappers, poets, word enthusiasts, this is your jam.
                 <br>
-                <br>Though it's just a hobby dev project, I wanted to make the validation bulletproof. 
-                Big shoutout to <b><i>wiktionary.org</i></b>, <b><i>dictionaryapi.dev</i></b> and <b><i>wordgamedictionary.com</i></b> for
+                <br>Big shoutout to <b><i>wiktionary.org</i></b>, <b><i>dictionaryapi.dev</i></b> and <b><i>wordgamedictionary.com</i></b> for
                 providing free dictionary resources. This is the spirit of random collaboration that embodies the internet at its best.
                 <br>
                 <br>Without whoever they are, whoever I am couldn't have made this game for whoever you are.
