@@ -75,6 +75,37 @@
 
 /* * {box-sizing: border-box;} */
 
+
+        .firebrick {
+            --rounding: 60px;
+            --rounding-small: 50px;
+
+            --bg: #ca8;
+            --text: #621;
+
+            --accent: #821;
+            --accent-text: #fca;
+
+            --positive-feedback: #fd0;
+            --pos-fb-text: var(--bg);
+
+            --negative-feedback: #f0d;
+            --disabled: #555;
+
+            --wordcell: var(--accent);
+            --wordcell-text: var(--accent-text);
+            --wordcell-border: 2px solid var(--wordcell);
+
+            --gridcell: var(--bg);
+            --gridcell-text: var(--text);
+            --gridcell-border: 2px solid var(--wordcell);
+
+            --selected-cell: #410;
+            --selected-text: var(--pos-fb-text);
+            --selected-border: 2px solid var(--selected-cell);
+            }
+
+
         .first-green {
 
             --rounding: 4px;
@@ -104,6 +135,8 @@
             --selected-text: var(--pos-fb-text);
             --selected-border: 2px solid var(--selected-cell);
         }
+
+
 
         .first-red {
 
@@ -2331,8 +2364,6 @@
 
 
 
-
-
         .custom-keyboard {
             /* position:absolute; */
             /* bottom:20px; */
@@ -2824,20 +2855,16 @@
                 <br>The internet has lots of bitesize daily puzzles. These are great, but Stringchain is more
                 open-ended and user-driven.
                 <br><br>You can play as much as you want, whenever you want.
-                It's not a subscription, it's not an appointment. You choose when and how much. 
-                It's not a puzzle, it's a game. 
+                It's not a subscription, it's not an appointment. You choose when and how much. Take breaks, be healthy. 
+                A game of Stringchain can (and probably should) be played over multiple sessions.
+                The search function makes it easy to pick up where you left off.                
                 <br>
-                <br>I didn't set a solution, only the rules and constraints to create conditions where exploring your vocabulary becomes a compelling challenge. 
-                This isn't about knowing all the 5 letter words. You can stretch to any word length in the sweeping breadth of your personal lexicon.
+                <br>I didn't set a solution, only the rules and constraints to make exploring your vocabulary a compelling challenge. 
+                This isn't about knowing all the 5 letter words. Every word you know is on the table.
                 <br>
                 <br>The core game, switching letters around, making words, it's really basic and simple, but very satisfying.
-                Strategic word choice, grid awareness, and canny use of bonus setup moves can make a game last a long time.
+                Strategic word choice, grid awareness, and smart use of bonus setup moves can make a game last a long time.
                 Once you have used up all the easy and convenient short words, it can get very challenging. 
-                <br>
-
-                <br>A game of Stringchain can (and probably should) be played over multiple sessions. Take breaks, be healthy. 
-                The search function makes it easy to pick up where you left off.
-                <br>
                 <br>
                 <br>Trustfall into your vocabulary. Find your flow. Complete a mission. Enjoy the scenery. 
                 Get a high score. Beat that high score. Screenshot that high score and challenge your
@@ -2915,13 +2942,11 @@
                 <button id="missionsBtn" class="rail-btn span-0 hidden" style="font-size:16pt">⇡⇡</button>
 
                 
-
                 <button id="bonusBtn" class="rail-btn span-2">||</button>
                 <button id="milestonesBtn" class="rail-btn hidden" style="font-size:16pt">…</button>
                 <button id="collapseModal" class="collapseModal">^</button>
                 <button id="scrollBtn" class="scrollBtn">^</button>
                 <button id="longwordBtn" class="longwordBtn">&#8596;</button>
-                <!-- <button id="longwordBtn" class="longwordBtn">( _ )</button> -->
 
             </div>
             <!-- <div></div>             -->
@@ -3095,6 +3120,7 @@
             const newGameBtn = document.getElementById('newGameBtn');
             const gameoverRestart = document.getElementById('gameoverRestart');
             const bonusBtn = document.getElementById('bonusBtn');
+            const bonusLabel = document.getElementById('bonusLabel');
             const gridRefreshBtn = document.getElementById('gridRefreshBtn');
 
             const milestonesBtn = document.getElementById('milestonesBtn');
@@ -4194,7 +4220,7 @@
 
             //THEMES
             const themeToggle = document.getElementById("themeToggle");
-            const themes = ["default", "first-green", "first-red", "fruit-salad", "hi-contrast", "green-pops", "tannery", "dark-grey", "not-too-light", "winery", "minimal-liminal", "blue-pops", "pinko", "greenery", "minimal-animal", "yello-pops", "too-light"];
+            const themes = ["default", "firebrick",  "first-green", "first-red", "fruit-salad", "hi-contrast", "green-pops", "tannery", "dark-grey", "not-too-light", "winery", "minimal-liminal", "blue-pops", "pinko", "greenery", "minimal-animal", "yello-pops", "too-light"];
             let currentTheme = localStorage.getItem("theme") || "default";
             if (currentTheme !== "default") {
                 document.documentElement.classList.add(currentTheme);
@@ -4684,11 +4710,11 @@
 
             function updateBonusButton() {
                 if (setupMovesAvailable > 0) {
-                    bonusBtn.textContent = `${setupMovesAvailable} ||`;
+                    bonusBtn.innerHTML = `${setupMovesAvailable} <big>||</big>`;
                     bonusBtn.classList.remove('disabled');
                     bonusBtn.disabled = false;
                 } else {
-                    bonusBtn.textContent = `||`;
+                    bonusBtn.innerHTML = `||`;
                     bonusBtn.classList.add('disabled');
                     bonusBtn.disabled = true;
                 }
@@ -4696,11 +4722,13 @@
 
             function updateGridRefreshButton() {
                 if (gridRefreshBonusesAvailable > 0) {
-                    gridRefreshBtn.textContent = `# ${gridRefreshBonusesAvailable}`;
+                    // gridRefreshBtn.textContent = `# ${gridRefreshBonusesAvailable}`;
+                    gridRefreshBtn.innerHTML = `<big>#</big> ${gridRefreshBonusesAvailable}`;
+
                     gridRefreshBtn.classList.remove('disabled');
                     gridRefreshBtn.disabled = false;
                 } else {
-                    gridRefreshBtn.textContent = `#`;
+                    gridRefreshBtn.innerHTML = `#`;
                     gridRefreshBtn.classList.add('disabled');
                     gridRefreshBtn.disabled = true;
                 }
