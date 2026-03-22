@@ -804,7 +804,6 @@
             /* background: none; */
             /* background-color: none; */
             background: linear-gradient(var(--negative-feedback), var(--bg));
-
         }
 
 
@@ -1217,7 +1216,7 @@
 
         .newgame2 {
             position:fixed;
-            top:382px;
+            top:372px;
             box-sizing: border-box;
             width:360px;
             /* font-size:16px; */
@@ -2201,7 +2200,7 @@
             }
 
             100% {
-                background-color: var(--bg);
+                background-color: transparent;
             }
         }
 
@@ -4149,7 +4148,8 @@
                 actionBtn.classList.add('anim-play');
             }
 
-            function redAnimation() { wordContainer.classList.add('anim-neg'); }
+            function redAnimation() { wordContainer.classList.add('anim-neg'); 
+            }
             function bonusAnimation() { bonusBtn.classList.add('anim-bonus'); }
             function gridRefreshAnimation() { gridRefreshBtn.classList.add('anim-bonus'); }
             function alreadyUsedAnimation() {
