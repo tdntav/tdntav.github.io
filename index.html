@@ -134,6 +134,35 @@
             --selected-border: 2px solid var(--accent);
             }
 
+            .schmurple {
+            --rounding: 6px;
+            --rounding-small: 6px;
+
+            --bg: #102;
+            --text: #ccc;
+
+            --accent: #87a;
+            --accent-text: #324;
+
+            --positive-feedback: #51a;
+            --pos-fb-text: var(--bg);
+
+            --negative-feedback: #913;
+            --disabled: #000;
+
+            --wordcell: var(--accent);
+            --wordcell-text: var(--accent-text);
+            --wordcell-border: 2px solid var(--wordcell);
+
+            --gridcell: var(--wordcell);
+            --gridcell-text: var(--wordcell-text);
+            --gridcell-border: 2px solid var(--gridcell);
+
+            --selected-cell: #cbf;
+            --selected-text: var(--accent-text);
+            --selected-border: 2px solid var(--selected-cell);
+            }
+
         .first-green {
 
             --rounding: 4px;
@@ -4252,7 +4281,7 @@
 
             //THEMES
             const themeToggle = document.getElementById("themeToggle");
-            const themes = ["default", "firebrick", "first-green", "first-red", "fruit-salad", "hi-contrast", "green-pops", "tannery", "dark-grey", "not-too-light", "expo", "winery", "minimal-liminal", "blue-pops", "pinko", "greenery", "minimal-animal", "yello-pops", "too-light"];
+            const themes = ["default", "firebrick", "first-green", "first-red", "fruit-salad", "hi-contrast", "green-pops", "tannery", "dark-grey", "not-too-light", "expo", "schmurple", "winery", "minimal-liminal", "blue-pops", "pinko", "greenery", "minimal-animal", "yello-pops", "too-light"];
             let currentTheme = localStorage.getItem("theme") || "default";
             if (currentTheme !== "default") {
                 document.documentElement.classList.add(currentTheme);
