@@ -44,7 +44,7 @@
             --positive-feedback: #7da;
             --pos-fb-text: var(--bg);
 
-            --negative-feedback: #a77;
+            --special-mode: #a7c;
             --disabled: #234;
 
             --wordcell: var(--accent);
@@ -77,8 +77,8 @@
 
 
         .firebrick {
-            --rounding: 60px;
-            --rounding-small: 50px;
+            --rounding: 40px;
+            --rounding-small: 20px;
 
             --bg: #b97;
             --text: #310;
@@ -89,7 +89,7 @@
             --positive-feedback: #fd0;
             --pos-fb-text: var(--bg);
 
-            --negative-feedback: #f0d;
+            --special-mode: #71a;
             --disabled: #555;
 
             --wordcell: var(--accent);
@@ -118,7 +118,7 @@
             --positive-feedback: #ff0;
             --pos-fb-text: var(--bg);
 
-            --negative-feedback: #f00;
+            --special-mode: #c8f;
             --disabled: #000;
 
             --wordcell: var(--accent-text);
@@ -147,7 +147,7 @@
             --positive-feedback: #51a;
             --pos-fb-text: var(--bg);
 
-            --negative-feedback: #913;
+            --special-mode: #913;
             --disabled: #000;
 
             --wordcell: var(--accent);
@@ -177,7 +177,7 @@
             --positive-feedback: #0f8;
             --pos-fb-text: var(--bg);
 
-            --negative-feedback: #a7c;
+            --special-mode: #a7c;
             --disabled: #243;
 
             --wordcell: var(--accent);
@@ -209,7 +209,7 @@
             --positive-feedback: #d7a;
             --pos-fb-text: var(--bg);
 
-            --negative-feedback: #a77;
+            --special-mode: #a77;
             --disabled: #410;
 
             --wordcell: var(--accent);
@@ -238,7 +238,7 @@
             --positive-feedback: #396;
 
             --disabled: #789;
-            --negative-feedback: #721;
+            --special-mode: #721;
 
             --wordcell: var(--accent);
             --wordcell-text: var(--accent-text);
@@ -268,7 +268,7 @@
             --positive-feedback: #396;
 
             --disabled: #666;
-            --negative-feedback: #721;
+            --special-mode: #721;
 
             --wordcell: #ccc;
             --wordcell-text: #333;
@@ -301,7 +301,7 @@
             /* --disabled: #435; */
             --disabled: #435;
             
-            --negative-feedback: #500;
+            --special-mode: #500;
 
             --wordcell: var(--accent);
             --wordcell-text: var(--accent-text);
@@ -329,7 +329,7 @@
 
             --positive-feedback: #396;
 
-            --negative-feedback: #833;
+            --special-mode: #833;
             --disabled: #a98;
 
             --wordcell: var(--accent);
@@ -360,7 +360,7 @@
             --positive-feedback: #6c9;
 
             --disabled: #860;
-            --negative-feedback: #800;
+            --special-mode: #800;
 
             --wordcell: #444;
             --wordcell-text: #fff;
@@ -389,7 +389,7 @@
 
             --positive-feedback: #7cf;
 
-            --negative-feedback: #321;
+            --special-mode: #321;
             --disabled: #aaa;
 
             --wordcell: var(--accent);
@@ -420,7 +420,7 @@
 
             --positive-feedback: #dfb;
 
-            --negative-feedback: #000;
+            --special-mode: #000;
             --disabled: #372;
 
             --wordcell: #6a5;
@@ -451,7 +451,7 @@
 
             --positive-feedback: #5b8;
 
-            --negative-feedback: #a02;
+            --special-mode: #a02;
             --disabled: #a4a;
 
             --wordcell: #fff;
@@ -483,7 +483,7 @@
 
             --positive-feedback: #0c6;
 
-            --negative-feedback: #000;
+            --special-mode: #000;
             --disabled: #333;
 
             --wordcell: #999;
@@ -514,7 +514,7 @@
 
             --positive-feedback: #7da;
 
-            --negative-feedback: #a66;
+            --special-mode: #a66;
             --disabled: #89a;
 
             --wordcell: #fff;
@@ -544,7 +544,7 @@
 
             --positive-feedback: #5b8;
 
-            --negative-feedback: #c66;
+            --special-mode: #c66;
             --disabled: #444;
 
             --wordcell: var(--accent);
@@ -574,7 +574,7 @@
 
             --positive-feedback: #0ff;
 
-            --negative-feedback: #815;
+            --special-mode: #815;
             --disabled: #477;
 
             --wordcell: #cff;
@@ -602,7 +602,7 @@
 
             --positive-feedback: #daf;
 
-            --negative-feedback: #b43;
+            --special-mode: #b43;
             --disabled: #645;
 
             --wordcell: #fff;
@@ -631,7 +631,7 @@
             --positive-feedback: #adf;
 
             --disabled: #b8b;
-            --negative-feedback: #800;
+            --special-mode: #a7f;
 
             --wordcell: var(--accent);
             --wordcell-text: #fff;
@@ -832,7 +832,7 @@
         .special-sauce {
             /* background: none; */
             /* background-color: none; */
-            background: linear-gradient(var(--negative-feedback), var(--bg));
+            background: linear-gradient(var(--special-mode), var(--bg));
         }
 
 
@@ -2225,7 +2225,7 @@
 
         @keyframes animate-negative {
             0% {
-                background-color: var(--negative-feedback);
+                background-color: var(--special-mode);
             }
 
             100% {
@@ -2777,7 +2777,7 @@
                         ||</button><button class="actionBtn disabled"
                         style="border:2px solid transparent;">PLAY</button><button class="gridRefreshBtn disabled"
                         style="border:2px solid transparent;">#</button></div>
-                    <!-- <div class="word-container demoscale" style="width:75%;margin-top:15px;border:5px solid var(--negative-feedback);background:var(--accent);"> -->
+                    <!-- <div class="word-container demoscale" style="width:75%;margin-top:15px;border:5px solid var(--special-mode);background:var(--accent);"> -->
                         <p class="demo-para"><br>This allows you to use an invalid word
                             <br>to bridge the gap to your next word.<br>
                         </p>
