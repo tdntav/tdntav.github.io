@@ -55,6 +55,10 @@
             --gridcell-text: var(--text);
             --gridcell-border: 2px solid var(--wordcell);
 
+            --button: var(--accent);
+            --button-text: var(--accent-text);
+            --button-border: 2px solid var(--button);
+
             --selected-cell: var(--positive-feedback);
             --selected-text: var(--pos-fb-text);
             --selected-border: 2px solid var(--selected-cell);
@@ -109,13 +113,13 @@
             --rounding: 10px;
             --rounding-small: 5px;
 
-            --bg: #135;
+            --bg: #213;
             --text: #c95;
 
             --accent: #930;
             --accent-text: #c95;
 
-            --positive-feedback: #ff0;
+            --positive-feedback: #fff;
             --pos-fb-text: var(--bg);
 
             --special-mode: #c8f;
@@ -124,6 +128,10 @@
             --wordcell: var(--accent-text);
             --wordcell-text: var(--accent);
             --wordcell-border: 2px solid var(--wordcell);
+
+            --button: var(--accent);
+            --button-text: var(--accent-text);
+            --button-border: 2px solid var(--accent-text);
 
             --gridcell: var(--wordcell);
             --gridcell-text: var(--wordcell-text);
@@ -139,7 +147,7 @@
             --rounding-small: 6px;
 
             --bg: #102;
-            --text: #ccc;
+            --text: #cbd;
 
             --accent: #87a;
             --accent-text: #324;
@@ -157,6 +165,10 @@
             --gridcell: var(--wordcell);
             --gridcell-text: var(--wordcell-text);
             --gridcell-border: 2px solid var(--gridcell);
+
+            --button: transparent;
+            --button-text: var(--text);
+            --button-border: 2px solid var(--accent);
 
             --selected-cell: #cbf;
             --selected-text: var(--accent-text);
@@ -540,7 +552,7 @@
             --text: #ccc;
 
             --accent: #777;
-            --accent-text: #text;
+            --accent-text: var(--text);
 
             --positive-feedback: #5b8;
 
@@ -554,6 +566,10 @@
             --gridcell: var(--accent);
             --gridcell-text: var(--wordcell-text);
             --gridcell-border: 2px solid var(--accent);
+
+            --button: transparent;
+            --button-text: var(--accent);
+            --button-border: 2px solid var(--accent);
 
             --selected-cell: var(--text);
             --selected-text: var(--bg);
@@ -902,10 +918,10 @@
             border: none;
             margin: none;
             padding:none;
-            /* border: var(--gridcell-border); */
-            color: var(--accent-text);
+            color: var(--button-text);
             box-sizing: border-box;
-            background: var(--accent);
+            background: var(--button);
+            border: var(--button-border);
         }
 
         /*spans all rows*/
@@ -1028,9 +1044,13 @@
             margin: 3px;
             padding: 10px;
             font-family: var(--font1);
-            color: var(--accent-text);
+            /* color: var(--accent-text); */
             border-radius: var(--rounding);
-            border: 2px solid var(--selected-cell);
+            /* border: 2px solid var(--selected-cell); */
+            color: var(--button-text);
+            box-sizing: border-box;
+            background: var(--button);
+            border: var(--button-border);
             flex: 1 1 30%;
             min-width: 80px;
         }
@@ -1041,14 +1061,19 @@
 
 
         button {
-            background: var(--accent);
+            /* background: var(--accent); */
             /* margin: 10px 0px; */
             /* padding: 0px 10px; */
-            color: var(--accent-text);
+            /* color: var(--accent-text); */
+            color: var(--button-text);
+            box-sizing: border-box;
+            background: var(--button);
+            border: var(--button-border);
+
             border-radius: var(--rounding);
             /* border: 2px solid var(--accent); */
-            border: none;
-            margin: none;
+            /* border: none; */
+            /* margin: none; */
             font-size: 11pt;
             height: var(--cell-size);
             font-family: var(--font1);
@@ -1241,6 +1266,7 @@
             background-image: linear-gradient(to right, var(--text), var(--accent), var(--accent-text));
             border: 2px solid var(--accent-text);
             height: 49px;
+            color: var(--text);
         }
 
         .newgame2 {
@@ -1256,6 +1282,7 @@
             background-image: linear-gradient(to right, var(--text), var(--accent), var(--accent-text));
             border: 2px solid var(--accent-text);
             height: 49px;
+            color: var(--text);
         }
 
         #searchBtn {
@@ -1408,29 +1435,36 @@
             margin-block: 0px;
             margin-inline: 4px;
             padding: auto;
+            background:var(--accent);
+            color:var(--accent-text);
         }
 
         .help-dark {
             border-radius: var(--rounding);
-            background: var(--bg);
-            color: var(--text);
+            /* background: var(--bg); */
+            /* color: var(--text); */
             margin-block: 10px 0;
             min-height: 20px;
             min-width: 40px;
-            opacity: 50%;
+            /* opacity: 50%; */
             padding-inline: 5px;
             text-align: center;
+
+            color: var(--wordcell-text);
+            box-sizing: border-box;
+            background: var(--wordcell);
+            border: 2px solid var(--bg);
 
         }
 
         button:disabled,
         .disabled {
-            background: var(--disabled);
-            color: var(--accent-text);
+            /* background: var(--disabled); */
+            /* color: var(--accent-text); */
             cursor: default;
-            border: 2px solid transparent;
+            border: 4px solid transparent;
             /* filter:blur(1px); */
-            /* opacity:67%; */
+            opacity:50%;
 
         }
 
@@ -2721,9 +2755,9 @@
                     <p class="demo-para">
                         Play a grid refresh bonus<br>by pressing the <b>#</b> button.<br><br></p>
                     <div class="button-row demo demoscale"> <button class="bonusBtn disabled"
-                            style="border:2px solid transparent;">||</button><button class="actionBtn disabled"
-                            style="border:2px solid transparent;">PLAY</button><button class="gridRefreshBtn"
-                            style="border:var(--selected-border);"># 1</button></div>
+                            style="border:4px solid transparent;">||</button><button class="actionBtn disabled"
+                            style="border:4px solid transparent;">PLAY</button><button class="gridRefreshBtn"
+                            style="border:4px solid var(--positive-feedback);"># 1</button></div>
                     <p class="demo-para"><br>Existing grid is replaced with a fresh one.</p>
                     <div class="grid-demo selected" style="background:var(--positive-feedback);border:none;">
                         <div class="grid-cell-demo">A</div>
@@ -2773,10 +2807,10 @@
                         instead of <b><i>PLAY</i></b>.<br><br><br>
                     </p>
                     <div class="button-row demo demoscale"> <button class="bonusBtn"
-                        style="border:var(--selected-border);">1
+                        style="border:4px solid var(--positive-feedback);">1
                         ||</button><button class="actionBtn disabled"
-                        style="border:2px solid transparent;">PLAY</button><button class="gridRefreshBtn disabled"
-                        style="border:2px solid transparent;">#</button></div>
+                        style="border:4px solid transparent;">PLAY</button><button class="gridRefreshBtn disabled"
+                        style="border:4px solid transparent;">#</button></div>
                     <!-- <div class="word-container demoscale" style="width:75%;margin-top:15px;border:5px solid var(--special-mode);background:var(--accent);"> -->
                         <p class="demo-para"><br>This allows you to use an invalid word
                             <br>to bridge the gap to your next word.<br>
@@ -2860,9 +2894,9 @@
                 <br><br>
             </p>
             <div class="button-row demo demoscale"> <button class="actionBtn"
-                style="border:var(--selected-border);">...</button><button class="bonusBtn disabled"
-                style="border:2px solid transparent;">||</button><button class="actionBtn disabled"
-                style="border:2px solid transparent;">PLAY</button></div>
+                style="border:4px solid var(--positive-feedback);">...</button><button class="bonusBtn disabled"
+                style="border:4px solid transparent;">||</button><button class="actionBtn disabled"
+                style="border:4px solid transparent;">PLAY</button></div>
 
             <p class="demo-para">
                 <br>Players get one-time rewards
