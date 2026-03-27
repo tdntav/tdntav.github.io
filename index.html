@@ -735,7 +735,8 @@
             justify-content: center;
             /* overflow: hidden; */
             background: transparent;
-            padding: 11px;
+            padding: 8px;
+            border: 3px solid transparent;
             transform-origin: center;
             transition: transform 1s ease;
             border-radius: var(--rounding);
@@ -1033,7 +1034,8 @@
             max-width:360px;
             grid-template-columns: var(--rail-width) var(--gap) auto var(--gap) var(--rail-width);
             gap: none;
-            margin-block:5px;
+            margin-top: 10px;
+            margin-bottom: 5px;
             /* justify-content: center; */
             /* flex-wrap: wrap; */
             /* z-index: 1; */
@@ -1085,7 +1087,7 @@
             display: none;
             box-sizing: border-box;
             position: fixed;
-            top: 381px;
+            top: 380px;
             align-self: center;
             justify-self: center;
             align-items: center;
@@ -1424,7 +1426,7 @@
 
         .help {
             box-sizing: border-box;
-            border:3px solid var(--bg);
+            border: 4px solid var(--bg);
             border-radius: 24px;
             /* margin: 0.5px; */
             /* border: 2px solid var(--selected-cell); */
@@ -1437,6 +1439,7 @@
             padding: auto;
             background:var(--accent);
             color:var(--accent-text);
+            /* font-size:12pt; */
         }
 
         .help-dark {
@@ -1941,7 +1944,7 @@
             display: flex;
             flex-direction: column;
             flex-direction: column-reverse;
-            height: 544px;
+            height: 546px;
             width: 400px;
             /* z-index: 1; */
             /* opacity: unset; */
@@ -2074,7 +2077,7 @@
             display: none;
             box-sizing: border-box;
             position: fixed;
-            top: 382px;
+            top: 380px;
 
             align-self: center;
             justify-self: center;
@@ -3698,13 +3701,13 @@
                     clickNumber = 1;
                     missionsHelpBtn.classList.add('selected');
                     missionsHelp.classList.remove('hidden');
-                    missionsHelp.innerHTML = `Complete half of the current level<br>to unlock the next level.<br><br>`;
+                    missionsHelp.innerHTML = `<big>&#10687; &#9675; &#9675;</big><br>Complete half of the current level<br>to unlock the next level.<br><br>`;
                 } else if (clickNumber == 1) {
                     clickNumber = 2;
-                    missionsHelp.innerHTML = `Just make the word<br>to complete the mission.<br><br>`; 
+                    missionsHelp.innerHTML = `<big>&#9675; &#10687; &#9675;</big><br>Just make the word<br>to complete the mission.<br><br>`; 
                 } else if (clickNumber == 2) {
                     clickNumber = 3;
-                    missionsHelp.innerHTML = `Missions persist between games.<br>You can undertake them at your leisure.<br><br>`;
+                    missionsHelp.innerHTML = `<big>&#9675; &#9675; &#10687;</big><br>Missions persist between games.<br>You can undertake them at your leisure.<br><br>`;
                 } else if (clickNumber == 3) {
                     clickNumber = 0;
                     missionsHelpBtn.classList.remove('selected');
