@@ -149,7 +149,7 @@
             --bg: #ace;
             --text: #224;
 
-            --accent: #446;
+            --accent: #557;
             --accent-text: #ec7;
 
             --positive-feedback: #fff;
@@ -164,15 +164,15 @@
 
             --button: var(--accent-text);
             --button-text: var(--accent);
-            --button-border: 6px solid var(--button-text);
+            --button-border: 2px dotted var(--button-text);
 
-            --gridcell: var(--bg);
+            --gridcell: #bdf;
             --gridcell-text: var(--accent);
-            --gridcell-border: 3px solid var(--gridcell-text);
+            --gridcell-border: 2px solid var(--gridcell);
 
             --selected-cell: var(--accent-text);
             --selected-text: var(--accent);
-            --selected-border: 2px solid var(--selected-cell);
+            --selected-border: 2px solid var(--selected-text);
             }
 
             .flavin {
@@ -1335,10 +1335,13 @@
             margin: var(--gap) 0px;
             margin-bottom: var(--gap);
             display: block;
-            background-image: linear-gradient(to right, var(--text), var(--accent), var(--accent-text));
-            border: 2px solid var(--accent-text);
+            /* background-image: linear-gradient(to right, var(--accent), var(--bg)); */
+            /* border: 2px solid var(--accent-text); */
+            /* border-color: var(--accent-text); */
+            background: var(--accent);
+            border:none;
             height: 49px;
-            color: var(--text);
+            color: var(--accent-text);
         }
 
         .newgame2 {
@@ -1351,8 +1354,11 @@
             margin: var(--gap) 0px;
             margin-bottom: var(--gap);
             display: block;
-            background-image: linear-gradient(to right, var(--text), var(--accent), var(--accent-text));
-            border: 2px solid var(--accent-text);
+            /* background-image: linear-gradient(to right, var(--text), var(--accent), var(--bg)); */
+            /* border: 2px solid var(--accent-text); */
+            /* border-color: var(--accent-text); */
+            background: var(--accent);
+            border:none;
             height: 49px;
             color: var(--text);
         }
@@ -1513,20 +1519,22 @@
         }
 
         .help-dark {
+            box-sizing: border-box;
             border-radius: var(--rounding);
             /* background: var(--bg); */
             /* color: var(--text); */
             margin-block: 10px 0;
             min-height: 20px;
-            min-width: 40px;
+            min-width: 72px;
             /* opacity: 50%; */
-            padding-inline: 5px;
+            padding-inline: auto;
             text-align: center;
+            align-items: center;
 
             color: var(--wordcell-text);
-            box-sizing: border-box;
             background: var(--wordcell);
-            border: 2px solid var(--bg);
+            /* border: 2px solid var(--bg); */
+            border-color:var(--bg);
 
         }
 
@@ -2846,10 +2854,11 @@
                 <div class="demo-board" style="background:none;">
                     <p class="demo-para">
                         Play a grid refresh bonus<br>by pressing the <b>#</b> button.<br><br></p>
-                    <div class="button-row demo demoscale"> <button class="bonusBtn disabled"
-                            style="border:4px solid transparent;">||</button><button class="actionBtn disabled"
-                            style="border:4px solid transparent;">PLAY</button><button class="gridRefreshBtn"
-                            style="border:4px solid var(--positive-feedback);"># 1</button></div>
+                        <div class="button-row demo demoscale"> 
+                            <button class="bonusBtn disabled">||</button>
+                            <button class="actionBtn disabled">PLAY</button>
+                            <button class="gridRefreshBtn" style="border-color: var(--positive-feedback);"># 1</button>
+                        </div>
                     <p class="demo-para"><br>Existing grid is replaced with a fresh one.</p>
                     <div class="grid-demo selected" style="background:var(--positive-feedback);border:none;">
                         <div class="grid-cell-demo">A</div>
@@ -2898,11 +2907,11 @@
                     <p class="demo-para"><br>To use one, select a move as normal but<br>hit the <b>|| <i>SETUP</i></b> button
                         instead of <b><i>PLAY</i></b>.<br><br><br>
                     </p>
-                    <div class="button-row demo demoscale"> <button class="bonusBtn"
-                        style="border:4px solid var(--positive-feedback);">1
-                        ||</button><button class="actionBtn disabled"
-                        style="border:4px solid transparent;">PLAY</button><button class="gridRefreshBtn disabled"
-                        style="border:4px solid transparent;">#</button></div>
+                    <div class="button-row demo demoscale"> 
+                        <button class="bonusBtn" style="border-color: var(--positive-feedback);">1 ||</button>
+                        <button class="actionBtn disabled">PLAY</button>
+                        <button class="gridRefreshBtn disabled">#</button>
+                    </div>
                     <!-- <div class="word-container demoscale" style="width:75%;margin-top:15px;border:5px solid var(--special-mode);background:var(--accent);"> -->
                         <p class="demo-para"><br>This allows you to use an invalid word
                             <br>to bridge the gap to your next word.<br>
@@ -2987,10 +2996,11 @@
                 <br>when the 4x4 grid is unlocked for 6+ letters.
                 <br><br>
             </p>
-            <div class="button-row demo demoscale"> <button class="actionBtn"
-                style="border:4px solid var(--positive-feedback);">...</button><button class="bonusBtn disabled"
-                style="border:4px solid transparent;">||</button><button class="actionBtn disabled"
-                style="border:4px solid transparent;">PLAY</button></div>
+            <div class="button-row demo demoscale">
+                <button class="actionBtn" style="border-color: var(--positive-feedback);">...</button>
+                <button class="bonusBtn disabled">||</button>
+                <button class="actionBtn disabled">PLAY</button>
+            </div>
 
             <p class="demo-para">
                 <br>Players get one-time rewards
