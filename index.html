@@ -142,6 +142,72 @@
             --selected-border: 2px solid var(--selected-cell);
             }
 
+            .blooey {
+            --rounding: 20px;
+            --rounding-small: 10px;
+
+            --bg: #ace;
+            --text: #224;
+
+            --accent: #446;
+            --accent-text: #ec7;
+
+            --positive-feedback: #fff;
+            --pos-fb-text: var(--bg);
+
+            --special-mode: #c85;
+            --disabled: #000;
+
+            --wordcell: var(--accent-text);
+            --wordcell-text: var(--accent);
+            --wordcell-border: 2px solid var(--wordcell);
+
+            --button: var(--accent);
+            --button-text: var(--accent-text);
+            --button-border: 4px solid var(--button);
+
+            --gridcell: transparent;
+            --gridcell-text: var(--accent);
+            --gridcell-border: 2px solid var(--gridcell-text);
+
+            --selected-cell: var(--accent);
+            --selected-text: var(--accent-text);
+            --selected-border: 2px solid var(--selected-cell);
+            }
+
+            .flavin {
+            --rounding: 15px;
+            --rounding-small: 7px;
+
+            --bg: #013;
+            --text: #cef;
+
+            --accent: #147;
+            --accent-text: var(--text);
+
+            --positive-feedback: #fff;
+            --pos-fb-text: var(--bg);
+
+            --special-mode: #719;
+            --disabled: #000;
+
+            --wordcell: var(--accent);
+            --wordcell-text: var(--accent-text);
+            --wordcell-border: 2px solid var(--wordcell);
+
+            --button: var(--accent);
+            --button-text: var(--accent-text);
+            --button-border: 4px solid var(--button);
+
+            --gridcell: transparent;
+            --gridcell-text: var(--accent-text);
+            --gridcell-border: 2px solid var(--gridcell-text);
+
+            --selected-cell: var(--accent-text);
+            --selected-text: var(--accent);
+            --selected-border: 4px solid var(--selected-cell);
+            }
+
             .schmurple {
             --rounding: 6px;
             --rounding-small: 6px;
@@ -1443,7 +1509,7 @@
             padding: auto;
             background:var(--accent);
             color:var(--accent-text);
-            /* font-size:12pt; */
+            /* font-size:15pt; */
         }
 
         .help-dark {
@@ -4321,7 +4387,7 @@
 
             //THEMES
             const themeToggle = document.getElementById("themeToggle");
-            const themes = ["default", "firebrick", "first-green", "first-red", "fruit-salad", "hi-contrast", "green-pops", "tannery", "dark-grey", "not-too-light", "expo", "schmurple", "winery", "minimal-liminal", "blue-pops", "pinko", "greenery", "minimal-animal", "yello-pops", "too-light"];
+            const themes = ["default", "firebrick", "first-green", "first-red", "fruit-salad", "hi-contrast", "green-pops", "tannery", "dark-grey", "not-too-light", "expo", "blooey", "flavin", "schmurple", "winery", "minimal-liminal", "blue-pops", "pinko", "greenery", "minimal-animal", "yello-pops", "too-light"];
             let currentTheme = localStorage.getItem("theme") || "default";
             if (currentTheme !== "default") {
                 document.documentElement.classList.add(currentTheme);
@@ -4872,7 +4938,7 @@
                         //strip numeric characters
                             return `<i>${w.replace(/\d+/g, '')}</i> `;
                         // For regular words, append a space
-                        return "<span> " + w + "</span> ";
+                        return " <span>" + w + "</span> ";
                     })
                     .join('');
             }
