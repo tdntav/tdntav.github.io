@@ -131,7 +131,7 @@
 
             --button: var(--accent);
             --button-text: var(--accent-text);
-            --button-border: 2px solid var(--accent-text);
+            --button-border: 2px solid var(--button-text);
 
             --gridcell: var(--wordcell);
             --gridcell-text: var(--wordcell-text);
@@ -139,7 +139,7 @@
 
             --selected-cell: var(--accent);
             --selected-text: var(--accent-text);
-            --selected-border: 2px solid var(--accent);
+            --selected-border: 2px solid var(--selected-cell);
             }
 
             .schmurple {
@@ -452,7 +452,7 @@
         }
 
         .pinko {
-            --rounding: 8px;
+            --rounding: 12px;
             --rounding-small: 4px;
 
             --bg: #fdf;
@@ -473,6 +473,10 @@
             --gridcell: var(--accent);
             --gridcell-text: var(--text);
             --gridcell-border: 2px solid var(--accent);
+
+            --button: transparent;
+            --button-text: var(--text);
+            --button-border: 4px solid var(--accent);
 
             --selected-cell: var(--text);
             --selected-text: var(--bg);
@@ -1606,13 +1610,17 @@
 
 
         .highlight {
-            /* box-sizing:border-box; */
-            /* padding-inline:4px; */
-            background: var(--wordcell-text);
+            box-sizing:border-box;
+            white-space: pre;
+            padding-inline: 44px;
+            /* background: var(--wordcell-text); */
             /* text-decoration: underline 3px solid var(--wordcell); */
-            color: var(--wordcell);
+            /* color: var(--wordcell); */
             /* padding: 4px; */
             /* border: 5px solid var(--bg); */
+
+            background: var(--bg);
+            color: var(--text);
             border-radius: var(--rounding-small);
             /* font-weight: bold; */
             /* opacity:75%; */
@@ -2949,19 +2957,14 @@
         <div id="about" style="display: none;">
             <p style="text-align: left;"> <b>ABOUT</b>
                 <br>
-                <br>The internet has lots of bitesize daily puzzles. These are great, but Stringchain is more
-                open-ended and user-driven.
+                <br>Stringchain is an open-ended, user-driven word game that makes exploring your vocabulary a compelling challenge.
                 <br><br>You can play as much as you want, whenever you want.
-                It's not a subscription, it's not an appointment. You choose when and how much. Take breaks, be healthy. 
-                A game of Stringchain can (and probably should) be played over multiple sessions.
+                It's not a subscription, it's not an appointment. A game of Stringchain can (and probably should) be played over multiple sessions.
                 The search function makes it easy to pick up where you left off.                
                 <br>
-                <br>I didn't set a solution, only the rules and constraints to make exploring your vocabulary a compelling challenge. 
-                This isn't about knowing all the 5 letter words. Every word you know is on the table.
-                <br>
                 <br>The core game, switching letters around, making words, it's really basic and simple, but very satisfying.
-                Strategic word choice, grid awareness, and smart use of bonus setup moves can make a game last a long time.
-                Once you have used up all the easy and convenient short words, it can get very challenging. 
+                Strategic word choice, grid awareness, and smart use of bonus setup moves can make a game last a long time. Theoretically, you could chain together every word you know.
+                The milestones and rewards encourage exciting gameplay. 
                 <br>
                 <br>Trustfall into your vocabulary. Find your flow. Complete a mission. Enjoy the scenery. 
                 Get a high score. Beat that high score. Screenshot that high score and challenge your
