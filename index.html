@@ -178,6 +178,7 @@
             .flavin {
             --rounding: 15px;
             --rounding-small: 7px;
+            --gradient: linear-gradient(to top, var(--bg), #011, var(--bg)); 
 
             --bg: #013;
             --text: #cef;
@@ -743,6 +744,7 @@
         body {
             font-family: var(--font1);
             background: var(--bg);
+            background-image: var(--gradient);
             max-width: 400px;
             margin: auto;
             color: var(--text);
@@ -948,6 +950,7 @@
 
         .play-grid-layout {
             display: grid;
+            box-sizing: border-box; 
             grid-template-columns: var(--rail-width) var(--grid-width) var(--rail-width);
             /* column-gap: var(--gap); */
         }
@@ -1157,18 +1160,19 @@
             display: none;
             box-sizing: border-box;
             position: fixed;
-            top: 381px;
+            top: 380px;
             align-self: center;
             justify-self: center;
             align-items: center;
             text-align: center;
             margin-block: 0px;
+            padding:0;
             /* margin-inline: 4px; */
             border-radius: var(--rounding);
             border: 2px solid var(--text);
             background: var(--bg);
             color: var(--text);
-            font-size: 18pt;
+            font-size: 16pt;
             height: 49px;
             width: var(--rail-width);
             opacity: 50%;
@@ -1193,7 +1197,7 @@
             border: 2px solid var(--text);
             background: var(--bg);
             color: var(--text);
-            font-size: 18pt;
+            font-size: 16pt;
             height: 49px;
             width: var(--rail-width);
             opacity: 50%;
@@ -1217,8 +1221,8 @@
             width: var(--rail-width);
             border: 2px solid var(--wordcell);
             opacity: 50%;
-            font-size: 18pt;
-            z-index: 999;
+            font-size: 12pt;
+            z-index: 1000;
             /* border-radius: 23px; */
             /* margin: 0.5px; */
             /* border: 2px solid var(--selected-cell); */
@@ -1714,7 +1718,8 @@
             color: var(--text);
             margin-bottom: 20px;
             width: 85%;
-            background: var(--bg);
+            /* background: var(--bg); */
+            background: transparent;
             border: none;
             padding-inline: 2.5%;
             padding-block: 10px;
@@ -3138,8 +3143,8 @@
                 
                 <button id="bonusBtn" class="rail-btn span-2">||</button>
                 <button id="milestonesBtn" class="rail-btn hidden" style="font-size:16pt">…</button>
-                <button id="collapseModal" class="collapseModal">^</button>
-                <button id="scrollBtn" class="scrollBtn">^</button>
+                <button id="collapseModal" class="collapseModal">&#581;^</button>
+                <button id="scrollBtn" class="scrollBtn">&#581;^</button>
                 <button id="longwordBtn" class="longwordBtn">&#8596;</button>
 
             </div>
@@ -3232,7 +3237,7 @@
 
         <!-- <input type="text" id="searchInput" autocomplete="off" placeholder="search" contenteditable virtualkeyboardpolicy="manual" > -->
         <div class="search-row">
-            <button id="collapseModal2" class="collapseModal2">^</button>
+            <button id="collapseModal2" class="collapseModal2">&#581;^</button>
             <span class="gap"></span>
             <input type="text" id="searchInput" autocomplete="off" readonly inputmode="none" >
         </div>
@@ -3537,7 +3542,7 @@
                 const dropdownHidden = dropdownDiv.style.display === "none";
                 dropdownDiv.style.display = dropdownHidden ? "block" : "none";
                 // streakDiv.style.display = dropdownHidden ? "none" : "block";
-                dropdownToggle.textContent = dropdownHidden ? "^" : "+";
+                dropdownToggle.innerHTML = dropdownHidden ? "&#581;^" : "+";
                 // getHighScores();
                 if (rulesDiv.style.display = "block") {
                     rulesDiv.style.display = "none";
