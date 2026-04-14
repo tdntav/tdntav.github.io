@@ -291,18 +291,18 @@
         .dark-grey {
             --rounding: 8%;
             --rounding-small: 16%;
-            --gradient: linear-gradient(to top, var(--bg), #020, var(--bg), var(--bg), var(--bg));
+            --gradient: linear-gradient(to top, var(--bg), #233, var(--bg), var(--bg), var(--bg));
 
             --bg: #111;
             --text: #ccc;
 
-            --accent: #777;
+            --accent: #444;
             --accent-text: var(--text);
 
             --positive-feedback: #5b8;
 
             --special-mode: #c66;
-            --disabled: #444;
+            --disabled: #222;
 
             --wordcell: var(--accent);
             --wordcell-text: var(--text);
@@ -313,7 +313,7 @@
             --gridcell-border: 0.75cqi solid var(--accent);
 
             --button: transparent;
-            --button-text: var(--accent);
+            --button-text: var(--text);
             --button-border: 0.75cqi solid var(--accent);
 
             --selected-cell: var(--text);
@@ -746,7 +746,8 @@
             overflow-x: hidden;
             background: var(--bg);
             background-image: var(--gradient);
-            font-size: min(5vw,22px);
+            font-size: min(6.6dvw,24px);
+            /* font-size: min(5vw,22px); */
         }
 
         body {
@@ -754,7 +755,7 @@
             background: var(--bg);
             background-image: var(--gradient);
             max-width: 400px;
-            min-width: 50px;
+            min-width: 150px;
             margin: 0 auto;
             color: var(--text);
             display: flex;
@@ -782,7 +783,7 @@
         }
 
         h2 {
-            font-size: 1.2rem;
+            font-size: 1rem;
             padding-block: 0.6rem;
         }
 
@@ -812,7 +813,7 @@
 
         .scores {
             position: relative;
-            font-size: 1rem;
+            font-size: 0.9rem;
             flex-wrap: wrap;
             text-align: center;
             width: 100%;
@@ -1262,12 +1263,12 @@
             /* box-sizing: border-box; */
             display: none;
             position: absolute;
-            top: -11cqi;
+            top: -12cqi;
             justify-content: center;
             border-radius: 0 0 var(--rounding) var(--rounding);
             background: var(--wordcell);
             color: var(--wordcell-text);
-            height: 9.5cqi;
+            height: 10.5cqi;
             width: var(--rail-width);
             border: 0.75cqi solid var(--wordcell);
             opacity: 100%;
@@ -1286,7 +1287,7 @@
             display: none;
             /* box-sizing: border-box; */
             padding-inline: 4cqi;
-            padding-block: 2cqi 1cqi;
+            padding-block: 0.6cqi 0.6cqi;
             position: absolute;
             font-family: var(--font2);
             top: 8cqi;
@@ -1477,7 +1478,7 @@
             align-items: center;
             text-align: center;
             margin-block: 0;
-            margin-inline: 4cqi;
+            margin-inline: 0;
             padding: auto;
             background: var(--accent);
             color: var(--accent-text);
@@ -1491,8 +1492,8 @@
             margin-inline: 0cqi;
             min-height: var(--cell-size);
             min-width: 16cqi;
-            font-size: 0.6rem;
-            padding-inline: 3cqi;
+            font-size: 0.7rem;
+            padding-inline: 2cqi;
             text-align: center;
             align-items: center;
             color: var(--wordcell-text);
@@ -2064,6 +2065,15 @@
         }
 
 
+        .sq-para3 {
+            font-size: 0.6rem;
+            text-align: center;
+            display: block;
+            margin: 0;
+            padding: 0;
+        }
+
+
         
 
         .alpha-grid {
@@ -2385,7 +2395,7 @@
 
 <body>
         <div id="dropdown" style="display:none;">
-            <h1>stringchain.fyi</h1>
+            <h1>stringchain<span style="opacity:33%">.fyi</span></h1>
             <div id="highScores"></div>
             <button id="themeToggle" class="help-dark">change</button> <button id="toggle-rules" class="help-dark">HOW
                 TO
@@ -2433,8 +2443,7 @@
                 <div class="demo-div">
                     <!-- EXAMPLE 2: REARRANGE -->
                     <div class="demo-board">
-                        <p class="demo-para">Place a <b><i>word</i></b> letter in a <b><i>slot</i></b><br>to rearrange
-                            the word.</p>
+                        <p class="demo-para">Place a <b><i>word</i></b> letter in a <b><i>slot</i></b><br>to rearrange the word<br>by first selecting both.</p>
                         <div class="word-container demoscale" style="margin-top:3cqi;">
                             <div class="insert-slot demo-cell"></div>
                             <div class="letter demo-cell">T</div>
@@ -5021,20 +5030,20 @@
 
             let milestoneSummary = `
                 <table style="border:none;justify-content:center;align-content:center;align-self:center;margin:none;padding:none;width:100%;">
-                    <tr>
+                    <tr style="border:none;margin:none;padding:none;">
                         <td style="border:none;margin:none;padding:none;">
-                            <p class="sq-para1" style="border:none;margin:none;padding:none;text-align:right;"><span class="rewards2">${nextString}+ string</span><br>${nextStringToGo} letters to go</p>
+                            <p class="sq-para3" style="border:none;margin:none;padding:none;text-align:right;"><span class="rewards2">${nextString}+ string</span><br>${nextStringToGo} letters to go</p>
                         </td>
                         <td style="border:none;margin:none;padding:none;">
-                            <p class="sq-para1" style="border:none;margin:none;padding:none;text-align:left;"><span class="rewards2">chain ${nextChain}</span><br>${nextChainToGo} words to go</p>
+                            <p class="sq-para3" style="border:none;margin:none;padding:none;text-align:left;"><span class="rewards2">chain ${nextChain}</span><br>${nextChainToGo} words to go</p>
                         </td>
                     </tr>
-                    <tr>
+                    <tr style="border:none;margin:none;padding:none;">
                         <td style="border:none;margin:none;padding:none;">
-                            <p class="sq-para1" style="border:none;margin:none;padding:none;text-align:right;"><span class="rewards2">${nextWordLength} letters</span><br>currently ${currentWord.length}, avg ${avgWordLength} letters</p>
+                            <p class="sq-para3" style="border:none;margin:none;padding:none;text-align:right;"><span class="rewards2">${nextWordLength} letters</span><br>currently ${currentWord.length}, avg ${avgWordLength} letters</p>
                         </td>
                         <td style="border:none;margin:none;padding:none;">
-                            <p class="sq-para1" style="border:none;margin:none;padding:none;text-align:left;"><span class="rewards2">no-bonus streak of ${nextStreak}</span><br>currently ${noBonusStreak}, best ${thisGameStreak} words</p>
+                            <p class="sq-para3" style="border:none;margin:none;padding:none;text-align:left;"><span class="rewards2">no-bonus streak of ${nextStreak}</span><br>currently ${noBonusStreak}, best ${thisGameStreak} words</p>
                         </td>
                     </tr>
                 </table>`;
