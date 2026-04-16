@@ -1152,7 +1152,7 @@
 
 
         .button-row button {
-            margin: 1cqi;
+            margin: 0;
             padding: 3cqi;
             font-family: var(--font1);
             border-radius: var(--rounding);
@@ -1160,8 +1160,8 @@
             /* box-sizing: border-box; */
             background: var(--button);
             border: var(--button-border);
-            flex: 1 1 30%;
-            min-width: 20cqi;
+            flex: 1 1 25%;
+            min-width: 10cqi;
         }
 
 
@@ -1737,7 +1737,7 @@
         }
 
         .demo-para {
-            margin-block: 0;
+            margin-block: 4cqi;
             font-size: 0.6rem;
             color: var(--text);
             text-align: center;
@@ -1875,7 +1875,7 @@
             background: var(--bg);
             color: var(--text);
             /* box-sizing: border-box; */
-            padding-block: 2cqi;
+            padding-block: 1cqi;
             padding-inline: 0;
             border-radius: var(--rounding);
             border: var(--accent) solid 0.75cqi;
@@ -1888,7 +1888,7 @@
             display: flex;
             flex-direction: column;
             flex-direction: column-reverse;
-            height: 139cqi;
+            height: 141.7cqi;
             width: 97cqi;
             
         }
@@ -1910,7 +1910,7 @@
 
             display: flex;
             flex-direction: column;
-            max-height: 101cqi;
+            height: 101cqi;
             width: 90cqi;
             
         }
@@ -1932,7 +1932,7 @@
             display: flex;
             flex-direction: column;
             max-height: 88.5cqi;
-            width: 90cqi;
+            width: 97cqi;
             
         }
 
@@ -2336,16 +2336,18 @@
 
         .missions-display {
             font-family: var(--font2);
-            font-size: 0.5rem;
+            font-size: 0.6rem;
             border-radius: var(--rounding);
             padding: 1cqi;
-            margin: 0.2cqi;
+            margin: 0.1cqi;
             background: var(--accent);
             color: var(--accent-text);
         }
 
         .completed {
             opacity: 40%;
+            font-size: 0.5rem;
+
         }
 
 
@@ -2453,7 +2455,7 @@
                             <div class="letter demo-cell selected">E</div>
                             <div class="insert-slot demo-cell"></div>
                         </div>
-                        <p class="demo-para">Hit <b><i>PLAY</i></b> to complete the move.<br><br></p>
+                        <p class="demo-para">Hit <b><i>PLAY</i></b> to complete the move.</p>
                         
                         <div class="demo-accent">
                             <div class="word-container demoscale"
@@ -2488,8 +2490,7 @@
                             <div class="letter demo-cell selected">M</div>
                             <div class="insert-slot demo-cell"></div>
                         </div>
-                        <p class="demo-para">Hit <b><i>PLAY</i></b> to delete it<br>and make a new valid word.<br><br>
-                        </p>
+                        <p class="demo-para">Hit <b><i>PLAY</i></b> to delete it<br>and make a new valid word.</p>
                         
                         <div class="demo-accent">
                             <div class="word-container demoscale"
@@ -2507,9 +2508,7 @@
                     </div>
                 </div>
 
-                <p>A move can also use a letter from the grid.
-
-                </p>
+                <p>A move can also use a letter from the grid.</p>
 
 
                 <div class="demo-div"><!-- EXAMPLE 4: REPLACE -->
@@ -2538,7 +2537,7 @@
                             <div class="grid-cell-demo">E</div>
                             <div class="grid-cell-demo">T</div>
                         </div>
-                        <p class="demo-para">Hit <b><i>PLAY</i></b> to confirm.<br><br></p>
+                        <p class="demo-para">Hit <b><i>PLAY</i></b> to confirm.</p>
                         <div class="demo-accent">
                             <div class="word-container demoscale"
                                 style="width:75%;margin-top:2cqi;border:1cqi solid var(--positive-feedback);">
@@ -2583,7 +2582,7 @@
                             <div class="grid-cell-demo">E</div>
                             <div class="grid-cell-demo selected">T</div>
                         </div>
-                        <p class="demo-para">Engage <b><i>PLAY</i></b> to make it so.<br><br></p>
+                        <p class="demo-para">Engage <b><i>PLAY</i></b> to make it so.</p>
                         <div class="demo-accent">
                             <div class="word-container demoscale"
                                 style="width:75%;margin-top:2cqi;border:1cqi solid var(--positive-feedback);">
@@ -2638,7 +2637,7 @@
                     <!-- EXAMPLE 6: REFRESH BUTTON -->
                     <div class="demo-board" style="background:none;">
                         <p class="demo-para">
-                            Play a grid refresh bonus<br>by pressing the <b>#</b> button.<br><br></p>
+                            Play a grid refresh bonus<br>by pressing the <b>#</b> button.</p>
                         <div class="button-row demo demoscale">
                             <button class="bonusBtn disabled">||</button>
                             <button class="actionBtn disabled">PLAY</button>
@@ -2939,13 +2938,13 @@
             <div class="modal-wildcard">
                 <h4>* WILDCARD *</h4>
                 <div class="alphagrid-1">
-                    <p class="demo-para opacity-hide" style="font-size:0.7rem;" id="wildcard-1">
-                        <br><br>Pick a letter or save for later
+                    <p class="opacity-hide" style="font-size:0.7rem;" id="wildcard-1">
+                        Pick a letter or save for later
                     </p>
                     <div class="alpha-grid"></div>
-                    <p class="demo-para opacity-hide" style="justify-content:center;font-size:0.5rem;" id="wildcard-3">
-                        <br><br>After 128 words, a wildcard is awarded. It appears the next time a grid row or column refreshes.
-                        Another wildcard is earned for every 32 additional words.<br><br><br><br>
+                    <p class="opacity-hide" style="justify-content:center;font-size:0.6rem;" id="wildcard-3">
+                        After 128 words, a wildcard is awarded. It appears the next time a grid row or column refreshes.
+                        Another wildcard is earned for every 32 additional words.
                     </p>
                     <!-- <p class="demo-para opacity-hide" style="text-align:right;font-size:13pt;" id="wildcard-2">...or save for later</p> -->
                 </div>
@@ -2969,7 +2968,7 @@
 
 
                 <h4>… MILESTONES …</h4>
-                <p class="demo-para" style="text-align:center;font-size:0.6rem;margin-top:-2cqi;">THIS GAME</p>
+                <p class="demo-para" style="text-align:center;font-size:0.6rem;margin-top:-2cqi;margin-bottom:2cqi;">THIS GAME</p>
                 <div id="nextMilestoneInfo"></div>
                 <div id="milestones-1" class="milestones-1"></div>
                 <!-- <div id="allTimeBestDisplay"></div> -->
@@ -2984,8 +2983,8 @@
         <div id="missionsModal" class="modal hidden">
             <div class="modal-missions">
                 <h4>⇡⇡ MISSIONS ⇡⇡</h4>
-                <p class="demo-para" style="text-align:center;font-size:0.6rem;margin-top:-2cqi;">ALL TIME<br><br></p>
-                <p class="demo-para hidden" style="text-align:center;font-size:0.6rem;" id="missions-help"></p>
+                <p class="demo-para" style="text-align:center;font-size:0.6rem;margin-top:-2cqi;margin-bottom:-2cqi;">ALL TIME<br><br></p>
+                <p class="hidden" style="text-align:center;font-size:0.6rem;margin-block:0;" id="missions-help"></p>
 
                 <div id="missions-1" class="missions-1"></div>
             </div>
@@ -2996,7 +2995,7 @@
 
         <div id="searchModal" class="modal hidden">
             <div class="modal-search">
-                <p class="demo-para" style="text-align:center;font-size:0.5rem; padding-top:2cqi;opacity:50%;">
+                <p style="text-align:center;font-size:0.4rem; padding:0;opacity:50%;">
                     Tap or click on a search result to jump to its position in your wordlist</p>
 
                 <div id="keyboardContainer" class="custom-keyboard"></div>
@@ -5027,7 +5026,7 @@
             // <p class="sq-para2">Shooting for:</p>
 
             let milestoneSummary = `
-                <table style="border:none;justify-content:center;align-content:center;align-self:center;margin-inline:auto;margin-top:3cqi;padding:0;width:66%;>
+                <table style="border:none;justify-content:center;align-content:center;align-self:center;margin-inline:auto;margin-block:0;padding:0;width:66%;>
                     <tr style="border:none;margin:0;padding:0;">
                         <td style="border:none;margin:0;padding:0;">
                             <p class="sq-para3" style="border:none;margin:0;padding:0;text-align:center;"><span class="rewards2">${nextString}+ string</span><br>${nextStringToGo} letters to go</p>
