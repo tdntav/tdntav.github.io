@@ -929,7 +929,7 @@
         .insert-slot {
             /* box-sizing: border-box; */
             width: 3cqi;
-            height: 4cqi;
+            height: 6cqi;
         }
 
         .selected {
@@ -944,12 +944,11 @@
             padding-block: none;
             transform: scale(110%);
         }
-
+/* 
         .insert-slot.selected {
-            height: 8cqi;
-            /* width:6cqi; */
+            height: 4cqi;
         }
-
+ */
 
 
 
@@ -1187,7 +1186,7 @@
             display: none;
             /* box-sizing: border-box; */
             position: fixed;
-            top: 97cqi;
+            top: 98cqi;
             align-self: center;
             justify-self: center;
             align-items: center;
@@ -1286,8 +1285,9 @@
         .streakDiv {
             display: none;
             /* box-sizing: border-box; */
+            /* transform: rotate() ; */
             padding-inline: 4cqi;
-            padding-block: 0.6cqi 0.6cqi;
+            padding-block: 1.4cqi 0.6cqi;
             position: absolute;
             font-family: var(--font2);
             top: 8cqi;
@@ -1303,7 +1303,7 @@
             width: auto;
             opacity: 85%;
             font-size: 0.5rem;
-            z-index: 999;
+            z-index: 1;
         }
 
         #themeToggle {
@@ -1452,7 +1452,7 @@
         .message span {
             display: inline-block;
             align-self: center;
-            font-size: 0.6rem;
+            font-size: 0.45rem;
             width: auto;
             padding-inline: 2cqi;
             background: var(--bg);
@@ -1471,7 +1471,7 @@
 
         .help {
             /* box-sizing: border-box; */
-            border: 1cqi solid var(--bg);
+            border: 1.5cqi solid var(--bg);
             border-radius: 6cqi;
             height: 12cqi;
             width: 12cqi;
@@ -1923,7 +1923,7 @@
             background: var(--accent);
             color: var(--accent-text);
 
-            padding-block: 3cqi;
+            padding-top: 3cqi;
             border-radius: var(--rounding);
             border: var(--accent) solid 0.75cqi;
             text-align: center;
@@ -1933,7 +1933,7 @@
 
             display: flex;
             flex-direction: column;
-            max-height: 87cqi;
+            max-height: 88.5cqi;
             width: 90cqi;
             
         }
@@ -2004,7 +2004,7 @@
             display: none;
             /* box-sizing: border-box; */
             position: fixed;
-            top: 97cqi;
+            top: 98cqi;
 
             align-self: center;
             justify-self: center;
@@ -2338,7 +2338,7 @@
 
         .missions-display {
             font-family: var(--font2);
-            font-size: 0.6rem;
+            font-size: 0.5rem;
             border-radius: var(--rounding);
             padding: 1cqi;
             margin: 0.2cqi;
@@ -2886,7 +2886,7 @@
         <div class="scores">
             <span id="score">0</span>&nbsp; <b>string</b><button id="toggle-dropdown"
                 class="help toggle-dropdown">+</button><b>chain</b> &nbsp;<span id="chain">0</span>
-            <div id="streakDiv" class="streakDiv">STREAK</div>
+            <div id="streakDiv" class="streakDiv" title="Current no-bonus streak">STREAK</div>
             <div id="message" class="message"></div>
         </div>
         <div id="message-bg" class="message-bg"></div>
@@ -3658,7 +3658,7 @@
             allTimeSummary = `<p class="sq-para1"><span class="yourBest">${allTimeString} string</span>
                     <span class="yourBest">chain ${allTimeChain}</span></p>
                     <p class="sq-para1"><span class="yourBest">${allTimeWordLength} letters &nbsp;<span class="sq-word"><b>${allTimeWord.toLowerCase()}</b></span></span></p>
-                    <p class="sq-para1"><span class="yourBest">no-bonus streak of ${allTimeStreak}</span></p>
+                    <p class="sq-para1"><span class="yourBest">no-bonus streak ⚡︎ ${allTimeStreak}</span></p>
                         `;
 
 
@@ -4622,7 +4622,7 @@
         function updateStatus() {
             // streakDiv.innerHTML = `no-bonus streak of ${noBonusStreak}`;
             showLongwordBtn();
-            streakDiv.innerHTML = `streak ${noBonusStreak}`;
+            streakDiv.innerHTML = `⚡︎ ${noBonusStreak}`;
             if (chain >= 16) { streakDiv.style.display = "block" };
             if (chain < 16) { streakDiv.style.display = "none" };
             const livesLeft = Math.min(totalLives, 8) - livesLost;
@@ -4718,7 +4718,7 @@
             thisGameSummary = `<p class="sq-para1"><span class="yourBest">${score} string</span>
                     <span class="yourBest">chain ${chain}</span><br>
                     <br><span class="yourBest">${thisGameWordLength} letters &nbsp;<span class="sq-word"><b>${thisGameWord.toLowerCase()}</b></span></span><br>
-                    <br><span class="yourBest">no-bonus streak of ${thisGameStreak}</span></p>
+                    <br><span class="yourBest">⚡︎ no-bonus streak ⚡︎ ${thisGameStreak}</span></p>
                         `;
             gameOverStats.innerHTML = `${thisGameSummary}`;
         }
@@ -5043,7 +5043,7 @@
                             <p class="sq-para3" style="border:none;margin:none;padding:none;text-align:right;"><span class="rewards2">${nextWordLength} letters</span><br>currently ${currentWord.length}, avg ${avgWordLength} letters</p>
                         </td>
                         <td style="border:none;margin:none;padding:none;">
-                            <p class="sq-para3" style="border:none;margin:none;padding:none;text-align:left;"><span class="rewards2">no-bonus streak of ${nextStreak}</span><br>currently ${noBonusStreak}, best ${thisGameStreak} words</p>
+                            <p class="sq-para3" style="border:none;margin:none;padding:none;text-align:left;"><span class="rewards2">no-bonus streak ⚡︎ ${nextStreak}</span><br>currently ${noBonusStreak}, best ${thisGameStreak} words</p>
                         </td>
                     </tr>
                 </table>`;
@@ -5084,7 +5084,7 @@
             if (q.stringQuest) headerParts.push(`${q.stringMilestoneAmount}+ string`);
             if (q.chainQuest) headerParts.push(`chain ${q.chain}`);
             if (q.wordQuest) headerParts.push(`${q.length} letters`);
-            if (q.streakQuest) headerParts.push(`no-bonus streak of ${q.rewards.setupStreakQuest}`);
+            if (q.streakQuest) headerParts.push(`no-bonus streak ⚡︎ ${q.rewards.setupStreakQuest}`);
             if (q.penalty) {
                 const ordinalPenalty = getOrdinal(q.penaltyNumber);
                 headerParts.push(`${ordinalPenalty} penalty - ${q.penaltyReason}`);
