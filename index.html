@@ -368,7 +368,7 @@
         .winery {
             --rounding: 8px;
             --rounding-small: 4px;
-            --gradient: linear-gradient(to top, var(--bg), #431, var(--bg), var(--bg), var(--bg)); 
+            --gradient: linear-gradient(to top, var(--bg), #503, var(--bg), var(--bg), var(--bg)); 
 
 
             --bg: #312;
@@ -759,6 +759,7 @@
             font-size: 20pt;
             box-sizing: border-box;
             overflow-x: hidden;
+            
         }
 
         h1,
@@ -800,7 +801,7 @@
             background-image: linear-gradient(to top, transparent, var(--accent));
             padding-block: 18px;
             opacity: 60%;
-            z-index: -1;
+            z-index: 1;
         }
 
         .scale-wrapper {
@@ -1284,7 +1285,7 @@
             /* left:0; */
             /* right:-200px; */
             top: 42px;
-            left: 306px;
+            left: 340px;
             /* right: 400px; */
             /* right: 50%; */
             align-self: center;
@@ -1300,9 +1301,9 @@
             /* margin-top: 15px; */
             /* max-height: 29px; */
             /* width: var(--rail-width); */
-            width: 94px;
+            width: 60px;
             /* border: 2px solid var(--wordcell); */
-            opacity: 85%;
+            opacity: 45%;
             font-size: 8pt;
             z-index: 999;
             /* border-radius: 23px; */
@@ -1729,7 +1730,7 @@
             padding-inline: 2.5%;
             padding-block: 10px;
             border-radius: var(--rounding);
-            opacity: 66%
+            /* opacity: 66% */
         }
 
         #rules {
@@ -3174,7 +3175,7 @@
         <button id="searchBtn" class="searchBtn opacity-hide">SEARCH &#11072;</button>
     </div>
 
-    <div id="definitions"></div>
+    <div id="definitions" class="opacity-hide"></div>
     <!-- <button id="scrollBtn" class="scrollBtn">^</button> -->
     <!-- Asterisk Letter Picker Modal -->
     <div id="asteriskModal" class="modal hidden">
@@ -3563,7 +3564,7 @@
             rulesToggle.addEventListener("click", () => {
                 const rulesHidden = rulesDiv.style.display === "none";
                 rulesDiv.style.display = rulesHidden ? "block" : "none";
-                rulesToggle.textContent = rulesHidden ? "^" : "HOW TO PLAY";
+                rulesToggle.innerHTML = rulesHidden ? "&#581;^" : "HOW TO PLAY";
                 if (rulesDiv.style.display != "block") { dropdownToggle.click() };
                 if (aboutDiv.style.display = "block") {
                     aboutDiv.style.display = "none";
@@ -3574,7 +3575,7 @@
             aboutBtn.addEventListener("click", () => {
                 const aboutHidden = aboutDiv.style.display === "none";
                 aboutDiv.style.display = aboutHidden ? "block" : "none";
-                aboutBtn.textContent = aboutHidden ? "^" : "about";
+                aboutBtn.innerHTML = aboutHidden ? "&#581;^" : "about";
                 if (aboutDiv.style.display != "block") { dropdownToggle.click() };
                 if (rulesDiv.style.display = "block") {
                     rulesDiv.style.display = "none";
@@ -3752,7 +3753,7 @@
                 // disallowedElement.textContent = '';
                 updateBonusButton();
                 updateGridRefreshButton();
-                // definitionsElement.textContent = '';
+                definitionsElement.textContent = '';
                 specialModeActive = false;
                 fitWordContainer();
                 isActiveGame = true;
@@ -3892,7 +3893,7 @@
                 allTimeSummary = `<p class="sq-para1" style="font-size:5pt;"><span class="yourBest">${allTimeString} string</span>
                     <span class="yourBest">chain ${allTimeChain}</span><br>
                     <br><span class="yourBest">${allTimeWordLength} letters &nbsp;<span class="sq-word"><b>${allTimeWord.toLowerCase()}</b></span></span><br>
-                    <br><span class="yourBest">no-bonus streak of ${allTimeStreak}</span></p>
+                    <br><span class="yourBest">no-bonus streak &#x26A1;&#xFE0E; ${allTimeStreak}</span></p>
                         `;
                 
                         
@@ -4853,9 +4854,9 @@
             // Enhanced updateStatus with bonus highlighting WORK IN PROGRESS
 
             function updateStatus() {
-                // streakDiv.innerHTML = `no-bonus streak of ${noBonusStreak}`;
+                // streakDiv.innerHTML = `no-bonus streak &#x26A1;&#xFE0E; ${noBonusStreak}`;
                 showLongwordBtn();
-                streakDiv.innerHTML = `streak ${noBonusStreak}`;
+                streakDiv.innerHTML = `&#x26A1;&#xFE0E; ${noBonusStreak}`;
                 if (chain >= 16) { streakDiv.style.display = "block" };
                 if (chain < 16) { streakDiv.style.display = "none" };
                 const livesLeft = Math.min(totalLives,8) - livesLost;
@@ -4951,7 +4952,7 @@
                 thisGameSummary = `<p class="sq-para1" style="font-size:5pt;"><span class="yourBest">${score} string</span>
                     <span class="yourBest">chain ${chain}</span><br>
                     <br><span class="yourBest">${thisGameWordLength} letters &nbsp;<span class="sq-word"><b>${thisGameWord.toLowerCase()}</b></span></span><br>
-                    <br><span class="yourBest">no-bonus streak of ${thisGameStreak}</span></p>
+                    <br><span class="yourBest">no-bonus streak &#x26A1;&#xFE0E; ${thisGameStreak}</span></p>
                         `;
                 gameOverStats.innerHTML = `${thisGameSummary}`;
             }
@@ -5270,7 +5271,7 @@
                             <p class="sq-para1" style="border:none;margin:none;padding:none;text-align:right;"><span class="rewards2">${nextWordLength} letters</span><br>currently ${currentWord.length}, avg ${avgWordLength} letters</p>
                         </td>
                         <td style="border:none;margin:none;padding:none;">
-                            <p class="sq-para1" style="border:none;margin:none;padding:none;text-align:left;"><span class="rewards2">no-bonus streak of ${nextStreak}</span><br>currently ${noBonusStreak}, best ${thisGameStreak} words</p>
+                            <p class="sq-para1" style="border:none;margin:none;padding:none;text-align:left;"><span class="rewards2">no-bonus streak &#x26A1;&#xFE0E; ${nextStreak}</span><br>currently ${noBonusStreak}, best ${thisGameStreak} words</p>
                         </td>
                     </tr>
                 </table>`; 
@@ -5278,7 +5279,7 @@
                 // let milestoneSummary = `
                 // <p class="sq-para1" style="font-size:11pt;"><br>${nextStringToGo} letters to go <span class="rewards2">${nextString}+ string</span><br></p>
                 // <p class="sq-para1" style="font-size:11pt;"><span class="rewards2">chain ${nextChain}</span> ${nextChainToGo} words to go<br></p>
-                // <p class="sq-para1" style="font-size:11pt;">currently ${noBonusStreak}, best ${thisGameStreak} words <span class="rewards2">no-bonus streak of ${nextStreak}</span><br></p>
+                // <p class="sq-para1" style="font-size:11pt;">currently ${noBonusStreak}, best ${thisGameStreak} words <span class="rewards2">no-bonus streak &#x26A1;&#xFE0E; ${nextStreak}</span><br></p>
                 // <p class="sq-para1" style="font-size:11pt;"><span class="rewards2">${nextWordLength} letters</span> currently ${currentWord.length}, avg ${avgWordLength} letters<br><br></p>
                 // `; 
 
@@ -5311,7 +5312,7 @@
                 if (q.stringQuest) headerParts.push(`${q.stringMilestoneAmount}+ string`);
                 if (q.chainQuest) headerParts.push(`chain ${q.chain}`);
                 if (q.wordQuest) headerParts.push(`${q.length} letters`);
-                if (q.streakQuest) headerParts.push(`no-bonus streak of ${q.rewards.setupStreakQuest}`);
+                if (q.streakQuest) headerParts.push(`no-bonus streak &#x26A1;&#xFE0E; ${q.rewards.setupStreakQuest}`);
                 if (q.penalty) {
                     const ordinalPenalty = getOrdinal(q.penaltyNumber);
                     headerParts.push(`${ordinalPenalty} penalty - ${q.penaltyReason}`);
@@ -5638,7 +5639,11 @@
             }
 
             definitionsElement.addEventListener("click", () => {
+                if (definitionsElement.classList.contains("opacity-hide")) {
                 showDefinitions(lastValidWord);
+                definitionsElement.classList.remove("opacity-hide")
+                } else {definitionsElement.classList.add("opacity-hide")}
+                ;
             });
 
 
@@ -5701,7 +5706,7 @@
                             : `No definitions found for "${word}".`;
                     })
                     .catch(() => {
-                        definitionsElement.textContent = `No definitions found for "${word}".`;
+                        definitionsElement.textContent = `¯\\\_(ツ)\_/¯`;
                     });
             }
             //END OF CHANGING STATES
