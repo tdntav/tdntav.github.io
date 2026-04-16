@@ -1380,8 +1380,8 @@
             background-image: linear-gradient(to left, var(--bg), var(--accent));
             color: var(--gridcell-text);
             border: none;
-            font-size: 1.5rem;
-            font-weight: bold;
+            font-size: 1rem;
+            /* font-weight: bold; */
             height: var(--cell-size);
             border-radius: var(--rounding);
             text-align: center;
@@ -1582,7 +1582,7 @@
             overflow-y: auto;
             overscroll-behavior: contain;
             min-height: 3cqi;
-            max-height: 20cqi;
+            max-height: 28cqi;
             font-size: 0.7rem;
             font-family: var(--font2);
             color: var(--accent-text);
@@ -1593,9 +1593,9 @@
             border-radius: var(--rounding);
         }
 
-        #history.truncated {
+        /* #history.truncated {
             border-radius: var(--rounding);
-        }
+        } */
 
 
         .highlight {
@@ -1857,8 +1857,6 @@
             border-radius: var(--rounding);
             border: var(--accent) solid 0.75cqi;
             text-align: center;
-
-        
             overflow-y: hidden;
 
             /* CHANGE 2: Use flexbox to organize the header and scroll area */
@@ -5029,31 +5027,45 @@
             // <p class="sq-para2">Shooting for:</p>
 
             let milestoneSummary = `
-                <table style="border:none;justify-content:center;align-content:center;align-self:center;margin:none;padding:none;width:100%;">
-                    <tr style="border:none;margin:none;padding:none;">
-                        <td style="border:none;margin:none;padding:none;">
-                            <p class="sq-para3" style="border:none;margin:none;padding:none;text-align:right;"><span class="rewards2">${nextString}+ string</span><br>${nextStringToGo} letters to go</p>
+                <table style="border:none;justify-content:center;align-content:center;align-self:center;margin-inline:auto;margin-top:3cqi;padding:0;width:55%;>
+                    <tr style="border:none;margin:0;padding:0;">
+                        <td style="border:none;margin:0;padding:0;">
+                            <p class="sq-para3" style="border:none;margin:0;padding:0;text-align:center;"><span class="rewards2">${nextString}+ string</span><br>${nextStringToGo} letters to go</p>
                         </td>
-                        <td style="border:none;margin:none;padding:none;">
-                            <p class="sq-para3" style="border:none;margin:none;padding:none;text-align:left;"><span class="rewards2">chain ${nextChain}</span><br>${nextChainToGo} words to go</p>
+                        <td style="border:none;margin:0;padding:0;">
+                            <p class="sq-para3" style="border:none;0:none;padding:0;text-align:center;"><span class="rewards2">chain ${nextChain}</span><br>${nextChainToGo} words to go</p>
                         </td>
                     </tr>
-                    <tr style="border:none;margin:none;padding:none;">
-                        <td style="border:none;margin:none;padding:none;">
-                            <p class="sq-para3" style="border:none;margin:none;padding:none;text-align:right;"><span class="rewards2">${nextWordLength} letters</span><br>currently ${currentWord.length}, avg ${avgWordLength} letters</p>
+                </table>
+                <table style="border:none;justify-content:center;align-content:center;align-self:center;margin:0 0 3cqi 0;padding:0;width:100%;">
+                    <tr style="border:none;margin:0;padding:0;">
+                        <td style="border:none;margin:0;padding:0;">
+                            <p class="sq-para3" style="border:none;margin:0;padding:0;text-align:center;"><span class="rewards2">${nextWordLength} letters</span> currently ${currentWord.length}, avg ${avgWordLength} letters</p>
                         </td>
-                        <td style="border:none;margin:none;padding:none;">
-                            <p class="sq-para3" style="border:none;margin:none;padding:none;text-align:left;"><span class="rewards2">no-bonus streak ⚡︎ ${nextStreak}</span><br>currently ${noBonusStreak}, best ${thisGameStreak} words</p>
+                        
+                        <td style="border:none;margin:0;padding:0;">
+                            <p class="sq-para3" style="border:none;margin:0;padding:0;text-align:center;"><span class="rewards2">no-bonus streak ⚡︎ ${nextStreak}</span> currently ${noBonusStreak}, best ${thisGameStreak} words</p>
                         </td>
                     </tr>
                 </table>`;
 
             // let milestoneSummary = `
-            // <p class="sq-para1" style="font-size:11pt;"><br>${nextStringToGo} letters to go <span class="rewards2">${nextString}+ string</span><br></p>
-            // <p class="sq-para1" style="font-size:11pt;"><span class="rewards2">chain ${nextChain}</span> ${nextChainToGo} words to go<br></p>
-            // <p class="sq-para1" style="font-size:11pt;">currently ${noBonusStreak}, best ${thisGameStreak} words <span class="rewards2">no-bonus streak of ${nextStreak}</span><br></p>
-            // <p class="sq-para1" style="font-size:11pt;"><span class="rewards2">${nextWordLength} letters</span> currently ${currentWord.length}, avg ${avgWordLength} letters<br><br></p>
+            //     <table style="border:none;justify-content:center;align-content:center;align-self:center;margin:0;padding:0;width:100%;">
+            //         <tr style="border:none;margin:none;padding:none;">
+            //             <td style="border:none;margin:0;padding:0;">
+            //                 <p class="sq-para3" style="text-align:right;"><span class="rewards2">${nextString}+ string</span><br>${nextStringToGo} letters to go</p>
+            //             </td>
+            //             <td style="border:none;margin:none;padding:none;">
+            //                 <p class="sq-para3" style="text-align:left;"><span class="rewards2">chain ${nextChain}</span><br>${nextChainToGo} words to go</p>
+            //             </td>
+            //         </tr>
+            //     </table>
+            //     <p class="sq-para3" style="text-align:left;"><span class="rewards2">${nextWordLength} letters</span> currently ${currentWord.length}, avg ${avgWordLength} letters<br><br></p>
+            //     <p class="sq-para3" style="text-align:right;">currently ${noBonusStreak}, best ${thisGameStreak} words <span class="rewards2">no-bonus streak ⚡︎ ${nextStreak}</span><br><br></p>
             // `; 
+
+
+            
 
             if (isActiveGame == false) {
                 milestoneSummary = `<p class="sq-para2"><br><span class="rewards2">GAME OVER!</span><br><br></p>`
