@@ -755,7 +755,7 @@
             background: var(--bg);
             background-image: var(--gradient);
             max-width: 400px;
-            min-width: 150px;
+            min-width: 100px;
             margin: 0 auto;
             color: var(--text);
             display: flex;
@@ -824,9 +824,9 @@
 
         .message-bg {
             position: relative;
-            top: 3cqi;
+            top: 6cqi;
             border-radius: var(--rounding) var(--rounding) 0 0;
-            height: 12cqi;
+            height: 16cqi;
             width: 97cqi;
             align-content: center;
             justify-self: center;
@@ -837,7 +837,7 @@
 
         .message {
             position: absolute;
-            top: 6cqi;
+            top: 9cqi;
             border-radius: var(--rounding) var(--rounding) 0 0;
             font-family: var(--font3);
             flex-wrap: wrap;
@@ -902,8 +902,8 @@
             border-radius: var(--rounding);
 
             font-family: var(--font2);
-            font-size: 2.2rem;
-            font-weight: bold;
+            font-size: 2rem;
+            font-weight: 550;
         }
 
         .letter,
@@ -922,7 +922,7 @@
 
         .letter {
             /* box-sizing: border-box; */
-            width: 8cqi;
+            width: 8.5cqi;
             height: 18cqi;
         }
 
@@ -939,7 +939,7 @@
             background: var(--selected-cell);
             filter: none;
             opacity: 100%;
-            border-radius: var(--rounding);
+            border-radius: var(--rounding-small);
             margin-block: none;
             padding-block: none;
             transform: scale(110%);
@@ -1186,7 +1186,7 @@
             display: none;
             /* box-sizing: border-box; */
             position: fixed;
-            top: 98cqi;
+            top: 102.3cqi;
             align-self: center;
             justify-self: center;
             align-items: center;
@@ -1222,7 +1222,7 @@
         .scrollBtn {
             display: none;
             position: fixed;
-            top: 99cqi;
+            top: 103cqi;
             align-self: center;
             justify-self: center;
             border-radius: var(--rounding);
@@ -1262,19 +1262,19 @@
             /* box-sizing: border-box; */
             display: none;
             position: absolute;
-            top: -12cqi;
+            top: -12.5cqi;
             justify-content: center;
             border-radius: 0 0 var(--rounding) var(--rounding);
             background: var(--wordcell);
             color: var(--wordcell-text);
-            height: 10.5cqi;
+            height: 11cqi;
             width: var(--rail-width);
             border: 0.75cqi solid var(--wordcell);
             opacity: 100%;
             font-size: 1.2rem;
-            line-height: 1.6;
+            /* line-height: 1.6; */
             z-index: 999;
-            padding: 0 0 0.9cqi 0;
+            padding: 3cqi 0 0 0;
             margin: 0;
         }
 
@@ -1290,7 +1290,7 @@
             padding-block: 1.4cqi 0.6cqi;
             position: absolute;
             font-family: var(--font2);
-            top: 8cqi;
+            top: 11cqi;
             right: var(--gap);
             align-self: center;
             justify-self: center;
@@ -1472,9 +1472,9 @@
         .help {
             /* box-sizing: border-box; */
             border: 1.5cqi solid var(--bg);
-            border-radius: 6cqi;
-            height: 12cqi;
-            width: 12cqi;
+            border-radius: 8cqi;
+            height: 16cqi;
+            width: 16cqi;
             align-items: center;
             text-align: center;
             margin-block: 0;
@@ -1527,7 +1527,7 @@
 
         #status {
             position: relative;
-            top: 1cqi;
+            top: 1.5cqi;
             font-size: 0.8rem;
             font-family: var(--font2);
             color: var(--accent);
@@ -1745,11 +1745,11 @@
 
         .grid-demo {
             display: grid;
-            grid-template-columns: repeat(3, 8cqi);
-            grid-auto-rows: 8cqi;
-            gap: 2cqi;
-            padding: 4cqi;
-            margin: 2cqi;
+            grid-template-columns: repeat(3, 7.5cqi);
+            grid-auto-rows: 7.5cqi;
+            gap: var(--gap);
+            padding: auto;
+            margin: var(--gap);
             justify-items: center;
             /* center content in each cell */
             align-items: center;
@@ -1762,12 +1762,12 @@
 
         .grid-demo-four {
             display: grid;
-            grid-template-columns: repeat(4, 8cqi);
-            grid-auto-rows: 8cqi;
+            grid-template-columns: repeat(4, 7.5cqi);
+            grid-auto-rows: 7.5cqi;
             /* Make cells square */
-            gap: 2cqi;
-            padding: 4cqi;
-            margin: 2cqi;
+            gap: var(--gap);
+            padding: auto;
+            margin: var(--gap);
             justify-items: center;
             /* center content in each cell */
             align-items: center;
@@ -1812,6 +1812,10 @@
             cursor: auto;
         }
 
+        .grid-cell-demo.highlighted {
+            border-color: var(--positive-feedback);
+        }
+
         .grid-cell-demo.selected {
             background: var(--selected-cell);
             color: var(--selected-text);
@@ -1848,7 +1852,7 @@
 
         .modal-milestones {
             position: fixed;
-            top: 8cqi;
+            top: 11cqi;
             background: var(--accent);
             color: var(--accent-text);
             /* box-sizing: border-box; */
@@ -1871,7 +1875,7 @@
 
         .modal-search {
             position: fixed;
-            top: 8cqi;
+            top: 11cqi;
             background: var(--bg);
             color: var(--text);
             /* box-sizing: border-box; */
@@ -1888,7 +1892,7 @@
             display: flex;
             flex-direction: column;
             flex-direction: column-reverse;
-            height: 141.7cqi;
+            height: 142cqi;
             width: 97cqi;
             
         }
@@ -1917,7 +1921,7 @@
 
         .modal-missions {
             position: fixed;
-            top: 8cqi;
+            top: 11cqi;
             background: var(--accent);
             color: var(--accent-text);
 
@@ -1987,7 +1991,7 @@
 
         .missionsProgress {
             position: fixed;
-            top: 99cqi;
+            top: 102cqi;
             max-width: 70cqi;
             align-self: center;
             justify-self: center;
@@ -2002,7 +2006,7 @@
             display: none;
             /* box-sizing: border-box; */
             position: fixed;
-            top: 98cqi;
+            top: 101cqi;
 
             align-self: center;
             justify-self: center;
@@ -2608,15 +2612,15 @@
                         <div class="grid-demo">
                             <div class="grid-cell-demo used"></div>
                             <div class="grid-cell-demo">U</div>
-                            <div class="grid-cell-demo" style="border:0.75cqi solid var(--positive-feedback)">N</div>
+                            <div class="grid-cell-demo highlighted">N</div>
 
                             <div class="grid-cell-demo">S</div>
                             <div class="grid-cell-demo">I</div>
-                            <div class="grid-cell-demo" style="border:0.75cqi solid var(--positive-feedback)">E</div>
+                            <div class="grid-cell-demo highlighted">E</div>
 
                             <div class="grid-cell-demo used"></div>
                             <div class="grid-cell-demo">E</div>
-                            <div class="grid-cell-demo" style="border:0.75cqi solid var(--positive-feedback)">W</div>
+                            <div class="grid-cell-demo highlighted">W</div>
                         </div>
                         <p class="demo-para">New letters appear<br>in completed rows or columns.<br></p>
                     </div>
@@ -2644,8 +2648,7 @@
                             <button class="gridRefreshBtn" style="border-color: var(--positive-feedback);"># 1</button>
                         </div>
                         <p class="demo-para"><br>Existing grid is replaced with a fresh one.</p>
-                        <div class="grid-demo selected"
-                            style="background:var(--positive-feedback);padding:1.5cqi;border:none;margin-block:5cqi;">
+                        <div class="grid-demo selected">
                             <div class="grid-cell-demo">A</div>
                             <div class="grid-cell-demo">L</div>
                             <div class="grid-cell-demo">L</div>
@@ -2881,8 +2884,8 @@
         </div>
         <!-- <div id="anti-move-wrapper"> -->
         <div class="scores">
-            <span id="score">0</span>&nbsp; <b>string</b><button id="toggle-dropdown"
-                class="help toggle-dropdown">+</button><b>chain</b> &nbsp;<span id="chain">0</span>
+            <span id="score">0</span> string<button id="toggle-dropdown"
+                class="help toggle-dropdown">+</button>chain <span id="chain">0</span>
             <div id="streakDiv" class="streakDiv" title="Current no-bonus streak">STREAK</div>
             <div id="message" class="message"></div>
         </div>
@@ -5041,7 +5044,7 @@
                         <td style="border:none;margin:0;padding:0;">
                             <p class="sq-para3" style="border:none;margin:0;padding:0;text-align:center;"><span class="rewards2">${nextWordLength} letters</span> currently ${currentWord.length}, avg ${avgWordLength} letters</p>
                         </td>
-                        
+    
                         <td style="border:none;margin:0;padding:0;">
                             <p class="sq-para3" style="border:none;margin:0;padding:0;text-align:center;"><span class="rewards2">no-bonus streak ⚡︎ ${nextStreak}</span> currently ${noBonusStreak}, best ${thisGameStreak} words</p>
                         </td>
