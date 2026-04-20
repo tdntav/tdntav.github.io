@@ -1284,7 +1284,7 @@
 
         .streakDiv {
             display: none;
-            /* box-sizing: border-box; */
+            box-sizing: border-box;
             /* transform: rotate() ; */
             padding-inline: 4cqi;
             padding-block: 1.4cqi 0.6cqi;
@@ -1297,6 +1297,9 @@
             align-content: center;
             justify-content: center;
             text-align: center;
+            border-style:solid;
+            border-color:transparent;
+            border-width: 0 0 0.75cqi 0;
             border-radius: 0 var(--rounding) 0 var(--rounding);
             background: var(--bg);
             color: var(--text);
@@ -1305,6 +1308,12 @@
             font-size: 0.55rem;
             z-index: 1;
         }
+
+        .streakDiv.your-best {
+            border-color:var(--text)
+
+        }
+
 
         #themeToggle {
             height: var(--cell-size);
@@ -1935,7 +1944,7 @@
 
             display: flex;
             flex-direction: column;
-            max-height: 88.5cqi;
+            max-height: 90cqi;
             width: 97cqi;
             
         }
@@ -2006,7 +2015,8 @@
             display: none;
             /* box-sizing: border-box; */
             position: fixed;
-            top: 101cqi;
+            top: 102.3cqi;
+
 
             align-self: center;
             justify-self: center;
@@ -4625,6 +4635,7 @@
             streakDiv.innerHTML = `⚡︎ ${noBonusStreak}`;
             if (chain >= 16) { streakDiv.style.display = "block" };
             if (chain < 16) { streakDiv.style.display = "none" };
+            if (noBonusStreak == thisGameStreak) { streakDiv.classList.add("your-best"); } else { streakDiv.classList.remove("your-best") };
             const livesLeft = Math.min(totalLives, 8) - livesLost;
             let output = "";
 
