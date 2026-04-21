@@ -18,10 +18,11 @@
         :root {
             /* --font1 for GAME WORD GRIDS ETC */
             --font1: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+            /* --font1: "VCR OSD Mono", "Courier New", "Courier", monospace; */
             /* --font2 for WORD LISTS ETC */
-            --font2: JetBrainsMono, "Courier New", "Courier", monospace;
+            /* --font3: "VCR OSD Mono", "Courier New", "Courier", monospace; */
             /* --font3 for message only*/
-            --font3: JetBrainsMono, "Courier New", "Courier", monospace;
+            --font2: JetBrainsMono, "Courier New", "Courier", monospace;
 
 
             --grid-size: 3;
@@ -30,6 +31,9 @@
             --gap: 1.5cqi;
             --rail-width: 17cqi;
             --grid-width: 56cqi;
+
+
+
 
             --rounding: 2cqi;
             --rounding-small: 1cqi;
@@ -75,6 +79,30 @@
         * * * * * * * * { outline: 0.5cqi dashed blue } 
         */
         /* #ENDREGION OUTLINE TESTING - */
+
+
+/* --- THE VISUAL DEBUGGER --- */
+/* * {
+  outline: 0.1cqi solid red !important;
+  outline-offset: -0.1cqi !important;
+  margin: black;
+} */
+
+/* 
+* * {
+  outline-color: blue !important;
+  background: rgba(0, 0, 255, 0.05) !important;
+}
+
+* * * {
+  outline-color: green !important;
+  background: rgba(0, 255, 0, 0.05) !important;
+} */
+
+
+
+
+
 
         /* * {box-sizing: border-box;} */
 
@@ -839,7 +867,7 @@
             position: absolute;
             top: 9cqi;
             border-radius: var(--rounding) var(--rounding) 0 0;
-            font-family: var(--font3);
+            font-family: var(--font2);
             flex-wrap: wrap;
             text-align: center;
             color: var(--text);
@@ -999,8 +1027,9 @@
 
 
         .game-area {
-            width: 90cqi;
-            margin: 3.5cqi var(--gap) var(--gap);
+            /* width: 90cqi; */
+            /* margin: 3.5cqi var(--gap) var(--gap); */
+            margin-block: 3.5cqi var(--gap);
             /* box-sizing: border-box; */
         }
 
@@ -1008,7 +1037,7 @@
             display: grid;
             /* box-sizing: border-box; */
             grid-template-columns: var(--rail-width) var(--grid-width) var(--rail-width);
-            /* column-gap: var(--gap); */
+            column-gap: 0;
         }
 
 
@@ -1017,8 +1046,8 @@
             display: grid;
             /* box-sizing: border-box; */
             justify-content: center;
-            align-content: center;
-            margin: none;
+            /* align-content: center; */
+            /* margin: none; */
             /* grid-template-columns: repeat(var(--grid-size), var(--cell-size)); */
             /* grid-template-rows: repeat(var(--grid-size), var(--cell-size)); */
             row-gap: var(--gap);
@@ -1043,11 +1072,11 @@
 
         /* BUTTONS */
         .rail-btn {
-            width: 100%;
+            max-width: var(--rail-width);
             height: 100%;
-            border: none;
-            margin: none;
-            padding: none;
+            border: 0;
+            margin: 0;
+            padding: 0;
             color: var(--button-text);
             /* box-sizing: border-box; */
             background: var(--button);
