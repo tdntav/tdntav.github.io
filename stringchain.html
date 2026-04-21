@@ -775,7 +775,6 @@
             background: var(--bg);
             background-image: var(--gradient);
             font-size: min(6.6dvw,24px);
-            /* font-size: min(5vw,22px); */
         }
 
         body {
@@ -784,6 +783,7 @@
             background-image: var(--gradient);
             max-width: 400px;
             min-width: 100px;
+            min-height: 99dvh;
             margin: 0 auto;
             color: var(--text);
             display: flex;
@@ -854,13 +854,14 @@
             position: relative;
             top: 6cqi;
             border-radius: var(--rounding) var(--rounding) 0 0;
-            height: 16cqi;
+            height: 32cqi;
             width: 97cqi;
             align-content: center;
             justify-self: center;
             background-image: linear-gradient(to top, transparent, var(--accent));
-            opacity: 60%;
+            opacity: 100%;
             z-index: 0;
+            margin-bottom: -16cqi;
         }
 
         .message {
@@ -1316,7 +1317,7 @@
             box-sizing: border-box;
             /* transform: rotate() ; */
             padding-inline: 4cqi;
-            padding-block: 1.4cqi 0.6cqi;
+            padding-block: 0.5cqi 0cqi;
             position: absolute;
             font-family: var(--font2);
             top: 11cqi;
@@ -1521,6 +1522,7 @@
             background: var(--accent);
             color: var(--accent-text);
             font-size: 0.8rem;
+            font-weight:bold;
         }
 
         .help-dark {
@@ -1873,6 +1875,7 @@
             bottom: 0;
             right: 0;
             height: 100dvh;
+            /* width: 200dvw; */
 
             display: flex;
             justify-content: center;
@@ -3696,7 +3699,7 @@
 
             allTimeSummary = `<p class="sq-para1"><span class="yourBest">${allTimeString} string</span>
                     <span class="yourBest">chain ${allTimeChain}</span></p>
-                    <p class="sq-para1"><span class="yourBest">${allTimeWordLength} letters &nbsp;<span class="sq-word"><b>${allTimeWord.toLowerCase()}</b></span></span></p>
+                    <p class="sq-para1"><span class="yourBest">${allTimeWordLength} letters &nbsp;<span class="sq-word">${allTimeWord.toLowerCase()}</span></span></p>
                     <p class="sq-para1"><span class="yourBest">no-bonus streak ⚡︎ ${allTimeStreak}</span></p>
                         `;
 
