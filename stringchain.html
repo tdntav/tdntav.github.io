@@ -579,13 +579,13 @@
         }
 
         .blue-pops {
-            --rounding: 4cqi 4cqi 0 0;
-            --rounding-small: 0 0 4cqi 4cqi;
+            --rounding: 4cqi 0 4cqi 0;
+            --rounding-small: 0 4cqi 0 4cqi;
 
-            --bg: #033;
+            --bg: #024;
             --text: #fff;
 
-            --accent: #2aa;
+            --accent: #0bf;
             --accent-text: var(--bg);
 
             --positive-feedback: #0ff;
@@ -599,11 +599,11 @@
 
             --gridcell: var(--bg);
             --gridcell-text: var(--text);
-            --gridcell-border: 0.75cqi solid var(--disabled);
+            --gridcell-border: 0.75cqi solid var(--text);
 
-            --selected-cell: #055;
-            --selected-text: var(--text);
-            --selected-border: 0.75cqi solid var(--text);
+            --selected-cell: #5cf;
+            --selected-text: var(--bg);
+            --selected-border: 0.75cqi solid #3ad;
         }
 
         .pinko {
@@ -1329,7 +1329,7 @@
             text-align: center;
             border-style:solid;
             border-color:transparent;
-            border-width: 0 0 0.75cqi 0;
+            border-width: 0 0 0 0.75cqi;
             border-radius: 0 var(--rounding) 0 var(--rounding);
             background: var(--bg);
             color: var(--text);
