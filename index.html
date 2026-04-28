@@ -4788,8 +4788,8 @@
                 .reverse()
                 .map(w => {
                     // Check if the entry is a bonus and strip the number
-                    if (w.startsWith("&#x26D3;&#xFE0E;")) return "&#x26D3;&#xFE0E; ";
-                    if (w.startsWith("&#8862;&#xFE0E;")) return "&#8862;&#xFE0E; ";
+                    if (w.startsWith("&#x26D3;")) return "&#x26D3;&#xFE0E; ";
+                    if (w.startsWith("&#8862;")) return "&#8862;&#xFE0E; ";
                     if (w.startsWith("*")) return "* ";
 
                     // Check if the entry is an incorrect attempt (contains "(")
