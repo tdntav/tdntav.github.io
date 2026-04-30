@@ -2689,17 +2689,17 @@
 
 
                 <br>
-                <h2>&#x26D3;&#xFE0E; BONUSES &#8862;&#xFE0E;</h2>
+                <h2>&#x26D3;&#xFE0E; BONUSES &boxplus;&#xFE0E;</h2>
                 <p>Bonuses are earned for passing milestones.</p>
                 <div class="demo-div">
                     <!-- EXAMPLE 6: REFRESH BUTTON -->
                     <div class="demo-board" style="background:none;">
                         <p class="demo-para">
-                            Play a grid refresh bonus<br>by pressing the <b>&#8862;&#xFE0E; GRID</b> button.</p>
+                            Play a grid refresh bonus<br>by pressing the <b>&boxplus;&#xFE0E; GRID</b> button.</p>
                         <div class="button-row demo demoscale">
-                            <button class="bonusBtn disabled">&#x26D3;&#xFE0E;</button>
-                            <button class="actionBtn disabled">PLAY</button>
-                            <button class="gridRefreshBtn" style="border-color: var(--positive-feedback);">&#8862;&#xFE0E; 1</button>
+                            <button class="button disabled">&#x26D3;&#xFE0E;</button>
+                            <button class="button disabled">PLAY</button>
+                            <button class="button" style="border-color: var(--positive-feedback);">&boxplus;&#xFE0E; 1</button>
                         </div>
                         <p class="demo-para"><br>Existing grid is replaced with a fresh one.</p>
                         <div class="grid-demo selected">
@@ -2754,7 +2754,7 @@
                         <div class="button-row demo demoscale">
                             <button class="bonusBtn" style="border-color: var(--positive-feedback);">1 &#x26D3;&#xFE0E;</button>
                             <button class="actionBtn disabled">PLAY</button>
-                            <button class="gridRefreshBtn disabled">&#8862;&#xFE0E;</button>
+                            <button class="gridRefreshBtn disabled">&boxplus;&#xFE0E;</button>
                         </div>
                         <p class="demo-para"><br>This allows you to use an invalid word
                             <br>to bridge the gap to your next word.<br>
@@ -2780,7 +2780,7 @@
                 </div>
                 <br>
                 <div class="demo-div">
-                    <p class="demo-para">Consecutive bonuses (&#x26D3;&#xFE0E;, &#8862;&#xFE0E;) up to
+                    <p class="demo-para">Consecutive bonuses (&#x26D3;&#xFE0E;, &boxplus;&#xFE0E;) up to
                         <br>the player's total number of lives
                         <br>may be used before incurring a penalty.
                         <br><br><span class="status">- - | | | | | |</span><br>
@@ -2864,7 +2864,7 @@
                 <div class="demo-div">
                     <p class="demo-para">
                         <span class="sq-word">invalid word</span>
-                        <br><span class="rewards">-1 life</span> <span class="rewards">-half &#x26D3;&#xFE0E; &#8862;&#xFE0E; -half</span>
+                        <br><span class="rewards">-1 life</span> <span class="rewards">-half &#x26D3;&#xFE0E; &boxplus;&#xFE0E; -half</span>
                         <br><br>You lose one life and half your bonuses
                         <br>for attempting to play an invalid word.<br><br>
                         <span class="sq-word">consecutive bonus use</span>
@@ -3074,8 +3074,8 @@
 
         <div id="gameOverModal" class="modal hidden">
             <div class="modal-gameover">
-                <h5 style="font-family: 'Courier New', Courier, monospace;">stringchain.fyi</h5>
-                <p class="demo-para" style="text-align:center;font-size:0.6rem;margin-top:-2cqi;">GAME OVER<br><br></p>
+                <h3>stringchain<span style="opacity:33%">.fyi</span></h3>
+                <p class="demo-para" style="text-align:center;font-size:0.6rem;margin-top:-2cqi;margin-bottom:-2cqi;">GAME OVER<br><br></p>
                 <p class="demo-para hidden" style="text-align:center;font-size:0.6rem;" id="game-over-message"></p>
 
                 <div id="game-over-stats" class="missions-1" style="padding-block:4cqi;"></div>
@@ -3484,7 +3484,7 @@
             if (gridRefreshBonusesAvailable > 0) {
                 gridRefreshBonusesAvailable--;
                 bonusCounter++;
-                bonusTicker = "&#8862;&#xFE0E;" + bonusCounter;
+                bonusTicker = "&boxplus;&#xFE0E;" + bonusCounter;
                 playedWords.add(bonusTicker);
                 updateHistory();
                 bonusTicker = '';
@@ -3712,8 +3712,8 @@
 
             allTimeSummary = `<p class="sq-para1"><span class="yourBest">${allTimeString} string</span>
                     <span class="yourBest">chain ${allTimeChain}</span></p>
-                    <p class="sq-para1"><span class="yourBest">${allTimeWordLength} letters &nbsp;<span class="sq-word">${allTimeWord.toLowerCase()}</span></span></p>
-                    <p class="sq-para1"><span class="yourBest">no-bonus streak ⚡︎ ${allTimeStreak}</span></p>
+                    <p class="sq-para1"><span class="yourBest">${allTimeWordLength} letters &sext;&#xFE0E;&nbsp;<span class="sq-word">${allTimeWord.toLowerCase()}</span></span></p>
+                    <p class="sq-para1"><span class="yourBest">no-bonus streak &#9889;&#xFE0E; ${allTimeStreak}</span></p>
                         `;
 
 
@@ -4677,7 +4677,7 @@
         function updateStatus() {
             // streakDiv.innerHTML = `no-bonus streak of ${noBonusStreak}`;
             showLongwordBtn();
-            streakDiv.innerHTML = `⚡︎ ${noBonusStreak}`;
+            streakDiv.innerHTML = `&#9889;&#xFE0E; ${noBonusStreak}`;
             if (chain >= 16) { streakDiv.style.display = "block" };
             if (chain < 16) { streakDiv.style.display = "none" };
             if (noBonusStreak == thisGameStreak) { streakDiv.classList.add("your-best"); } else { streakDiv.classList.remove("your-best") };
@@ -4751,12 +4751,12 @@
         function updateGridRefreshButton() {
             if (gridRefreshBonusesAvailable > 0) {
                 // gridRefreshBtn.textContent = `# ${gridRefreshBonusesAvailable}`;
-                gridRefreshBtn.innerHTML = `&#8862;&#xFE0E; ${gridRefreshBonusesAvailable}`;
+                gridRefreshBtn.innerHTML = `&boxplus;&#xFE0E; ${gridRefreshBonusesAvailable}`;
 
                 gridRefreshBtn.classList.remove('disabled');
                 gridRefreshBtn.disabled = false;
             } else {
-                gridRefreshBtn.innerHTML = `&#8862;&#xFE0E;`;
+                gridRefreshBtn.innerHTML = `&boxplus;&#xFE0E;`;
                 gridRefreshBtn.classList.add('disabled');
                 gridRefreshBtn.disabled = true;
             }
@@ -4773,8 +4773,8 @@
             gameOverModal.classList.remove('hidden');
             thisGameSummary = `<p class="sq-para1"><span class="yourBest">${score} string</span>
                     <span class="yourBest">chain ${chain}</span><br>
-                    <br><span class="yourBest">${thisGameWordLength} letters &nbsp;<span class="sq-word"><b>${thisGameWord.toLowerCase()}</b></span></span><br>
-                    <br><span class="yourBest">⚡︎ no-bonus streak ⚡︎ ${thisGameStreak}</span></p>
+                    <br><span class="yourBest">${thisGameWordLength} letters &sext;&#xFE0E;&nbsp;<span class="sq-word"><b>${thisGameWord.toLowerCase()}</b></span></span><br>
+                    <br><span class="yourBest">no-bonus streak &#9889;&#xFE0E; ${thisGameStreak}</span></p>
                         `;
             gameOverStats.innerHTML = `${thisGameSummary}`;
         }
@@ -4789,9 +4789,9 @@
                 .map(w => {
                     // Check if the entry is a bonus and strip the number
                     if (w.startsWith("&#x26D3;")) return "&#x26D3;&#xFE0E; ";
-                    if (w.startsWith("&#8862;")) return "&#8862;&#xFE0E; ";
+                    if (w.startsWith("&boxplus;")) return "&boxplus;&#xFE0E; ";
                     if (w.startsWith("||")) return "&#x26D3;&#xFE0E; ";
-                    if (w.startsWith("#")) return "&#8862;&#xFE0E; ";
+                    if (w.startsWith("#")) return "&boxplus;&#xFE0E; ";
                     if (w.startsWith("*")) return "* ";
 
                     // Check if the entry is an incorrect attempt (contains "(")
@@ -5100,11 +5100,11 @@
                 <table style="border:none;justify-content:center;align-content:center;align-self:center;margin:0 0 3cqi 0;padding:0;width:100%;">
                     <tr style="border:none;margin:0;padding:0;">
                         <td style="border:none;margin:0;padding:0;">
-                            <p class="sq-para3" style="border:none;margin:0;padding:0;text-align:center;"><span class="rewards2">${nextWordLength} letters</span> currently ${currentWord.length}, avg ${avgWordLength} letters</p>
+                            <p class="sq-para3" style="border:none;margin:0;padding:0;text-align:center;"><span class="rewards2">${nextWordLength} letters &sext;&#xFE0E;</span> currently ${currentWord.length}, avg ${avgWordLength} letters</p>
                         </td>
     
                         <td style="border:none;margin:0;padding:0;">
-                            <p class="sq-para3" style="border:none;margin:0;padding:0;text-align:center;"><span class="rewards2">no-bonus streak ⚡︎ ${nextStreak}</span> currently ${noBonusStreak}, best ${thisGameStreak} words</p>
+                            <p class="sq-para3" style="border:none;margin:0;padding:0;text-align:center;"><span class="rewards2">no-bonus streak &#9889;&#xFE0E; ${nextStreak}</span> currently ${noBonusStreak}, best ${thisGameStreak} words</p>
                         </td>
                     </tr>
                 </table>`;
@@ -5155,7 +5155,7 @@
 
             if (q.stringQuest) headerParts.push(`${q.stringMilestoneAmount}+ string`);
             if (q.chainQuest) headerParts.push(`chain ${q.chain}`);
-            if (q.wordQuest) headerParts.push(`${q.length} letters`);
+            if (q.wordQuest) headerParts.push(`${q.length} letters &sext;&#xFE0E;`);
             if (q.streakQuest) headerParts.push(`no-bonus streak ⚡︎ ${q.rewards.setupStreakQuest}`);
             if (q.penalty) {
                 const ordinalPenalty = getOrdinal(q.penaltyNumber);
@@ -5177,7 +5177,7 @@
             }
             if (q.rewards?.gridRefreshStringQuest) {
                 // rewardLines.push(`+${q.rewards.gridRefreshStringQuest} makes # ${(q.rewards.gridRefreshStringQuest + q.rewards.gridRefreshBeforeStringQuest)}`);
-                rewardLines.push(`<span class="rewards">&#8862;&#xFE0E;${q.rewards.gridRefreshStringQuest}</span>`);
+                rewardLines.push(`<span class="rewards">&boxplus;&#xFE0E;${q.rewards.gridRefreshStringQuest}</span>`);
             }
 
             // if (q.rewards?.setupStringQuest || q.rewards?.gridRefreshStringQuest) {
@@ -5200,7 +5200,7 @@
             }
             if (q.rewards?.gridRefreshChainQuest) {
                 // rewardLines.push(`+${q.rewards.gridRefreshChainQuest} makes # ${(q.rewards.gridRefreshBeforeChainQuest + q.rewards.gridRefreshChainQuest)}`);
-                rewardLines.push(`&#8862;&#xFE0E;${q.rewards.gridRefreshChainQuest}`);
+                rewardLines.push(`&boxplus;&#xFE0E;${q.rewards.gridRefreshChainQuest}`);
             }
             if (q.rewards?.setupChainQuest || q.rewards?.gridRefreshChainQuest) {
                 rewardLines.push(`</span>`);
@@ -5222,7 +5222,7 @@
             }
             if (q.rewards?.gridRefreshWordQuest) {
                 // rewardLines.push(`+${q.rewards.gridRefreshWordQuest} makes # ${(q.rewards.gridRefreshBeforeWordQuest + q.rewards.gridRefreshWordQuest)}`);
-                rewardLines.push(`<span class="rewards">&#8862;&#xFE0E;${q.rewards.gridRefreshWordQuest}`);
+                rewardLines.push(`<span class="rewards">&boxplus;&#xFE0E;${q.rewards.gridRefreshWordQuest}`);
             }
             if (q.rewards?.lives && q.rewards?.livesMaxed) {
                 // rewardLines.push(`+1 life for ${q.length} letters`);
@@ -5248,7 +5248,7 @@
             }
             if (q.rewards?.gridRefreshStreakQuest) {
                 // rewardLines.push(`+${q.rewards.gridRefreshStreakQuest} makes # ${(q.rewards.gridRefreshStreakQuest + q.rewards.gridRefreshBeforeStreakQuest)}`);
-                rewardLines.push(`&#8862;&#xFE0E;${q.rewards.gridRefreshStreakQuest}`);
+                rewardLines.push(`&boxplus;&#xFE0E;${q.rewards.gridRefreshStreakQuest}`);
             }
 
             if (q.rewards?.setupStreakQuest || q.rewards?.gridRefreshStreakQuest) {
@@ -5267,7 +5267,7 @@
             }
             if (q.rewards?.gridRefreshPenalty) {
                 // rewardLines.push(`-${q.rewards.gridRefreshPenalty} makes # ${(q.rewards.gridRefreshBeforePenalty - q.rewards.gridRefreshPenalty)}`);
-                rewardLines.push(`&#8862;&#xFE0E; -${q.rewards.gridRefreshPenalty}`);
+                rewardLines.push(`&boxplus;&#xFE0E; -${q.rewards.gridRefreshPenalty}`);
             }
             if (q.rewards?.setupPenalty || q.rewards?.gridRefreshPenalty) {
                 rewardLines.push(`</span>`);
@@ -5288,7 +5288,7 @@
             }
             if (q.rewards?.gridRefreshMissionQuest) {
                 // rewardLines.push(`+${q.rewards.gridRefreshStreakQuest} makes # ${(q.rewards.gridRefreshStreakQuest + q.rewards.gridRefreshBeforeStreakQuest)}`);
-                rewardLines.push(`&#8862;&#xFE0E;${q.rewards.gridRefreshMissionQuest}`);
+                rewardLines.push(`&boxplus;&#xFE0E;${q.rewards.gridRefreshMissionQuest}`);
             }
 
             if (q.rewards?.setupMissionQuest || q.rewards?.gridRefreshMissionQuest) {
