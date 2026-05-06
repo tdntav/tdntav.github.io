@@ -2386,6 +2386,26 @@
             margin-inline: 0.5cqi;
             background: var(--accent);
             color: var(--accent-text);
+            /* The magic lines */
+            /* -webkit-box-decoration-break: clone; */
+            /* box-decoration-break: clone;         */
+        }
+
+        .yourBestPara {
+            /* font-size: 0.8rem; */
+            /* display:inline-block; */
+            border-radius: var(--rounding);
+            padding-block: 0;
+            padding-inline: 4cqi;
+            /* padding-inline: 2cqi; */
+            margin-inline: auto;
+            margin-block:0;
+            background: var(--accent);
+            color: var(--accent-text);
+            width:min-content;
+            /* The magic lines */
+            /* -webkit-box-decoration-break: clone; */
+            /* box-decoration-break: clone;         */
         }
 
 
@@ -3709,13 +3729,19 @@
                 thisGameWord = lastValidWord;
             }
 
-
-            allTimeSummary = `<p class="sq-para1"><span class="yourBest">${allTimeString} string</span>
+            if ( allTimeWordLength >= 13) {
+                allTimeSummary = `<p class="sq-para1"><span class="yourBest">${allTimeString} string</span>
                     <span class="yourBest">chain ${allTimeChain}</span></p>
-                    <p class="sq-para1"><span class="yourBest">${allTimeWordLength} letters &sext;&#xFE0E;&nbsp;<span class="sq-word">${allTimeWord.toLowerCase()}</span></span></p>
+                    <div class="yourBestPara"><p class="sq-para1"><span class="yourBest">${allTimeWordLength}&nbsp;letters&nbsp;&sext;&#xFE0E;&nbsp; &nbsp;<span class="sq-word">${allTimeWord.toLowerCase()}</span></span></p></div>
                     <p class="sq-para1"><span class="yourBest">no-bonus streak &#9889;&#xFE0E; ${allTimeStreak}</span></p>
                         `;
-
+            } else { 
+            allTimeSummary = `<p class="sq-para1"><span class="yourBest">${allTimeString} string</span>
+                    <span class="yourBest">chain ${allTimeChain}</span></p>
+                    <p class="sq-para1"><span class="yourBest">${allTimeWordLength}&nbsp;letters&nbsp;&sext;&#xFE0E;&nbsp;<span class="sq-word">${allTimeWord.toLowerCase()}</span></span></p>
+                    <p class="sq-para1"><span class="yourBest">no-bonus streak &#9889;&#xFE0E; ${allTimeStreak}</span></p>
+                        `;
+            }
 
             highScoresElement.innerHTML = `<h2>YOUR BEST</h2>
                     ${allTimeSummary}`;
