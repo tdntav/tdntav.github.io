@@ -8,7 +8,7 @@
         content="Stringchain is a word game. Replace, add, swap, or delete a letter to make a new word. How long can you make your chain of words?">
     <title>stringchain - word game</title>
     <link rel="icon" href="/favicon.ico">
-    <!-- <script src="drag-drop-touch.esm.js?autoload" type="module"></script> -->
+    <script src="drag-drop-touch.esm.js?autoload" type="module"></script>
     <script>window.sa_event = window.sa_event || function () { var a = [].slice.call(arguments); window.sa_event.q ? window.sa_event.q.push(a) : window.sa_event.q = [a] };</script>
     <style>
         @font-face {
@@ -3171,54 +3171,6 @@
 
 
 
-        function setupDraggables() {
-            const wordLetters = document.querySelectorAll('#wordContainer .letter');
-            const gridCells = document.querySelectorAll('#letterGrid .grid-cell');
-
-            [...wordLetters, ...gridCells].forEach(el => {
-                el.setAttribute('draggable', 'true');
-
-                // Remove existing event listeners to avoid duplicates
-                el.removeEventListener('dragstart', handleDragStart);
-                el.removeEventListener('dragend', handleDragEnd);
-                el.removeEventListener('touchstart', handleTouchStart);
-                el.removeEventListener('touchend', handleTouchEnd);
-
-                // Add drag-and-drop event listeners
-                el.addEventListener('dragstart', handleDragStart);
-                el.addEventListener('dragend', handleDragEnd);
-
-                // Add touch event listeners for mobile
-                el.addEventListener('touchstart', handleTouchStart);
-                el.addEventListener('touchend', handleTouchEnd);
-            });
-        }
-
-        function setupDropZones() {
-            const targets = document.querySelectorAll(
-                '#wordContainer .letter, ' +
-                '#wordContainer .insert-slot, ' +
-                '#letterGrid .grid-cell'
-            );
-
-            targets.forEach(target => {
-                target.removeEventListener('dragover', handleDragOver);
-                target.removeEventListener('dragleave', handleDragLeave);
-                target.removeEventListener('drop', handleDrop);
-                target.removeEventListener('touchmove', handleTouchMove);
-                target.removeEventListener('touchend', handleTouchDrop);
-
-                target.addEventListener('dragover', handleDragOver);
-                target.addEventListener('dragleave', handleDragLeave);
-                target.addEventListener('drop', handleDrop);
-
-                // Add touch event listeners for mobile
-                target.addEventListener('touchmove', handleTouchMove);
-                target.addEventListener('touchend', handleTouchDrop);
-            });
-        }
-
-        
         // function setupDraggables() {
         //     const wordLetters = document.querySelectorAll('#wordContainer .letter');
         //     const gridCells = document.querySelectorAll('#letterGrid .grid-cell');
@@ -3226,13 +3178,61 @@
         //     [...wordLetters, ...gridCells].forEach(el => {
         //         el.setAttribute('draggable', 'true');
 
+        //         // Remove existing event listeners to avoid duplicates
         //         el.removeEventListener('dragstart', handleDragStart);
         //         el.removeEventListener('dragend', handleDragEnd);
+        //         el.removeEventListener('touchstart', handleTouchStart);
+        //         el.removeEventListener('touchend', handleTouchEnd);
 
+        //         // Add drag-and-drop event listeners
         //         el.addEventListener('dragstart', handleDragStart);
         //         el.addEventListener('dragend', handleDragEnd);
+
+        //         // Add touch event listeners for mobile
+        //         el.addEventListener('touchstart', handleTouchStart);
+        //         el.addEventListener('touchend', handleTouchEnd);
         //     });
         // }
+
+        // function setupDropZones() {
+        //     const targets = document.querySelectorAll(
+        //         '#wordContainer .letter, ' +
+        //         '#wordContainer .insert-slot, ' +
+        //         '#letterGrid .grid-cell'
+        //     );
+
+        //     targets.forEach(target => {
+        //         target.removeEventListener('dragover', handleDragOver);
+        //         target.removeEventListener('dragleave', handleDragLeave);
+        //         target.removeEventListener('drop', handleDrop);
+        //         target.removeEventListener('touchmove', handleTouchMove);
+        //         target.removeEventListener('touchend', handleTouchDrop);
+
+        //         target.addEventListener('dragover', handleDragOver);
+        //         target.addEventListener('dragleave', handleDragLeave);
+        //         target.addEventListener('drop', handleDrop);
+
+        //         // Add touch event listeners for mobile
+        //         target.addEventListener('touchmove', handleTouchMove);
+        //         target.addEventListener('touchend', handleTouchDrop);
+        //     });
+        // }
+
+        
+        function setupDraggables() {
+            const wordLetters = document.querySelectorAll('#wordContainer .letter');
+            const gridCells = document.querySelectorAll('#letterGrid .grid-cell');
+
+            [...wordLetters, ...gridCells].forEach(el => {
+                el.setAttribute('draggable', 'true');
+
+                el.removeEventListener('dragstart', handleDragStart);
+                el.removeEventListener('dragend', handleDragEnd);
+
+                el.addEventListener('dragstart', handleDragStart);
+                el.addEventListener('dragend', handleDragEnd);
+            });
+        }
 
         function handleDragStart(e) {
             draggedElement = e.currentTarget;
@@ -3257,31 +3257,31 @@
             draggedElement = null;
         }
 
-        // function setupDropZones() {
-        //     // Targets: Letters, Slots, Grid Cells, and the document Body (for off-board delete)
-        //     const targets = document.querySelectorAll(
-        //         '#wordContainer .letter, ' +
-        //         '#wordContainer .insert-slot, ' +
-        //         '#letterGrid .grid-cell'
-        //     );
+        function setupDropZones() {
+            // Targets: Letters, Slots, Grid Cells, and the document Body (for off-board delete)
+            const targets = document.querySelectorAll(
+                '#wordContainer .letter, ' +
+                '#wordContainer .insert-slot, ' +
+                '#letterGrid .grid-cell'
+            );
 
-        //     targets.forEach(target => {
-        //         target.removeEventListener('dragover', handleDragOver);
-        //         target.removeEventListener('dragleave', handleDragLeave);
-        //         target.removeEventListener('drop', handleDrop);
+            targets.forEach(target => {
+                target.removeEventListener('dragover', handleDragOver);
+                target.removeEventListener('dragleave', handleDragLeave);
+                target.removeEventListener('drop', handleDrop);
 
-        //         target.addEventListener('dragover', handleDragOver);
-        //         target.addEventListener('dragleave', handleDragLeave);
-        //         target.addEventListener('drop', handleDrop);
-        //     });
+                target.addEventListener('dragover', handleDragOver);
+                target.addEventListener('dragleave', handleDragLeave);
+                target.addEventListener('drop', handleDrop);
+            });
 
-        //     // Global drop handling on document body for Move 3 (Delete)
-        //     document.body.removeEventListener('dragover', handleGlobalDragOver);
-        //     document.body.removeEventListener('drop', handleGlobalDrop);
+            // Global drop handling on document body for Move 3 (Delete)
+            document.body.removeEventListener('dragover', handleGlobalDragOver);
+            document.body.removeEventListener('drop', handleGlobalDrop);
 
-        //     document.body.addEventListener('dragover', handleGlobalDragOver);
-        //     document.body.addEventListener('drop', handleGlobalDrop);
-        // }
+            document.body.addEventListener('dragover', handleGlobalDragOver);
+            document.body.addEventListener('drop', handleGlobalDrop);
+        }
 
         function handleDragOver(e) {
             if (!draggedElement) return;
