@@ -3157,12 +3157,18 @@
         let draggedElement = null;
         let originalSourceText = '';
         let currentSwapTarget = null;
+
+        let touchStartX = 0;
+        let touchStartY = 0;
+
         let globDrop = false;
 
         function initDragAndDrop() {
             setupDraggables();
             setupDropZones();
         }
+
+
 
         function setupDraggables() {
             const wordLetters = document.querySelectorAll('#wordContainer .letter');
@@ -3171,13 +3177,61 @@
             [...wordLetters, ...gridCells].forEach(el => {
                 el.setAttribute('draggable', 'true');
 
+                // Remove existing event listeners to avoid duplicates
                 el.removeEventListener('dragstart', handleDragStart);
                 el.removeEventListener('dragend', handleDragEnd);
+                el.removeEventListener('touchstart', handleTouchStart);
+                el.removeEventListener('touchend', handleTouchEnd);
 
+                // Add drag-and-drop event listeners
                 el.addEventListener('dragstart', handleDragStart);
                 el.addEventListener('dragend', handleDragEnd);
+
+                // Add touch event listeners for mobile
+                el.addEventListener('touchstart', handleTouchStart);
+                el.addEventListener('touchend', handleTouchEnd);
             });
         }
+
+        function setupDropZones() {
+            const targets = document.querySelectorAll(
+                '#wordContainer .letter, ' +
+                '#wordContainer .insert-slot, ' +
+                '#letterGrid .grid-cell'
+            );
+
+            targets.forEach(target => {
+                target.removeEventListener('dragover', handleDragOver);
+                target.removeEventListener('dragleave', handleDragLeave);
+                target.removeEventListener('drop', handleDrop);
+                target.removeEventListener('touchmove', handleTouchMove);
+                target.removeEventListener('touchend', handleTouchDrop);
+
+                target.addEventListener('dragover', handleDragOver);
+                target.addEventListener('dragleave', handleDragLeave);
+                target.addEventListener('drop', handleDrop);
+
+                // Add touch event listeners for mobile
+                target.addEventListener('touchmove', handleTouchMove);
+                target.addEventListener('touchend', handleTouchDrop);
+            });
+        }
+
+        
+        // function setupDraggables() {
+        //     const wordLetters = document.querySelectorAll('#wordContainer .letter');
+        //     const gridCells = document.querySelectorAll('#letterGrid .grid-cell');
+
+        //     [...wordLetters, ...gridCells].forEach(el => {
+        //         el.setAttribute('draggable', 'true');
+
+        //         el.removeEventListener('dragstart', handleDragStart);
+        //         el.removeEventListener('dragend', handleDragEnd);
+
+        //         el.addEventListener('dragstart', handleDragStart);
+        //         el.addEventListener('dragend', handleDragEnd);
+        //     });
+        // }
 
         function handleDragStart(e) {
             draggedElement = e.currentTarget;
@@ -3202,31 +3256,31 @@
             draggedElement = null;
         }
 
-        function setupDropZones() {
-            // Targets: Letters, Slots, Grid Cells, and the document Body (for off-board delete)
-            const targets = document.querySelectorAll(
-                '#wordContainer .letter, ' +
-                '#wordContainer .insert-slot, ' +
-                '#letterGrid .grid-cell'
-            );
+        // function setupDropZones() {
+        //     // Targets: Letters, Slots, Grid Cells, and the document Body (for off-board delete)
+        //     const targets = document.querySelectorAll(
+        //         '#wordContainer .letter, ' +
+        //         '#wordContainer .insert-slot, ' +
+        //         '#letterGrid .grid-cell'
+        //     );
 
-            targets.forEach(target => {
-                target.removeEventListener('dragover', handleDragOver);
-                target.removeEventListener('dragleave', handleDragLeave);
-                target.removeEventListener('drop', handleDrop);
+        //     targets.forEach(target => {
+        //         target.removeEventListener('dragover', handleDragOver);
+        //         target.removeEventListener('dragleave', handleDragLeave);
+        //         target.removeEventListener('drop', handleDrop);
 
-                target.addEventListener('dragover', handleDragOver);
-                target.addEventListener('dragleave', handleDragLeave);
-                target.addEventListener('drop', handleDrop);
-            });
+        //         target.addEventListener('dragover', handleDragOver);
+        //         target.addEventListener('dragleave', handleDragLeave);
+        //         target.addEventListener('drop', handleDrop);
+        //     });
 
-            // Global drop handling on document body for Move 3 (Delete)
-            document.body.removeEventListener('dragover', handleGlobalDragOver);
-            document.body.removeEventListener('drop', handleGlobalDrop);
+        //     // Global drop handling on document body for Move 3 (Delete)
+        //     document.body.removeEventListener('dragover', handleGlobalDragOver);
+        //     document.body.removeEventListener('drop', handleGlobalDrop);
 
-            document.body.addEventListener('dragover', handleGlobalDragOver);
-            document.body.addEventListener('drop', handleGlobalDrop);
-        }
+        //     document.body.addEventListener('dragover', handleGlobalDragOver);
+        //     document.body.addEventListener('drop', handleGlobalDrop);
+        // }
 
         function handleDragOver(e) {
             if (!draggedElement) return;
@@ -3460,7 +3514,48 @@
         }
 
 
+        function handleTouchStart(e) {
+            e.preventDefault();
+            const touch = e.touches[0];
+            touchStartX = touch.clientX;
+            touchStartY = touch.clientY;
 
+            draggedElement = e.currentTarget;
+            draggedElement.classList.add('dragging');
+            originalSourceText = draggedElement.innerHTML;
+        }
+
+        function handleTouchMove(e) {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const target = document.elementFromPoint(touch.clientX, touch.clientY);
+
+            if (target && isValidDrop(draggedElement, target)) {
+                target.classList.add('drag-over');
+            }
+        }
+
+        function handleTouchDrop(e) {
+            e.preventDefault();
+            const touch = e.changedTouches[0];
+            const target = document.elementFromPoint(touch.clientX, touch.clientY);
+
+            if (target && isValidDrop(draggedElement, target)) {
+                executeDragMove(draggedElement, target);
+            }
+
+            if (draggedElement) {
+                draggedElement.classList.remove('dragging');
+            }
+            draggedElement = null;
+        }
+
+        function handleTouchEnd(e) {
+            if (draggedElement) {
+                draggedElement.classList.remove('dragging');
+            }
+            draggedElement = null;
+        }
 
 
 
