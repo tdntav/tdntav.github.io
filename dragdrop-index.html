@@ -3514,48 +3514,48 @@
         }
 
 
-        function handleTouchStart(e) {
-            e.preventDefault();
-            const touch = e.touches[0];
-            touchStartX = touch.clientX;
-            touchStartY = touch.clientY;
+        // function handleTouchStart(e) {
+        //     e.preventDefault();
+        //     const touch = e.touches[0];
+        //     touchStartX = touch.clientX;
+        //     touchStartY = touch.clientY;
 
-            draggedElement = e.currentTarget;
-            draggedElement.classList.add('dragging');
-            originalSourceText = draggedElement.innerHTML;
-        }
+        //     draggedElement = e.currentTarget;
+        //     draggedElement.classList.add('dragging');
+        //     originalSourceText = draggedElement.innerHTML;
+        // }
 
-        function handleTouchMove(e) {
-            e.preventDefault();
-            const touch = e.touches[0];
-            const target = document.elementFromPoint(touch.clientX, touch.clientY);
+        // function handleTouchMove(e) {
+        //     e.preventDefault();
+        //     const touch = e.touches[0];
+        //     const target = document.elementFromPoint(touch.clientX, touch.clientY);
 
-            if (target && isValidDrop(draggedElement, target)) {
-                target.classList.add('drag-over');
-            }
-        }
+        //     if (target && isValidDrop(draggedElement, target)) {
+        //         target.classList.add('drag-over');
+        //     }
+        // }
 
-        function handleTouchDrop(e) {
-            e.preventDefault();
-            const touch = e.changedTouches[0];
-            const target = document.elementFromPoint(touch.clientX, touch.clientY);
+        // function handleTouchDrop(e) {
+        //     e.preventDefault();
+        //     const touch = e.changedTouches[0];
+        //     const target = document.elementFromPoint(touch.clientX, touch.clientY);
 
-            if (target && isValidDrop(draggedElement, target)) {
-                executeDragMove(draggedElement, target);
-            }
+        //     if (target && isValidDrop(draggedElement, target)) {
+        //         executeDragMove(draggedElement, target);
+        //     }
 
-            if (draggedElement) {
-                draggedElement.classList.remove('dragging');
-            }
-            draggedElement = null;
-        }
+        //     if (draggedElement) {
+        //         draggedElement.classList.remove('dragging');
+        //     }
+        //     draggedElement = null;
+        // }
 
-        function handleTouchEnd(e) {
-            if (draggedElement) {
-                draggedElement.classList.remove('dragging');
-            }
-            draggedElement = null;
-        }
+        // function handleTouchEnd(e) {
+        //     if (draggedElement) {
+        //         draggedElement.classList.remove('dragging');
+        //     }
+        //     draggedElement = null;
+        // }
 
 
 
