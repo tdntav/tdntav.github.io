@@ -989,33 +989,104 @@
 
         /* Move 2 & 5: Slot expands to match word letter width */
         .insert-slot.drag-over-expand {
-            width: 8.5cqi !important;
+            /* height: 12cqi !important; */
+            /* background-color: var(--selected-cell) !important; */
+            /* border-color: var(--selected-border) !important; */
+            /* border-color: transparent; */
+            /* color: var(--selected-text) !important; */
+            /* transform: scaleX(450%) scaleY(150%); */
+            /* transform: scale(300%); */
+            opacity: 0;
+            /* position: relative; */
+            /* top: -5cqi; */
+            
+        }
+
+        .letter.drag-over-expand {
+            /* width: 12.5cqi !important; */
             background-color: var(--selected-cell) !important;
-            border-color: var(--selected-border) !important;
-            /* transform: scale(110%); */
+            border: var(--selected-border) !important;
+            color: var(--selected-text) !important;
+            transform: scale(150%);
+        }
+
+        .grid-cell.drag-over-expand {
+            /* width: 12.5cqi !important; */
+            background-color: var(--selected-cell) !important;
+            border: var(--selected-border) !important;
+            color: var(--selected-text) !important;
+            transform: scale(150%);
+        }
+
+        .grid-cell.dragging {
+            /* border-color: var(--selected-border, #3498db) !important; */
+            /* background-color: var(--selected-cell) !important; */
+            /* color: var(--selected-text) !important; */
+            transform: scale(80%);
+            opacity: 50% !important;
+            transition: transform 0.15s ease;
         }
 
         /* Move 2: Source letter collapses down to slot width while dragging over a slot */
         .letter.drag-source-collapse {
-            width: 0cqi !important;
-            height: 1cqi !important;
-            opacity: 0.3;
-            color:transparent;
-            /* transform: scale(110%); */
+            /* width: 0cqi !important; */
+            height: 0cqi !important;
+            opacity: 0;
+            /* color:transparent; */
+            /* color:transparent; */
+            /* transform: scale(150%); */
         }
 
         /* Move 1: Highlight swapped position */
         .letter.swap-preview {
-            border-color: var(--selected-border) !important;
-            box-shadow: 0 0 8px var(--selected-border);
-            /* transform: scale(var(--scale-var)); */
+            /* width: 12.5cqi !important; */
+            background-color: var(--selected-cell) !important;
+            border: var(--selected-border) !important;
+            color: var(--selected-text) !important;
+            transform: scale(150%);
+        }
+
+        .grid-cell.swap-preview {
+            /* width: 12.5cqi !important; */
+            /* background-color: var(--selected-cell) !important; */
+            /* border: var(--selected-border) !important; */
+            /* color: var(--selected-text) !important; */
+            transform: scale(80%);
+        }
+
+        /* Visual feedback when dragging over a target */
+        .letter.dragging {
+            border: var(--selected-border);
+            background-color: var(--selected-cell);
+            color: var(--selected-text);
+            transform: scale(150%);
+            opacity: 50%;
+            transition: transform 0.15s ease;
         }
 
 
+        .letter.drag-preview {
+            /* width: 8.5cqi; */
+            /* height: 18cqi; */
+            border: var(--selected-border);
+            background-color: var(--selected-cell);
+            color: var(--selected-text);
+            transform: scale(150%);
+            opacity: 100%;
+            transition: transform 0.15s ease;
+        }
 
 
-
-
+        .grid-cell.drag-preview {
+            width: 8.5cqi;
+            height: 18cqi;
+            border: var(--selected-border);
+            background-color: var(--selected-cell);
+            color: var(--selected-text);
+            transform: scale(150%);
+            opacity: 100%;
+            transition: transform 0.15s ease;
+        }
 
 
 
@@ -2501,13 +2572,7 @@
             opacity: 70%;
         }
 
-        /* Visual feedback when dragging over a target */
-        .drag-over {
-            border-color: var(--selected-border, #3498db) !important;
-            background-color: var(--selected-cell) !important;
-            transform: scale(1.05);
-            transition: transform 0.15s ease;
-        }
+
     </style>
 </head>
 
@@ -3239,11 +3304,36 @@
             draggedElement.classList.add('dragging');
             originalSourceText = draggedElement.innerHTML;
 
+            // // Hide the original element during drag
+            // setTimeout(() => {
+            //     draggedElement.style.visibility = 'hidden';
+            // }, 0);
+
+            // Create a custom drag preview
+            const dragPreview = document.createElement('div');
+            dragPreview.className = 'drag-preview';
+            dragPreview.textContent = draggedElement.textContent;
+            document.body.appendChild(dragPreview);
+
+            e.dataTransfer.setDragImage(dragPreview, 0, 0);
+
             e.dataTransfer.setData('text/plain', '');
             e.dataTransfer.effectAllowed = 'move';
         }
 
         function handleDragEnd(e) {
+            // Restore the original element's visibility
+            if (draggedElement) {
+                draggedElement.style.visibility = 'visible';
+                draggedElement.classList.remove('dragging');
+            }
+
+            // Remove the custom drag preview
+            const dragPreview = document.querySelector('.drag-preview');
+            if (dragPreview) {
+                dragPreview.remove();
+            }
+
             // Restore live swap preview if drop wasn't executed
             revertSwapPreview();
 
@@ -3251,9 +3341,6 @@
             document.querySelectorAll('.drag-over-expand').forEach(el => el.classList.remove('drag-over-expand'));
             document.querySelectorAll('.drag-source-collapse').forEach(el => el.classList.remove('drag-source-collapse'));
 
-            if (draggedElement) {
-                draggedElement.classList.remove('dragging');
-            }
             draggedElement = null;
         }
 
@@ -3296,6 +3383,13 @@
             const isSourceWordLetter = draggedElement.classList.contains('letter');
             const isTargetWordLetter = target.classList.contains('letter');
             const isTargetInsertSlot = target.classList.contains('insert-slot');
+            const isSourceGridCell = draggedElement.classList.contains('grid-cell');
+            const isTargetGridCell = target.classList.contains('grid-cell');
+
+
+
+            // target.classList.add('swap-preview');
+            // source.classList.add('swap-preview');
 
             // MOVE 1: Live Swap Preview
             if (isSourceWordLetter && isTargetWordLetter && target !== currentSwapTarget) {
@@ -3308,7 +3402,55 @@
                 draggedElement.innerHTML = targetText;
 
                 target.classList.add('swap-preview');
+                // source.classList.add('swap-preview');
             }
+            // MOVE 4
+            if ((isSourceGridCell && isTargetWordLetter)) {
+                revertSwapPreview();
+                currentSwapTarget = target;
+
+                const targetText = target.innerHTML;
+                target.innerHTML = originalSourceText;
+                draggedElement.innerHTML = targetText;
+
+                target.classList.add('swap-preview');
+                draggedElement.classList.add('swap-preview');
+                // return true
+            
+            };
+            // MOVE 4
+            if ((isSourceWordLetter && isTargetGridCell)) {
+                revertSwapPreview();
+                currentSwapTarget = target;
+
+                const targetText = target.innerHTML;
+                target.innerHTML = originalSourceText;
+                draggedElement.innerHTML = targetText;
+
+                target.classList.add('swap-preview');
+                draggedElement.classList.add('swap-preview');
+                // return true
+            
+            };
+
+            // MOVE 3
+            if ((isSourceGridLetter && isTargetInsertSlot)) {
+                revertSwapPreview();
+                currentSwapTarget = target;
+
+                const targetText = target.innerHTML;
+                target.innerHTML = originalSourceText;
+                draggedElement.innerHTML = targetText;
+
+                const dragPreview = document.querySelector('.drag-preview');
+                if (dragPreview) {
+                    dragPreview.classList.add('drag-preview');
+                }
+                // target.classList.add('swap-preview');
+                // draggedElement.classList.add('slot-preview');
+                // return true
+            
+            };
 
             // MOVE 2 & 5: Expand Slot & Collapse Source Space
             if (isTargetInsertSlot) {
@@ -3342,6 +3484,8 @@
         }
 
         function handleDrop(e) {
+            revertSwapPreview();
+
             e.preventDefault();
             e.stopPropagation();
 
@@ -3352,9 +3496,9 @@
             // Finalize swap state cleanly
             if (currentSwapTarget) {
                 currentSwapTarget.classList.remove('swap-preview');
+                draggedElement.classList.remove('swap-preview');
                 currentSwapTarget = null;
             }
-
             executeDragMove(draggedElement, target);
         }
 
@@ -3363,12 +3507,10 @@
             if (!draggedElement) return;
 
             const isSourceWordLetter = draggedElement.classList.contains('letter');
-            const scaleWrapper = document.getElementById('scaleWrapper');
-            const letterGrid = document.getElementById('letterGrid');
 
             // Check if pointer is outside scaleWrapper AND outside letterGrid
-            const isOutsideWordSpace = scaleWrapper && !scaleWrapper.contains(e.target);
-            const isOutsideGrid = letterGrid && !letterGrid.contains(e.target);
+            const isOutsideWordSpace = !wordContainer && !wordContainer.contains(e.target);
+            const isOutsideGrid = !gridElement && !gridElement.contains(e.target);
 
             if (isSourceWordLetter && isOutsideWordSpace && isOutsideGrid) {
                 e.preventDefault();
@@ -3384,11 +3526,9 @@
             }   
 
             const isSourceWordLetter = draggedElement.classList.contains('letter');
-            const scaleWrapper = document.getElementById('scaleWrapper');
-            const letterGrid = document.getElementById('letterGrid');
 
-            const isOutsideWordSpace = scaleWrapper && !scaleWrapper.contains(e.target);
-            const isOutsideGrid = letterGrid && !letterGrid.contains(e.target);
+            const isOutsideWordSpace = !wordContainer && !wordContainer.contains(e.target);
+            const isOutsideGrid = !gridElement && !gridElement.contains(e.target);
 
             if (isSourceWordLetter && isOutsideWordSpace && isOutsideGrid) {
                 e.preventDefault();
@@ -3412,6 +3552,7 @@
                 currentSwapTarget.innerHTML = draggedElement.innerHTML;
                 draggedElement.innerHTML = originalSourceText;
                 currentSwapTarget.classList.remove('swap-preview');
+                draggedElement.classList.remove('swap-preview');
                 currentSwapTarget = null;
             }
         }
@@ -3427,7 +3568,10 @@
             const isDeleteMove = target === actionBtn;
 
             // Move 1: Swap two word letters
-            if (isSourceWordLetter && isTargetWordLetter) return true;
+            if (isSourceWordLetter && isTargetWordLetter) {
+                // source.classList.add('swap-preview')
+                return true
+            };
 
             // Move 2: Place word letter into slot
             if (isSourceWordLetter && isTargetInsertSlot) return true;
@@ -3451,17 +3595,17 @@
 
         function executeDragMove(source, target) {
             clearSelections();
-
             // Select the source and target elements
-            source.classList.add('selected');
+            // source.classList.add('selected');
             selected.push(source);
             if (!globDrop) {
-                target.classList.add('selected');
+                // target.classList.add('selected');
                 selected.push(target);
             }
             console.log(`[Move Set Up] Source: ${source.innerHTML}, Target: ${target.innerHTML}, selected: ${selected.map(el => el.innerHTML).join(', ')}`);
 
             // Trigger the existing action button logic
+            // revertSwapPreview();
             actionBtn.click();
             console.log(`[Move Executed] Source: ${source.innerHTML}, Target: ${target.innerHTML}`);
             globDrop = false; // Reset the global drop flag after execution
