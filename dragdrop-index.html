@@ -954,6 +954,12 @@
             border: var(--wordcell-border);
         }
 
+        .letter, .grid-cell {
+            touch-action: none;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
         .letter {
             /* box-sizing: border-box; */
             width: 8.5cqi;
@@ -1008,7 +1014,7 @@
             font-size: 12cqi;
             opacity: 100;
             position: relative;
-            top: -4cqi;
+            top: -6cqi;
             margin-inline:-1cqi;
             
         }
@@ -1062,7 +1068,7 @@
             color: var(--selected-text) !important;
             transform: scale(180%);
             position: relative;
-            top: -4cqi;
+            top: -6cqi;
         }
 
         .grid-cell.swap-preview {
