@@ -958,12 +958,19 @@
             /* box-sizing: border-box; */
             width: 8.5cqi;
             height: 18cqi;
+            /* position: relative; */
+            /* top: cqi; */
         }
 
         .insert-slot {
             /* box-sizing: border-box; */
-            width: 3cqi;
-            height: 6cqi;
+                        /* position: relative; */
+            /* top: 4cqi; */
+            width: 4.25cqi;
+            height: 9cqi;
+            transition: width 0.2s cubic-bezier(0.2, 0, 0, 1),
+                opacity 0.2s ease,
+                transform 0.15s ease;
         }
 
         .selected {
@@ -993,15 +1000,16 @@
             height: 18cqi;
             /* height: 12cqi !important; */
             background-color: var(--selected-cell) !important;
-            /* border-color: var(--selected-border) !important; */
-            border-color: transparent;
+            border: var(--selected-border) !important;
+            /* border-color: transparent; */
             color: var(--selected-text) !important;
             /* transform: scaleX(450%) scaleY(150%); */
             transform: scale(150%);
             font-size: 12cqi;
             opacity: 100;
-            /* position: relative; */
-            /* top: -5cqi; */
+            position: relative;
+            top: 10cqi;
+            margin-inline:-1cqi;
             
         }
 
@@ -1018,7 +1026,7 @@
             background-color: var(--selected-cell) !important;
             border: var(--selected-border) !important;
             color: var(--selected-text) !important;
-            transform: scale(150%);
+            /* transform: scale(150%); */
         }
 
         .grid-cell.dragging {
@@ -1032,13 +1040,18 @@
 
         /* Move 2: Source letter collapses down to slot width while dragging over a slot */
         .letter.drag-source-collapse {
-            /* width: 2cqi !important; */
-            height: 0cqi !important;
-            /* margin: -5cqi; */
+
+            border: var(--selected-border);
+            color: var(--selected-text);
+            background: var(--selected-cell);
+            width: 3cqi !important;
+            height: 3cqi !important;
+            border-radius: var(--rounding-small);
+            margin-inline: 3.75cqi;
             opacity: 0;
             /* color:transparent; */
             /* color:transparent; */
-            transform: scale(80%);
+            /* transform: scale(80%); */
         }
 
         /* Move 1: Highlight swapped position */
@@ -1048,6 +1061,8 @@
             border: var(--selected-border) !important;
             color: var(--selected-text) !important;
             transform: scale(150%);
+            position: relative;
+            top:10cqi;
         }
 
         .grid-cell.swap-preview {
@@ -1056,6 +1071,8 @@
             /* border: var(--selected-border) !important; */
             /* color: var(--selected-text) !important; */
             transform: scale(80%);
+            /* position: relative; */
+            /* top:10cqi; */
             border-style:dashed;
         }
 
@@ -1064,7 +1081,7 @@
             border: var(--selected-border);
             background-color: var(--selected-cell);
             color: var(--selected-text);
-            transform: scale(150%);
+            /* transform: scale(150%); */
             opacity: 50%;
             transition: transform 0.15s ease;
         }
@@ -1081,7 +1098,7 @@
             transition: transform 0.15s ease;
         } */
 
-
+/* 
         .drag-preview {
 
             display: flex;
@@ -1094,13 +1111,13 @@
             width: 8.5cqi;
             height: 18cqi;
             border: var(--selected-border);
-            /* border-style: dashed; */
+            border-style: dashed;
             background-color: var(--selected-cell);
             color: var(--selected-text);
-            /* transform: scale(150%); */
+            transform: scale(150%);
             opacity: 100% !important;
             transition: transform 0.15s ease;
-        }
+        } */
 
         
 
@@ -3095,7 +3112,7 @@
         <div class="word-container" id="wordContainer"></div>
     </div>
     <div id="status">...</div>
-    <div class="game-area" style="position:relative;"> <!-- Fixed width matching your history area -->
+    <div class="game-area" style="position: relative;"> <!-- Fixed width matching your history area -->
         <div id="play-grid-layout" class="play-grid-layout">
 
             <div id="left-rail" class="rail left-rail">
@@ -3325,10 +3342,10 @@
             // }, 0);
 
             // Create a custom drag preview
-            const dragPreview = document.createElement('div');
-            dragPreview.className = 'drag-preview';
-            dragPreview.textContent = draggedElement.textContent;
-            document.body.appendChild(dragPreview);
+            // const dragPreview = document.createElement('div');
+            // dragPreview.className = 'drag-preview';
+            // dragPreview.textContent = draggedElement.textContent;
+            // document.body.appendChild(dragPreview);
 
             // e.dataTransfer.setDragImage(dragPreview, 0, 0);
 
@@ -3343,11 +3360,11 @@
                 draggedElement.classList.remove('dragging');
             }
 
-            // Remove the custom drag preview
-            const dragPreview = document.querySelector('.drag-preview');
-            if (dragPreview) {
-                dragPreview.remove();
-            }
+            // // Remove the custom drag preview
+            // const dragPreview = document.querySelector('.drag-preview');
+            // if (dragPreview) {
+            //     dragPreview.remove();
+            // }
 
             // Restore live swap preview if drop wasn't executed
             revertSwapPreview();
@@ -3419,6 +3436,7 @@
                 draggedElement.innerHTML = targetText;
 
                 target.classList.add('swap-preview');
+                draggedElement.classList.add('swap-preview');
                 // source.classList.add('swap-preview');
             }
             // MOVE 4
