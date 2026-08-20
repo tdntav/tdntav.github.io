@@ -1690,7 +1690,7 @@
 
         .move-preview {
             position: absolute;
-            top: 47cqi;
+            top: 107cqi;
             border-radius: var(--rounding) var(--rounding) 0 0;
             font-family: var(--font2);
             flex-wrap: wrap;
@@ -3434,6 +3434,7 @@
                     deleteBtn.style.display = "block";
                 } else {
                     deleteBtn.style.display = "none";
+                    deleteBtn.classList.remove('deleteBtn-selected');
             }
 
             // // Hide the original element during drag
