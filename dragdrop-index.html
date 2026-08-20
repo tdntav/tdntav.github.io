@@ -881,7 +881,7 @@
             background-image: transparent;
             padding-block: 4.5cqi;
             opacity: 60%;
-            z-index: 1001;
+            z-index: 10001;
         }
 
         .scale-wrapper {
@@ -1014,6 +1014,7 @@
             font-size: 12cqi;
             opacity: 100;
             position: relative;
+            z-index:1;
             top: -6cqi;
             margin-inline:-1cqi;
             
@@ -1640,9 +1641,52 @@
             background: var(--bg);
             color: var(--text);
             border-radius: var(--rounding);
-            z-index: 1002;
+            z-index: 10002;
             /* white-space: nowrap; */
         }
+
+
+        .move-preview {
+            position: absolute;
+            top: 47cqi;
+            border-radius: var(--rounding) var(--rounding) 0 0;
+            font-family: var(--font2);
+            flex-wrap: wrap;
+            text-align: center;
+            color: var(--text);
+            width: 100%;
+            background-image: transparent;
+            padding-block: 4.5cqi;
+            /* border:var(--selected-border); */
+            /* opacity: 60%; */
+            z-index: 1001;
+        }
+
+
+        .move-preview span {
+            display: inline-block;
+            align-self: center;
+            font-size: 0.45rem;
+            width: auto;
+            padding-inline: 2cqi;
+            background: var(--bg);
+            color: var(--text);
+            border-radius: var(--rounding);
+            border:var(--selected-border);
+            border-width:1cqi;
+            z-index: 1002;
+        }
+
+
+
+
+
+
+
+
+
+
+
 
 
         p {
@@ -3110,6 +3154,7 @@
             id="chain">0</span>
         <div id="streakDiv" class="streakDiv" title="Current no-bonus streak">STREAK</div>
         <div id="message" class="message"></div>
+        <div id="move-preview" class="move-preview"></div>
     </div>
     <div id="message-bg" class="message-bg"></div>
     <!-- </div> -->
@@ -3426,14 +3471,16 @@
             const isSourceGridCell = draggedElement.classList.contains('grid-cell');
             const isTargetGridCell = target.classList.contains('grid-cell');
 
+            let newWord = currentWord.split(''); // Convert currentWord to an array for manipulation
+                const targetIndex = ((Array.from(wordContainer.children).indexOf(target))); // Get the index of the target in the word container, divide by 2 to account for insert-slots
+                const sourceIndex = ((Array.from(wordContainer.children).indexOf(draggedElement)));
 
-
-            // target.classList.add('swap-preview');
-            // source.classList.add('swap-preview');
+            
 
             // MOVE 1: Live Swap Preview
-            if (isSourceWordLetter && isTargetWordLetter && target !== currentSwapTarget) {
-                revertSwapPreview();
+            // if (isSourceWordLetter && isTargetWordLetter && target !== currentSwapTarget) {
+            if (isSourceWordLetter && isTargetWordLetter) {
+                    revertSwapPreview();
                 currentSwapTarget = target;
 
                 // Preview swap by swapping HTML text
@@ -3442,8 +3489,10 @@
                 draggedElement.innerHTML = targetText;
 
                 target.classList.add('swap-preview');
-                // draggedElement.classList.add('swap-preview');
-                // source.classList.add('swap-preview');
+
+                newWord[(targetIndex + 1) / 2] = draggedElement.textContent;
+                    newWord[(sourceIndex + 1) / 2] = target.textContent;
+                
             }
             // MOVE 4
             if ((isSourceGridCell && isTargetWordLetter)) {
@@ -3456,8 +3505,11 @@
 
                 target.classList.add('swap-preview');
                 draggedElement.classList.add('swap-preview');
-                // return true
-            
+
+                // Replace letter in word with grid letter
+                newWord[2 * targetIndex] = draggedElement.textContent;
+
+                
             };
             // MOVE 4
             if ((isSourceWordLetter && isTargetGridCell)) {
@@ -3469,9 +3521,10 @@
                 draggedElement.innerHTML = targetText;
 
                 target.classList.add('swap-preview');
-                draggedElement.classList.add('swap-preview');
-                // return true
+                // draggedElement.classList.add('swap-preview');
             
+                // Replace letter in word with grid letter
+                newWord[2 * sourceIndex] = target.textContent;
             };
 
             // MOVE 3
@@ -3486,18 +3539,40 @@
                 const dragPreview = document.querySelector('.drag-preview');
                 if (dragPreview) {
                     dragPreview.classList.add('drag-preview');
+                    newWord[(2 * targetIndex) - 1] = target.textContent;
+
                 }
 
                 target.classList.add('drag-over-expand');
                 if (isSourceWordLetter) {
                     draggedElement.classList.add('drag-source-collapse');
+                    newWord[(2 * targetIndex) - 1] = draggedElement.textContent;
+                    newWord[2 * sourceIndex] = '';
                 }
 
 
-                // target.classList.add('swap-preview');
-                // draggedElement.classList.add('slot-preview');
-                // return true
-            
+                // if (isSourceWordLetter && isTargetWordLetter) {
+                //     // Swap letters
+                //     newWord[targetIndex] = draggedElement.textContent;
+                //     newWord[sourceIndex] = target.textContent;
+                // } else if (isSourceWordLetter && isTargetInsertSlot) {
+                //     // Insert letter into slot
+                //     newWord[targetIndex] = draggedElement.textContent;
+                // } else if (isSourceGridCell && isTargetWordLetter) {
+                //     // Replace letter in word with grid letter
+                //     newWord[targetIndex] = draggedElement.textContent;
+                // } else if (isSourceGridCell && isTargetInsertSlot) {
+                //     // Insert grid letter into slot
+                //     newWord[targetIndex] = draggedElement.textContent;
+                // }
+
+                // Join the array back into a string
+                newWord = newWord.join('');
+
+                // Update the messageElement with the preview
+                movePreview.innerHTML = `<span>${currentWord} - > ${newWord}</span>`;
+                console.log(`sourceIndex: `, sourceIndex, `targetIndex: `, targetIndex, `newWord: `, newWord);
+
             };
 
             //     // MOVE 2?
@@ -3559,39 +3634,52 @@
 
             const target = e.currentTarget;
 
-            if (!draggedElement || !isValidDrop(draggedElement, target)) return;
+            if (!draggedElement || !isValidDrop(draggedElement, target)) {
+            movePreview.innerHTML = ``;
+            return;
+            }
 
             // Finalize swap state cleanly
             if (currentSwapTarget) {
                 currentSwapTarget.classList.remove('swap-preview');
                 draggedElement.classList.remove('swap-preview');
                 currentSwapTarget = null;
+                movePreview.innerHTML = ``;
             }
             executeDragMove(draggedElement, target);
         }
 
         /* Global Listeners for Move 3 (Delete by dropping outside scale-wrapper and grid) */
         function handleGlobalDragOver(e) {
-    if (!draggedElement) return;
+            if (!draggedElement) return;
+            const isSourceWordLetter = draggedElement.classList.contains('letter');
 
-    const isSourceWordLetter = draggedElement.classList.contains('letter');
+            // Check if pointer is outside scaleWrapper AND outside letterGrid
+            const isOutsideWordSpace = wordContainer && !wordContainer.contains(e.target);
+            const isOutsideGrid = gridElement && !gridElement.contains(e.target);
 
-    // Check if pointer is outside scaleWrapper AND outside letterGrid
-    const isOutsideWordSpace = wordContainer && !wordContainer.contains(e.target);
-    const isOutsideGrid = gridElement && !gridElement.contains(e.target);
+            console.log(`isOutsideWordSpace: ${isOutsideWordSpace}, isOutsideGrid: ${isOutsideGrid}`);
 
-    console.log(`isOutsideWordSpace: ${isOutsideWordSpace}, isOutsideGrid: ${isOutsideGrid}`);
 
-    if (isSourceWordLetter && isOutsideWordSpace && isOutsideGrid) {
-        e.preventDefault();
-        e.dataTransfer.dropEffect = 'move';
-        target = document.getElementById('actionBtn'); // Set target to actionBtn for deletion
-    }
-}
+            if (isSourceWordLetter && isOutsideWordSpace && isOutsideGrid) {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+
+                // Calculate the new word with the dragged letter removed
+                let newWord = currentWord.split('');
+                const sourceIndex = (Array.from(wordContainer.children).indexOf(draggedElement)) / 2;
+                newWord.splice(sourceIndex, 1); // Remove the dragged letter
+                newWord = newWord.join('');
+
+                // Update the messageElement with the preview
+                movePreview.innerHTML = `<span>${currentWord} - > ${newWord}</span>`;
+            }
+        }
 
         function handleGlobalDrop(e) {
             if (!draggedElement) {
             console.log('No dragged element found on drop.');
+            // movePreview.innerHTML = ``;
             return; 
             }   
 
@@ -3610,11 +3698,13 @@
                 selected.push(draggedElement);
                 globDrop = true;
                 isValidDrop();
-                console.log(`[Move 3] Deleting letter: ${originalSourceText}, globDrop: ${globDrop}, isSourceWordLetter: ${isSourceWordLetter}, isOutsideWordSpace: ${isOutsideWordSpace}, isOutsideGrid: ${isOutsideGrid}, Target: ${target.innerHTML}`);
+                console.log(`[Move 3] Deleting letter: ${originalSourceText}, globDrop: ${globDrop}, isSourceWordLetter: ${isSourceWordLetter}, isOutsideWordSpace: ${isOutsideWordSpace}, isOutsideGrid: ${isOutsideGrid}, Target: ${e.target}`);
 
 
                 // actionBtn.click(); // Trigger the existing action button logic to handle deletion
             }
+            // movePreview.innerHTML = ``;
+
         }
 
         function revertSwapPreview() {
@@ -3627,12 +3717,15 @@
                 draggedElement.classList.remove('drag-preview');
 
                 currentSwapTarget = null;
+                // movePreview.innerHTML = ``;
             }
         }
 
         function isValidDrop(source, target) {
-            if (!source || source === target) return false;
-
+            if (!source || source === target) {
+                movePreview.innerHTML = ``;
+                return false;
+            }
             const isSourceWordLetter = source.classList.contains('letter');
             const isTargetWordLetter = target.classList.contains('letter');
             const isSourceGridCell = source.classList.contains('grid-cell');
@@ -3668,6 +3761,7 @@
 
         function executeDragMove(source, target) {
             clearSelections();
+            movePreview.innerHTML = ``;
             // Select the source and target elements
             // source.classList.add('selected');
             selected.push(source);
@@ -3891,6 +3985,7 @@
         const wildcardTwo = document.getElementById('wildcard-2');
         const wildcardThree = document.getElementById('wildcard-3');
         const messageElement = document.getElementById('message');
+        const movePreview = document.getElementById('move-preview');
         const messageBG = document.getElementById('message-bg');
         const scoreElement = document.getElementById('score');
         const chainElement = document.getElementById('chain');
