@@ -1454,7 +1454,49 @@
         }
 
 
+        .deleteBtn {
+            /* box-sizing: border-box; */
+            display: none;
+            position: absolute;
+            top: -10.5cqi;
+            height: 9cqi;
+            justify-content: center;
 
+            border-radius: var(--rounding);
+            background: var(--bg);
+            color: var(--text);
+            width: var(--rail-width);
+            border: 0.75cqi solid var(--text);
+            opacity: 30%;
+            font-size: 0.45rem;
+            /* line-height: 0.5; */
+            z-index: 999;
+            /* padding: 0 0 1cqi 0; */
+            margin: 0;
+        }
+
+        .deleteBtn-selected {
+            /* box-sizing: border-box; */
+            /* display: none;
+            position: absolute; */
+            top: -12.5cqi;
+            height: 11cqi;
+
+            justify-content: center;
+
+            border-radius: var(--rounding);
+            background: var(--wordcell);
+            color: var(--wordcell-text);
+            width: var(--rail-width);
+            border: 0.75cqi solid var(--text);
+            opacity: 100%;
+            font-size: 0.45rem;
+            /* line-height: 0.5; */
+            z-index: 999;
+            /* padding: 0 0 1cqi 0; */
+            margin: 0;
+            transform:scale(110%);
+        }
 
 
         .streakDiv {
@@ -1666,7 +1708,7 @@
         .move-preview span {
             display: inline-block;
             align-self: center;
-            font-size: 0.45rem;
+            font-size: 0.65rem;
             width: auto;
             padding-inline: 2cqi;
             background: var(--bg);
@@ -3186,6 +3228,7 @@
                 <!-- <button id="dummyBtn3" class="rail-btn span-0 opacity-hide">?</button> -->
                 <button id="gridRefreshBtn" class="rail-btn">&#x25A6;&#xFE0E;</button>
                 <button id="missions-help-btn" class="missions-help-btn">?</button>
+                <button id="deleteBtn" class="deleteBtn">DELETE</button>
 
             </div>
 
@@ -3387,6 +3430,12 @@
             draggedElement.classList.add('dragging');
             originalSourceText = draggedElement.innerHTML;
 
+            if (draggedElement.classList.contains('letter')) {
+                    deleteBtn.style.display = "block";
+                } else {
+                    deleteBtn.style.display = "none";
+            }
+
             // // Hide the original element during drag
             // setTimeout(() => {
             //     draggedElement.style.visibility = 'hidden';
@@ -3434,7 +3483,8 @@
             const targets = document.querySelectorAll(
                 '#wordContainer .letter, ' +
                 '#wordContainer .insert-slot, ' +
-                '#letterGrid .grid-cell'
+                '#letterGrid .grid-cell, ' +
+                '#deleteBtn'
             );
 
             targets.forEach(target => {
@@ -3448,40 +3498,112 @@
             });
 
             // Global drop handling on document body for Move 3 (Delete)
-            document.body.removeEventListener('dragover', handleGlobalDragOver);
-            document.body.removeEventListener('drop', handleGlobalDrop);
+            // document.body.removeEventListener('dragover', handleGlobalDragOver);
+            // document.body.removeEventListener('drop', handleGlobalDrop);
 
-            document.body.addEventListener('dragover', handleGlobalDragOver);
-            document.body.addEventListener('drop', handleGlobalDrop);
+            // document.body.addEventListener('dragover', handleGlobalDragOver);
+            // document.body.addEventListener('drop', handleGlobalDrop);
         }
 
         function handleDragOver(e) {
+
             if (!draggedElement) return;
 
-            const target = e.currentTarget;
-            if (!isValidDrop(draggedElement, target)) return;
+                const target = e.currentTarget;
+                if (!isValidDrop(draggedElement, target)) return;
 
-            e.preventDefault();
-            e.stopPropagation(); // Stop reaching global delete listener
-            e.dataTransfer.dropEffect = 'move';
+                e.preventDefault();
+                e.stopPropagation();
+                e.dataTransfer.dropEffect = 'move';
 
-            const isSourceWordLetter = draggedElement.classList.contains('letter');
+
+
+                            const isSourceWordLetter = draggedElement.classList.contains('letter');
             const isTargetWordLetter = target.classList.contains('letter');
             const isTargetInsertSlot = target.classList.contains('insert-slot');
             const isSourceGridCell = draggedElement.classList.contains('grid-cell');
             const isTargetGridCell = target.classList.contains('grid-cell');
+            const isDeleteMove = target.classList.contains('deleteBtn');
 
-            let newWord = currentWord.split(''); // Convert currentWord to an array for manipulation
-                const targetIndex = ((Array.from(wordContainer.children).indexOf(target))); // Get the index of the target in the word container, divide by 2 to account for insert-slots
-                const sourceIndex = ((Array.from(wordContainer.children).indexOf(draggedElement)));
+            //             let newWord = Array.from(wordContainer.children).map(child => {
+            // if (child.classList.contains('insert-slot')) {
+            //         return null; // Add null for insert-slots
+            //     } else if (child.classList.contains('letter')) {
+            //         return child.textContent; // Add the letter's text content
+            //     }
+            //     return null; // Default to null for any other unexpected elements
+            // });
 
-            
+            let newWord = Array.from(wordContainer.children).map(child => child.textContent);
+            // console.log(`newWord before swap: `, newWord);
+
+            let lettersOnly = Array.from(wordContainer.children)
+                .filter(child => child.classList.contains('letter'))
+                .map(child => child.textContent); // Extract the text content of each letter
+            const sourceIndex = lettersOnly.indexOf(draggedElement.textContent);
+            const targetIndex = lettersOnly.indexOf(target.textContent);
+
+                // console.log('sourceIndex:', sourceIndex, 'targetIndex:', targetIndex);
+            // if (!draggedElement) return;
+
+            // const target = e.currentTarget;
+            // if (!isValidDrop(draggedElement, target)) return;
+
+            // e.preventDefault();
+            // e.stopPropagation(); // Stop reaching global delete listener
+            // e.dataTransfer.dropEffect = 'move';
+
+            // const isSourceWordLetter = draggedElement.classList.contains('letter');
+            // const isTargetWordLetter = target.classList.contains('letter');
+            // const isTargetInsertSlot = target.classList.contains('insert-slot');
+            // const isSourceGridCell = draggedElement.classList.contains('grid-cell');
+            // const isTargetGridCell = target.classList.contains('grid-cell');
+
+            // // let newWord = currentWord.split(''); // Convert currentWord to an array for manipulation
+
+            // let newWord = Array.from(wordContainer.children).map(child => {
+            // if (child.classList.contains('insert-slot')) {
+            //         return null; // Add null for insert-slots
+            //     } else if (child.classList.contains('letter')) {
+            //         return child.textContent; // Add the letter's text content
+            //     }
+            //     return null; // Default to null for any other unexpected elements
+            // });
+            // // console.log(`newWord before swap: `, newWord);
+            // const targetIndex = ((Array.from(wordContainer.children).indexOf(target))); // Get the index of the target in the word container
+            // const sourceIndex = ((Array.from(wordContainer.children).indexOf(draggedElement))) + 1;
+
+            if (isDeleteMove) {
+                    // revertSwapPreview();
+                    // currentSwapTarget = target;
+
+                    lettersOnly[sourceIndex] = '';
+                    // lettersOnly[targetIndex] = draggedElement.textContent;
+
+                    // console.log(`sourceIndex: `, sourceIndex, `targetIndex: `, targetIndex, `target.textContent: `, target.textContent, `draggedElement.textContent: `, draggedElement.textContent, `lettersOnly: `, lettersOnly);
+                    lettersOnly = lettersOnly.join('');
+                    movePreview.innerHTML = `<span>${currentWord} &rarr; ${lettersOnly}</span>`;
+
+                // Preview swap by swapping HTML text
+                // const targetText = target.innerHTML;
+                // target.innerHTML = originalSourceText;
+                // draggedElement.innerHTML = targetText;
+
+                target.classList.add('deleteBtn-selected');
+                
+            }           
 
             // MOVE 1: Live Swap Preview
-            // if (isSourceWordLetter && isTargetWordLetter && target !== currentSwapTarget) {
             if (isSourceWordLetter && isTargetWordLetter) {
                     revertSwapPreview();
-                currentSwapTarget = target;
+                    currentSwapTarget = target;
+
+                    lettersOnly[sourceIndex] = target.textContent;
+                    lettersOnly[targetIndex] = draggedElement.textContent;
+
+                    // console.log(`sourceIndex: `, sourceIndex, `targetIndex: `, targetIndex, `target.textContent: `, target.textContent, `draggedElement.textContent: `, draggedElement.textContent, `lettersOnly: `, lettersOnly);
+                    lettersOnly = lettersOnly.join('');
+                    movePreview.innerHTML = `<span>${currentWord} &rarr; ${lettersOnly}</span>`;
 
                 // Preview swap by swapping HTML text
                 const targetText = target.innerHTML;
@@ -3489,9 +3611,6 @@
                 draggedElement.innerHTML = targetText;
 
                 target.classList.add('swap-preview');
-
-                newWord[(targetIndex + 1) / 2] = draggedElement.textContent;
-                    newWord[(sourceIndex + 1) / 2] = target.textContent;
                 
             }
             // MOVE 4
@@ -3499,22 +3618,31 @@
                 revertSwapPreview();
                 currentSwapTarget = target;
 
+                // Replace letter in word with grid letter
+                lettersOnly[targetIndex] = draggedElement.textContent;
+                // console.log(`sourceIndex: `, sourceIndex, `targetIndex: `, targetIndex, `target.textContent: `, target.textContent, `draggedElement.textContent: `, draggedElement.textContent, `lettersOnly: `, lettersOnly);
+                lettersOnly = lettersOnly.join('');
+                movePreview.innerHTML = `<span>${currentWord} &rarr; ${lettersOnly}</span>`;
+
+
                 const targetText = target.innerHTML;
                 target.innerHTML = originalSourceText;
                 draggedElement.innerHTML = targetText;
 
                 target.classList.add('swap-preview');
                 draggedElement.classList.add('swap-preview');
-
-                // Replace letter in word with grid letter
-                newWord[2 * targetIndex] = draggedElement.textContent;
-
                 
             };
             // MOVE 4
             if ((isSourceWordLetter && isTargetGridCell)) {
                 revertSwapPreview();
                 currentSwapTarget = target;
+
+                // Replace letter in word with grid letter
+                lettersOnly[sourceIndex] = target.textContent;
+                // console.log(`sourceIndex: `, sourceIndex, `targetIndex: `, targetIndex, `target.textContent: `, target.textContent, `draggedElement.textContent: `, draggedElement.textContent, `lettersOnly: `, lettersOnly);
+                lettersOnly = lettersOnly.join('');
+                movePreview.innerHTML = `<span>${currentWord} &rarr; ${lettersOnly}</span>`;
 
                 const targetText = target.innerHTML;
                 target.innerHTML = originalSourceText;
@@ -3523,8 +3651,6 @@
                 target.classList.add('swap-preview');
                 // draggedElement.classList.add('swap-preview');
             
-                // Replace letter in word with grid letter
-                newWord[2 * sourceIndex] = target.textContent;
             };
 
             // MOVE 3
@@ -3536,20 +3662,31 @@
                 target.innerHTML = originalSourceText;
                 draggedElement.innerHTML = targetText;
 
+                let nwsourceIndex = newWord.indexOf(draggedElement.textContent);
+                let nwtargetIndex = newWord.indexOf(target.textContent);
+                newWord[nwtargetIndex] = target.textContent;
+                newWord[nwsourceIndex] = '';
+                newWord = newWord.join('');
+                lettersOnly = newWord;
+                movePreview.innerHTML = `<span>${currentWord} &rarr; ${lettersOnly}</span>`;
+                console.log(`nwsourceIndex: `, nwsourceIndex, `nwtargetIndex: `, nwtargetIndex, `target.textContent: `, target.textContent, `draggedElement.textContent: `, draggedElement.textContent, `newWord: `, newWord);
+                
+                
                 const dragPreview = document.querySelector('.drag-preview');
                 if (dragPreview) {
                     dragPreview.classList.add('drag-preview');
-                    newWord[(2 * targetIndex) - 1] = target.textContent;
+                                        // console.log(`sourceIndex: `, sourceIndex, `targetIndex: `, targetIndex, `target.textContent: `, target.textContent, `draggedElement.textContent: `, draggedElement.textContent, `lettersOnly: `, lettersOnly);
 
                 }
 
                 target.classList.add('drag-over-expand');
+
                 if (isSourceWordLetter) {
                     draggedElement.classList.add('drag-source-collapse');
-                    newWord[(2 * targetIndex) - 1] = draggedElement.textContent;
-                    newWord[2 * sourceIndex] = '';
                 }
 
+                // newWord = lettersOnly.join('');
+                // movePreview.innerHTML = `<span>${currentWord} &rarr; ${newWord}</span>`;
 
                 // if (isSourceWordLetter && isTargetWordLetter) {
                 //     // Swap letters
@@ -3567,11 +3704,11 @@
                 // }
 
                 // Join the array back into a string
-                newWord = newWord.join('');
+                // lettersOnly = lettersOnly.join('');
 
                 // Update the messageElement with the preview
-                movePreview.innerHTML = `<span>${currentWord} - > ${newWord}</span>`;
-                console.log(`sourceIndex: `, sourceIndex, `targetIndex: `, targetIndex, `newWord: `, newWord);
+                // movePreview.innerHTML = `<span>${currentWord} &rarr; ${lettersOnly}</span>`;
+                // console.log(`sourceIndex: `, sourceIndex, `targetIndex: `, targetIndex, `lettersOnly: `, lettersOnly);
 
             };
 
@@ -3624,6 +3761,10 @@
                     draggedElement.classList.remove('drag-source-collapse');
                 }
             }
+
+            if (target.classList.contains('deleteBtn')) {
+                target.classList.remove('deleteBtn-selected');
+            }
         }
 
         function handleDrop(e) {
@@ -3646,66 +3787,83 @@
                 currentSwapTarget = null;
                 movePreview.innerHTML = ``;
             }
+
+            // if (target === deleteBtn) {
+            //     // Remove the dragged element
+            //     draggedElement.remove();
+
+            //     // Clear the move preview
+            //     movePreview.innerHTML = ``;
+
+            //     // Reset the dragged element
+            //     draggedElement = null;
+
+            //     console.log('Letter deleted.');
+            //     return;
+            //     globDrop = true;
+            // }
+
+            deleteBtn.style.display = "none";
             executeDragMove(draggedElement, target);
         }
 
-        /* Global Listeners for Move 3 (Delete by dropping outside scale-wrapper and grid) */
-        function handleGlobalDragOver(e) {
-            if (!draggedElement) return;
-            const isSourceWordLetter = draggedElement.classList.contains('letter');
+        // /* Global Listeners for Move 3 (Delete by dropping outside scale-wrapper and grid) */
+        // function handleGlobalDragOver(e) {
+        //     if (!draggedElement) return;
+        //     const isSourceWordLetter = draggedElement.classList.contains('letter');
 
-            // Check if pointer is outside scaleWrapper AND outside letterGrid
-            const isOutsideWordSpace = wordContainer && !wordContainer.contains(e.target);
-            const isOutsideGrid = gridElement && !gridElement.contains(e.target);
+        //     // Check if pointer is outside scaleWrapper AND outside letterGrid
+        //     const isOutsideWordSpace = wordContainer && !wordContainer.contains(e.target);
+        //     const isOutsideGrid = gridElement && !gridElement.contains(e.target);
 
-            console.log(`isOutsideWordSpace: ${isOutsideWordSpace}, isOutsideGrid: ${isOutsideGrid}`);
-
-
-            if (isSourceWordLetter && isOutsideWordSpace && isOutsideGrid) {
-                e.preventDefault();
-                e.dataTransfer.dropEffect = 'move';
-
-                // Calculate the new word with the dragged letter removed
-                let newWord = currentWord.split('');
-                const sourceIndex = (Array.from(wordContainer.children).indexOf(draggedElement)) / 2;
-                newWord.splice(sourceIndex, 1); // Remove the dragged letter
-                newWord = newWord.join('');
-
-                // Update the messageElement with the preview
-                movePreview.innerHTML = `<span>${currentWord} - > ${newWord}</span>`;
-            }
-        }
-
-        function handleGlobalDrop(e) {
-            if (!draggedElement) {
-            console.log('No dragged element found on drop.');
-            // movePreview.innerHTML = ``;
-            return; 
-            }   
-
-            const isSourceWordLetter = draggedElement.classList.contains('letter');
-
-            const isOutsideWordSpace = wordContainer && !wordContainer.contains(e.target);
-            const isOutsideGrid = gridElement && !gridElement.contains(e.target);
-
-            if (isSourceWordLetter && isOutsideWordSpace && isOutsideGrid) {
-                e.preventDefault();
-
-                // Select the letter to delete
-                clearSelections();
-                draggedElement.classList.add('selected');
-                selected = []; // Reset selected array
-                selected.push(draggedElement);
-                globDrop = true;
-                isValidDrop();
-                console.log(`[Move 3] Deleting letter: ${originalSourceText}, globDrop: ${globDrop}, isSourceWordLetter: ${isSourceWordLetter}, isOutsideWordSpace: ${isOutsideWordSpace}, isOutsideGrid: ${isOutsideGrid}, Target: ${e.target}`);
+        //     console.log(`isOutsideWordSpace: ${isOutsideWordSpace}, isOutsideGrid: ${isOutsideGrid}`);
 
 
-                // actionBtn.click(); // Trigger the existing action button logic to handle deletion
-            }
-            // movePreview.innerHTML = ``;
+        //     if (isSourceWordLetter && isOutsideWordSpace && isOutsideGrid) {
+        //         e.preventDefault();
+        //         e.dataTransfer.dropEffect = 'move';
 
-        }
+        //         // Calculate the new word with the dragged letter removed
+        //         // let newWord = currentWord.split('');
+        //         // const sourceIndex = (Array.from(wordContainer.children).indexOf(draggedElement)) / 2;
+        //         // newWord.splice(sourceIndex, 1); // Remove the dragged letter
+        //         // newWord = newWord.join('');
+
+        //         // Update the messageElement with the preview
+        //         // movePreview.innerHTML = `<span>${currentWord} - > ${newWord}</span>`;
+        //     }
+        // }
+
+        // function handleGlobalDrop(e) {
+        //     if (!draggedElement) {
+        //     console.log('No dragged element found on drop.');
+        //     // movePreview.innerHTML = ``;
+        //     return; 
+        //     }   
+
+        //     const isSourceWordLetter = draggedElement.classList.contains('letter');
+
+        //     const isOutsideWordSpace = wordContainer && !wordContainer.contains(e.target);
+        //     const isOutsideGrid = gridElement && !gridElement.contains(e.target);
+
+        //     if (isSourceWordLetter && isOutsideWordSpace && isOutsideGrid) {
+        //         e.preventDefault();
+
+        //         // Select the letter to delete
+        //         clearSelections();
+        //         draggedElement.classList.add('selected');
+        //         selected = []; // Reset selected array
+        //         selected.push(draggedElement);
+        //         globDrop = true;
+        //         isValidDrop();
+        //         console.log(`[Move 3] Deleting letter: ${originalSourceText}, globDrop: ${globDrop}, isSourceWordLetter: ${isSourceWordLetter}, isOutsideWordSpace: ${isOutsideWordSpace}, isOutsideGrid: ${isOutsideGrid}, Target: ${e.target}`);
+
+
+        //         // actionBtn.click(); // Trigger the existing action button logic to handle deletion
+        //     }
+        //     // movePreview.innerHTML = ``;
+
+        // }
 
         function revertSwapPreview() {
             if (currentSwapTarget && draggedElement) {
@@ -3731,10 +3889,15 @@
             const isSourceGridCell = source.classList.contains('grid-cell');
             const isTargetGridCell = target.classList.contains('grid-cell');
             const isTargetInsertSlot = target.classList.contains('insert-slot');
-            const isDeleteMove = target === actionBtn;
+            const isDeleteMove = target.classList.contains('deleteBtn');
 
             // Move 1: Swap two word letters
             if (isSourceWordLetter && isTargetWordLetter) {
+                // source.classList.add('swap-preview')
+                return true
+            };
+
+            if (isSourceWordLetter && isDeleteMove) {
                 // source.classList.add('swap-preview')
                 return true
             };
@@ -3743,11 +3906,11 @@
             if (isSourceWordLetter && isTargetInsertSlot) return true;
 
             // Move 3: Delete word letter by dropping outside scale-wrapper and grid
-            if (isDeleteMove && globDrop) {
-                console.log(`handleGlobalDrop returning true: ${source.innerHTML}`);
-                return true;
+            // if (isDeleteMove && globDrop) {
+            //     console.log(`handleGlobalDrop returning true: ${source.innerHTML}`);
+            //     return true;
                 
-            };
+            // };
 
             // Move 4 (Bidirectional): Grid -> Word Letter OR Word Letter -> Grid
             if ((isSourceGridCell && isTargetWordLetter) || (isSourceWordLetter && isTargetGridCell)) return true;
@@ -3761,14 +3924,18 @@
 
         function executeDragMove(source, target) {
             clearSelections();
+            clearSelection();
             movePreview.innerHTML = ``;
-            // Select the source and target elements
-            // source.classList.add('selected');
-            selected.push(source);
-            if (!globDrop) {
-                // target.classList.add('selected');
+            if (target === deleteBtn) {
+                selected.push(source);
+            } else {
+                selected.push(source);
                 selected.push(target);
             }
+            // Select the source and target elements
+            // source.classList.add('selected');
+
+            
             console.log(`[Move Set Up] Source: ${source.innerHTML}, Target: ${target.innerHTML}, selected: ${selected.map(el => el.innerHTML).join(', ')}`);
 
             // Trigger the existing action button logic
@@ -4001,6 +4168,7 @@
         const dropdownToggle = document.getElementById("toggle-dropdown");
         const scrollBtn = document.getElementById("scrollBtn");
         const longwordBtn = document.getElementById("longwordBtn");
+        const deleteBtn = document.getElementById("deleteBtn");
         const streakDiv = document.getElementById("streakDiv");
         const collapseModal = document.getElementById("collapseModal");
         const collapseModal2 = document.getElementById("collapseModal2");
