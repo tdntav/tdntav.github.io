@@ -918,7 +918,7 @@
             padding: 2cqi;
             transition: transform 1s ease;
             transform-origin: center;
-            border-radius: var(--rounding) var(--rounding) var(--rounding) 0;
+            border-radius: var(--rounding) var(--rounding) 0  var(--rounding);
             border: 0.75cqi solid var(--wordcell);
             z-index: 2;
             margin-bottom: 2cqi;
@@ -3355,7 +3355,7 @@
         let touchStartX = 0;
         let touchStartY = 0;
 
-        let globDrop = false;
+        // let globDrop = false;
 
         function initDragAndDrop() {
             setupDraggables();
@@ -3479,6 +3479,7 @@
             document.querySelectorAll('.swap-preview').forEach(el => el.classList.remove('swap-preview'));
 
             draggedElement = null;
+            deleteBtn.classList.remove('deleteBtn-selected');
         }
 
         function setupDropZones() {
@@ -3806,7 +3807,6 @@
             //     globDrop = true;
             // }
 
-            deleteBtn.style.display = "none";
             executeDragMove(draggedElement, target);
         }
 
@@ -3945,7 +3945,8 @@
             // revertSwapPreview();
             actionBtn.click();
             console.log(`[Move Executed] Source: ${source.innerHTML}, Target: ${target.innerHTML}`);
-            globDrop = false; // Reset the global drop flag after execution
+            deleteBtn.style.display = "none";
+            // globDrop = false; // Reset the global drop flag after execution
         }
 
         // function executeDragMove(source, target) {
