@@ -994,9 +994,12 @@
 
         .specialMode {
             /* box-sizing: border-box; */
-            border: var(--selected-border) !important;
-            color: var(--selected-text) !important;
-            background: var(--selected-cell) !important;
+            border: 1cqi solid var(--special-mode) !important;
+            /* border: none !important; */
+            /* color: var(--selected-text) !important; */
+            /* background: var(--special-mode) !important; */
+            color: var(--text) !important;
+            background: none !important;
             filter: none;
             /* opacity: 20%; */
             border-radius: var(--rounding);
@@ -1817,8 +1820,8 @@
         #status {
             display:block;
             position: relative;
-            top: 1.5cqi;
-            font-size: 0.8rem;
+            top: 1cqi;
+            font-size: 0.9rem;
             font-family: var(--font2);
             color: var(--accent);
             max-height: 7cqi;
@@ -1828,7 +1831,7 @@
 
 
         .status {
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             font-family: var(--font2);
             color: var(--accent);
             max-height: 7cqi;
@@ -5230,7 +5233,7 @@
             messageElement.innerHTML = `<span>PLAY A SETUP MOVE!</span>`;
             showTemporaryMessage();
             bonusBtn.classList.add('specialMode');
-            actionBtn.textContent = "SETUP";
+            actionBtn.textContent = "SET UP";
             saveGameState();
             return;
         }
