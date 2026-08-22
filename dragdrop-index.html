@@ -992,6 +992,19 @@
             transform: scale(110%);
         }
 
+        .specialMode {
+            /* box-sizing: border-box; */
+            border: var(--selected-border) !important;
+            color: var(--selected-text) !important;
+            background: var(--selected-cell) !important;
+            filter: none;
+            /* opacity: 20%; */
+            border-radius: var(--rounding);
+            margin-block: none;
+            padding-block: none;
+            /* transform: scale(110%); */
+        }
+
         /* Smooth transitions for dynamic resizing */
         .insert-slot,
         .letter {
@@ -1416,13 +1429,13 @@
             /* box-sizing: border-box; */
             display: none;
             position: absolute;
-            top: -8.5cqi;
+            top: -10.5cqi;
             justify-content: center;
 
             border-radius: var(--rounding);
             background: var(--bg);
             color: var(--text);
-            height: 7cqi;
+            height: 9cqi;
             width: var(--rail-width);
             border: 0.75cqi solid var(--text);
             opacity: 30%;
@@ -1458,14 +1471,16 @@
             /* box-sizing: border-box; */
             display: none;
             position: absolute;
+            justify-self: center;
             top: -10.5cqi;
             height: 9cqi;
+            width: 53cqi;
             justify-content: center;
 
             border-radius: var(--rounding);
             background: var(--bg);
             color: var(--text);
-            width: var(--rail-width);
+            /* width: var(--rail-width); */
             border: 0.75cqi solid var(--text);
             opacity: 30%;
             font-size: 0.45rem;
@@ -1479,8 +1494,8 @@
             /* box-sizing: border-box; */
             /* display: none;
             position: absolute; */
-            top: -15.5cqi;
-            height: 14cqi;
+            /* top: -15.5cqi; */
+            /* height: 14cqi; */
 
             justify-content: center;
 
@@ -1488,7 +1503,7 @@
             background: var(--wordcell);
             color: var(--wordcell-text);
             font-weight: bold;
-            width: var(--rail-width);
+            /* width: var(--rail-width); */
             border: 0.75cqi solid var(--text);
             opacity: 100%;
             font-size: 0.45rem;
@@ -1691,7 +1706,8 @@
 
         .move-preview {
             position: absolute;
-            top: 112cqi;
+            top: 113cqi;
+            justify-self: center;
             left: 7cqi;
             border-radius: var(--rounding) var(--rounding) 0 0;
             font-family: var(--font2);
@@ -1709,7 +1725,8 @@
 
         .move-preview span {
             display: inline-block;
-            align-self: left;
+            max-width:86cqi;
+            /* align-self: left; */
             font-size: 1rem;
             width: auto;
             padding-inline: 2cqi;
@@ -1797,6 +1814,7 @@
 
 
         #status {
+            display:block;
             position: relative;
             top: 1.5cqi;
             font-size: 0.8rem;
@@ -3209,7 +3227,7 @@
     <div id="status">...</div>
     <div class="game-area" style="position: relative;"> <!-- Fixed width matching your history area -->
         <div id="play-grid-layout" class="play-grid-layout">
-
+            <button id="deleteBtn" class="deleteBtn">DELETE</button>
             <div id="left-rail" class="rail left-rail">
                 <!-- <button id="missionsBtn" class="rail-btn span-0 hidden">&</button> -->
                 <button id="missionsBtn" class="rail-btn span-0 hidden" style="font-size:1.2rem">⇡⇡</button>
@@ -3219,7 +3237,8 @@
                 <button id="milestonesBtn" class="rail-btn hidden" style="font-size:1.2rem;">…</button>
                 <button id="collapseModal" class="collapseModal">&#581;&#xFE0E;^</button>
                 <button id="scrollBtn" class="scrollBtn">&#581;&#xFE0E;^</button>
-                <button id="deleteBtn" class="deleteBtn">DELETE</button>
+                <button id="longwordBtn" class="longwordBtn">&#8596;</button>
+
 
             </div>
             <!-- <div></div>             -->
@@ -3230,7 +3249,7 @@
                 <!-- <button id="dummyBtn3" class="rail-btn span-0 opacity-hide">?</button> -->
                 <button id="gridRefreshBtn" class="rail-btn">&#x25A6;&#xFE0E;</button>
                 <button id="missions-help-btn" class="missions-help-btn">?</button>
-                <button id="longwordBtn" class="longwordBtn">&#8596;</button>
+                <!-- <button id="longwordBtn" class="longwordBtn">&#8596;</button> -->
 
             </div>
 
@@ -3434,8 +3453,10 @@
 
             if (draggedElement.classList.contains('letter')) {
                     deleteBtn.style.display = "block";
+                    statusElement.style.opacity = "0%";
                 } else {
                     deleteBtn.style.display = "none";
+                    statusElement.style.opacity = "100%";
                     deleteBtn.classList.remove('deleteBtn-selected');
             }
 
@@ -3946,6 +3967,7 @@
             actionBtn.click();
             console.log(`[Move Executed] Source: ${source.innerHTML}, Target: ${target.innerHTML}`);
             deleteBtn.style.display = "none";
+            statusElement.style.opacity = "100%";
             // globDrop = false; // Reset the global drop flag after execution
         }
 
@@ -4346,6 +4368,10 @@
 
         actionBtn.addEventListener('click', () => {
             // playAnimation();
+            if (specialModeActive) {
+                bonusBtn.click();
+                return;
+            }
             completeMove(true);
         });
 
@@ -4426,13 +4452,27 @@
             if (setupMovesAvailable <= 0) {
                 messageElement.innerHTML = `<span>CLICK + FOR GUIDANCE</span>`;
                 showTemporaryMessage();
+                clearSpecialMode();
                 return;
             }
-            if (selected.length === 0) {
-                messageElement.innerHTML = `<span>SELECT A PLAYABLE MOVE FIRST</span>`;
+            if (selected.length === 0 && specialModeActive === true) {
+                clearSpecialMode();
+                messageElement.innerHTML = ``;
                 showTemporaryMessage();
+                // messageElement.innerHTML = `<span>SELECT A PLAYABLE MOVE FIRST</span>`;
+                // showTemporaryMessage();
                 return;
             }
+
+            if (selected.length === 0 && specialModeActive === false) {
+                activateSpecialMode();
+                // messageElement.innerHTML = `<span>SELECT A PLAYABLE MOVE FIRST</span>`;
+                // showTemporaryMessage();
+                return;
+            }
+
+
+
 
 
             let moved = applyMove();
@@ -4440,7 +4480,7 @@
             renderWord();
 
             // replenishGrid(); // MOVED TO THE END
-            if (!moved) {
+            if (!moved && !specialModeActive) {
                 messageElement.innerHTML = `<span>INVALID MOVE. CLICK + FOR GUIDANCE</span>`;
                 showTemporaryMessage();
                 return;
@@ -4454,13 +4494,14 @@
             bonusTicker = '';
             lastValidWord = currentWord;
             messageElement.innerHTML = `<span>BONUS SETUP MOVE PLAYED!</span>`;
+            showTemporaryMessage();
             thisGameStreak = Math.max(thisGameStreak, noBonusStreak);
             noBonusStreak = 0;
             consecutiveBonuses++;
             updateStatus();
             penaliseConsecutiveBonuses();
-            showTemporaryMessage();
-            activateSpecialMode(); //ADDED FOR BONUS MOVE EFFECT
+            // activateSpecialMode(); //ADDED FOR BONUS MOVE EFFECT
+            clearSpecialMode();
             replenishGrid(); //MOVED TO HERE TO STOP GRID EXPAND FOR SETUP MOVE
 
             return;
@@ -5138,7 +5179,7 @@
         function redAnimation() {
             wordContainer.classList.add('anim-neg');
         }
-        function bonusAnimation() { bonusBtn.classList.add('anim-bonus'); }
+        // function bonusAnimation() { bonusBtn.classList.add('anim-bonus'); }
         function gridRefreshAnimation() { gridRefreshBtn.classList.add('anim-bonus'); }
         function alreadyUsedAnimation() {
             wordContainer.classList.add("shake");
@@ -5172,7 +5213,7 @@
             if (wordContainer.classList.contains('anim-neg')) { wordContainer.classList.remove('anim-neg'); }
             if (wordContainer.classList.contains('anim-pos')) { wordContainer.classList.remove('anim-pos'); }
             if (letterGrid.classList.contains('anim-refresh')) { letterGrid.classList.remove('anim-refresh'); }
-            if (bonusBtn.classList.contains('anim-bonus')) { bonusBtn.classList.remove('anim-bonus'); }
+            // if (bonusBtn.classList.contains('anim-bonus')) { bonusBtn.classList.remove('anim-bonus'); }
             if (gridRefreshBtn.classList.contains('anim-bonus')) { gridRefreshBtn.classList.remove('anim-bonus'); }
             if (wordContainer.classList.contains('shake')) { wordContainer.classList.remove('shake'); }
             if (actionBtn.classList.contains('anim-play')) { actionBtn.classList.remove('anim-play'); }
@@ -5185,6 +5226,10 @@
             wordContainer.classList.add('special');
             messageBG.classList.add('special-sauce');
             streakDiv.style.display = "none";
+            messageElement.innerHTML = `<span>SETUP MODE ENGAGED!</span>`;
+            showTemporaryMessage();
+            bonusBtn.classList.add('specialMode');
+            actionBtn.textContent = "SETUP";
             saveGameState();
             return;
         }
@@ -5193,6 +5238,10 @@
             wordContainer.classList.remove('special');
             messageBG.classList.remove('special-sauce');
             if (chain >= 16) { streakDiv.style.display = "block" };
+            bonusBtn.classList.remove('specialMode');
+            actionBtn.textContent = "PLAY";
+            // messageElement.innerHTML = ``;
+            // showTemporaryMessage();
             saveGameState();
             return;
         }
@@ -7225,7 +7274,7 @@
                 highlightPlayed(currentWord);
                 rollbackGrid();
                 alreadyUsedAnimation();
-                activateSpecialMode();
+                // activateSpecialMode();
                 currentWord = previousWord;
                 renderWord();
                 // grid = gridFallback;
