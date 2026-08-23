@@ -430,7 +430,7 @@
             --positive-feedback: #fff;
             --pos-fb-text: var(--bg);
 
-            --special-mode: #c85;
+            --special-mode: #a63;
             --disabled: #000;
 
             --wordcell: var(--accent);
@@ -749,7 +749,7 @@
 
             --positive-feedback: #7cf;
 
-            --special-mode: #321;
+            --special-mode: #d6a;
             --disabled: #aaa;
 
             --wordcell: var(--accent);
@@ -1486,7 +1486,7 @@
             color: var(--text);
             /* width: var(--rail-width); */
             border: 0.75cqi solid var(--text);
-            opacity: 30%;
+            opacity: 60%;
             font-size: 0.45rem;
             /* line-height: 0.5; */
             z-index: 999;
@@ -3505,10 +3505,12 @@
 
             draggedElement = null;
             deleteBtn.classList.remove('deleteBtn-selected');
+            deleteBtn.style.display = "none";
+            statusElement.style.opacity = "100%";
         }
 
         function setupDropZones() {
-            // Targets: Letters, Slots, Grid Cells, and the document Body (for off-board delete)
+            // Targets: Letters, Slots, Grid Cells, and the deleteBtn
             const targets = document.querySelectorAll(
                 '#wordContainer .letter, ' +
                 '#wordContainer .insert-slot, ' +
@@ -3564,7 +3566,7 @@
             // });
 
             let newWord = Array.from(wordContainer.children).map(child => child.textContent);
-            // console.log(`newWord before swap: `, newWord);
+            console.log(`newWord before swap: `, newWord);
 
             let lettersOnly = Array.from(wordContainer.children)
                 .filter(child => child.classList.contains('letter'))
