@@ -1475,9 +1475,10 @@
             display: none;
             position: absolute;
             /* justify-self: center; */
-            top: -10.5cqi;
+            top: -13.5cqi;
             left: 18.5cqi;
-            height: 9cqi;
+            /* height: 9cqi; */
+            height: var(--cell-size);
             width: 53cqi;
             justify-content: center;
 
@@ -1508,7 +1509,8 @@
             color: var(--wordcell-text);
             font-weight: bold;
             /* width: var(--rail-width); */
-            border: 0.75cqi solid var(--text);
+            /* border: 0.75cqi solid var(--text); */
+            border: var(--selected-border);
             opacity: 100%;
             font-size: 0.45rem;
             /* line-height: 0.5; */
@@ -1821,7 +1823,7 @@
             display:block;
             position: relative;
             top: 1cqi;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             font-family: var(--font2);
             color: var(--accent);
             max-height: 7cqi;
@@ -3386,54 +3388,6 @@
         }
 
 
-
-        // function setupDraggables() {
-        //     const wordLetters = document.querySelectorAll('#wordContainer .letter');
-        //     const gridCells = document.querySelectorAll('#letterGrid .grid-cell');
-
-        //     [...wordLetters, ...gridCells].forEach(el => {
-        //         el.setAttribute('draggable', 'true');
-
-        //         // Remove existing event listeners to avoid duplicates
-        //         el.removeEventListener('dragstart', handleDragStart);
-        //         el.removeEventListener('dragend', handleDragEnd);
-        //         el.removeEventListener('touchstart', handleTouchStart);
-        //         el.removeEventListener('touchend', handleTouchEnd);
-
-        //         // Add drag-and-drop event listeners
-        //         el.addEventListener('dragstart', handleDragStart);
-        //         el.addEventListener('dragend', handleDragEnd);
-
-        //         // Add touch event listeners for mobile
-        //         el.addEventListener('touchstart', handleTouchStart);
-        //         el.addEventListener('touchend', handleTouchEnd);
-        //     });
-        // }
-
-        // function setupDropZones() {
-        //     const targets = document.querySelectorAll(
-        //         '#wordContainer .letter, ' +
-        //         '#wordContainer .insert-slot, ' +
-        //         '#letterGrid .grid-cell'
-        //     );
-
-        //     targets.forEach(target => {
-        //         target.removeEventListener('dragover', handleDragOver);
-        //         target.removeEventListener('dragleave', handleDragLeave);
-        //         target.removeEventListener('drop', handleDrop);
-        //         target.removeEventListener('touchmove', handleTouchMove);
-        //         target.removeEventListener('touchend', handleTouchDrop);
-
-        //         target.addEventListener('dragover', handleDragOver);
-        //         target.addEventListener('dragleave', handleDragLeave);
-        //         target.addEventListener('drop', handleDrop);
-
-        //         // Add touch event listeners for mobile
-        //         target.addEventListener('touchmove', handleTouchMove);
-        //         target.addEventListener('touchend', handleTouchDrop);
-        //     });
-        // }
-
         
         function setupDraggables() {
             const wordLetters = document.querySelectorAll('#wordContainer .letter');
@@ -3464,19 +3418,6 @@
                     deleteBtn.classList.remove('deleteBtn-selected');
             }
 
-            // // Hide the original element during drag
-            // setTimeout(() => {
-            //     draggedElement.style.visibility = 'hidden';
-            // }, 0);
-
-            // Create a custom drag preview
-            // const dragPreview = document.createElement('div');
-            // dragPreview.className = 'drag-preview';
-            // dragPreview.textContent = draggedElement.textContent;
-            // document.body.appendChild(dragPreview);
-
-            // e.dataTransfer.setDragImage(dragPreview, 0, 0);
-
             e.dataTransfer.setData('text/plain', '');
             e.dataTransfer.effectAllowed = 'move';
         }
@@ -3488,11 +3429,6 @@
                 draggedElement.classList.remove('dragging');
             }
 
-            // // Remove the custom drag preview
-            // const dragPreview = document.querySelector('.drag-preview');
-            // if (dragPreview) {
-            //     dragPreview.remove();
-            // }
 
             // Restore live swap preview if drop wasn't executed
             revertSwapPreview();
@@ -3528,12 +3464,6 @@
                 target.addEventListener('drop', handleDrop);
             });
 
-            // Global drop handling on document body for Move 3 (Delete)
-            // document.body.removeEventListener('dragover', handleGlobalDragOver);
-            // document.body.removeEventListener('drop', handleGlobalDrop);
-
-            // document.body.addEventListener('dragover', handleGlobalDragOver);
-            // document.body.addEventListener('drop', handleGlobalDrop);
         }
 
         function handleDragOver(e) {
@@ -3556,69 +3486,45 @@
             const isTargetGridCell = target.classList.contains('grid-cell');
             const isDeleteMove = target.classList.contains('deleteBtn');
 
-            //             let newWord = Array.from(wordContainer.children).map(child => {
-            // if (child.classList.contains('insert-slot')) {
-            //         return null; // Add null for insert-slots
-            //     } else if (child.classList.contains('letter')) {
-            //         return child.textContent; // Add the letter's text content
-            //     }
-            //     return null; // Default to null for any other unexpected elements
-            // });
+            
 
             let newWord = Array.from(wordContainer.children).map(child => child.textContent);
-            console.log(`newWord before swap: `, newWord);
+            // console.log(`newWord before swap: `, newWord);
+            // const nwsourceIndex = newWord.indexOf(draggedElement);
+            // console.log(`nwsourceIndex: `, nwsourceIndex);
+
+            // const nwtargetIndex = newWord.indexOf(target);
+            // console.log(`nwsourceIndex: `, nwsourceIndex, `nwtargetIndex: `, nwtargetIndex, `target.textContent: `, target.textContent, `draggedElement.textContent: `, draggedElement.textContent, `newWord: `, newWord);
 
             let lettersOnly = Array.from(wordContainer.children)
-                .filter(child => child.classList.contains('letter'))
-                .map(child => child.textContent); // Extract the text content of each letter
-            const sourceIndex = lettersOnly.indexOf(draggedElement.textContent);
-            const targetIndex = lettersOnly.indexOf(target.textContent);
+                .filter(child => child.classList.contains('letter'));
 
-                // console.log('sourceIndex:', sourceIndex, 'targetIndex:', targetIndex);
-            // if (!draggedElement) return;
+                // .map(child => child.textContent); // Extract the text content of each letter
+                const sourceIndex = lettersOnly.findIndex(child => child === draggedElement);
+                const targetIndex = lettersOnly.findIndex(child => child === target);
+                // console.log('sourceIndex:', sourceIndex, 'targetIndex:', targetIndex, 'lettersOnly:', lettersOnly);
 
-            // const target = e.currentTarget;
-            // if (!isValidDrop(draggedElement, target)) return;
 
-            // e.preventDefault();
-            // e.stopPropagation(); // Stop reaching global delete listener
-            // e.dataTransfer.dropEffect = 'move';
-
-            // const isSourceWordLetter = draggedElement.classList.contains('letter');
-            // const isTargetWordLetter = target.classList.contains('letter');
-            // const isTargetInsertSlot = target.classList.contains('insert-slot');
-            // const isSourceGridCell = draggedElement.classList.contains('grid-cell');
-            // const isTargetGridCell = target.classList.contains('grid-cell');
-
-            // // let newWord = currentWord.split(''); // Convert currentWord to an array for manipulation
-
-            // let newWord = Array.from(wordContainer.children).map(child => {
-            // if (child.classList.contains('insert-slot')) {
-            //         return null; // Add null for insert-slots
-            //     } else if (child.classList.contains('letter')) {
-            //         return child.textContent; // Add the letter's text content
-            //     }
-            //     return null; // Default to null for any other unexpected elements
-            // });
-            // // console.log(`newWord before swap: `, newWord);
-            // const targetIndex = ((Array.from(wordContainer.children).indexOf(target))); // Get the index of the target in the word container
-            // const sourceIndex = ((Array.from(wordContainer.children).indexOf(draggedElement))) + 1;
-
+            
             if (isDeleteMove) {
-                    // revertSwapPreview();
-                    // currentSwapTarget = target;
+                
+                // console.log(`lettersOnly: `, lettersOnly, `sourceIndex: `, sourceIndex, `targetIndex: `, targetIndex, `target.textContent: `, target.textContent, `draggedElement.textContent: `, draggedElement.textContent);
 
-                    lettersOnly[sourceIndex] = '';
-                    // lettersOnly[targetIndex] = draggedElement.textContent;
+                let textContents = lettersOnly.map(child => child.textContent);
+                textContents[sourceIndex] = '';
+                // console.log(textContents);           
+                textContents = textContents.join('');
+                // console.log(`textContents post-join: `, textContents);
+                movePreview.innerHTML = `<span>${currentWord} &rarr; ${textContents}</span>`;
 
-                    // console.log(`sourceIndex: `, sourceIndex, `targetIndex: `, targetIndex, `target.textContent: `, target.textContent, `draggedElement.textContent: `, draggedElement.textContent, `lettersOnly: `, lettersOnly);
-                    lettersOnly = lettersOnly.join('');
-                    movePreview.innerHTML = `<span>${currentWord} &rarr; ${lettersOnly}</span>`;
+                // console.log(`newWord: `, newWord);
+                // newWord[nwsourceIndex] = '';
+                // console.log(`newWord after sourceIndex: `, newWord);
 
-                // Preview swap by swapping HTML text
-                // const targetText = target.innerHTML;
-                // target.innerHTML = originalSourceText;
-                // draggedElement.innerHTML = targetText;
+                // newWord = newWord.join('');
+                // movePreview.innerHTML = `<span>${currentWord} &rarr; ${newWord}</span>`;
+                // console.log(`sourceIndex: `, sourceIndex, `targetIndex: `, targetIndex, `target.textContent: `, target.textContent, `draggedElement.textContent: `, draggedElement.textContent, `newWord: `, newWord);
+
 
                 target.classList.add('deleteBtn-selected');
                 
@@ -3629,12 +3535,23 @@
                     revertSwapPreview();
                     currentSwapTarget = target;
 
-                    lettersOnly[sourceIndex] = target.textContent;
-                    lettersOnly[targetIndex] = draggedElement.textContent;
+
+                    let textContents = lettersOnly.map(child => child.textContent);
+                    textContents[sourceIndex] = target.textContent;
+                    textContents[targetIndex] = draggedElement.textContent;
+
+                    // console.log(textContents);           
+                    textContents = textContents.join('');
+                    // console.log(`textContents post-join: `, textContents);
+                    movePreview.innerHTML = `<span>${currentWord} &rarr; ${textContents}</span>`;
+
+
+                    // lettersOnly[sourceIndex] = target.textContent;
+                    // lettersOnly[targetIndex] = draggedElement.textContent;
 
                     // console.log(`sourceIndex: `, sourceIndex, `targetIndex: `, targetIndex, `target.textContent: `, target.textContent, `draggedElement.textContent: `, draggedElement.textContent, `lettersOnly: `, lettersOnly);
-                    lettersOnly = lettersOnly.join('');
-                    movePreview.innerHTML = `<span>${currentWord} &rarr; ${lettersOnly}</span>`;
+                    // lettersOnly = lettersOnly.join('');
+                    // movePreview.innerHTML = `<span>${currentWord} &rarr; ${lettersOnly}</span>`;
 
                 // Preview swap by swapping HTML text
                 const targetText = target.innerHTML;
@@ -3649,11 +3566,24 @@
                 revertSwapPreview();
                 currentSwapTarget = target;
 
+                let textContents = lettersOnly.map(child => child.textContent);
+                // textContents[sourceIndex] = target.textContent;
+                textContents[targetIndex] = draggedElement.textContent;
+
+                // console.log(textContents);           
+                textContents = textContents.join('');
+                // console.log(`textContents post-join: `, textContents);
+                movePreview.innerHTML = `<span>${currentWord} &rarr; ${textContents}</span>`;
+
+
+
+
+
                 // Replace letter in word with grid letter
-                lettersOnly[targetIndex] = draggedElement.textContent;
+                // lettersOnly[targetIndex] = draggedElement.textContent;
                 // console.log(`sourceIndex: `, sourceIndex, `targetIndex: `, targetIndex, `target.textContent: `, target.textContent, `draggedElement.textContent: `, draggedElement.textContent, `lettersOnly: `, lettersOnly);
-                lettersOnly = lettersOnly.join('');
-                movePreview.innerHTML = `<span>${currentWord} &rarr; ${lettersOnly}</span>`;
+                // lettersOnly = lettersOnly.join('');
+                // movePreview.innerHTML = `<span>${currentWord} &rarr; ${lettersOnly}</span>`;
 
 
                 const targetText = target.innerHTML;
@@ -3669,18 +3599,28 @@
                 revertSwapPreview();
                 currentSwapTarget = target;
 
+
+                let textContents = lettersOnly.map(child => child.textContent);
+                textContents[sourceIndex] = target.textContent;
+                // textContents[targetIndex] = draggedElement.textContent;
+
+                // console.log(textContents);           
+                textContents = textContents.join('');
+                // console.log(`textContents post-join: `, textContents);
+                movePreview.innerHTML = `<span>${currentWord} &rarr; ${textContents}</span>`;
+
+
                 // Replace letter in word with grid letter
-                lettersOnly[sourceIndex] = target.textContent;
+                // lettersOnly[sourceIndex] = target.textContent;
                 // console.log(`sourceIndex: `, sourceIndex, `targetIndex: `, targetIndex, `target.textContent: `, target.textContent, `draggedElement.textContent: `, draggedElement.textContent, `lettersOnly: `, lettersOnly);
-                lettersOnly = lettersOnly.join('');
-                movePreview.innerHTML = `<span>${currentWord} &rarr; ${lettersOnly}</span>`;
+                // lettersOnly = lettersOnly.join('');
+                // movePreview.innerHTML = `<span>${currentWord} &rarr; ${lettersOnly}</span>`;
 
                 const targetText = target.innerHTML;
                 target.innerHTML = originalSourceText;
                 draggedElement.innerHTML = targetText;
 
                 target.classList.add('swap-preview');
-                // draggedElement.classList.add('swap-preview');
             
             };
 
@@ -3692,15 +3632,17 @@
                 const targetText = target.innerHTML;
                 target.innerHTML = originalSourceText;
                 draggedElement.innerHTML = targetText;
+                // console.log(`newWord: `, newWord);
+                let nwsourceIndex = newWord.indexOf(draggedElement);
+                // console.log(`nwsourceIndex: `, nwsourceIndex);
 
-                let nwsourceIndex = newWord.indexOf(draggedElement.textContent);
-                let nwtargetIndex = newWord.indexOf(target.textContent);
+                let nwtargetIndex = newWord.indexOf(target);
                 newWord[nwtargetIndex] = target.textContent;
                 newWord[nwsourceIndex] = '';
                 newWord = newWord.join('');
                 lettersOnly = newWord;
                 movePreview.innerHTML = `<span>${currentWord} &rarr; ${lettersOnly}</span>`;
-                console.log(`nwsourceIndex: `, nwsourceIndex, `nwtargetIndex: `, nwtargetIndex, `target.textContent: `, target.textContent, `draggedElement.textContent: `, draggedElement.textContent, `newWord: `, newWord);
+                // console.log(`nwsourceIndex: `, nwsourceIndex, `nwtargetIndex: `, nwtargetIndex, `target.textContent: `, target.textContent, `draggedElement.textContent: `, draggedElement.textContent, `newWord: `, newWord);
                 
                 
                 const dragPreview = document.querySelector('.drag-preview');
@@ -3716,60 +3658,9 @@
                     draggedElement.classList.add('drag-source-collapse');
                 }
 
-                // newWord = lettersOnly.join('');
-                // movePreview.innerHTML = `<span>${currentWord} &rarr; ${newWord}</span>`;
-
-                // if (isSourceWordLetter && isTargetWordLetter) {
-                //     // Swap letters
-                //     newWord[targetIndex] = draggedElement.textContent;
-                //     newWord[sourceIndex] = target.textContent;
-                // } else if (isSourceWordLetter && isTargetInsertSlot) {
-                //     // Insert letter into slot
-                //     newWord[targetIndex] = draggedElement.textContent;
-                // } else if (isSourceGridCell && isTargetWordLetter) {
-                //     // Replace letter in word with grid letter
-                //     newWord[targetIndex] = draggedElement.textContent;
-                // } else if (isSourceGridCell && isTargetInsertSlot) {
-                //     // Insert grid letter into slot
-                //     newWord[targetIndex] = draggedElement.textContent;
-                // }
-
-                // Join the array back into a string
-                // lettersOnly = lettersOnly.join('');
-
-                // Update the messageElement with the preview
-                // movePreview.innerHTML = `<span>${currentWord} &rarr; ${lettersOnly}</span>`;
-                // console.log(`sourceIndex: `, sourceIndex, `targetIndex: `, targetIndex, `lettersOnly: `, lettersOnly);
-
+                
             };
 
-            //     // MOVE 2?
-            //     if ((isSourceWordLetter && isTargetInsertSlot)) {
-            //     revertSwapPreview();
-            //     currentSwapTarget = target;
-
-            //     const targetText = target.innerHTML;
-            //     target.innerHTML = originalSourceText;
-            //     draggedElement.innerHTML = targetText;
-
-            //     const dragPreview = document.querySelector('.drag-preview');
-            //     if (dragPreview) {
-            //         dragPreview.classList.add('drag-preview');
-            //     }
-            //     source.classList.add('drag-source-collapse');
-            //     // target.classList.add('swap-preview');
-            //     // draggedElement.classList.add('slot-preview');
-            //     // return true
-            
-            // };
-
-            // MOVE 2 & 5: Expand Slot & Collapse Source Space
-        //     if (isTargetInsertSlot) {
-        //         target.classList.add('drag-over-expand');
-        //         if (isSourceWordLetter) {
-        //             draggedElement.classList.add('drag-source-collapse');
-        //         }
-        //     }
         }
 
 
@@ -3788,6 +3679,7 @@
 
             if (target.classList.contains('insert-slot')) {
                 target.classList.remove('drag-over-expand');
+                target.classList.remove('swap-preview');
                 if (draggedElement) {
                     draggedElement.classList.remove('drag-source-collapse');
                 }
@@ -3819,81 +3711,13 @@
                 movePreview.innerHTML = ``;
             }
 
-            // if (target === deleteBtn) {
-            //     // Remove the dragged element
-            //     draggedElement.remove();
 
-            //     // Clear the move preview
-            //     movePreview.innerHTML = ``;
-
-            //     // Reset the dragged element
-            //     draggedElement = null;
-
-            //     console.log('Letter deleted.');
-            //     return;
-            //     globDrop = true;
-            // }
+            
 
             executeDragMove(draggedElement, target);
         }
 
-        // /* Global Listeners for Move 3 (Delete by dropping outside scale-wrapper and grid) */
-        // function handleGlobalDragOver(e) {
-        //     if (!draggedElement) return;
-        //     const isSourceWordLetter = draggedElement.classList.contains('letter');
-
-        //     // Check if pointer is outside scaleWrapper AND outside letterGrid
-        //     const isOutsideWordSpace = wordContainer && !wordContainer.contains(e.target);
-        //     const isOutsideGrid = gridElement && !gridElement.contains(e.target);
-
-        //     console.log(`isOutsideWordSpace: ${isOutsideWordSpace}, isOutsideGrid: ${isOutsideGrid}`);
-
-
-        //     if (isSourceWordLetter && isOutsideWordSpace && isOutsideGrid) {
-        //         e.preventDefault();
-        //         e.dataTransfer.dropEffect = 'move';
-
-        //         // Calculate the new word with the dragged letter removed
-        //         // let newWord = currentWord.split('');
-        //         // const sourceIndex = (Array.from(wordContainer.children).indexOf(draggedElement)) / 2;
-        //         // newWord.splice(sourceIndex, 1); // Remove the dragged letter
-        //         // newWord = newWord.join('');
-
-        //         // Update the messageElement with the preview
-        //         // movePreview.innerHTML = `<span>${currentWord} - > ${newWord}</span>`;
-        //     }
-        // }
-
-        // function handleGlobalDrop(e) {
-        //     if (!draggedElement) {
-        //     console.log('No dragged element found on drop.');
-        //     // movePreview.innerHTML = ``;
-        //     return; 
-        //     }   
-
-        //     const isSourceWordLetter = draggedElement.classList.contains('letter');
-
-        //     const isOutsideWordSpace = wordContainer && !wordContainer.contains(e.target);
-        //     const isOutsideGrid = gridElement && !gridElement.contains(e.target);
-
-        //     if (isSourceWordLetter && isOutsideWordSpace && isOutsideGrid) {
-        //         e.preventDefault();
-
-        //         // Select the letter to delete
-        //         clearSelections();
-        //         draggedElement.classList.add('selected');
-        //         selected = []; // Reset selected array
-        //         selected.push(draggedElement);
-        //         globDrop = true;
-        //         isValidDrop();
-        //         console.log(`[Move 3] Deleting letter: ${originalSourceText}, globDrop: ${globDrop}, isSourceWordLetter: ${isSourceWordLetter}, isOutsideWordSpace: ${isOutsideWordSpace}, isOutsideGrid: ${isOutsideGrid}, Target: ${e.target}`);
-
-
-        //         // actionBtn.click(); // Trigger the existing action button logic to handle deletion
-        //     }
-        //     // movePreview.innerHTML = ``;
-
-        // }
+        
 
         function revertSwapPreview() {
             if (currentSwapTarget && draggedElement) {
@@ -3905,7 +3729,6 @@
                 draggedElement.classList.remove('drag-preview');
 
                 currentSwapTarget = null;
-                // movePreview.innerHTML = ``;
             }
         }
 
@@ -3923,24 +3746,17 @@
 
             // Move 1: Swap two word letters
             if (isSourceWordLetter && isTargetWordLetter) {
-                // source.classList.add('swap-preview')
                 return true
             };
 
             if (isSourceWordLetter && isDeleteMove) {
-                // source.classList.add('swap-preview')
                 return true
             };
 
             // Move 2: Place word letter into slot
             if (isSourceWordLetter && isTargetInsertSlot) return true;
 
-            // Move 3: Delete word letter by dropping outside scale-wrapper and grid
-            // if (isDeleteMove && globDrop) {
-            //     console.log(`handleGlobalDrop returning true: ${source.innerHTML}`);
-            //     return true;
-                
-            // };
+
 
             // Move 4 (Bidirectional): Grid -> Word Letter OR Word Letter -> Grid
             if ((isSourceGridCell && isTargetWordLetter) || (isSourceWordLetter && isTargetGridCell)) return true;
@@ -3962,111 +3778,26 @@
                 selected.push(source);
                 selected.push(target);
             }
-            // Select the source and target elements
-            // source.classList.add('selected');
+            
 
             
             console.log(`[Move Set Up] Source: ${source.innerHTML}, Target: ${target.innerHTML}, selected: ${selected.map(el => el.innerHTML).join(', ')}`);
 
             // Trigger the existing action button logic
-            // revertSwapPreview();
             actionBtn.click();
             console.log(`[Move Executed] Source: ${source.innerHTML}, Target: ${target.innerHTML}`);
             deleteBtn.style.display = "none";
             statusElement.style.opacity = "100%";
-            // globDrop = false; // Reset the global drop flag after execution
         }
 
-        // function executeDragMove(source, target) {
-        //     clearSelections();
-
-        //     const isSourceWordLetter = source.classList.contains('letter');
-        //     const isSourceGridCell = source.classList.contains('grid-cell');
-
-        //     const isTargetWordLetter = target.classList.contains('letter');
-        //     const isTargetInsertSlot = target.classList.contains('insert-slot');
-        //     const isTargetGridCell = target.classList.contains('grid-cell');
-
-        //     // Stage selections for existing click/PLAY logic
-        //     if ((isSourceWordLetter && isTargetWordLetter) ||
-        //         (isSourceGridCell && isTargetWordLetter) ||
-        //         (isSourceWordLetter && isTargetGridCell) ||
-        //         (isSourceGridCell && isTargetInsertSlot) ||
-        //         (isSourceWordLetter && isTargetInsertSlot)) {
-
-        //         source.classList.add('selected');
-        //         target.classList.add('selected');
-        //     }
-            
-        //     // Update the grid or word container based on the move
-        //     if (isSourceGridCell && isTargetWordLetter) {
-        //         // Example: Move letter from grid to word container
-        //         target.textContent = source.textContent;
-        //         source.textContent = '';
-        //         source.classList.remove('used');
-        //         target.classList.add('used');
-        //     } else if (isSourceWordLetter && isTargetGridCell) {
-        //         // Example: Move letter from word container to grid
-        //         target.textContent = source.textContent;
-        //         source.textContent = '';
-        //         source.classList.remove('used');
-        //         target.classList.add('used');
-        //     }
-
-        //     // Trigger game logic (e.g., validate word, update score, etc.)
-        //     renderWord();
-        //     validateWord(target.textContent); // Example validation
-        //     updateHistory();
-        //     updateStatus();
-        // }
+        
 
         function clearSelections() {
             document.querySelectorAll('.selected').forEach(el => el.classList.remove('selected'));
         }
 
 
-        // function handleTouchStart(e) {
-        //     e.preventDefault();
-        //     const touch = e.touches[0];
-        //     touchStartX = touch.clientX;
-        //     touchStartY = touch.clientY;
-
-        //     draggedElement = e.currentTarget;
-        //     draggedElement.classList.add('dragging');
-        //     originalSourceText = draggedElement.innerHTML;
-        // }
-
-        // function handleTouchMove(e) {
-        //     e.preventDefault();
-        //     const touch = e.touches[0];
-        //     const target = document.elementFromPoint(touch.clientX, touch.clientY);
-
-        //     if (target && isValidDrop(draggedElement, target)) {
-        //         target.classList.add('drag-over');
-        //     }
-        // }
-
-        // function handleTouchDrop(e) {
-        //     e.preventDefault();
-        //     const touch = e.changedTouches[0];
-        //     const target = document.elementFromPoint(touch.clientX, touch.clientY);
-
-        //     if (target && isValidDrop(draggedElement, target)) {
-        //         executeDragMove(draggedElement, target);
-        //     }
-
-        //     if (draggedElement) {
-        //         draggedElement.classList.remove('dragging');
-        //     }
-        //     draggedElement = null;
-        // }
-
-        // function handleTouchEnd(e) {
-        //     if (draggedElement) {
-        //         draggedElement.classList.remove('dragging');
-        //     }
-        //     draggedElement = null;
-        // }
+        
 
 
 
@@ -4096,42 +3827,10 @@
 
 
 
+        
 
 
-        // if ("virtualKeyboard" in navigator) {
-        //   const editor = document.getElementById("searchModal");
-        //   const editButton = document.getElementById("searchInput");
-        //   let isEditing = false;
 
-        //   editButton.addEventListener("click", () => {
-        //     if (isEditing) {
-        //       navigator.virtualKeyboard.hide();
-        //       editButton.textContent = "Edit";
-        //     } else {
-        //       editor.focus();
-        //       navigator.virtualKeyboard.show();
-        //       editButton.textContent = "Save changes";
-        //     }
-
-        //     isEditing = !isEditing;
-        //   });
-        // }
-
-        // window.addEventListener('resize', () => {
-        //     window.resizeTo(100% auto);
-        //     if (!searchInput.classList.contains('focus-visible')) {
-        //         topFunction();
-        //     }
-        // });
-
-        // if (window.visualViewport) {
-        //     window.visualViewport.addEventListener('resize', () => {
-        //         // Force the layout to stick to the top left
-        //         window.scrollTo(0, 0);
-        //         document.body.scrollTop = 0;
-        //         topFunction();
-        //     });
-        // }
 
 
 
