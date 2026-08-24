@@ -3409,9 +3409,24 @@
             draggedElement.classList.add('dragging');
             originalSourceText = draggedElement.innerHTML;
 
+            // Disable adjacent insert-slots
+            const parentContainer = draggedElement.parentElement; // Assuming letters and slots share the same parent
+            const slots = parentContainer.querySelectorAll('.insert-slot');
+            const draggedIndex = Array.from(parentContainer.children).indexOf(draggedElement);
+            console.log(`draggedIndex: `, draggedIndex);
+            
             if (draggedElement.classList.contains('letter')) {
                     deleteBtn.style.display = "block";
                     statusElement.style.opacity = "0%";
+
+                slots.forEach((slot, index) => {
+                    if (index === (draggedIndex - 1) / 2 || index === (draggedIndex + 1) / 2) {
+                        // slot.style.display = 'none';
+                        slot.style.pointerEvents = 'none'; // Prevent interaction
+                    }
+                }); 
+
+
                 } else {
                     deleteBtn.style.display = "none";
                     statusElement.style.opacity = "100%";
@@ -3438,6 +3453,16 @@
             document.querySelectorAll('.drag-source-collapse').forEach(el => el.classList.remove('drag-source-collapse'));
             document.querySelectorAll('.drag-preview').forEach(el => el.classList.remove('drag-preview'));
             document.querySelectorAll('.swap-preview').forEach(el => el.classList.remove('swap-preview'));
+
+
+            // Restore all insert-slots
+            const slots = document.querySelectorAll('.insert-slot');
+            slots.forEach(slot => {
+                if (slot.style.pointerEvents === 'none') {
+                    // slot.style.display = 'block'; // Restore visibility
+                    slot.style.pointerEvents = 'auto'; // Re-enable interaction
+                }
+            });
 
             draggedElement = null;
             deleteBtn.classList.remove('deleteBtn-selected');
@@ -3503,8 +3528,6 @@
                 const sourceIndex = lettersOnly.findIndex(child => child === draggedElement);
                 const targetIndex = lettersOnly.findIndex(child => child === target);
                 // console.log('sourceIndex:', sourceIndex, 'targetIndex:', targetIndex, 'lettersOnly:', lettersOnly);
-
-
             
             if (isDeleteMove) {
                 
