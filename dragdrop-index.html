@@ -3493,7 +3493,7 @@
 
                     // Optionally, add a visual indicator for disabled cells
                     target.style.pointerEvents = 'none';
-                    target.style.opacity = '0.5'; // Make it visually distinct (optional)
+                    // target.style.opacity = '0.5'; // Make it visually distinct (optional)
                 } else {
                     // Enable drop zones for all other targets
                     target.removeEventListener('dragover', handleDragOver);
@@ -3506,7 +3506,7 @@
 
                     // Reset styles for enabled cells
                     target.style.pointerEvents = 'auto';
-                    target.style.opacity = '1'; // Reset opacity (optional)
+                    // target.style.opacity = '1'; // Reset opacity (optional)
                 }
             });
         }
