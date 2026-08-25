@@ -3474,7 +3474,6 @@
             deleteBtn.style.display = "none";
             statusElement.style.opacity = "100%";
         }
-
         function setupDropZones() {
             // Targets: Letters, Slots, Grid Cells, and the deleteBtn
             const targets = document.querySelectorAll(
@@ -3485,15 +3484,31 @@
             );
 
             targets.forEach(target => {
-                target.removeEventListener('dragover', handleDragOver);
-                target.removeEventListener('dragleave', handleDragLeave);
-                target.removeEventListener('drop', handleDrop);
+                // Disable drop zones for grid cells with textContent "*"
+                if (target.classList.contains('grid-cell') && target.textContent.trim() === "*") {
+                    // Remove event listeners to disable drop functionality
+                    target.removeEventListener('dragover', handleDragOver);
+                    target.removeEventListener('dragleave', handleDragLeave);
+                    target.removeEventListener('drop', handleDrop);
 
-                target.addEventListener('dragover', handleDragOver);
-                target.addEventListener('dragleave', handleDragLeave);
-                target.addEventListener('drop', handleDrop);
+                    // Optionally, add a visual indicator for disabled cells
+                    target.style.pointerEvents = 'none';
+                    target.style.opacity = '0.5'; // Make it visually distinct (optional)
+                } else {
+                    // Enable drop zones for all other targets
+                    target.removeEventListener('dragover', handleDragOver);
+                    target.removeEventListener('dragleave', handleDragLeave);
+                    target.removeEventListener('drop', handleDrop);
+
+                    target.addEventListener('dragover', handleDragOver);
+                    target.addEventListener('dragleave', handleDragLeave);
+                    target.addEventListener('drop', handleDrop);
+
+                    // Reset styles for enabled cells
+                    target.style.pointerEvents = 'auto';
+                    target.style.opacity = '1'; // Reset opacity (optional)
+                }
             });
-
         }
 
         function handleDragOver(e) {
