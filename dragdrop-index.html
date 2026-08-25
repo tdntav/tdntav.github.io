@@ -3389,14 +3389,17 @@
             setupDropZones();
         }
 
-
-        
         function setupDraggables() {
             const wordLetters = document.querySelectorAll('#wordContainer .letter');
             const gridCells = document.querySelectorAll('#letterGrid .grid-cell');
 
             [...wordLetters, ...gridCells].forEach(el => {
-                el.setAttribute('draggable', 'true');
+                // Disable drag for grid cells with text content "*"
+                if (el.textContent.trim() === "*") {
+                    el.setAttribute('draggable', 'false');
+                } else {
+                    el.setAttribute('draggable', 'true');
+                }
 
                 el.removeEventListener('dragstart', handleDragStart);
                 el.removeEventListener('dragend', handleDragEnd);
