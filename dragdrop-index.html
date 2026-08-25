@@ -6499,6 +6499,8 @@
             playedWords.add(bonusTicker);
             updateHistory();
             bonusTicker = '';
+            setupDraggables();
+            setupDropZones();
             saveGameState();
             // Auto-select this cell after replacement
             selectCell(cell);
