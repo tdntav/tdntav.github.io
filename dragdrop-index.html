@@ -3474,6 +3474,11 @@
             deleteBtn.style.display = "none";
             statusElement.style.opacity = "100%";
         }
+
+
+
+
+
         function setupDropZones() {
             // Targets: Letters, Slots, Grid Cells, and the deleteBtn
             const targets = document.querySelectorAll(
@@ -3486,14 +3491,16 @@
             targets.forEach(target => {
                 // Disable drop zones for grid cells with textContent "*"
                 if (target.classList.contains('grid-cell') && target.textContent.trim() === "*") {
-                    // Remove event listeners to disable drop functionality
+                    // Remove drag-and-drop event listeners to disable drag functionality
                     target.removeEventListener('dragover', handleDragOver);
                     target.removeEventListener('dragleave', handleDragLeave);
                     target.removeEventListener('drop', handleDrop);
 
-                    // Optionally, add a visual indicator for disabled cells
-                    target.style.pointerEvents = 'none';
-                    // target.style.opacity = '0.5'; // Make it visually distinct (optional)
+                    // Ensure the cell is still clickable
+                    target.addEventListener('click', () => {
+                        console.log(`Grid cell with "*" clicked`);
+                        // Add any additional logic for clicking "*" cells here
+                    });
                 } else {
                     // Enable drop zones for all other targets
                     target.removeEventListener('dragover', handleDragOver);
@@ -3503,10 +3510,6 @@
                     target.addEventListener('dragover', handleDragOver);
                     target.addEventListener('dragleave', handleDragLeave);
                     target.addEventListener('drop', handleDrop);
-
-                    // Reset styles for enabled cells
-                    target.style.pointerEvents = 'auto';
-                    // target.style.opacity = '1'; // Reset opacity (optional)
                 }
             });
         }
