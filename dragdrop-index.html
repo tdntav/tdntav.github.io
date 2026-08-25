@@ -2490,18 +2490,33 @@
 
         .anim-bonus {
             animation-name: animate-bonus;
-            animation-duration: 2s;
+            animation-duration: 0.3s;
         }
 
         @keyframes animate-bonus {
             0% {
-                background-color: var(--positive-feedback);
-                transform: scale(75%);
+                background-color: var(--special-mode);
+                border-color: var(--special-mode);
+                color: var(--bg);
+                transform: scale(100%);
+
+
+            }
+
+            50% {
+                transform: scale(50%);
+
+
             }
 
             100% {
-                background-color: var(--accent);
+                background-color: var(--wordcell);
+                border: var(--wordcell-border);
+                color: var(--wordcell-text);
                 transform: scale(100%);
+                /* transform: scaleX(100%); */
+                /* filter: blur(0%) */
+
             }
         }
 
@@ -3395,7 +3410,7 @@
 
             [...wordLetters, ...gridCells].forEach(el => {
                 // Disable drag for grid cells with text content "*"
-                if (el.textContent.trim() === "*") {
+                if (el.textContent.trim() === "*" || el.textContent.trim() === "") {
                     el.setAttribute('draggable', 'false');
                 } else {
                     el.setAttribute('draggable', 'true');
@@ -3490,7 +3505,7 @@
 
             targets.forEach(target => {
                 // Disable drop zones for grid cells with textContent "*"
-                if (target.classList.contains('grid-cell') && target.textContent.trim() === "*") {
+                if (target.classList.contains('grid-cell') && (target.textContent.trim() === "*" || target.textContent.trim() === "")) {
                     // Remove drag-and-drop event listeners to disable drag functionality
                     target.removeEventListener('dragover', handleDragOver);
                     target.removeEventListener('dragleave', handleDragLeave);
@@ -4258,7 +4273,7 @@
             consecutiveBonuses++;
             updateStatus();
             penaliseConsecutiveBonuses();
-            // activateSpecialMode(); //ADDED FOR BONUS MOVE EFFECT
+            bonusAnimation(); //ADDED FOR BONUS MOVE EFFECT
             clearSpecialMode();
             replenishGrid(); //MOVED TO HERE TO STOP GRID EXPAND FOR SETUP MOVE
 
@@ -4938,7 +4953,7 @@
             wordContainer.classList.add('anim-neg');
         }
         // function bonusAnimation() { bonusBtn.classList.add('anim-bonus'); }
-        function gridRefreshAnimation() { gridRefreshBtn.classList.add('anim-bonus'); }
+        function gridRefreshAnimation() { gridRefreshBtn.classList.add('anim-play'); }
         function alreadyUsedAnimation() {
             wordContainer.classList.add("shake");
             // Remove class after animation so it can trigger again later
@@ -4946,6 +4961,7 @@
                 wordContainer.classList.remove("shake");
             }, { once: true });
         }
+        
         function greenAnimation() {
             const elements = wordContainer.querySelectorAll('.letter, .insert-slot');
             const animationDuration = 500; // in ms (0.5s from CSS)
@@ -4966,16 +4982,38 @@
                 }, totalDelay);
             });
         }
+        
+        function bonusAnimation() {
+            const elements = wordContainer.querySelectorAll('.letter, .insert-slot');
+            const animationDuration = 500; // in ms (0.5s from CSS)
+            const stagger = 30; // in ms (0.03s)
+
+            elements.forEach((el, index) => {
+                el.classList.remove('anim-pos');
+                el.classList.remove('anim-bonus');
+                void el.offsetWidth; // reflow to restart animation
+
+                el.style.animationDelay = `${index * stagger / 1000}s`;
+                el.classList.add('anim-bonus');
+
+                // Calculate when to remove the class
+                const totalDelay = animationDuration + index * stagger;
+                setTimeout(() => {
+                    el.classList.remove('anim-bonus');
+                    //   el.style.animationDelay = ''; // optional: clean up inline style
+                }, totalDelay);
+            });
+        }
 
         function removeAnimation() {
             if (wordContainer.classList.contains('anim-neg')) { wordContainer.classList.remove('anim-neg'); }
             if (wordContainer.classList.contains('anim-pos')) { wordContainer.classList.remove('anim-pos'); }
             if (letterGrid.classList.contains('anim-refresh')) { letterGrid.classList.remove('anim-refresh'); }
-            // if (bonusBtn.classList.contains('anim-bonus')) { bonusBtn.classList.remove('anim-bonus'); }
-            if (gridRefreshBtn.classList.contains('anim-bonus')) { gridRefreshBtn.classList.remove('anim-bonus'); }
+            if (wordContainer.classList.contains('anim-bonus')) { wordContainer.classList.remove('anim-bonus'); }
+            if (gridRefreshBtn.classList.contains('anim-play')) { gridRefreshBtn.classList.remove('anim-play'); }
             if (wordContainer.classList.contains('shake')) { wordContainer.classList.remove('shake'); }
             if (actionBtn.classList.contains('anim-play')) { actionBtn.classList.remove('anim-play'); }
-            if (milestonesBtn.classList.contains('anim-bonus')) { milestonesBtn.classList.remove('anim-bonus'); }
+            if (milestonesBtn.classList.contains('anim-play')) { milestonesBtn.classList.remove('anim-play'); }
 
         }
 
@@ -5873,7 +5911,7 @@
                 console.error("Streak milestone failed", e);
             }
 
-            milestonesBtn.classList.add('anim-bonus');
+            milestonesBtn.classList.add('anim-play');
 
             renderMilestones();
             saveGameState();
@@ -6499,8 +6537,7 @@
             playedWords.add(bonusTicker);
             updateHistory();
             bonusTicker = '';
-            setupDraggables();
-            setupDropZones();
+            initDragAndDrop();
             saveGameState();
             // Auto-select this cell after replacement
             selectCell(cell);
