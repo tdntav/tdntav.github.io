@@ -2505,7 +2505,7 @@
 
         .anim-bonus {
             animation-name: animate-bonus;
-            animation-duration: 3s;
+            animation-duration: 2s;
         }
 
         @keyframes animate-bonus {
@@ -4967,7 +4967,6 @@
         function redAnimation() {
             wordContainer.classList.add('anim-neg');
         }
-        // function bonusAnimation() { bonusBtn.classList.add('anim-bonus'); }
         function gridRefreshAnimation() { gridRefreshBtn.classList.add('anim-play'); }
         function alreadyUsedAnimation() {
             wordContainer.classList.add("shake");
@@ -5000,7 +4999,7 @@
         
         function bonusAnimation() {
             const elements = wordContainer.querySelectorAll('.letter, .insert-slot');
-            const animationDuration = 500; // in ms (0.5s from CSS)
+            const animationDuration = 2000; // in ms (0.5s from CSS)
             const stagger = 30; // in ms (0.03s)
 
             elements.forEach((el, index) => {
