@@ -7281,6 +7281,7 @@
             if (!moved) {
                 messageElement.innerHTML = `<span>NOT A VALID MOVE. CLICK + FOR GUIDANCE</span>`; //MAX 42 chars
                 showTemporaryMessage();
+                initDragAndDrop();
                 return;
             }
             if (validate) validateWord(originalWord);
