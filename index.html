@@ -2489,16 +2489,31 @@
 
         .anim-neg {
             animation-name: animate-negative;
-            animation-duration: 1s;
+            animation-duration: 0.4s;
         }
 
         @keyframes animate-negative {
             0% {
-                background-color: var(--special-mode);
+                background-color: var(--text);
+                /* background-color: #000; */
+                transform: translateX(0px);
+            }
+
+            25% {
+                transform: translateX(-10px);
+            }
+
+            50% {
+                transform: translateX(10px);
+            }
+
+            75% {
+                transform: translateX(-10px);
             }
 
             100% {
                 background-color: transparent;
+                transform: translateX(0);
             }
         }
 
@@ -4284,7 +4299,7 @@
             updateHistory();
             bonusTicker = '';
             lastValidWord = currentWord;
-            messageElement.innerHTML = `<span>BONUS SETUP MOVE PLAYED!</span>`;
+            messageElement.innerHTML = `<span>SETUP MOVE PLAYED!</span>`;
             showTemporaryMessage();
             thisGameStreak = Math.max(thisGameStreak, noBonusStreak);
             noBonusStreak = 0;
@@ -4969,7 +4984,9 @@
 
         function redAnimation() {
             wordContainer.classList.add('anim-neg');
+            setTimeout(() => {wordContainer.classList.remove('anim-neg');}, 400);
         }
+
         function gridRefreshAnimation() { gridRefreshBtn.classList.add('anim-play'); }
         function alreadyUsedAnimation() {
             wordContainer.classList.add("shake");
@@ -7247,6 +7264,7 @@
                     updateHistory();
                     messageElement.innerHTML = `<span>${currentWord}, UNKNOWN WORD</span>`;
                     currentWord = lastValidWord;
+                    redAnimation();
                     renderWord();
                     rollbackGrid();
                     // grid = gridFallback;
