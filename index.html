@@ -1729,6 +1729,36 @@
             z-index: 10002;
         }
 
+
+
+        .newsFlash {
+            position: absolute;
+            /* display:none; */
+            top: 115cqi;
+            left: 5cqi;
+            pointer-events: none;
+            display:flexbox;
+            flex-wrap: wrap;
+            justify-content: center; 
+            align-items: center;
+            text-align: center;
+            width: 90cqi; 
+            height: 29cqi;
+            border-radius: var(--rounding);
+            font-family: var(--font2);
+            font-size: 1cqi;
+            flex-wrap: wrap;
+            text-align: center;
+            color: var(--text);
+            background: var(--gridcell);
+            border:transparent;
+            /* padding-block: 1.5cqi; */
+            z-index: 10002;
+            opacity: 0%;
+        }
+
+
+
 /* 
         .message {
             position: absolute;
@@ -1902,7 +1932,7 @@
             width: 90cqi;
             overflow-y: auto;
             overscroll-behavior: contain;
-            min-height: 3cqi;
+            min-height: var(--cell-size);
             max-height: 28cqi;
             font-size: 0.7rem;
             font-family: var(--font2);
@@ -2617,6 +2647,57 @@
         }
 
 
+        .anim-newsFlash {
+            animation-name: animate-newsFlash;
+            animation-duration: 5s;
+        }
+
+        @keyframes animate-newsFlash {
+            0% {
+                /* background-color: var(--gridcell);
+                color: var(--gridcell-text); */
+                opacity:0%;
+                transform:scale(0%);
+            }
+
+            5% {
+                /* background-color: var(--gridcell);
+                color: var(--gridcell-text); */
+                opacity:100%;
+                transform:scale(103%);
+            }
+
+            15% {
+                /* background-color: var(--gridcell);
+                color: var(--gridcell-text); */
+                opacity:100%;
+                transform:scale(100%);
+            }
+
+            60% {
+                /* background-color: var(--gridcell);
+                color: var(--gridcell-text); */
+                opacity: 100%;
+                transform:scale(100%);
+
+            }            
+            
+            80% {
+                /* background-color: var(--gridcell);
+                color: var(--gridcell-text); */
+                opacity: 100%;
+                transform:scale(103%);
+            }
+
+            100% {
+                /* background-color: transparent;
+                color: transparent;        */
+                opacity: 0%;
+                transform:scale(0%);
+             }
+        }
+
+
         .shake {
             animation: shake 0.2s ease;
         }
@@ -3272,6 +3353,7 @@
         <div id="streakDiv" class="streakDiv" title="Current no-bonus streak">STREAK</div>
         <div id="message" class="message"></div>
         <div id="move-preview" class="move-preview"></div>
+        <div id="newsFlash" class="newsFlash"></div>
 
     </div>
     <div id="message-bg" class="message-bg"></div>
@@ -3985,6 +4067,7 @@
         const wildcardThree = document.getElementById('wildcard-3');
         const messageElement = document.getElementById('message');
         const movePreview = document.getElementById('move-preview');
+        const newsFlash = document.getElementById('newsFlash');
         const messageBG = document.getElementById('message-bg');
         const scoreElement = document.getElementById('score');
         const chainElement = document.getElementById('chain');
@@ -6202,7 +6285,6 @@
 
 
 
-
         function renderMilestones() {
             const merged = Object.values(
                 milestones.reduce((map, quest) => {
@@ -6244,9 +6326,39 @@
                 .reverse()
                 .map(q => renderRewards(q))
                 .join("");
-
+            
+            TriggerNewsFlash(merged[0]);
             // streakinfo.innerHTML = `best no-bonus streak is ${thisGameStreak} words`;
         }
+
+        let newsFlashTimeout;
+        function TriggerNewsFlash(latestMilestone) {
+            if (!latestMilestone) return;
+            // Clear any pending fade-out timer from a previous trigger
+            clearTimeout(newsFlashTimeout);
+
+            // 1. Render content and make element visible in DOM
+            newsFlash.innerHTML = latestMilestone ? renderRewards(latestMilestone) : "";
+            newsFlash.classList.remove('anim-newsFlash');
+            void newsFlash.offsetWidth; // reflow to restart animation
+            newsFlash.classList.add('anim-newsFlash');
+            // newsFlash.style.display = "block";
+            // 2. Force browser reflow so the initial opacity applies before transitioning
+            // void newsFlash.offsetWidth;
+
+            // 3. Fade in instantly (or keep opacity 1 if already visible)
+            // newsFlash.style.opacity = "1";
+
+            // 4. Wait 2 seconds (or add a hold delay first), then fade out and hide
+            // newsFlashTimeout = setTimeout(() => {
+                // newsFlash.style.opacity = "0";
+
+                // Hide display after the 2-second CSS fade completes
+                // newsFlashTimeout = setTimeout(() => {
+                    // newsFlash.style.display = "none";
+                // }, 2000); 
+            // }, 1000); // Adjust this delay to change how long the message stays fully visible before fading
+            }
 
 
         function computeOpenMissions() {
@@ -7008,8 +7120,7 @@
                     length: currentWord.length,
                     rewards: { gridExpanded: true }
                 });
-
-
+                renderMilestones();
                 maybePlaceAsterisk(refreshedCells);
                 initDragAndDrop(); //DRAGDROP ADDED
 
