@@ -1721,8 +1721,6 @@
             width: 100%; /* Ensure it spans the container */
             border-radius: var(--rounding) var(--rounding) 0 0;
             font-family: var(--font2);
-            flex-wrap: wrap;
-            text-align: center;
             color: var(--text);
             background-image: transparent;
             padding-block: 4.5cqi;
@@ -1734,24 +1732,23 @@
         .newsFlash {
             position: absolute;
             /* display:none; */
-            top: 115cqi;
+            top: 115.5cqi;
             left: 5cqi;
             pointer-events: none;
             display:flexbox;
             flex-wrap: wrap;
+            /* justify-self:center; */
             justify-content: center; 
             align-items: center;
-            text-align: center;
             width: 90cqi; 
-            height: 29cqi;
+            height: 28cqi;
             border-radius: var(--rounding);
             font-family: var(--font2);
             font-size: 1cqi;
-            flex-wrap: wrap;
             text-align: center;
             color: var(--text);
             background: var(--gridcell);
-            border: 0.5cqi solid var(--text);
+            border: 0.5cqi solid var(--accent);
             /* padding-block: 1.5cqi; */
             z-index: 10002;
             opacity: 0%;
@@ -6340,8 +6337,12 @@
             // 1. Render content and make element visible in DOM
             newsFlash.innerHTML = latestMilestone ? renderRewards(latestMilestone) : "";
             newsFlash.classList.remove('anim-newsFlash');
+            // mileStonesBtn.classList.remove('anim-newsFlash');
             void newsFlash.offsetWidth; // reflow to restart animation
+            // void mileStonesBtn.offsetWidth; // reflow to restart animation
             newsFlash.classList.add('anim-newsFlash');
+            // mileStonesBtn.classList.add('anim-newsFlash');
+
             // newsFlash.style.display = "block";
             // 2. Force browser reflow so the initial opacity applies before transitioning
             // void newsFlash.offsetWidth;
