@@ -1243,6 +1243,7 @@
             /* box-sizing: border-box; */
             background: var(--button);
             border: var(--button-border);
+            z-index: 1000;
         }
 
         /*spans all rows*/
@@ -1744,14 +1745,13 @@
             align-items: center;
             width: 90cqi; 
             height: 28cqi;
-            border-radius: var(--rounding);
+            /* border-radius: var(--rounding) var(--rounding) var(--rounding) 0; */
             font-family: var(--font1);
-            font-size: 1cqi;
-            text-align: center;
+            /* font-size: 1cqi; */
+            /* text-align: center; */
             color: var(--gridcell-text);
             background: var(--gridcell);
-            border: 1cqi solid var(--accent);
-            /* padding-block: 1.5cqi; */
+            border: var(--button-border);
             z-index: 10002;
             opacity: 0%;
         }
@@ -2663,7 +2663,7 @@
                 /* background-color: var(--gridcell);
                 color: var(--gridcell-text); */
                 opacity:100%;
-                transform:scale(103%);
+                transform:scale(100%);
             }
 
             15% {
@@ -2671,6 +2671,8 @@
                 color: var(--gridcell-text); */
                 opacity:100%;
                 transform:scale(100%);
+                border-radius: 0 var(--rounding) var(--rounding) var(--rounding);
+
             }
 
             60% {
@@ -2684,8 +2686,10 @@
             80% {
                 /* background-color: var(--gridcell);
                 color: var(--gridcell-text); */
-                opacity: 100%;
-                transform:scale(103%);
+                opacity: 100%;                
+                transform:scale(100%);
+
+                border-radius: 0 var(--rounding) var(--rounding) var(--rounding);
             }
 
             100% {
@@ -2693,6 +2697,54 @@
                 color: transparent;        */
                 opacity: 60%;
                 transform:scale(0%);
+             }
+        }
+
+
+        .anim-newsFlashBtn {
+            animation-name: animate-newsFlashBtn;
+            animation-duration: 5s;
+        }
+
+        @keyframes animate-newsFlashBtn {
+            0% {
+                background-color: var(--accent);
+                color: var(--accent-text);
+                border-radius: var(--rounding);
+                /* opacity:0%; */
+                /* transform:scale(0%); */
+            }
+
+
+            5% {
+                background-color: var(--gridcell);
+                color: var(--gridcell-text);
+                /* border: 1cqi solid var(--accent); */
+                border-radius: var(--rounding) var(--rounding) 0 0;
+                border-bottom: 0;
+                height: 14.4cqi;
+                /* opacity:100%; */
+                /* transform:scale(100%); */
+            }
+           
+            
+            80% {
+                background-color: var(--gridcell);
+                color: var(--gridcell-text);
+                /* border: 1cqi solid var(--accent); */
+                border-radius: var(--rounding) var(--rounding) 0 0;
+                border-bottom: 0;
+                height: 14.4cqi;
+                /* opacity:100%; */
+                /* transform:scale(100%); */
+            }
+
+            100% {
+                background-color: var(--accent);
+                color: var(--accent-text);
+                border-radius: var(--rounding);
+                /* opacity:0%; */
+                /* transform:scale(0%); */
              }
         }
 
@@ -6274,8 +6326,7 @@
 
             // --- Assemble ---
             return `
-                    <p class="sq-para">
-                    ${headerLine}<br>
+                    <p class="sq-para">${headerLine}<br>
                     ${rewardLines.length ? ` <small>${rewardLines.join("")}</small>` : ""}
                     <br><span class="sq-word">${q.word.toLowerCase()}</span>
                     </p>
@@ -6327,7 +6378,6 @@
                 .join("");
             
             TriggerNewsFlash(merged[0]);
-            // streakinfo.innerHTML = `best no-bonus streak is ${thisGameStreak} words`;
         }
 
         let newsFlashTimeout;
@@ -6336,31 +6386,14 @@
             // Clear any pending fade-out timer from a previous trigger
             clearTimeout(newsFlashTimeout);
 
-            // 1. Render content and make element visible in DOM
             newsFlash.innerHTML = latestMilestone ? renderRewards(latestMilestone) : "";
-            newsFlash.classList.remove('anim-newsFlash');
-            // mileStonesBtn.classList.remove('anim-newsFlash');
+            newsFlash.classList.remove('anim-newsFlash');            
+            milestonesBtn.classList.remove('anim-newsFlashBtn');
             void newsFlash.offsetWidth; // reflow to restart animation
-            // void mileStonesBtn.offsetWidth; // reflow to restart animation
+            void milestonesBtn.offsetWidth; // reflow to restart animation
             newsFlash.classList.add('anim-newsFlash');
-            // mileStonesBtn.classList.add('anim-newsFlash');
+            milestonesBtn.classList.add('anim-newsFlashBtn');
 
-            // newsFlash.style.display = "block";
-            // 2. Force browser reflow so the initial opacity applies before transitioning
-            // void newsFlash.offsetWidth;
-
-            // 3. Fade in instantly (or keep opacity 1 if already visible)
-            // newsFlash.style.opacity = "1";
-
-            // 4. Wait 2 seconds (or add a hold delay first), then fade out and hide
-            // newsFlashTimeout = setTimeout(() => {
-                // newsFlash.style.opacity = "0";
-
-                // Hide display after the 2-second CSS fade completes
-                // newsFlashTimeout = setTimeout(() => {
-                    // newsFlash.style.display = "none";
-                // }, 2000); 
-            // }, 1000); // Adjust this delay to change how long the message stays fully visible before fading
             }
 
 
