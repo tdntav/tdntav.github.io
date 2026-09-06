@@ -4180,7 +4180,9 @@
 
         let gridSize = 3;
         let cellSize = 14;
+
         let gridMsgCue = false;
+        let penaltyMsgCue = '';
         let grid = [];
         let gridFallback = [];
         let score = 0;
@@ -5721,17 +5723,20 @@
             livesLost++;
             consecutiveBonuses = 0;
             messageElement.innerHTML = `<span>-1 LIFE FOR BONUS OVERUSE</span>`;
-            milestones.push({
-                word: `(${currentWord})`,
-                penalty: true,
-                penaltyNumber: livesLost,
-                penaltyReason: `bonus overuse`,
-                chain: chain,
-                length: currentWord.length,
-                rewards: {
-                    livesPenalty: 1
-                }
-            });
+            // milestones.push({
+            //     word: `(${currentWord})`,
+            //     penalty: true,
+            //     penaltyNumber: livesLost,
+            //     penaltyReason: `bonus overuse`,
+            //     chain: chain,
+            //     length: currentWord.length,
+            //     rewards: {
+            //         livesPenalty: 1
+            //     }
+            // });
+            penaltyMsgCue = 'bonus';
+                                    console.log('penaltyMsgCue: ', penaltyMsgCue);
+            updateMilestones();
             if (livesLost >= totalLives) {
                 messageElement.innerHTML += `<span>, GAME OVER.</span>`;
                 saveHighScore();
@@ -5740,6 +5745,7 @@
             }
             showTemporaryMessage();
             updateStatus();
+
 
         }
 
@@ -5836,8 +5842,84 @@
 
 
         function updateMilestones() {
+
+            if (penaltyMsgCue == 'invalid') {
+
+                milestones.push({
+                        word: `(${currentWord})`,
+                        penalty: true,
+                        penaltyNumber: livesLost,
+                        penaltyReason: 'invalid word',
+                        chain: chain,
+                        length: currentWord.length,
+                        rewards: {
+                            setupPenalty: Math.floor(0.5 * setupMovesAvailable),
+                            setupBeforePenalty: setupMovesAvailable,
+                            gridRefreshPenalty: Math.floor(0.5 * gridRefreshBonusesAvailable),
+                            gridRefreshBeforePenalty: gridRefreshBonusesAvailable,
+                            livesPenalty: 1
+                        }
+                    });
+                
+                renderMilestones();
+                triggerNewsFlash(flashMilestone);
+                penaltyMsgCue = '';
+                saveGameState();
+                return;
+            }
+
+
+            if (penaltyMsgCue == 'bonus') {
+
+
+                milestones.push({
+                    word: `(${currentWord})`,
+                    penalty: true,
+                    penaltyNumber: livesLost,
+                    penaltyReason: `bonus overuse`,
+                    chain: chain,
+                    length: currentWord.length,
+                    rewards: {
+                        livesPenalty: 1
+                    }
+                });
+
+                renderMilestones();
+                triggerNewsFlash(flashMilestone);
+                penaltyMsgCue = '';
+                saveGameState();
+                return;
+            }
+
+
+
+
+
+
+
+
+
+            // milestones.push({
+            //     word: `(${currentWord})`,
+            //     penalty: true,
+            //     penaltyNumber: livesLost,
+            //     penaltyReason: `bonus overuse`,
+            //     chain: chain,
+            //     length: currentWord.length,
+            //     rewards: {
+            //         livesPenalty: 1
+            //     }
+            // });
+
+
             // Check if milestone exists for latest game state
-            if (!wordLengthMilestones.includes(currentWord.length) && !chainMilestones.includes(chain) && !(stringMilestones[0] <= score) && !(streakMilestones.includes(noBonusStreak))) {
+
+            if (!wordLengthMilestones.includes(currentWord.length) && 
+                !chainMilestones.includes(chain) && 
+                !(stringMilestones[0] <= score) && 
+                !streakMilestones.includes(noBonusStreak)
+        
+        ) {
                 return;
             }
 
@@ -7504,22 +7586,31 @@
 
                     noBonusStreak = 0;
                     sa_event(() => "invalid_" + currentWord); //LOG INVALID WORDS
-                    // let penalty = currentWord.length * livesLost;
-                    milestones.push({
-                        word: `(${currentWord})`,
-                        penalty: true,
-                        penaltyNumber: livesLost,
-                        penaltyReason: 'invalid word',
-                        chain: chain,
-                        length: currentWord.length,
-                        rewards: {
-                            setupPenalty: Math.floor(0.5 * setupMovesAvailable),
-                            setupBeforePenalty: setupMovesAvailable,
-                            gridRefreshPenalty: Math.floor(0.5 * gridRefreshBonusesAvailable),
-                            gridRefreshBeforePenalty: gridRefreshBonusesAvailable,
-                            livesPenalty: 1
-                        }
-                    });
+
+                    penaltyMsgCue = 'invalid';
+                                    // console.log('penaltyMsgCue: ', penaltyMsgCue);
+                    updateMilestones();
+
+
+
+                    // milestones.push({
+                    //     word: `(${currentWord})`,
+                    //     penalty: true,
+                    //     penaltyNumber: livesLost,
+                    //     penaltyReason: 'invalid word',
+                    //     chain: chain,
+                    //     length: currentWord.length,
+                    //     rewards: {
+                    //         setupPenalty: Math.floor(0.5 * setupMovesAvailable),
+                    //         setupBeforePenalty: setupMovesAvailable,
+                    //         gridRefreshPenalty: Math.floor(0.5 * gridRefreshBonusesAvailable),
+                    //         gridRefreshBeforePenalty: gridRefreshBonusesAvailable,
+                    //         livesPenalty: 1
+                    //     }
+                    // });
+
+
+
                     updateStatus();
                     setupMovesAvailable -= Math.floor(0.5 * setupMovesAvailable);
                     gridRefreshBonusesAvailable -= Math.floor(0.5 * gridRefreshBonusesAvailable);
