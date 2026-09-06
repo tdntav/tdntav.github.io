@@ -1744,7 +1744,7 @@
             justify-content: center; 
             align-items: center;
             width: 90cqi; 
-            height: 28cqi;
+            height: 32.5cqi;
             /* border-radius: var(--rounding) var(--rounding) var(--rounding) 0; */
             font-family: var(--font1);
             /* font-size: 1cqi; */
@@ -1932,7 +1932,7 @@
             overflow-y: auto;
             overscroll-behavior: contain;
             min-height: var(--cell-size);
-            max-height: 28cqi;
+            max-height: 32.5cqi;
             font-size: 0.7rem;
             font-family: var(--font2);
             color: var(--accent-text);
@@ -4180,6 +4180,7 @@
 
         let gridSize = 3;
         let cellSize = 14;
+        let gridMsgCue = false;
         let grid = [];
         let gridFallback = [];
         let score = 0;
@@ -4441,8 +4442,8 @@
             updateStatus();
             penaliseConsecutiveBonuses();
             bonusAnimation(); //ADDED FOR BONUS MOVE EFFECT
-            clearSpecialMode();
             replenishGrid(); //MOVED TO HERE TO STOP GRID EXPAND FOR SETUP MOVE
+            clearSpecialMode();
 
             return;
         });
@@ -5819,6 +5820,21 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         function updateMilestones() {
             // Check if milestone exists for latest game state
             if (!wordLengthMilestones.includes(currentWord.length) && !chainMilestones.includes(chain) && !(stringMilestones[0] <= score) && !(streakMilestones.includes(noBonusStreak))) {
@@ -5924,9 +5940,27 @@
                     // Remove it so it can't trigger again
                     wordLengthMilestones.splice(wordQuestIndex, 1);
 
+            //IF 4X4
+                // milestones.push({
+                //     word: currentWord,
+                //     wordQuest: true,
+                //     chain: chain,
+                //     length: currentWord.length,
+                //     rewards: { gridExpanded: true }
+                // });
+
+
+
+
+
+
+
+
+
 
                     //Applies bonus or shuffle for word length milestones
-                    if (currentWord.length % 2 === 0 && currentWord.length >= 7 && totalLives == 11) {
+                //MAXING OUT LIVES
+                    if (currentWord.length % 2 === 0 && currentWord.length >= 7 && totalLives == 7) {
                         milestones.push({
                             word: currentWord,
                             wordQuest: true,
@@ -5935,14 +5969,48 @@
                             rewards: {
                                 setupWordQuest: currentWord.length,
                                 setupBeforeWordQuest: setupMovesAvailable,
+                                lives: 1,
                                 livesMaxed: true,
-                                lives: 1
+                                gridExpanded: gridMsgCue
                             }
                         });
                         setupMovesAvailable = setupMovesAvailable + currentWord.length;
                         updateBonusButton();
                         totalLives++;
                         updateStatus();
+                        gridMsgCue = false;
+
+                    } else if (currentWord.length % 2 !== 0 && currentWord.length >= 7 && totalLives == 7) {
+                        milestones.push({
+                            word: currentWord,
+                            wordQuest: true,
+                            chain: chain,
+                            length: currentWord.length,
+                            rewards: {
+                                gridRefreshWordQuest: currentWord.length,
+                                gridRefreshBeforeWordQuest: gridRefreshBonusesAvailable,
+                                lives: 1,
+                                livesMaxed: true,
+                                gridExpanded: gridMsgCue
+                            }
+                        });
+                        gridRefreshBonusesAvailable = gridRefreshBonusesAvailable + currentWord.length;
+                        updateGridRefreshButton();
+                        totalLives++;
+                        updateStatus();                        
+                        gridMsgCue = false;
+
+
+
+
+
+
+
+
+
+
+
+                //GAINING A LIFE
                     } else if (currentWord.length % 2 === 0 && currentWord.length >= 7 && totalLives < 8) {
                         milestones.push({
                             word: currentWord,
@@ -5952,44 +6020,20 @@
                             rewards: {
                                 setupWordQuest: currentWord.length,
                                 setupBeforeWordQuest: setupMovesAvailable,
-                                lives: 1
+                                lives: 1,
+                                gridExpanded: gridMsgCue
                             }
                         });
                         setupMovesAvailable = setupMovesAvailable + currentWord.length;
                         updateBonusButton();
                         totalLives++;
                         updateStatus();
-                    } else if (currentWord.length % 2 === 0 && currentWord.length >= 7 && totalLives == 8) {
-                        milestones.push({
-                            word: currentWord,
-                            wordQuest: true,
-                            chain: chain,
-                            length: currentWord.length,
-                            rewards: {
-                                setupWordQuest: currentWord.length,
-                                setupBeforeWordQuest: setupMovesAvailable,
-                            }
-                        });
-                        setupMovesAvailable = setupMovesAvailable + currentWord.length;
-                        updateBonusButton();
-                        updateStatus();
-                    } else if (currentWord.length % 2 !== 0 && currentWord.length >= 7 && totalLives == 11) {
-                        milestones.push({
-                            word: currentWord,
-                            wordQuest: true,
-                            chain: chain,
-                            length: currentWord.length,
-                            rewards: {
-                                gridRefreshWordQuest: currentWord.length,
-                                gridRefreshBeforeWordQuest: gridRefreshBonusesAvailable,
-                                livesMaxed: true,
-                                lives: 1
-                            }
-                        });
-                        gridRefreshBonusesAvailable = gridRefreshBonusesAvailable + currentWord.length;
-                        updateGridRefreshButton();
-                        totalLives++;
-                        updateStatus();
+                        gridMsgCue = false;
+
+
+
+
+                        
                     } else if (currentWord.length % 2 !== 0 && currentWord.length >= 7 && totalLives < 8) {
                         milestones.push({
                             word: currentWord,
@@ -5999,13 +6043,32 @@
                             rewards: {
                                 gridRefreshWordQuest: currentWord.length,
                                 gridRefreshBeforeWordQuest: gridRefreshBonusesAvailable,
-                                lives: 1
+                                lives: 1,
+                                gridExpanded: gridMsgCue
                             }
                         });
                         gridRefreshBonusesAvailable = gridRefreshBonusesAvailable + currentWord.length;
                         updateGridRefreshButton();
                         totalLives++;
                         updateStatus();
+                        gridMsgCue = false;
+                //LIVES ALREADY MAXED
+                    } else if (currentWord.length % 2 === 0 && currentWord.length >= 7 && totalLives == 8) {
+                        milestones.push({
+                            word: currentWord,
+                            wordQuest: true,
+                            chain: chain,
+                            length: currentWord.length,
+                            rewards: {
+                                setupWordQuest: currentWord.length,
+                                setupBeforeWordQuest: setupMovesAvailable,
+                                gridExpanded: gridMsgCue
+                            }
+                        });
+                        setupMovesAvailable = setupMovesAvailable + currentWord.length;
+                        updateBonusButton();
+                        updateStatus();
+                        gridMsgCue = false;
                     } else if (currentWord.length % 2 !== 0 && currentWord.length >= 7 && totalLives == 8) {
                         milestones.push({
                             word: currentWord,
@@ -6015,37 +6078,44 @@
                             rewards: {
                                 gridRefreshWordQuest: currentWord.length,
                                 gridRefreshBeforeWordQuest: gridRefreshBonusesAvailable,
+                                gridExpanded: gridMsgCue
                             }
                         });
                         gridRefreshBonusesAvailable = gridRefreshBonusesAvailable + currentWord.length;
                         updateGridRefreshButton();
                         updateStatus();
-                    } else if (currentWord.length % 2 === 0 && currentWord.length > 6) {
+                        gridMsgCue = false;
+
+                    } else if (currentWord.length % 2 === 0 && currentWord.length == 6) {
                         milestones.push({
                             word: currentWord,
                             wordQuest: true,
                             chain: chain,
                             length: currentWord.length,
                             rewards: {
-                                setupWordQuest: currentWord.length,
-                                setupBeforeWordQuest: setupMovesAvailable
+                                // setupWordQuest: currentWord.length,
+                                // setupBeforeWordQuest: setupMovesAvailable,
+                                gridExpanded: gridMsgCue
                             }
                         });
-                        setupMovesAvailable = setupMovesAvailable + currentWord.length;
-                        updateBonusButton();
-                    } else if (currentWord.length % 2 !== 0 && currentWord.length > 6) {
+                        // setupMovesAvailable = setupMovesAvailable + currentWord.length;
+                        // updateBonusButton();
+                        gridMsgCue = false;
+                    } else if (currentWord.length % 2 !== 0 && currentWord.length == 6) {
                         milestones.push({
                             word: currentWord,
                             wordQuest: true,
                             chain: chain,
                             length: currentWord.length,
                             rewards: {
-                                gridRefreshWordQuest: currentWord.length,
-                                gridRefreshBeforeWordQuest: gridRefreshBonusesAvailable
+                                // gridRefreshWordQuest: currentWord.length,
+                                // gridRefreshBeforeWordQuest: gridRefreshBonusesAvailable,
+                                gridExpanded: gridMsgCue
                             }
                         });
-                        gridRefreshBonusesAvailable = gridRefreshBonusesAvailable + currentWord.length;
-                        updateGridRefreshButton();
+                        // gridRefreshBonusesAvailable = gridRefreshBonusesAvailable + currentWord.length;
+                        // updateGridRefreshButton();
+                        gridMsgCue = false;
                     }
                 };
             } catch (e) {
@@ -6081,9 +6151,37 @@
 
             milestonesBtn.classList.add('anim-play');
 
+            // renderRewards(); //WILL THIS WORK?
             renderMilestones();
+            triggerNewsFlash(flashMilestone);
             saveGameState();
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         function nextMileStones() {
             const nextString = stringMilestones[0];
@@ -6258,6 +6356,10 @@
             if (q.rewards?.lives && !(q.rewards?.livesMaxed)) {
                 // rewardLines.push(`+1 life for ${q.length} letters`);
                 rewardLines.push(`  +1 life</span>`);
+            }            
+            if (!q.rewards?.lives) {
+                // rewardLines.push(`+1 life for ${q.length} letters`);
+                rewardLines.push(`</span>`);
             }
             // if (q.rewards?.gridExpanded || q.rewards?.lives || q.rewards?.setupWordQuest || q.rewards?.gridRefreshWordQuest) {
             // rewardLines.push(`</span>`);
@@ -6335,6 +6437,20 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+        let flashMilestone = '';
+
         function renderMilestones() {
             const merged = Object.values(
                 milestones.reduce((map, quest) => {
@@ -6377,11 +6493,12 @@
                 .map(q => renderRewards(q))
                 .join("");
             
-            TriggerNewsFlash(merged[0]);
+            // triggerNewsFlash(merged[0]);
+            flashMilestone = merged[0];
         }
 
         let newsFlashTimeout;
-        function TriggerNewsFlash(latestMilestone) {
+        function triggerNewsFlash(latestMilestone) {
             if (!latestMilestone) return;
             // Clear any pending fade-out timer from a previous trigger
             clearTimeout(newsFlashTimeout);
@@ -7143,20 +7260,23 @@
                 gridRefreshBtn.classList.add("span-2");
 
                 playedWords.add("(4x4)");
+                gridMsgCue = true;
                 updateHistory();
                 milestonesBtn.classList.remove("hidden");
                 // missionsBtn.classList.remove("hidden");
                 missionsBtn.classList.remove("span-0");
-
-                wordLengthMilestones.splice(0, 1);
-                milestones.push({
-                    word: currentWord,
-                    wordQuest: true,
-                    chain: chain,
-                    length: currentWord.length,
-                    rewards: { gridExpanded: true }
-                });
-                renderMilestones();
+                // wordLengthMilestones.splice(0, 1);
+                // milestones.push({
+                //     word: currentWord,
+                //     wordQuest: true,
+                //     chain: chain,
+                //     length: currentWord.length,
+                //     rewards: { gridExpanded: true }
+                // });
+                
+                // renderRewards();
+                // renderMilestones();
+                // triggerNewsFlash(flashMilestone);
                 maybePlaceAsterisk(refreshedCells);
                 initDragAndDrop(); //DRAGDROP ADDED
 
