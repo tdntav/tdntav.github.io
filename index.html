@@ -1158,8 +1158,11 @@
         }
 
         .special {
+                        /* box-sizing:border-box; */
+
             /* background: linear-gradient(var(--wordcell), var(--bg)); */
             opacity: 90%;
+            /* background: var(--special-mode); */
             /* background: none; */
         }
 
@@ -4182,7 +4185,9 @@
         let cellSize = 14;
 
         let gridMsgCue = false;
+        let missionMsgCue = false;
         let penaltyMsgCue = '';
+
         let grid = [];
         let gridFallback = [];
         let score = 0;
@@ -5890,15 +5895,6 @@
                 saveGameState();
                 return;
             }
-
-
-
-
-
-
-
-
-
             // milestones.push({
             //     word: `(${currentWord})`,
             //     penalty: true,
@@ -5917,9 +5913,9 @@
             if (!wordLengthMilestones.includes(currentWord.length) && 
                 !chainMilestones.includes(chain) && 
                 !(stringMilestones[0] <= score) && 
-                !streakMilestones.includes(noBonusStreak)
-        
-        ) {
+                !streakMilestones.includes(noBonusStreak) &&
+                !missionMsgCue == true
+                ) {
                 return;
             }
 
@@ -6214,6 +6210,7 @@
                     milestones.push({
                         word: currentWord,
                         streakQuest: true,
+                        chain: chain,
                         length: currentWord.length,
                         rewards: {
                             setupStreakQuest: noBonusStreak,
@@ -6231,9 +6228,43 @@
                 console.error("Streak milestone failed", e);
             }
 
+
+//MISSION CHECK
+            try {
+                if (missionMsgCue == true) {
+                    milestones.push({
+                    word: currentWord,
+                    missionQuest: true,
+                    chain: chain,
+                    string: score,
+                    length: currentWord.length,
+                    rewards: {
+                        setupMissionQuest: currentWord.length,
+                        setupBeforeMissionQuest: setupMovesAvailable,
+                        gridRefreshMissionQuest: currentWord.length,
+                        gridRefreshBeforeMissionQuest: gridRefreshBonusesAvailable
+                    }
+                });
+                missionMsgCue = false;
+                    // setupMovesAvailable = setupMovesAvailable + noBonusStreak;
+                    // gridRefreshBonusesAvailable = gridRefreshBonusesAvailable + noBonusStreak;
+                    // updateBonusButton();
+                    // updateGridRefreshButton();
+                };
+            } catch (e) {
+                console.error("Streak milestone failed", e);
+            }
+
+
+
+
+
+
+
             milestonesBtn.classList.add('anim-play');
 
             // renderRewards(); //WILL THIS WORK?
+            // checkMission(currentWord);
             renderMilestones();
             triggerNewsFlash(flashMilestone);
             saveGameState();
@@ -6626,21 +6657,24 @@
 
             // Complete it
             completedMissions.add(upper);
-            console.log(`Mission completed: ${upper}`);
+            // console.log(`Mission completed: ${upper}`);
             messageElement.innerHTML = `<span>MISSION COMPLETED: ${upper}</span>`;
-            milestones.push({
-                word: currentWord,
-                missionQuest: true,
-                chain: chain,
-                string: score,
-                length: currentWord.length,
-                rewards: {
-                    setupMissionQuest: currentWord.length,
-                    setupBeforeMissionQuest: setupMovesAvailable,
-                    gridRefreshMissionQuest: currentWord.length,
-                    gridRefreshBeforeMissionQuest: gridRefreshBonusesAvailable
-                }
-            });
+            // milestones.push({
+            //     word: currentWord,
+            //     missionQuest: true,
+            //     chain: chain,
+            //     string: score,
+            //     length: currentWord.length,
+            //     rewards: {
+            //         setupMissionQuest: currentWord.length,
+            //         setupBeforeMissionQuest: setupMovesAvailable,
+            //         gridRefreshMissionQuest: currentWord.length,
+            //         gridRefreshBeforeMissionQuest: gridRefreshBonusesAvailable
+            //     }
+            // });
+
+            missionMsgCue = true;
+
             setupMovesAvailable = currentWord.length + setupMovesAvailable;
             gridRefreshBonusesAvailable = currentWord.length + gridRefreshBonusesAvailable;
             // Recalculate unlock condition based on highest open tier only
@@ -6655,6 +6689,9 @@
                 unlockedMissionTier++;
                 sa_event(`mission_${unlockedMissionTier}`);
             }
+
+            // renderMilestones();
+            // triggerNewsFlash();
 
         }
 
@@ -7506,10 +7543,10 @@
                 noBonusStreak++;
                 thisGameStreak = Math.max(thisGameStreak, noBonusStreak);
                 consecutiveBonuses = 0;
+                checkMission(currentWord);
                 updateMilestones();
                 updateAllTimeStats();
                 updateStatus();
-                checkMission(currentWord);
                 saveGameState();
                 initDragAndDrop(); //DRAGDROP ADDED
                 return;
@@ -7572,10 +7609,10 @@
                     noBonusStreak++;
                     thisGameStreak = Math.max(thisGameStreak, noBonusStreak);
                     consecutiveBonuses = 0;
+                    checkMission(currentWord);
                     updateMilestones();
                     updateAllTimeStats();
                     updateStatus();
-                    checkMission(currentWord);
                     saveGameState();
                     initDragAndDrop(); //DRAGDROP ADDED
                     showTemporaryMessage();
