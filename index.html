@@ -1747,7 +1747,7 @@
             justify-content: center; 
             align-items: center;
             width: 90cqi; 
-            height: 32.5cqi;
+            height: 32.75cqi;
             /* border-radius: var(--rounding) var(--rounding) var(--rounding) 0; */
             font-family: var(--font1);
             /* font-size: 1cqi; */
@@ -2268,7 +2268,7 @@
 
             display: flex;
             flex-direction: column;
-            height: 101cqi;
+            height: 94cqi;
             width: 90cqi;
 
         }
@@ -2711,8 +2711,8 @@
 
         @keyframes animate-newsFlashBtn {
             0% {
-                background-color: var(--accent);
-                color: var(--accent-text);
+                background-color: var(--button);
+                color: var(--button-text);
                 border-radius: var(--rounding);
                 /* opacity:0%; */
                 /* transform:scale(0%); */
@@ -2743,8 +2743,8 @@
             }
 
             100% {
-                background-color: var(--accent);
-                color: var(--accent-text);
+                background-color: var(--button);
+                color: var(--button-text);
                 border-radius: var(--rounding);
                 /* opacity:0%; */
                 /* transform:scale(0%); */
@@ -2798,6 +2798,7 @@
             margin-inline: 0.5cqi;
             background: var(--accent);
             color: var(--accent-text);
+            border: 0.5cqi solid var(--accent-text);
         }
 
 
@@ -2809,6 +2810,7 @@
             margin-inline: 0.5cqi;
             background: var(--text);
             color: var(--bg);
+            border: 0.5cqi solid var(--bg);
         }
 
 
@@ -2904,6 +2906,26 @@
         }
 
 
+
+        .setupIndDiv {
+            background-image: linear-gradient(to bottom, var(--bg), var(--special-mode));
+            /* opacity:40%; */
+            
+            /* display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1cqi;
+            padding: 1cqi;
+            border-radius: var(--rounding);
+
+            font-family: var(--font2);
+            font-size: 2rem;
+            font-weight: 550; */
+
+        }
+        
+
+
     </style>
 </head>
 
@@ -2917,6 +2939,69 @@
 
         <div id="rules" style="display: none;">
             <!-- <h1>how to play</h1> -->
+            <div class="demo-div">
+                <!-- EXAMPLE 0: TLDR -->
+                <div class="demo-board">
+                    
+                    <!-- <h3>TL;DR</h3> -->
+                    <p class="demo-para">Drag and drop <b><i>or</i></b><br>make a selection and hit <b><i>PLAY</i></b><br>to make new valid words.</p>
+                    <p class="demo-para">The word is up top,<br>spare letters in the grid below.</p>
+
+                    <!-- <div class="word-container demoscale" style="transform:scale(0.5);margin-block:0cqi;">
+                        <div class="insert-slot demo-cell"></div>
+                        <div class="letter demo-cell">W</div>
+                        <div class="insert-slot demo-cell"></div>
+                        <div class="letter demo-cell">O</div>
+                        <div class="insert-slot demo-cell"></div>
+                        <div class="letter demo-cell">R</div>
+                        <div class="insert-slot demo-cell"></div>
+                        <div class="letter demo-cell">D</div>
+                        <div class="insert-slot demo-cell"></div>
+                    </div>
+                    <div class="grid-demo-four"
+                        style="padding:1.5cqi;border:none;margin-block:0cqi;transform:scale(0.75);">
+                        <div class="grid-cell-demo">G</div>
+                        <div class="grid-cell-demo">R</div>
+                        <div class="grid-cell-demo">I</div>
+                        <div class="grid-cell-demo">D</div>
+
+                        <div class="grid-cell-demo">S</div>
+                        <div class="grid-cell-demo">P</div>
+                        <div class="grid-cell-demo">A</div>
+                        <div class="grid-cell-demo">R</div>
+                        <div class="grid-cell-demo">E</div>
+                        <div class="grid-cell-demo">L</div>
+                        <div class="grid-cell-demo">E</div>
+                        <div class="grid-cell-demo">T</div>
+
+                        <div class="grid-cell-demo">T</div>
+                        <div class="grid-cell-demo">E</div>
+                        <div class="grid-cell-demo">R</div>
+                        <div class="grid-cell-demo">S</div>
+                    </div> -->
+
+                    <p class="demo-para" style="text-align:left;">
+                        SWAP<br><span class="rewards">word letter</span> &rarr; <span class="rewards">word letter</span><br>
+                        <br>REARRANGE<br><span class="rewards">word letter</span> &rarr; <span class="rewards">slot</span><br>
+                        <br>DELETE<br><span class="rewards">word letter</span><br>
+                        <br>REPLACE<br><span class="rewards">grid letter</span> &rarr; <span class="rewards">word letter</span><br>
+                        <br>INSERT<br><span class="rewards">grid letter</span> &rarr; <span class="rewards">slot</span>
+                    
+                    </p>
+                    <p class="demo-para">Reach a 6 letter word<br>to unlock the 4x4 grid.</p>
+
+                    <p class="demo-para">When no valid word is possible,<br>use a bonus setup word or grid refresh</p>
+                    <div class="button-row demo demoscale">
+                        <button class="button" style="border-color: var(--positive-feedback);">5 &#x29C9;&#xFE0E;</button>
+                        <button class="button disabled">PLAY</button>
+                        <button class="button" style="border-color: var(--positive-feedback);">&boxplus;&#xFE0E; 5
+                            </button>
+                    </div>
+                    <p class="demo-para">That's enough to get started.<br>More details below.</p>
+
+
+                </div>
+            </div><br>
             <h2>PLAYABLE MOVES</h2>
 
             <div class="demo-div">
@@ -2954,6 +3039,8 @@
 
                 </div>
             </div><br>
+
+
             <div class="demo-div">
                 <!-- EXAMPLE 2: REARRANGE -->
                 <div class="demo-board">
@@ -3220,8 +3307,7 @@
                     <p class="demo-para">Play your move as normal but<br>hit the <b>&#x29C9;&#xFE0E;
                         <i>SETUP</i></b> button first.
                 </p>
-                    <div class="demo-accent"
-                        style="background-image: linear-gradient(to bottom, var(--bg), var(--special-mode));">
+                    <div class="demo-accent setupIndDiv">
                         <div class="word-container demoscale"
                             style="transform: scale(0.7);margin-top:4cqi;background:var(--accent-text);border:1cqi solid var(--selected-cell);">
                             <div class="insert-slot demo-cell"></div>
@@ -3468,10 +3554,11 @@
                     Pick a letter or save for later
                 </p>
                 <div class="alpha-grid"></div>
-                <p class="opacity-hide" style="justify-content:center;font-size:0.6rem;" id="wildcard-3">
-                    After 128 words, a wildcard is awarded. It appears the next time a grid row or column refreshes.
-                    Another wildcard is earned for every 32 additional words.
+                <p class="opacity-hide" style="justify-content:center;font-size:0.5rem;" id="wildcard-3">
+                    After 128 words, a wildcard is awarded.<br>It appears when a row or column is cleared.<br>
+                    Every 32 words, another wildcard appears.<br><br>
                 </p>
+                <p>&nbsp;</p>
                 <!-- <p class="demo-para opacity-hide" style="text-align:right;font-size:13pt;" id="wildcard-2">...or save for later</p> -->
             </div>
             <!-- First wildcard when chain reaches 128, another for every additional 32 words. They appear when grid rows and columns are cleared.<br><br> -->
@@ -3573,6 +3660,10 @@
             setupDropZones();
         }
 
+        
+
+
+
         function setupDraggables() {
             const wordLetters = document.querySelectorAll('#wordContainer .letter');
             const gridCells = document.querySelectorAll('#letterGrid .grid-cell');
@@ -3585,46 +3676,60 @@
                     el.setAttribute('draggable', 'true');
                 }
 
-                el.removeEventListener('dragstart', handleDragStart);
-                el.removeEventListener('dragend', handleDragEnd);
-
-                el.addEventListener('dragstart', handleDragStart);
-                el.addEventListener('dragend', handleDragEnd);
+                // Check if the event listeners are already added
+                if (!el.hasDragListeners) {
+                    el.addEventListener('dragstart', handleDragStart);
+                    el.addEventListener('dragend', handleDragEnd);
+                    el.hasDragListeners = true; // Custom property to track listener addition
+                }
             });
         }
+
+
+
+        
+
 
         function handleDragStart(e) {
             draggedElement = e.currentTarget;
             draggedElement.classList.add('dragging');
             originalSourceText = draggedElement.innerHTML;
 
-            // Disable adjacent insert-slots
+            // Cache the parent container and slots
             const parentContainer = draggedElement.parentElement; // Assuming letters and slots share the same parent
-            const slots = parentContainer.querySelectorAll('.insert-slot');
+            const slots = parentContainer.cachedSlots || parentContainer.querySelectorAll('.insert-slot');
+            parentContainer.cachedSlots = slots; // Cache the slots for future use
+
             const draggedIndex = Array.from(parentContainer.children).indexOf(draggedElement);
-            console.log(`draggedIndex: `, draggedIndex);
-            
+            // console.log(`draggedIndex: `, draggedIndex);
+
             if (draggedElement.classList.contains('letter')) {
-                    deleteBtn.style.display = "block";
-                    statusElement.style.opacity = "0%";
+                deleteBtn.style.display = "block";
+                statusElement.style.opacity = "0%";
 
                 slots.forEach((slot, index) => {
-                    if (index === (draggedIndex - 1) / 2 || index === (draggedIndex + 1) / 2) {
-                        // slot.style.display = 'none';
+                    if ((index === (draggedIndex - 1) / 2 || index === (draggedIndex + 1) / 2) && slot.style.pointerEvents !== 'none') {
                         slot.style.pointerEvents = 'none'; // Prevent interaction
                     }
-                }); 
-
-
-                } else {
-                    deleteBtn.style.display = "none";
-                    statusElement.style.opacity = "100%";
-                    deleteBtn.classList.remove('deleteBtn-selected');
+                });
+            } else {
+                deleteBtn.style.display = "none";
+                statusElement.style.opacity = "100%";
+                deleteBtn.classList.remove('deleteBtn-selected');
             }
 
             e.dataTransfer.setData('text/plain', '');
             e.dataTransfer.effectAllowed = 'move';
         }
+
+
+
+
+
+
+
+
+
 
         function handleDragEnd(e) {
             // Restore the original element's visibility
@@ -3633,22 +3738,25 @@
                 draggedElement.classList.remove('dragging');
             }
 
-
             // Restore live swap preview if drop wasn't executed
             revertSwapPreview();
 
-            // Reset visual resize effects
-            document.querySelectorAll('.drag-over-expand').forEach(el => el.classList.remove('drag-over-expand'));
-            document.querySelectorAll('.drag-source-collapse').forEach(el => el.classList.remove('drag-source-collapse'));
-            document.querySelectorAll('.drag-preview').forEach(el => el.classList.remove('drag-preview'));
-            document.querySelectorAll('.swap-preview').forEach(el => el.classList.remove('swap-preview'));
+            // Maintain references to affected elements
+            const dragOverExpandElements = document.querySelectorAll('.drag-over-expand');
+            const dragSourceCollapseElements = document.querySelectorAll('.drag-source-collapse');
+            const dragPreviewElements = document.querySelectorAll('.drag-preview');
+            const swapPreviewElements = document.querySelectorAll('.swap-preview');
 
+            // Reset visual resize effects
+            resetClasses(dragOverExpandElements, 'drag-over-expand');
+            resetClasses(dragSourceCollapseElements, 'drag-source-collapse');
+            resetClasses(dragPreviewElements, 'drag-preview');
+            resetClasses(swapPreviewElements, 'swap-preview');
 
             // Restore all insert-slots
             const slots = document.querySelectorAll('.insert-slot');
             slots.forEach(slot => {
                 if (slot.style.pointerEvents === 'none') {
-                    // slot.style.display = 'block'; // Restore visibility
                     slot.style.pointerEvents = 'auto'; // Re-enable interaction
                 }
             });
@@ -3660,8 +3768,14 @@
             movePreview.innerHTML = '';
         }
 
+        // Utility function to reset classes for a list of elements
+        function resetClasses(elements, className) {
+            elements.forEach(el => el.classList.remove(className));
+        }
 
 
+
+        
 
 
         function setupDropZones() {
@@ -3683,7 +3797,7 @@
 
                     // Ensure the cell is still clickable
                     target.addEventListener('click', () => {
-                        console.log(`Grid cell with "*" clicked`);
+                        // console.log(`Grid cell with "*" clicked`);
                         // Add any additional logic for clicking "*" cells here
                     });
                 } else {
@@ -3722,13 +3836,8 @@
             
 
             let newWord = Array.from(wordContainer.children).map(child => child.textContent);
-            // console.log(`newWord before swap: `, newWord);
-            // const nwsourceIndex = newWord.indexOf(draggedElement);
-            // console.log(`nwsourceIndex: `, nwsourceIndex);
 
-            // const nwtargetIndex = newWord.indexOf(target);
-            // console.log(`nwsourceIndex: `, nwsourceIndex, `nwtargetIndex: `, nwtargetIndex, `target.textContent: `, target.textContent, `draggedElement.textContent: `, draggedElement.textContent, `newWord: `, newWord);
-
+            
             let lettersOnly = Array.from(wordContainer.children)
                 .filter(child => child.classList.contains('letter'));
 
@@ -3748,14 +3857,7 @@
                 // console.log(`textContents post-join: `, textContents);
                 movePreview.innerHTML = `<span>${currentWord} &rarr; ${textContents}</span>`;
 
-                // console.log(`newWord: `, newWord);
-                // newWord[nwsourceIndex] = '';
-                // console.log(`newWord after sourceIndex: `, newWord);
-
-                // newWord = newWord.join('');
-                // movePreview.innerHTML = `<span>${currentWord} &rarr; ${newWord}</span>`;
-                // console.log(`sourceIndex: `, sourceIndex, `targetIndex: `, targetIndex, `target.textContent: `, target.textContent, `draggedElement.textContent: `, draggedElement.textContent, `newWord: `, newWord);
-
+                
 
                 target.classList.add('deleteBtn-selected');
                 
@@ -3841,12 +3943,7 @@
                 movePreview.innerHTML = `<span>${currentWord} &rarr; ${textContents}</span>`;
 
 
-                // Replace letter in word with grid letter
-                // lettersOnly[sourceIndex] = target.textContent;
-                // console.log(`sourceIndex: `, sourceIndex, `targetIndex: `, targetIndex, `target.textContent: `, target.textContent, `draggedElement.textContent: `, draggedElement.textContent, `lettersOnly: `, lettersOnly);
-                // lettersOnly = lettersOnly.join('');
-                // movePreview.innerHTML = `<span>${currentWord} &rarr; ${lettersOnly}</span>`;
-
+                
                 const targetText = target.innerHTML;
                 target.innerHTML = originalSourceText;
                 draggedElement.innerHTML = targetText;
@@ -3901,13 +3998,16 @@
 
 
 
+
         function handleDragLeave(e) {
             const target = e.currentTarget;
 
+            // Reset the current swap target if the drag leaves it
             if (target === currentSwapTarget) {
                 revertSwapPreview();
             }
 
+            // Remove the 'drag-over-expand' class from insert slots
             if (target.classList.contains('insert-slot')) {
                 target.classList.remove('drag-over-expand');
                 target.classList.remove('swap-preview');
@@ -3916,10 +4016,31 @@
                 }
             }
 
+            // Ensure no lingering 'drag-over-expand' classes on other slots
+            const allSlots = document.querySelectorAll('.insert-slot');
+            allSlots.forEach(slot => {
+                if (slot !== target) {
+                    slot.classList.remove('drag-over-expand');
+                    slot.classList.remove('swap-preview');
+                }
+            });
+
+            // Remove the 'deleteBtn-selected' class if the drag leaves the delete button
             if (target.classList.contains('deleteBtn')) {
                 target.classList.remove('deleteBtn-selected');
             }
         }
+
+
+
+
+
+
+
+
+
+
+
 
         function handleDrop(e) {
             revertSwapPreview();
@@ -4079,7 +4200,7 @@
             LOCAL_WORDS = new Set(
                 Object.values(data).flatMap(list => list)
             );
-            console.log(LOCAL_WORDS);
+            // console.log(LOCAL_WORDS);
         }
         //DECLARATIONS
         const scaleWrapper = document.getElementById('scaleWrapper');
@@ -4187,6 +4308,7 @@
         let gridMsgCue = false;
         let missionMsgCue = false;
         let penaltyMsgCue = '';
+        let setupInd = false;
 
         let grid = [];
         let gridFallback = [];
@@ -4442,6 +4564,9 @@
             bonusTicker = '';
             lastValidWord = currentWord;
             messageElement.innerHTML = `<span>SETUP MOVE PLAYED!</span>`;
+            wordContainer.classList.add('setupIndDiv');
+            setupInd = true;
+            // console.log("setup move played");
             showTemporaryMessage();
             thisGameStreak = Math.max(thisGameStreak, noBonusStreak);
             noBonusStreak = 0;
@@ -4512,6 +4637,7 @@
             grid = [];
             score = 0;
             chain = 0;
+            setupInd = false;
             setupMovesAvailable = 5;
             gridRefreshBonusesAvailable = 5;
             asteriskEarned = 0;
@@ -4913,7 +5039,7 @@
 
             // 1. Find all spans in the history list
             const allSpans = historyElement.querySelectorAll('span');
-            console.log(allSpans);
+            // console.log(allSpans);
 
             // 2. Remove previous highlights safely without touching HTML strings
             allSpans.forEach(span => span.classList.remove('highlight'));
@@ -4928,7 +5054,7 @@
                 // 2. Exact match check
                 return spanText === searchText;
             });
-            console.log("target is " + target);
+            // console.log("target is " + target);
 
             if (!target) return;
 
@@ -5336,6 +5462,7 @@
                 consecutiveBonuses,
                 streakMilestones,
                 milestones,
+                setupInd,
                 playedWords: Array.from(playedWords),
                 //allTimeString, allTimeChain, allTimeStreak, allTimeWord, allTimeWordLength, unlockedMissionTier, completedMissions: Array.from(completedMissions)
             };
@@ -5419,12 +5546,14 @@
                     consecutiveBonuses,
                     streakMilestones,
                     milestones,
+                    setupInd,
                     playedWords,
                     //allTimeString, allTimeChain, allTimeStreak, allTimeWord, allTimeWordLength, unlockedMissionTier, completedMissions
                 } = JSON.parse(saved));
                 playedWords = new Set(playedWords);
                 // completedMissions = new Set(completedMissions);
                 renderWord();
+                if (setupInd == true) {wordContainer.classList.add('setupIndDiv');} else {wordContainer.classList.remove('setupIndDiv');}
                 checkPlayAreaMeasurements();
                 renderGrid();
                 initDragAndDrop(); //DRAGDROP ADDED
@@ -5740,7 +5869,7 @@
             //     }
             // });
             penaltyMsgCue = 'bonus';
-                                    console.log('penaltyMsgCue: ', penaltyMsgCue);
+                                    // console.log('penaltyMsgCue: ', penaltyMsgCue);
             updateMilestones();
             if (livesLost >= totalLives) {
                 messageElement.innerHTML += `<span>, GAME OVER.</span>`;
@@ -5928,6 +6057,7 @@
                     const stringMilestoneAmount = stringMilestones[0];
                     stringMilestones.splice(0, 1);
                     // Apply reward
+                    themeToggle.click();
                     if (stringMilestoneAmount % 200 === 0) {
                         milestones.push({
                             word: currentWord,
@@ -6315,7 +6445,8 @@
             let milestonesLong = Math.max(...words.map(w => w.length));
 
             if (totalLives == 8) {
-                extraLifeStatus = `now ${currentWord.length}, best ${milestonesLong}, avg ${avgWordLength} letters`;
+                // extraLifeStatus = `now ${currentWord.length}, best ${milestonesLong}, avg ${avgWordLength} letters`;
+                extraLifeStatus = `currently ${currentWord.length}, best ${milestonesLong} letters`;
             } else if (totalLives == 7) {
                 extraLifeStatus = `1 extra life still available`;
             } else if (totalLives < 7) {
@@ -6813,6 +6944,10 @@
         function showDefinitions(word) {
             // Fetch up to first 3 definitions and show them
             fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
+
+            // fetch(`https://api.datamuse.com/words?sp=${word}&md=d`)
+
+
                 .then(res => res.json())
                 .then(data => {
                     if (!Array.isArray(data)) throw new Error();
@@ -7547,6 +7682,8 @@
                 updateMilestones();
                 updateAllTimeStats();
                 updateStatus();
+                wordContainer.classList.remove('setupIndDiv');
+                setupInd = false;
                 saveGameState();
                 initDragAndDrop(); //DRAGDROP ADDED
                 return;
@@ -7613,6 +7750,8 @@
                     updateMilestones();
                     updateAllTimeStats();
                     updateStatus();
+                    wordContainer.classList.remove('setupIndDiv');
+                    setupInd = false;
                     saveGameState();
                     initDragAndDrop(); //DRAGDROP ADDED
                     showTemporaryMessage();
