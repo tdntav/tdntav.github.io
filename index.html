@@ -6881,7 +6881,9 @@
         function rollbackGrid() {
             const savedGridState = localStorage.getItem("stringchainStateV3");
             const gridState = JSON.parse(savedGridState);
+            // console.log("GridState: ", gridState);
             grid = gridState.grid;
+            // console.log("grid: ", grid);
             gridSize = gridState.gridSize;
             // messageElement.textContent = `GRID ROLLBACK STATE: ${grid}`
             // grid = gridFallback; // ALT VERSION - ALSO NOT WORKING
@@ -7761,7 +7763,6 @@
 
                     penaltyMsgCue = 'invalid';
                                     // console.log('penaltyMsgCue: ', penaltyMsgCue);
-                    updateMilestones();
 
 
 
@@ -7797,6 +7798,7 @@
                     redAnimation();
                     renderWord();
                     rollbackGrid();
+                    updateMilestones();
                     // grid = gridFallback;
                     // renderGrid();
                     initDragAndDrop(); //DRAGDROP ADDED
