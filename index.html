@@ -6939,32 +6939,76 @@
         //             definitionsElement.textContent = `No definitions found for "${word}".`;
         //         });
         // }
+        // function showDefinitions(word) {
+        //     // Fetch up to first 3 definitions and show them
+        //     console.log("Fetching definitions for:", word);
+        //     fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
+
+        //     // fetch(`https://api.datamuse.com/words?sp=${word}&md=d`)
+
+
+        //         .then(res => res.json())
+        //         .then(data => {
+        //             if (!Array.isArray(data)) throw new Error();
+        //             let defs = [];
+        //             data.forEach(entry => {
+        //                 entry.meanings?.forEach(meaning => {
+        //                     meaning.definitions?.forEach(defObj => {
+        //                         if (defs.length < 3) defs.push(defObj.definition);
+        //                     });
+        //                 });
+        //             });
+        //             definitionsElement.innerHTML = defs.length
+        //                 ? `<strong>${word}</strong>:<br>${defs.map(d => `- ${d}`).join('<br>')}`
+        //                 : `No definitions found for "${word}".`;
+        //         })
+        //         .catch(() => {
+        //             definitionsElement.textContent = `¯\\\_(ツ)\_/¯`;
+        //         });
+        // }
+
+
+
+
         function showDefinitions(word) {
-            // Fetch up to first 3 definitions and show them
-            fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
+    // Fetch up to first 3 definitions and show them
+    console.log("Fetching definitions for:", word);
+    
+    fetch(`https://api.datamuse.com/words?sp=${encodeURIComponent(word)}&md=d`)
+        .then(res => {
+            if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
+            return res.json();
+        })
+        .then(data => {
+            if (!Array.isArray(data) || data.length === 0) throw new Error("No data found");
 
-            // fetch(`https://api.datamuse.com/words?sp=${word}&md=d`)
+            // Datamuse returns an array of matches. Find the exact match or fall back to the first item.
+            const match = data.find(item => item.word.toLowerCase() === word.toLowerCase()) || data[0];
+            
+            if (!match.defs || match.defs.length === 0) {
+                definitionsElement.innerHTML = `No definitions found for "${word}".`;
+                return;
+            }
+
+            // Extract up to 3 definitions and strip the Datamuse part-of-speech prefix (e.g. "n\t", "adj\t")
+            const defs = match.defs
+                .slice(0, 3)
+                .map(def => def.replace(/^.*\t/, ''));
+
+            definitionsElement.innerHTML = `<strong>${word}</strong>:<br>${defs.map(d => `- ${d}`).join('<br>')}`;
+        })
+        .catch(() => {
+            definitionsElement.textContent = `¯\\\_(ツ)\_/¯`;
+        });
+}
 
 
-                .then(res => res.json())
-                .then(data => {
-                    if (!Array.isArray(data)) throw new Error();
-                    let defs = [];
-                    data.forEach(entry => {
-                        entry.meanings?.forEach(meaning => {
-                            meaning.definitions?.forEach(defObj => {
-                                if (defs.length < 3) defs.push(defObj.definition);
-                            });
-                        });
-                    });
-                    definitionsElement.innerHTML = defs.length
-                        ? `<strong>${word}</strong>:<br>${defs.map(d => `- ${d}`).join('<br>')}`
-                        : `No definitions found for "${word}".`;
-                })
-                .catch(() => {
-                    definitionsElement.textContent = `¯\\\_(ツ)\_/¯`;
-                });
-        }
+
+
+
+
+
+
         //END OF CHANGING STATES
 
 
@@ -7648,28 +7692,16 @@
                 chain++;
                 checkAsteriskBonus(chain);
 
-                //THIS LOGIC DISABLED FOR NOW. ADDITIONAL BONUSES FOR MILESTONES ONLY
-                // if ((chain % 5 === 0) && chain > 4) {
-                //     setupMovesAvailable++;
-                //     updateBonusButton();
-                //     bonusAnimation();
-                // }
-                // if (Math.floor(score / 30) > Math.floor((score - currentWord.length) / 30) && score > 29) {
-                //     gridRefreshBonusesAvailable++;
-                //     updateGridRefreshButton();
-                //     gridRefreshAnimation();
-                // }
 
+                
                 scoreElement.textContent = score;
                 chainElement.textContent = chain;
-                // milestonesBtn.innerHTML = '… <small><small><small>[' + noBonusStreak + ']</small></small></small>';
                 if (chain != 1) { messageElement.innerHTML = `<span><i><b>${currentWord}</b></i>, VALID WORD!</span>` }; //FROM LOCAL LIST
                 showTemporaryMessage();
                 clearSpecialMode(); // Nov 4 EDIT
                 greenAnimation();
                 playAnimation();
                 resetWrapper();
-                // showDefinitions(lower);
                 replenishGrid();
                 historyElement.scrollTo({ top: 0, behavior: 'smooth' });
                 gridFallback = grid;
@@ -7717,20 +7749,10 @@
                     score += currentWord.length;
                     chain++;
                     checkAsteriskBonus(chain);
-                    //THIS LOGIC DISABLED FOR NOW. ADDITIONAL BONUSES FOR MILESTONES ONLY
-                    // if ((chain % 5 === 0) && chain > 4) {
-                    //     setupMovesAvailable++;
-                    //     updateBonusButton();
-                    //     bonusAnimation();
-                    // }
-                    // if (Math.floor(score / 30) > Math.floor((score - currentWord.length) / 30) && score > 29) {
-                    //     gridRefreshBonusesAvailable++;
-                    //     updateGridRefreshButton();
-                    //     gridRefreshAnimation();
-                    // }
+
+                    
                     scoreElement.textContent = score;
                     chainElement.textContent = chain;
-                    // milestonesBtn.innerHTML = '… <small><small><small>[' + noBonusStreak + ']</small></small></small>';
                     messageElement.innerHTML = `<span><i><b>${currentWord}</b></i>, YES, VALID WORD!</span>`;
                     sa_event(() => "api_" + currentWord); //LOG API-VALIDATED WORDS (NOT ON LOCAL LIST)
                     clearSpecialMode(); // SEP 1 EDIT
@@ -7762,28 +7784,8 @@
                     sa_event(() => "invalid_" + currentWord); //LOG INVALID WORDS
 
                     penaltyMsgCue = 'invalid';
-                                    // console.log('penaltyMsgCue: ', penaltyMsgCue);
 
-
-
-                    // milestones.push({
-                    //     word: `(${currentWord})`,
-                    //     penalty: true,
-                    //     penaltyNumber: livesLost,
-                    //     penaltyReason: 'invalid word',
-                    //     chain: chain,
-                    //     length: currentWord.length,
-                    //     rewards: {
-                    //         setupPenalty: Math.floor(0.5 * setupMovesAvailable),
-                    //         setupBeforePenalty: setupMovesAvailable,
-                    //         gridRefreshPenalty: Math.floor(0.5 * gridRefreshBonusesAvailable),
-                    //         gridRefreshBeforePenalty: gridRefreshBonusesAvailable,
-                    //         livesPenalty: 1
-                    //     }
-                    // });
-
-
-
+                    
                     updateStatus();
                     setupMovesAvailable -= Math.floor(0.5 * setupMovesAvailable);
                     gridRefreshBonusesAvailable -= Math.floor(0.5 * gridRefreshBonusesAvailable);
@@ -7816,10 +7818,8 @@
                     }
                     scoreElement.textContent = score;
                     chainElement.textContent = chain;
-                    // milestonesBtn.innerHTML = '… <small><small><small>[' + noBonusStreak + ']</small></small></small>';
 
-                    // updateStatus();
-                    // updateDisallowedWords();
+                    
                     saveGameState();
                     showTemporaryMessage();
                     initDragAndDrop(); //DRAGDROP ADDED
@@ -7838,8 +7838,7 @@
                 return;
             }
             if (validate) validateWord(originalWord);
-            // clearSpecialMode();
-            // replenishGrid();
+
         }
         //END OF CORE GAMEPLAY
         loadGameState();
