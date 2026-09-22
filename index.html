@@ -3464,7 +3464,7 @@
                 Look at all the words you know, all these rhymes and connections!
                 Writers, rappers, poets, word enthusiasts, this is your jam.
                 <br>
-                <br>Big shoutout to <b><i>wiktionary.org</i></b>, <b><i>dictionaryapi.dev</i></b> and
+                <br>Big shoutout to <b><i>wiktionary.org</i></b>, <b><i>dictionaryapi.dev</i></b>, <b><i>datamuse.com</i></b>, and
                 <b><i>wordgamedictionary.com</i></b> for
                 providing free dictionary resources. This is the spirit of random collaboration that embodies the
                 internet at its best.
@@ -6971,36 +6971,36 @@
 
 
         function showDefinitions(word) {
-    // Fetch up to first 3 definitions and show them
-    console.log("Fetching definitions for:", word);
+            // Fetch up to first 3 definitions and show them
+            // console.log("Fetching definitions for:", word);
     
-    fetch(`https://api.datamuse.com/words?sp=${encodeURIComponent(word)}&md=d`)
-        .then(res => {
-            if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
-            return res.json();
-        })
-        .then(data => {
-            if (!Array.isArray(data) || data.length === 0) throw new Error("No data found");
+            fetch(`https://api.datamuse.com/words?sp=${encodeURIComponent(word)}&md=d`)
+                .then(res => {
+                    if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
+                    return res.json();
+                })
+                .then(data => {
+                    if (!Array.isArray(data) || data.length === 0) throw new Error("No data found");
 
-            // Datamuse returns an array of matches. Find the exact match or fall back to the first item.
-            const match = data.find(item => item.word.toLowerCase() === word.toLowerCase()) || data[0];
-            
-            if (!match.defs || match.defs.length === 0) {
-                definitionsElement.innerHTML = `No definitions found for "${word}".`;
-                return;
-            }
+                    // Datamuse returns an array of matches. Find the exact match or fall back to the first item.
+                    const match = data.find(item => item.word.toLowerCase() === word.toLowerCase()) || data[0];
+                    
+                    if (!match.defs || match.defs.length === 0) {
+                        definitionsElement.innerHTML = `No definitions found for "${word}".`;
+                        return;
+                    }
 
-            // Extract up to 3 definitions and strip the Datamuse part-of-speech prefix (e.g. "n\t", "adj\t")
-            const defs = match.defs
-                .slice(0, 3)
-                .map(def => def.replace(/^.*\t/, ''));
+                    // Extract up to 3 definitions and strip the Datamuse part-of-speech prefix (e.g. "n\t", "adj\t")
+                    const defs = match.defs
+                        .slice(0, 3)
+                        .map(def => def.replace(/^.*\t/, ''));
 
-            definitionsElement.innerHTML = `<strong>${word}</strong>:<br>${defs.map(d => `- ${d}`).join('<br>')}`;
-        })
-        .catch(() => {
-            definitionsElement.textContent = `¯\\\_(ツ)\_/¯`;
-        });
-}
+                    definitionsElement.innerHTML = `<strong>${word}</strong>:<br>${defs.map(d => `- ${d}`).join('<br>')}`;
+                })
+                .catch(() => {
+                    definitionsElement.textContent = `¯\\\_(ツ)\_/¯`;
+                });
+        }
 
 
 
