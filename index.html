@@ -69,7 +69,7 @@
         }
 
         /* #REGION OUTLINE TESTING - REMOVE LATER   */
-        /*                                         
+/*                                                 
         * { outline: 0.5cqi dotted red }
         * * { outline: 0.5cqi dotted green }
         * * * { outline: 0.5cqi dotted orange }
@@ -2944,12 +2944,9 @@
                 <div class="demo-board">
                     
                     <!-- <h3>TL;DR</h3> -->
-                    <p class="demo-para">Drag and drop <b><i>or</i></b><br>make a selection and hit <b><i>PLAY</i></b><br>to make new valid words.</p>
-                    <p class="demo-para">The word is up top,<br>spare letters in the grid below.</p>
-
-                    <!-- <div class="word-container demoscale" style="transform:scale(0.5);margin-block:0cqi;">
+                    <div class="word-container demoscale" style="transform:scale(0.75);margin-block:0cqi;">
                         <div class="insert-slot demo-cell"></div>
-                        <div class="letter demo-cell">W</div>
+                        <div class="letter demo-cell">w</div>
                         <div class="insert-slot demo-cell"></div>
                         <div class="letter demo-cell">O</div>
                         <div class="insert-slot demo-cell"></div>
@@ -2958,46 +2955,42 @@
                         <div class="letter demo-cell">D</div>
                         <div class="insert-slot demo-cell"></div>
                     </div>
-                    <div class="grid-demo-four"
-                        style="padding:1.5cqi;border:none;margin-block:0cqi;transform:scale(0.75);">
+                    <p class="demo-para" style="margin-top:0cqi;">The word is up top,<br> slots between letters,<br>spare letters in the grid below.</p>
+                    <div class="grid-demo">
                         <div class="grid-cell-demo">G</div>
+                        <div class="grid-cell-demo">R</div>
+                        <div class="grid-cell-demo">I</div>
+
                         <div class="grid-cell-demo">R</div>
                         <div class="grid-cell-demo">I</div>
                         <div class="grid-cell-demo">D</div>
 
-                        <div class="grid-cell-demo">S</div>
-                        <div class="grid-cell-demo">P</div>
-                        <div class="grid-cell-demo">A</div>
-                        <div class="grid-cell-demo">R</div>
-                        <div class="grid-cell-demo">E</div>
-                        <div class="grid-cell-demo">L</div>
-                        <div class="grid-cell-demo">E</div>
-                        <div class="grid-cell-demo">T</div>
+                        <div class="grid-cell-demo">I</div>
+                        <div class="grid-cell-demo">D</div>
+                        <div class="grid-cell-demo">D</div>
+                    </div>
 
-                        <div class="grid-cell-demo">T</div>
-                        <div class="grid-cell-demo">E</div>
-                        <div class="grid-cell-demo">R</div>
-                        <div class="grid-cell-demo">S</div>
-                    </div> -->
+
+                    <p class="demo-para">Drag and drop <b><i>or</i></b><br>make a selection and hit <b><i>PLAY</i></b><br>to make new valid words.</p>
+
 
                     <p class="demo-para" style="text-align:left;">
                         SWAP<br><span class="rewards">word letter</span> &rarr; <span class="rewards">word letter</span><br>
-                        <br>REARRANGE<br><span class="rewards">word letter</span> &rarr; <span class="rewards">slot</span><br>
                         <br>DELETE<br><span class="rewards">word letter</span><br>
+                        <br>REARRANGE<br><span class="rewards">word letter</span> &rarr; <span class="rewards">slot</span><br>
                         <br>REPLACE<br><span class="rewards">grid letter</span> &rarr; <span class="rewards">word letter</span><br>
                         <br>INSERT<br><span class="rewards">grid letter</span> &rarr; <span class="rewards">slot</span>
                     
                     </p>
-                    <p class="demo-para">Reach a 6 letter word<br>to unlock the 4x4 grid.</p>
-
-                    <p class="demo-para">When no valid word is possible,<br>use a bonus setup word or grid refresh</p>
+                    <p class="demo-para">When no valid word is possible,<br>use a bonus setup move or grid refresh.</p>
                     <div class="button-row demo demoscale">
                         <button class="button" style="border-color: var(--positive-feedback);">5 &#x29C9;&#xFE0E;</button>
                         <button class="button disabled">PLAY</button>
                         <button class="button" style="border-color: var(--positive-feedback);">&boxplus;&#xFE0E; 5
                             </button>
                     </div>
-                    <p class="demo-para">That's enough to get started.<br>More details below.</p>
+                    <p class="demo-para">Reach a 6 letter word<br>to unlock a 4x4 grid.<br>
+                        <br>That's enough to get started.<br><br>Read on for more details<br>with examples from play.</p>
 
 
                 </div>
@@ -3440,6 +3433,9 @@
                     <br>You can see your remaining lives
                     <br>and track your consecutive bonus
                     <br>use under the current word.
+                    <br>
+                    <br>Every 100 string, the theme changes.
+                    <br>You can manually change theme<br>by hitting the <b><i>change</i></b> button.
                 </p>
             </div>
             <span class="gap"></span>
