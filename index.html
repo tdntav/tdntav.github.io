@@ -5875,6 +5875,7 @@
             }
             showTemporaryMessage();
             updateStatus();
+            saveGameState(); //ADDED SEP 23 2026
 
 
         }
@@ -5994,7 +5995,7 @@
                 renderMilestones();
                 triggerNewsFlash(flashMilestone);
                 penaltyMsgCue = '';
-                saveGameState();
+                // saveGameState();
                 return;
             }
 
@@ -6017,7 +6018,7 @@
                 renderMilestones();
                 triggerNewsFlash(flashMilestone);
                 penaltyMsgCue = '';
-                saveGameState();
+                // saveGameState();
                 return;
             }
             // milestones.push({
@@ -6393,7 +6394,7 @@
             // checkMission(currentWord);
             renderMilestones();
             triggerNewsFlash(flashMilestone);
-            saveGameState();
+            // saveGameState();
         }
 
 
@@ -7796,11 +7797,12 @@
                     // noBonusStreak = 0;
                     updateHistory();
                     messageElement.innerHTML = `<span>${currentWord}, UNKNOWN WORD</span>`;
+                    updateMilestones();
                     currentWord = lastValidWord;
                     redAnimation();
                     renderWord();
                     rollbackGrid();
-                    updateMilestones();
+                    // updateMilestones();
                     // grid = gridFallback;
                     // renderGrid();
                     initDragAndDrop(); //DRAGDROP ADDED
