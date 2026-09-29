@@ -4145,6 +4145,7 @@
 
 
         function clearSelections() {
+            movePreview.innerHTML = ``;
             document.querySelectorAll('.selected').forEach(el => {
                 // Check if any class name includes the string "demo"
                 if (![...el.classList].some(className => className.includes('demo'))) {
@@ -6291,36 +6292,36 @@
                         updateStatus();
                         gridMsgCue = false;
 
-                    } else if (currentWord.length % 2 === 0 && currentWord.length == 6) {
+                    } else if (currentWord.length == 6) {
                         milestones.push({
                             word: currentWord,
                             wordQuest: true,
                             chain: chain,
                             length: currentWord.length,
                             rewards: {
-                                // setupWordQuest: currentWord.length,
-                                // setupBeforeWordQuest: setupMovesAvailable,
+                                setupWordQuest: currentWord.length,
+                                setupBeforeWordQuest: setupMovesAvailable,
                                 gridExpanded: gridMsgCue
                             }
                         });
-                        // setupMovesAvailable = setupMovesAvailable + currentWord.length;
-                        // updateBonusButton();
+                        setupMovesAvailable = setupMovesAvailable + currentWord.length;
+                        updateBonusButton();
                         gridMsgCue = false;
-                    } else if (currentWord.length % 2 !== 0 && currentWord.length == 6) {
-                        milestones.push({
-                            word: currentWord,
-                            wordQuest: true,
-                            chain: chain,
-                            length: currentWord.length,
-                            rewards: {
+                    // } else if (currentWord.length % 2 !== 0 && currentWord.length == 6) {
+                    //     milestones.push({
+                    //         word: currentWord,
+                    //         wordQuest: true,
+                    //         chain: chain,
+                    //         length: currentWord.length,
+                    //         rewards: {
                                 // gridRefreshWordQuest: currentWord.length,
                                 // gridRefreshBeforeWordQuest: gridRefreshBonusesAvailable,
-                                gridExpanded: gridMsgCue
-                            }
-                        });
+                        //         gridExpanded: gridMsgCue
+                        //     }
+                        // });
                         // gridRefreshBonusesAvailable = gridRefreshBonusesAvailable + currentWord.length;
                         // updateGridRefreshButton();
-                        gridMsgCue = false;
+                        // gridMsgCue = false;
                     }
                 };
             } catch (e) {
@@ -7189,6 +7190,7 @@
             if (isSelected) {
                 deselect(cell);
                 updateLastSelected();
+                updateSelectMovePreview();
                 return;
             }
 
@@ -7286,7 +7288,113 @@
             selected.push(cell);
             lastSelectedCell = cell;
             lastSelectedType = type;
+
+            updateSelectMovePreview();
         }
+
+
+
+
+
+        function updateSelectMovePreview() {
+            // We only generate a preview when two valid items are selected
+            if (selected.length === 0) {
+                movePreview.innerHTML = '';
+                return;
+            }
+
+            // Extract elements and types
+            const lettersOnly = Array.from(wordContainer.children)
+                .filter(child => child.classList.contains('letter'));
+            
+            let textContents = lettersOnly.map(child => child.textContent);
+
+
+            if (selected.length === 1) {
+                if (selected[0].dataset.type === 'word') {
+                    const single = selected[0];
+                    const singleIdx = lettersOnly.indexOf(single);
+                    textContents[singleIdx] = '';
+                    movePreview.innerHTML = `<span>${currentWord} &rarr; ${textContents.join('')}</span>`;
+                    console.log("Single selection preview:", textContents.join(''));
+                    return;
+                } else if (selected[0].dataset.type === 'insert' || selected[0].dataset.type === 'grid') {
+                    movePreview.innerHTML = '';
+                    console.log("Single selection preview: no change for insert/grid alone");
+                    return;
+                };
+            }
+
+            if (selected.length === 2) {
+                const [first, second] = selected;
+
+                const firstType = first.dataset.type;
+                const secondType = second.dataset.type;
+
+                // Helper indices
+                const firstIdx = lettersOnly.indexOf(first);
+                const secondIdx = lettersOnly.indexOf(second);
+
+
+                // CASE 1: Swapping two letters in the word ('word' + 'word')
+                if (firstType === 'word' && secondType === 'word') {
+                    if (firstIdx !== -1 && secondIdx !== -1) {
+                        textContents[firstIdx] = second.textContent;
+                        textContents[secondIdx] = first.textContent;
+                    }
+                }
+                // CASE 2: Replacing a word letter with a grid letter ('word' + 'grid')
+                else if ((firstType === 'word' && secondType === 'grid') || (firstType === 'grid' && secondType === 'word')) {
+                    const wordCell = firstType === 'word' ? first : second;
+                    const gridCell = firstType === 'grid' ? first : second;
+                    const targetIdx = lettersOnly.indexOf(wordCell);
+
+                    if (targetIdx !== -1) {
+                        textContents[targetIdx] = gridCell.textContent;
+                    }
+                }
+                // CASE 3: Inserting into an insert slot ('word'/'grid' + 'insert')
+                else if (firstType === 'insert' || secondType === 'insert') {
+                    const insertCell = firstType === 'insert' ? first : second;
+                    const sourceCell = firstType === 'insert' ? second : first;
+                    
+                    let newWord = Array.from(wordContainer.children);
+                    let sourceIndex = newWord.indexOf(sourceCell);
+                    let targetIndex = newWord.indexOf(insertCell);
+
+                    let mappedWord = newWord.map(child => {
+                        if (child === insertCell) return sourceCell.textContent;
+                        if (child === sourceCell && sourceCell.dataset.type === 'word') return '';
+                        return child.classList.contains('letter') ? child.textContent : '';
+                    });
+
+                    textContents = [mappedWord.join('')];
+                }
+            }
+            // // CASE 4: Deleting a letter
+            // else if (firstType === 'word' && selected.length == 1) {
+            //     textContents.firstIdx = '';
+            // }
+            // Render Preview
+            const previewResult = textContents.join('');
+            movePreview.innerHTML = `<span>${currentWord} &rarr; ${previewResult}</span>`;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         function renderWord() {
@@ -7604,6 +7712,7 @@
         function clearSelection() {
             selected.forEach(s => s.classList.remove('selected'));
             selected = [];
+            updateSelectMovePreview();
         }
 
 
