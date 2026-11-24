@@ -4624,6 +4624,16 @@
 
             localStorage.removeItem("stringchainStateV3");
             localStorage.removeItem("isDisqualified");
+
+            if (currentTheme !== "default") {
+            document.documentElement.classList.remove(currentTheme);
+            currentTheme = "default";
+            localStorage.setItem("theme", currentTheme);
+            document.documentElement.classList.add(currentTheme);
+        }
+            
+            // themeToggle.click();
+
             gameID = new Date().toISOString().slice(0, 19).replace('T', ' ');
             gridSize = 3;
             cellSize = 14;
@@ -5384,7 +5394,7 @@
 
         //THEMES
         const themeToggle = document.getElementById("themeToggle");
-        const themes = ["default", "firebrick", "first-green", "first-red", "fruit-salad", "hi-contrast", "green-pops", "tannery", "dark-grey", "not-too-light", "expo", "blooey", "flavin", "schmurple", "winery", "minimal-liminal", "blue-pops", "pinko", "greenery", "minimal-animal", "yello-pops", "too-light"];
+        const themes = ["default", "expo", "firebrick", "not-too-light", "minimal-liminal", "minimal-animal", "pinko", "too-light", "fruit-salad", "tannery", "blooey", "winery", "blue-pops", "first-red", "green-pops", "schmurple", "dark-grey", "greenery", "hi-contrast", "first-green", "yello-pops", "flavin"];
         let currentTheme = localStorage.getItem("theme") || "default";
         if (currentTheme !== "default") {
             document.documentElement.classList.add(currentTheme);
